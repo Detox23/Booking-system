@@ -1,7 +1,8 @@
 package Objects;
 
 public class Account {
-    int _id;
-    String _account_name;
+    private int _id;
+    private String _account_name;
+    private String _account_lastname;
 
 }
