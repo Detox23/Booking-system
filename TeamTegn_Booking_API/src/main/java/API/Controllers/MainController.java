@@ -1,11 +1,25 @@
 package API.Controllers;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import Objects.Factory.PersonFactory;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MainController {
     @RequestMapping("/")
     public String index(){
-        return "Siema";
+        return "Hello";
     }
+
+    @GetMapping("/api/people")
+    @ResponseBody
+    public String getPeople(@RequestParam String id){
+        return "ID: "+ id;
+    }
+
+    @PostMapping("/api/people")
+    @ResponseBody
+    public String PersonController(@RequestParam("id") String fooId, @RequestParam String name){
+        return "ID: " + fooId + " Name: " + name;
+    }
+
 }
+
