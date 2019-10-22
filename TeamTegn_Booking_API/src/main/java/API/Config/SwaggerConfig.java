@@ -1,36 +1,39 @@
 package API.Config;
-
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.function.Predicate;
-
-import static com.google.common.base.Predicates.or;
-import static springfox.documentation.builders.PathSelectors.regex;
-
+/*
+@Configuration annotation declares that this class provides one or more @Bean methods and may be processed
+by the Spring container to generate bean definitions and service requests for those beans at runtime.
+ */
 @Configuration
+/*
+Enables swagger
+ */
 @EnableSwagger2
+public class SwaggerConfig extends WebMvcConfigurationSupport {
+    @Bean
+    public Docket productApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                //returns an instance of ApiSelectorBuilder (controlling endpoints exposed by Swagger
+                .select()
+                //choosing predicates for selection, using any() makes it do documentation for whole API
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
 
-    public class SwaggerConfig extends WebMvcConfigurationSupport {
-        @Bean
-        public Docket productApi() {
-            return new Docket(DocumentationType.SWAGGER_2)
-                    .select()
-                    .apis(RequestHandlerSelectors.any())
-                    .paths(PathSelectors.any())
-                    .build();
+    }
+    /*
+    Auto configuration of resource handlers.
+     */
 
-        }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
@@ -38,5 +41,6 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
     }
-    }
+}

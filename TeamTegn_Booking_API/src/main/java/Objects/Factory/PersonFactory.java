@@ -1,5 +1,5 @@
 package Objects.Factory;
-import java.util.ArrayList;
+
 public class PersonFactory {
     public Person getPerson(String kindOfPerson, String name, int id){
         if(kindOfPerson == null){
@@ -7,7 +7,7 @@ public class PersonFactory {
         }
 
         if(kindOfPerson.equalsIgnoreCase("Account")){
-            return new Account(name, id);
+            return new Account_Entity(name, id);
         }
 
         if(kindOfPerson.equalsIgnoreCase("ServiceProvider")){
