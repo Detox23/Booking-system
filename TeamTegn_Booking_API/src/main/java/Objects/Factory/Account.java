@@ -5,12 +5,12 @@ import java.sql.Date;
 
 @Entity
 @Table(name="Account")
-public class Account_Entity implements Person {
+public class Account implements Person {
 
     //region Entity attributes
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
-    @GeneratedValue
     private int id;
 
     @Column(name="AccountName")
@@ -92,7 +92,7 @@ public class Account_Entity implements Person {
     private String contactTelephone;
     //endregion
 
-    public Account_Entity(String accountName, int accountTypeID, int parentID,
+    public Account(String accountName, int accountTypeID, int parentID,
                           int primaryContactID, int departmentID, String ean,
                           String telephoneCode, String telephonenumber, String faxCode,
                           String faxNumber, String website, String cvrNumber, String street,
@@ -129,14 +129,26 @@ public class Account_Entity implements Person {
         this.contactTelephone = contactTelephone;
     }
 
-    public Account_Entity(String accountName, int accountTypeID){
+    public Account(String accountName, int accountTypeID){
         this.accountName = accountName;
         this.accountTypeID = accountTypeID;
+    }
+
+    public Account(int id){
+        this.id = id;
+    }
+
+    public Account() {
+
     }
 
     //region Getters and setters
     public String getAccountName() {
         return accountName;
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     public void setAccountName(String accountName) {

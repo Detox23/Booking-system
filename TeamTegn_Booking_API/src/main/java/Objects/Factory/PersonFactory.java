@@ -7,7 +7,7 @@ public class PersonFactory {
         }
 
         if(kindOfPerson.equalsIgnoreCase("Account")){
-            return new Account_Entity(name, id);
+            return new Account(name, id);
         }
 
         if(kindOfPerson.equalsIgnoreCase("ServiceProvider")){
