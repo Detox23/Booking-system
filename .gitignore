@@ -1,6 +1,6 @@
 # Compiled class file
 *.class
-
+TeamTegn_Booking_API/src/main/resources/hibernate.cfg.xml
 # Log file
 *.log
 
