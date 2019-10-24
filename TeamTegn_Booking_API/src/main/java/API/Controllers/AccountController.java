@@ -1,8 +1,11 @@
 package API.Controllers;
+import API.Services.AccountService;
 import DAO.IAccountDAO;
 import Objects.Factory.Account;
 import DAO.AccountDAO;
+import Shared.AccountForCreationDto;
 import org.hibernate.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,8 @@ import java.util.List;
 public class AccountController extends BaseController {
 
     private IAccountDAO accountDao = new AccountDAO();
-
+    @Autowired
+    private AccountService accountService;
     //Retrives all accounts
     @RequestMapping(value="/list", method = RequestMethod.GET)
     public ResponseEntity<?> seeAllAccounts() {
@@ -32,8 +36,8 @@ public class AccountController extends BaseController {
 
     //Creates an account [Requires sending a json file send]
     @RequestMapping(value="/add", method=RequestMethod.POST)
-    public ResponseEntity<?> createAccount(@RequestBody Account account){
-        return new ResponseEntity<>(accountDao.addAccount(account), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> createAccount(@RequestBody AccountForCreationDto account) {
+        return new ResponseEntity<>(accountService.addAccount(account), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Deletes an account

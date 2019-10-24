@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 
 //Manipulating and communication of Account object with database
+@Repository
 public class AccountDAO implements IAccountDAO {
 
     //SessionFactory is a factory for Session object. We can create one SessionFactory implementation per
