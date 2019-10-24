@@ -6,9 +6,7 @@
         <!-- JDBC Database connection settings -->
 
         <property name = "hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name = "hibernate.connection.url">jdbc:sqlserver://localhost\MSSQLSERVER:1433;integratedSecurity=true</property>
-        <property name = "hibernate.connection.username">sa</property>
-        <property name = "hibernate.connection.password"></property>
+        <property name = "hibernate.connection.url">jdbc:sqlserver://SW-TT\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment</property>
 
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">1</property>
@@ -27,5 +25,94 @@
         <property name="hibernate.dbcp.minIdle">5</property>
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
         <mapping class="Objects.Factory.Account"/>
+        <mapping class="Objects.Factory.Database_Entities.AbsenceTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AccountEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AccountTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AccountTypeTranslationsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AccountCommentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AccountEanEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentCancelReasonEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentImportanceEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentImportanceTranslationsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentInterpretationTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentInterpretationTypeTranslationsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentOtherContactEmailEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentStatusEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentStatusTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentStatusTranslationsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentTitleEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentTypeTranslationsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentAssignmentStatusTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentCommentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentStukYearCodeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentServiceProviderEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentServiceProviderInitialNameListEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AssignmentServiceProviderNameListEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AutoSuggestAddressEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AutoSuggestAssignmentDescriptionEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AutoSuggestAssignmentPlaceEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AutoSuggestAssignmentTitleEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AutoSuggestCityEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AutoSuggestFullAddressEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.AutoSuggestPostcodeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.CityPostcodesEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ContactEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ContactCommentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.DateDimensionEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.DepartmentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.EanEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.EmailLogEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.EveningWorkPrioritisationEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.EventLogEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ExportSettingsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.GrantEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.GrantAssignmentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.GrantCommentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.NotificationTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.PdfSignatureLinkEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.RatingEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.RatingTranslationsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ReservationEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.RoleEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.RolePermissionsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.RoleRolePermissionsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderAbsenceEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderCompetencyEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderCompetencyTranslationsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderHasWheelsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderOtherPreferenceEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderPreferredNotificationEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderRatingEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderRatingTranslationsEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderSourceEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderCommentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderEveningWorkEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderLocationEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderServiceProviderCompetencyEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderServiceProviderOtherPreferenceEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderServiceProviderTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderTransportTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceProviderVocalLanguageEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceUserEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceUserPreferencesEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceUserRegistrationEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceUserStatusEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceUserAccountEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceUserCommentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ServiceUserGrantEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.SystemUserEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.SystemUserDepartmentEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.SystemUserRolesEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.TransportTypeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.VocalLanguagesEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.WiPostcodeEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.WiServiceUserMailLinkEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.WeekDayEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ZonesEntity"/>
+        <mapping class="Objects.Factory.Database_Entities.ZonesByPostNumberEntity"/>
     </session-factory>
 </hibernate-configuration>

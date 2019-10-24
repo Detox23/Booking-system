@@ -1,0 +1,54 @@
+package Objects.Factory.Database_Entities;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ServiceProvider_TransportType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+public class ServiceProviderTransportTypeEntity {
+    private int serviceProviderId;
+    private Integer transportTypeId;
+
+    @Basic
+    @Column(name = "ServiceProviderID", nullable = false)
+    public int getServiceProviderId() {
+        return serviceProviderId;
+    }
+
+    public void setServiceProviderId(int serviceProviderId) {
+        this.serviceProviderId = serviceProviderId;
+    }
+
+    @Basic
+    @Column(name = "TransportTypeID", nullable = true)
+    public Integer getTransportTypeId() {
+        return transportTypeId;
+    }
+
+    public void setTransportTypeId(Integer transportTypeId) {
+        this.transportTypeId = transportTypeId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceProviderTransportTypeEntity that = (ServiceProviderTransportTypeEntity) o;
+
+        if (serviceProviderId != that.serviceProviderId) return false;
+        if (transportTypeId != null ? !transportTypeId.equals(that.transportTypeId) : that.transportTypeId != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = serviceProviderId;
+        result = 31 * result + (transportTypeId != null ? transportTypeId.hashCode() : 0);
+        return result;
+    }
+}
