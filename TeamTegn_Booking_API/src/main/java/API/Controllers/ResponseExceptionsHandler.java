@@ -20,7 +20,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
-    @ExceptionHandler(value= ObjectNotFoundException.class)
+    @ExceptionHandler(value= {ObjectNotFoundException.class, NullPointerException.class})
     protected ResponseEntity<Object> handleObjectNotFoundException(
             RuntimeException ex, WebRequest request){
         String bodyOfResponse = "The record was not found.";

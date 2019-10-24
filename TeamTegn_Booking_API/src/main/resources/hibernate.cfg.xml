@@ -5,27 +5,27 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
 
-        <property name = "hibernate.connection.driver_class" value = "com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-        <property name = "hibernate.connection.url" value = "jdbc:sqlserver://localhost\MSSQLSERVER:1433;integratedSecurity=true"/>
-        <property name = "hibernate.connection.username" value = "sa"/>
-        <property name = "hibernate.connection.password" value = ""/>
+        <property name = "hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+        <property name = "hibernate.connection.url">jdbc:sqlserver://localhost\MSSQLSERVER:1433;integratedSecurity=true</property>
+        <property name = "hibernate.connection.username">sa</property>
+        <property name = "hibernate.connection.password"></property>
 
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">1</property>
         <!-- Select our SQL dialect -->
-        <property name = "hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+        <property name = "hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
         <!-- Echo the SQL to stdout -->
-        <property name = "hibernate.show_sql" value="true"/>
+        <property name = "hibernate.show_sql">true</property>
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="hbm2ddl.auto">update</property>
         <!-- dbcp connection pool configuration -->
         <property name="hibernate.dbcp.initialSize">5</property>
         <property name="hibernate.dbcp.maxTotal">20</property>
         <property name="hibernate.dbcp.maxIdle">10</property>
         <property name="hibernate.dbcp.minIdle">5</property>
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
-        <mapping class="Objects.Factory.Account_Entity"/>
+        <mapping class="Objects.Factory.Account"/>
     </session-factory>
 </hibernate-configuration>

@@ -19,26 +19,33 @@ public class AccountController extends BaseController {
     private IAccountDAO accountDao = new AccountDAO();
 
     //Retrives all accounts
-    @RequestMapping(value="", method = RequestMethod.GET)
-    public List<Account> seeAllAccounts() {
-        return accountDao.list();
+    @RequestMapping(value="/list", method = RequestMethod.GET)
+    public ResponseEntity<?> seeAllAccounts() {
+        return new ResponseEntity<>(accountDao.list(), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Retrives one account
-    @RequestMapping(value= "/{name}", method = {RequestMethod.GET, RequestMethod.POST})
-    public Account seeAccount(@PathVariable String name){ return accountDao.findAccountByName(name);}
+    @RequestMapping(value= "/find/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<?> seeAccount(@PathVariable String id){
+        return new ResponseEntity<>(accountDao.findAccountByID(Integer.parseInt(id)), new HttpHeaders(), HttpStatus.OK);
+    }
 
     //Creates an account [Requires sending a json file send]
-    @RequestMapping(value="", method=RequestMethod.POST)
-    public boolean createAccount(@RequestBody Account account){
-        return accountDao.addAccount(account);
+    @RequestMapping(value="/add", method=RequestMethod.POST)
+    public ResponseEntity<?> createAccount(@RequestBody Account account){
+        return new ResponseEntity<>(accountDao.addAccount(account), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Deletes an account
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @RequestMapping(value="", method=RequestMethod.DELETE)
-    public boolean deleteAccount(@RequestBody String Id){
-        return accountDao.deleteAccount(Id);
+    @RequestMapping(value="/delete/{id}",  method = {RequestMethod.GET, RequestMethod.DELETE})
+    public ResponseEntity<?> deleteAccount(@PathVariable String id){
+        return new ResponseEntity<>(accountDao.deleteAccount(Integer.parseInt(id)), new HttpHeaders(), HttpStatus.ACCEPTED);
+    }
+
+    //Updates an account
+    @RequestMapping(value="/update", method= RequestMethod.PATCH)
+    public ResponseEntity<?> updateAccount(@RequestBody Account account){
+        return new ResponseEntity<>(accountDao.update(account), new HttpHeaders(), HttpStatus.OK);
     }
 
 }
