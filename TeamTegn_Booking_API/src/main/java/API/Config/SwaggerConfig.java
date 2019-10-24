@@ -1,8 +1,7 @@
 package API.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.*;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -14,13 +13,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 by the Spring container to generate bean definitions and service requests for those beans at runtime.
  */
 @Configuration
-/*
-Enables swagger
- */
 @EnableSwagger2
 public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Bean
-    public Docket productApi() {
+    public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 //returns an instance of ApiSelectorBuilder (controlling endpoints exposed by Swagger
                 .select()
@@ -30,17 +26,18 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .build();
 
     }
-    /*
-    Auto configuration of resource handlers.
-     */
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
-
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
 
+
     }
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
 }

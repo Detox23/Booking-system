@@ -5,8 +5,10 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
 
-        <property name = "hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name = "hibernate.connection.url">jdbc:sqlserver://SW-TT\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment</property>
+        <property name = "hibernate.connection.driver_class" >com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+        <property name = "hibernate.connection.url">jdbc:sqlserver://localhost\SQLP:1433;integratedSecurity=true</property>
+        <property name = "hibernate.connection.username">a</property>
+        <property name = "hibernate.connection.password">asdasd</property>
 
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">1</property>
@@ -50,13 +52,6 @@
         <mapping class="Objects.Factory.Database_Entities.AssignmentServiceProviderEntity"/>
         <mapping class="Objects.Factory.Database_Entities.AssignmentServiceProviderInitialNameListEntity"/>
         <mapping class="Objects.Factory.Database_Entities.AssignmentServiceProviderNameListEntity"/>
-        <mapping class="Objects.Factory.Database_Entities.AutoSuggestAddressEntity"/>
-        <mapping class="Objects.Factory.Database_Entities.AutoSuggestAssignmentDescriptionEntity"/>
-        <mapping class="Objects.Factory.Database_Entities.AutoSuggestAssignmentPlaceEntity"/>
-        <mapping class="Objects.Factory.Database_Entities.AutoSuggestAssignmentTitleEntity"/>
-        <mapping class="Objects.Factory.Database_Entities.AutoSuggestCityEntity"/>
-        <mapping class="Objects.Factory.Database_Entities.AutoSuggestFullAddressEntity"/>
-        <mapping class="Objects.Factory.Database_Entities.AutoSuggestPostcodeEntity"/>
         <mapping class="Objects.Factory.Database_Entities.CityPostcodesEntity"/>
         <mapping class="Objects.Factory.Database_Entities.ContactEntity"/>
         <mapping class="Objects.Factory.Database_Entities.ContactCommentEntity"/>

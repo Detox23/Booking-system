@@ -17,9 +17,9 @@ public class HibernateUtil {
                 Configuration configuration = new Configuration();
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                settings.put(Environment.URL, "jdbc:sqlserver://localhost:1433;database=TeamTegn_BookingSystem_Devleopment");
+                settings.put(Environment.URL, "jdbc:sqlserver://localhost:1433;database=teamtegn_dev");
                 settings.put(Environment.USER, "sa");
-                settings.put(Environment.PASS, "90809988Qwe");
+                settings.put(Environment.PASS, "asdasd");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.SQLServerDialect");
                 settings.put(Environment.SHOW_SQL, "true");
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
