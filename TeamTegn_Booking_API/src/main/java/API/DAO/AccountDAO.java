@@ -1,13 +1,10 @@
-package DAO;
-import Objects.Factory.Account;
+package API.DAO;
+import Objects.Factory.Database_Entities.Account;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import com.google.gson.Gson;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Repository;
 
 //Manipulating and communication of Account object with database

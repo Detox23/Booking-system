@@ -1,4 +1,6 @@
-package Objects.Factory;
+package Objects.Factory.Database_Entities;
+
+import Objects.Factory.Person;
 
 import javax.persistence.*;
 import java.sql.Date;

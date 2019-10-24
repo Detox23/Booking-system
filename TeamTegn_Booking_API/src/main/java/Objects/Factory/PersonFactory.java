@@ -1,5 +1,7 @@
 package Objects.Factory;
 
+import Objects.Factory.Database_Entities.Account;
+
 public class PersonFactory {
     public Person getPerson(String kindOfPerson, String name, int id){
         if(kindOfPerson == null){

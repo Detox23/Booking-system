@@ -1,5 +1,5 @@
-package DAO;
-import Objects.Factory.Account;
+package API.DAO;
+import Objects.Factory.Database_Entities.Account;
 import java.util.List;
 
 public interface IAccountDAO {
