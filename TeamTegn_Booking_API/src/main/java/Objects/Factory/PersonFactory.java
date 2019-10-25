@@ -1,6 +1,6 @@
 package Objects.Factory;
 
-import Objects.Factory.Database_Entities.Account;
+import Shared.AccountForCreationDto;
 
 public class PersonFactory {
     public Person getPerson(String kindOfPerson, String name, int id){
@@ -9,7 +9,7 @@ public class PersonFactory {
         }
 
         if(kindOfPerson.equalsIgnoreCase("Account")){
-            return new Account(name, id);
+            return new AccountForCreationDto(name, id);
         }
 
         if(kindOfPerson.equalsIgnoreCase("ServiceProvider")){

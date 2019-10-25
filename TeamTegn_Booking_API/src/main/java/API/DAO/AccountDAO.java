@@ -1,8 +1,8 @@
 package API.DAO;
-import Objects.Factory.Database_Entities.Account;
+import Objects.Factory.Database_Entities.AccountEntity;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
-
+import DAO.HibernateUtil;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -17,13 +17,13 @@ public class AccountDAO implements IAccountDAO {
 
     //Returns all accounts form the database.
     @Override
-    public List<Account> list() {
+    public List<AccountEntity> list() {
         //Retrieves and opens session from the factory.
         Session session = HibernateUtil.getSessionFactory().openSession();
         //Creates a criteria object that allows to build up a query object programmatically.
-        Criteria criteria = session.createCriteria(Account.class);
+        Criteria criteria = session.createCriteria(AccountEntity.class);
         //Assigns the query's result to a list of accounts
-        List<Account> account_list = criteria.list();
+        List<AccountEntity> account_list = criteria.list();
         //Closes session
         session.close();
         account_list.forEach(acc -> System.out.println(acc.getCity()));
@@ -32,15 +32,15 @@ public class AccountDAO implements IAccountDAO {
 
     //Returns found-by-name account
     @Override
-    public Account findAccountByID(int Id) {
+    public AccountEntity findAccountByID(int Id) {
         //Retrieves and opens session from the factory.
         Session session = HibernateUtil.getSessionFactory().openSession();
         //Creates a criteria object that allows to build up a query object programmatically.
-        Criteria criteria = session.createCriteria(Account.class);
+        Criteria criteria = session.createCriteria(AccountEntity.class);
         //Adds searching property
         criteria.add(Restrictions.eq("id", Id));
         //Gets a found account and assign it to the Account object
-        Account account = (Account) criteria.uniqueResult();
+        AccountEntity account = (AccountEntity) criteria.uniqueResult();
         //Closes session
         session.close();
         System.out.println(account.toString());
@@ -49,7 +49,7 @@ public class AccountDAO implements IAccountDAO {
 
     //Adds account to a database
     @Override
-    public boolean addAccount(Account account){
+    public boolean addAccount(AccountEntity account){
         //Retrieves and opens session from the factory.
         Session session = HibernateUtil.getSessionFactory().openSession();
         //Retrieves and begins transaction.
@@ -65,7 +65,7 @@ public class AccountDAO implements IAccountDAO {
     public boolean deleteAccount(int Id){
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
-            Account account = findAccountByID(Id);
+            AccountEntity account = findAccountByID(Id);
             Transaction tx = session.beginTransaction();
             session.delete(account);
             tx.commit();
@@ -78,7 +78,7 @@ public class AccountDAO implements IAccountDAO {
 
     //Updates account object
     @Override
-    public boolean update(Account account) {
+    public boolean update(AccountEntity account) {
         return false;
     }
 }

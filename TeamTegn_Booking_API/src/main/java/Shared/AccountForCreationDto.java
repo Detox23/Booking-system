@@ -1,8 +1,9 @@
 package Shared;
 
+import Objects.Factory.Person;
 import org.springframework.beans.factory.annotation.Required;
 
-public class AccountForCreationDto {
+public class AccountForCreationDto implements Person {
 
     private String accountName;
 
@@ -47,6 +48,11 @@ public class AccountForCreationDto {
     private String contactEmail;
 
     private String contactTelephone;
+
+    public AccountForCreationDto(String accountName, int accountTypeID){
+        this.accountName = accountName;
+        this.accountTypeID = accountTypeID;
+    }
 
     public String getAccountName() {
         return accountName;

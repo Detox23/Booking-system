@@ -12,8 +12,4 @@ public class ServiceProvider implements Person {
         this.id = id;
     }
 
-    @Override
-    public void print() {
-
-    }
 }

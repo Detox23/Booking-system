@@ -10,11 +10,4 @@ public class ServiceUser implements Person  {
         this.name = name;
         this.id = id;
     }
-
-
-
-    @Override
-    public void print() {
-
-    }
 }

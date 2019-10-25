@@ -1,10 +1,6 @@
 package API.Controllers;
 
-import API.Services.AccountService;
 import API.Services.AssignmentService;
-import API.Services.IAssignmentService;
-import Objects.Factory.Database_Entities.Account;
-import Shared.AccountForCreationDto;
 import Shared.AssignmentForCreationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

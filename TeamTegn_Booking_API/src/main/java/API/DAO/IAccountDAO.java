@@ -1,12 +1,13 @@
 package API.DAO;
-import Objects.Factory.Database_Entities.Account;
+import Objects.Factory.Database_Entities.AccountEntity;
+
 import java.util.List;
 
 public interface IAccountDAO {
-    boolean addAccount(Account account);
+    boolean addAccount(AccountEntity account);
     boolean deleteAccount(int Id);
-    boolean update(Account account);
-    Account findAccountByID(int id);
-    List<Account> list();
+    boolean update(AccountEntity account);
+    AccountEntity findAccountByID(int id);
+    List<AccountEntity> list();
 
 }

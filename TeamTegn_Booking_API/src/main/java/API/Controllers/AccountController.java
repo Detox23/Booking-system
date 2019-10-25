@@ -1,7 +1,6 @@
 package API.Controllers;
 import API.Services.AccountService;
 import API.DAO.IAccountDAO;
-import Objects.Factory.Database_Entities.Account;
 import API.DAO.AccountDAO;
 import Shared.AccountForCreationDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +43,8 @@ public class AccountController extends BaseController {
 
     //Updates an account
     @RequestMapping(value="/update", method= RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccount(@RequestBody Account account){
-        return new ResponseEntity<>(accountDao.update(account), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> updateAccount(@RequestBody AccountForCreationDto account){
+        return new ResponseEntity<>(accountService.update(account), new HttpHeaders(), HttpStatus.OK);
     }
 
 }

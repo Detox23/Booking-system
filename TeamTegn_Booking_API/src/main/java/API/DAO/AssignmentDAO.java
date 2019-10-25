@@ -1,9 +1,6 @@
 package API.DAO;
-
-import Objects.Factory.Database_Entities.Account;
+import DAO.HibernateUtil;
 import Objects.Factory.Database_Entities.AssignmentEntity;
-import Objects.Factory.Person;
-import Shared.AssignmentDto;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
