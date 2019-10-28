@@ -255,10 +255,7 @@ public class SystemUserEntity {
         if (stateRegion != null ? !stateRegion.equals(that.stateRegion) : that.stateRegion != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-        if (defaultSkinName != null ? !defaultSkinName.equals(that.defaultSkinName) : that.defaultSkinName != null)
-            return false;
-
-        return true;
+        return defaultSkinName != null ? defaultSkinName.equals(that.defaultSkinName) : that.defaultSkinName == null;
     }
 
     @Override

@@ -389,9 +389,7 @@ public class ServiceUserEntity {
         if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
         if (username != null ? !username.equals(that.username) : that.username != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (externalId != null ? !externalId.equals(that.externalId) : that.externalId != null) return false;
-
-        return true;
+        return externalId != null ? externalId.equals(that.externalId) : that.externalId == null;
     }
 
     @Override

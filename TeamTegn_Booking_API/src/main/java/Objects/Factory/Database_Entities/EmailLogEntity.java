@@ -85,9 +85,7 @@ public class EmailLogEntity {
         if (objectType != null ? !objectType.equals(that.objectType) : that.objectType != null) return false;
         if (objectId != null ? !objectId.equals(that.objectId) : that.objectId != null) return false;
         if (objectEmail != null ? !objectEmail.equals(that.objectEmail) : that.objectEmail != null) return false;
-        if (sentDate != null ? !sentDate.equals(that.sentDate) : that.sentDate != null) return false;
-
-        return true;
+        return sentDate != null ? sentDate.equals(that.sentDate) : that.sentDate == null;
     }
 
     @Override

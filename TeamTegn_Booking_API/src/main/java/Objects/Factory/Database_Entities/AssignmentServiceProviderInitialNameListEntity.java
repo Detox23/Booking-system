@@ -36,10 +36,7 @@ public class AssignmentServiceProviderInitialNameListEntity {
         AssignmentServiceProviderInitialNameListEntity that = (AssignmentServiceProviderInitialNameListEntity) o;
 
         if (assignmentId != that.assignmentId) return false;
-        if (serviceProviderInitialNameList != null ? !serviceProviderInitialNameList.equals(that.serviceProviderInitialNameList) : that.serviceProviderInitialNameList != null)
-            return false;
-
-        return true;
+        return serviceProviderInitialNameList != null ? serviceProviderInitialNameList.equals(that.serviceProviderInitialNameList) : that.serviceProviderInitialNameList == null;
     }
 
     @Override

@@ -77,10 +77,7 @@ public class PdfSignatureLinkEntity {
         if (linkId != null ? !linkId.equals(that.linkId) : that.linkId != null) return false;
         if (lastClickedDate != null ? !lastClickedDate.equals(that.lastClickedDate) : that.lastClickedDate != null)
             return false;
-        if (serviceProviderId != null ? !serviceProviderId.equals(that.serviceProviderId) : that.serviceProviderId != null)
-            return false;
-
-        return true;
+        return serviceProviderId != null ? serviceProviderId.equals(that.serviceProviderId) : that.serviceProviderId == null;
     }
 
     @Override

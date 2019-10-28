@@ -77,9 +77,7 @@ public class EventLogEntity {
         if (exceptionMessage != null ? !exceptionMessage.equals(that.exceptionMessage) : that.exceptionMessage != null)
             return false;
         if (stackTrace != null ? !stackTrace.equals(that.stackTrace) : that.stackTrace != null) return false;
-        if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
-
-        return true;
+        return dateCreated != null ? dateCreated.equals(that.dateCreated) : that.dateCreated == null;
     }
 
     @Override

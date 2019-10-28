@@ -39,10 +39,7 @@ public class RolePermissionsEntity {
         RolePermissionsEntity that = (RolePermissionsEntity) o;
 
         if (id != that.id) return false;
-        if (permissionName != null ? !permissionName.equals(that.permissionName) : that.permissionName != null)
-            return false;
-
-        return true;
+        return permissionName != null ? permissionName.equals(that.permissionName) : that.permissionName == null;
     }
 
     @Override

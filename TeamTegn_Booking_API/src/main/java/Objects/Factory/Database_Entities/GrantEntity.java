@@ -172,9 +172,7 @@ public class GrantEntity {
             return false;
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
         if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
-        if (usedHours != null ? !usedHours.equals(that.usedHours) : that.usedHours != null) return false;
-
-        return true;
+        return usedHours != null ? usedHours.equals(that.usedHours) : that.usedHours == null;
     }
 
     @Override

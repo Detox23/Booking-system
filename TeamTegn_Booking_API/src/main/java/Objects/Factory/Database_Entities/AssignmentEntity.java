@@ -591,10 +591,7 @@ public class AssignmentEntity {
             return false;
         if (stukComment != null ? !stukComment.equals(that.stukComment) : that.stukComment != null) return false;
         if (isResale != null ? !isResale.equals(that.isResale) : that.isResale != null) return false;
-        if (resaleParentId != null ? !resaleParentId.equals(that.resaleParentId) : that.resaleParentId != null)
-            return false;
-
-        return true;
+        return resaleParentId != null ? resaleParentId.equals(that.resaleParentId) : that.resaleParentId == null;
     }
 
     @Override

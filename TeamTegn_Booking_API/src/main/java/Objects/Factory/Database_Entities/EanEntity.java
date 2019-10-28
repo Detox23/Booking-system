@@ -61,10 +61,7 @@ public class EanEntity {
         if (id != eanEntity.id) return false;
         if (createdBy != eanEntity.createdBy) return false;
         if (eanNumber != null ? !eanNumber.equals(eanEntity.eanNumber) : eanEntity.eanNumber != null) return false;
-        if (createdDate != null ? !createdDate.equals(eanEntity.createdDate) : eanEntity.createdDate != null)
-            return false;
-
-        return true;
+        return createdDate != null ? createdDate.equals(eanEntity.createdDate) : eanEntity.createdDate == null;
     }
 
     @Override

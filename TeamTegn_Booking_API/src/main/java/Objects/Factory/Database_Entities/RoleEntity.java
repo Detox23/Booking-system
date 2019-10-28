@@ -65,9 +65,7 @@ public class RoleEntity {
         if (roleName != null ? !roleName.equals(that.roleName) : that.roleName != null) return false;
         if (roleDescription != null ? !roleDescription.equals(that.roleDescription) : that.roleDescription != null)
             return false;
-        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-
-        return true;
+        return createdDate != null ? createdDate.equals(that.createdDate) : that.createdDate == null;
     }
 
     @Override

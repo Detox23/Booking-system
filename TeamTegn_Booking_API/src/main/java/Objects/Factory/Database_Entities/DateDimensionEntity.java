@@ -368,10 +368,7 @@ public class DateDimensionEntity {
             return false;
         if (firstDayOfNextMonth != null ? !firstDayOfNextMonth.equals(that.firstDayOfNextMonth) : that.firstDayOfNextMonth != null)
             return false;
-        if (firstDayOfNextYear != null ? !firstDayOfNextYear.equals(that.firstDayOfNextYear) : that.firstDayOfNextYear != null)
-            return false;
-
-        return true;
+        return firstDayOfNextYear != null ? firstDayOfNextYear.equals(that.firstDayOfNextYear) : that.firstDayOfNextYear == null;
     }
 
     @Override

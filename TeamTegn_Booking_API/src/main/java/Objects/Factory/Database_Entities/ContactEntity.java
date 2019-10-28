@@ -269,9 +269,7 @@ public class ContactEntity {
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
         if (lastModifiedBy != null ? !lastModifiedBy.equals(that.lastModifiedBy) : that.lastModifiedBy != null)
             return false;
-        if (!Arrays.equals(contactImage, that.contactImage)) return false;
-
-        return true;
+        return Arrays.equals(contactImage, that.contactImage);
     }
 
     @Override

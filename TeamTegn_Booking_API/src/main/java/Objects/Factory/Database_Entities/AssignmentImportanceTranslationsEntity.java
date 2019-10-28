@@ -52,10 +52,7 @@ public class AssignmentImportanceTranslationsEntity {
         if (assignmentImportanceId != that.assignmentImportanceId) return false;
         if (importanceName != null ? !importanceName.equals(that.importanceName) : that.importanceName != null)
             return false;
-        if (languageCulture != null ? !languageCulture.equals(that.languageCulture) : that.languageCulture != null)
-            return false;
-
-        return true;
+        return languageCulture != null ? languageCulture.equals(that.languageCulture) : that.languageCulture == null;
     }
 
     @Override

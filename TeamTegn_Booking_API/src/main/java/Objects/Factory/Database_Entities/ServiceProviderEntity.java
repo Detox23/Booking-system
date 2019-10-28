@@ -402,9 +402,7 @@ public class ServiceProviderEntity {
         if (weekHours != null ? !weekHours.equals(that.weekHours) : that.weekHours != null) return false;
         if (serviceProviderInitials != null ? !serviceProviderInitials.equals(that.serviceProviderInitials) : that.serviceProviderInitials != null)
             return false;
-        if (externalId != null ? !externalId.equals(that.externalId) : that.externalId != null) return false;
-
-        return true;
+        return externalId != null ? externalId.equals(that.externalId) : that.externalId == null;
     }
 
     @Override

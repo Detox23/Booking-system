@@ -2,7 +2,7 @@ package API.Controllers;
 import API.Services.AccountService;
 import API.DAO.IAccountDAO;
 import API.DAO.AccountDAO;
-import Shared.AccountForCreationDto;
+import Shared.ForCreation.AccountForCreationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,6 @@ public class AccountController extends BaseController {
     //Retrives one account
     @RequestMapping(value= "/find/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> seeAccount(@PathVariable int id){
-
         return new ResponseEntity<>(accountService.findAccount(id), new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -42,10 +41,9 @@ public class AccountController extends BaseController {
     }
 
     //Updates an account
-    @RequestMapping(value="/update", method= RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccount(@RequestBody AccountForCreationDto account){
+    @RequestMapping(value="/update", method= RequestMethod.PATCH, consumes = "application/json-patch+json")
+    public ResponseEntity<?> updateAccount(@RequestBody AccountForCreationDto account) {
         return new ResponseEntity<>(accountService.update(account), new HttpHeaders(), HttpStatus.OK);
     }
-
 }
 

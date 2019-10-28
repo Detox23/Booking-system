@@ -11,5 +11,75 @@
         <property name="applicationIntent" value="readonly" />
       </driver-properties>
     </data-source>
+    <data-source source="LOCAL" name="NewPersistenceUnit/EclipseLink" uuid="60e77f3f-76d1-45b3-8cfd-f2dc5b7e9b80">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>EclipseLink
+
+C:/Users/biadmin/IdeaProjects/Booking-system/TeamTegn_Booking_API/src/main/java/META-INF/persistence.xml</remarks>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://SW-TT\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment</jdbc-url>
+      <driver-properties>
+        <property name="applicationIntent" value="readonly" />
+        <property name="applicationName" value="DataGrip" />
+      </driver-properties>
+    </data-source>
+    <data-source source="LOCAL" name="NewPersistenceUnit/TopLink" uuid="53fe9f9e-5338-4299-aad4-c9aa92776177">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>TopLink
+
+C:/Users/biadmin/IdeaProjects/Booking-system/TeamTegn_Booking_API/src/main/java/META-INF/persistence.xml</remarks>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://SW-TT\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment</jdbc-url>
+      <driver-properties>
+        <property name="applicationIntent" value="readonly" />
+        <property name="applicationName" value="DataGrip" />
+      </driver-properties>
+    </data-source>
+    <data-source source="LOCAL" name="NewPersistenceUnit/OpenJPA" uuid="c6dc7149-4e18-4aba-a1fd-033524d21f00">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>OpenJPA
+
+C:/Users/biadmin/IdeaProjects/Booking-system/TeamTegn_Booking_API/src/main/java/META-INF/persistence.xml</remarks>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://SW-TT\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment</jdbc-url>
+      <driver-properties>
+        <property name="applicationIntent" value="readonly" />
+        <property name="applicationName" value="DataGrip" />
+      </driver-properties>
+    </data-source>
+    <data-source source="LOCAL" name="META-INF:persistance2.xml/Hibernate" uuid="3f4077ae-4baa-4aa3-95be-665655c2341e">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+C:/Users/biadmin/IdeaProjects/Booking-system/TeamTegn_Booking_API/src/main/java/META-INF/persistance2.xml</remarks>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://SW-TT\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment</jdbc-url>
+      <driver-properties>
+        <property name="applicationIntent" value="readonly" />
+        <property name="applicationName" value="DataGrip" />
+      </driver-properties>
+    </data-source>
+    <data-source source="LOCAL" name="NewPersistenceUnit/Hibernate" uuid="ffc66f06-175e-46fa-8216-b77329e8604c">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+C:/Users/biadmin/IdeaProjects/Booking-system/TeamTegn_Booking_API/src/main/java/META-INF/persistence.xml</remarks>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://SW-TT\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment</jdbc-url>
+      <driver-properties>
+        <property name="applicationIntent" value="readonly" />
+        <property name="applicationName" value="DataGrip" />
+      </driver-properties>
+    </data-source>
   </component>
 </project>

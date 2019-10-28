@@ -36,10 +36,7 @@ public class AbsenceTypeEntity {
         AbsenceTypeEntity that = (AbsenceTypeEntity) o;
 
         if (id != that.id) return false;
-        if (absenceTypeName != null ? !absenceTypeName.equals(that.absenceTypeName) : that.absenceTypeName != null)
-            return false;
-
-        return true;
+        return absenceTypeName != null ? absenceTypeName.equals(that.absenceTypeName) : that.absenceTypeName == null;
     }
 
     @Override

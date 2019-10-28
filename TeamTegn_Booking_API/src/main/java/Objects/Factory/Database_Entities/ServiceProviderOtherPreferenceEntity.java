@@ -36,10 +36,7 @@ public class ServiceProviderOtherPreferenceEntity {
         ServiceProviderOtherPreferenceEntity that = (ServiceProviderOtherPreferenceEntity) o;
 
         if (id != that.id) return false;
-        if (otherPreferenceName != null ? !otherPreferenceName.equals(that.otherPreferenceName) : that.otherPreferenceName != null)
-            return false;
-
-        return true;
+        return otherPreferenceName != null ? otherPreferenceName.equals(that.otherPreferenceName) : that.otherPreferenceName == null;
     }
 
     @Override

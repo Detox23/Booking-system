@@ -51,9 +51,7 @@ public class RoleRolePermissionsEntity {
 
         if (roleId != that.roleId) return false;
         if (rolePermissionId != that.rolePermissionId) return false;
-        if (rolePermissionValue != that.rolePermissionValue) return false;
-
-        return true;
+        return rolePermissionValue == that.rolePermissionValue;
     }
 
     @Override

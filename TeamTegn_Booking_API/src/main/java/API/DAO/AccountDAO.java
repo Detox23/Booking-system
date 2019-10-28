@@ -1,15 +1,19 @@
 package API.DAO;
+import Objects.Factory.Database_Entities.AccountEanEntity;
 import Objects.Factory.Database_Entities.AccountEntity;
+import Objects.Factory.Database_Entities.AccountTypeEntity;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import DAO.HibernateUtil;
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.stereotype.Repository;
 
 //Manipulating and communication of Account object with database
 @Repository
-public class AccountDAO implements IAccountDAO {
+public class AccountDAO implements IAccountDAO, IAccountEanNumberDAO {
 
     //SessionFactory is a factory for Session object. We can create one SessionFactory implementation per
     //database in any application. It is thread safe and used by all threads of an application.
@@ -22,11 +26,11 @@ public class AccountDAO implements IAccountDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         //Creates a criteria object that allows to build up a query object programmatically.
         Criteria criteria = session.createCriteria(AccountEntity.class);
+        criteria.add(Restrictions.eq("deleted", true));
         //Assigns the query's result to a list of accounts
         List<AccountEntity> account_list = criteria.list();
         //Closes session
         session.close();
-        account_list.forEach(acc -> System.out.println(acc.getCity()));
         return account_list;
     }
 
@@ -43,7 +47,20 @@ public class AccountDAO implements IAccountDAO {
         AccountEntity account = (AccountEntity) criteria.uniqueResult();
         //Closes session
         session.close();
-        System.out.println(account.toString());
+        return account;
+    }
+
+    public AccountTypeEntity findAccountType(int id){
+        //Retrieves and opens session from the factory.
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Creates a criteria object that allows to build up a query object programmatically.
+        Criteria criteria = session.createCriteria(AccountTypeEntity.class);
+        //Adds searching property
+        criteria.add(Restrictions.eq("id", id));
+        //Gets a found account and assign it to the Account object
+        AccountTypeEntity account = (AccountTypeEntity) criteria.uniqueResult();
+        //Closes session
+        session.close();
         return account;
     }
 
@@ -67,10 +84,10 @@ public class AccountDAO implements IAccountDAO {
             Session session = HibernateUtil.getSessionFactory().openSession();
             AccountEntity account = findAccountByID(Id);
             Transaction tx = session.beginTransaction();
-            session.delete(account);
+            account.setDeleted(true);
             tx.commit();
             session.close();
-            return true;
+            return tx.getStatus() == TransactionStatus.COMMITTED;
         }catch (org.hibernate.ObjectNotFoundException notFoundException){
             throw notFoundException;
         }
@@ -80,5 +97,19 @@ public class AccountDAO implements IAccountDAO {
     @Override
     public boolean update(AccountEntity account) {
         return false;
+    }
+
+    @Override
+    public List<AccountEanEntity> findAccountEANNumber(int accountID) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Creates a criteria object that allows to build up a query object programmatically.
+        Criteria criteria = session.createCriteria(AccountEanEntity.class);
+        //Adds searching property
+        criteria.add(Restrictions.eq("accountId", accountID));
+        //Gets a found account and assign it to the Account object
+        List<AccountEanEntity> accounts_list = (List<AccountEanEntity>) criteria.list();
+        //Closes session
+        session.close();
+        return accounts_list;
     }
 }

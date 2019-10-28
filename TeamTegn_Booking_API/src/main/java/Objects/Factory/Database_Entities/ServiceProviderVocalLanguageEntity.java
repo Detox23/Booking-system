@@ -39,9 +39,7 @@ public class ServiceProviderVocalLanguageEntity {
         ServiceProviderVocalLanguageEntity that = (ServiceProviderVocalLanguageEntity) o;
 
         if (serviceProviderId != that.serviceProviderId) return false;
-        if (vocalLanguageId != that.vocalLanguageId) return false;
-
-        return true;
+        return vocalLanguageId == that.vocalLanguageId;
     }
 
     @Override

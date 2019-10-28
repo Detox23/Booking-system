@@ -39,9 +39,7 @@ public class SystemUserRolesEntity {
         SystemUserRolesEntity that = (SystemUserRolesEntity) o;
 
         if (systemUserId != that.systemUserId) return false;
-        if (roleId != null ? !roleId.equals(that.roleId) : that.roleId != null) return false;
-
-        return true;
+        return roleId != null ? roleId.equals(that.roleId) : that.roleId == null;
     }
 
     @Override

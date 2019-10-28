@@ -51,10 +51,7 @@ public class ServiceProviderRatingTranslationsEntity {
 
         if (serviceProviderRatingId != that.serviceProviderRatingId) return false;
         if (ratingName != null ? !ratingName.equals(that.ratingName) : that.ratingName != null) return false;
-        if (languageCulture != null ? !languageCulture.equals(that.languageCulture) : that.languageCulture != null)
-            return false;
-
-        return true;
+        return languageCulture != null ? languageCulture.equals(that.languageCulture) : that.languageCulture == null;
     }
 
     @Override

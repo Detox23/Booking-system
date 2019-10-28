@@ -39,9 +39,7 @@ public class ServiceProviderRatingEntity {
         ServiceProviderRatingEntity that = (ServiceProviderRatingEntity) o;
 
         if (id != that.id) return false;
-        if (ratingName != null ? !ratingName.equals(that.ratingName) : that.ratingName != null) return false;
-
-        return true;
+        return ratingName != null ? ratingName.equals(that.ratingName) : that.ratingName == null;
     }
 
     @Override

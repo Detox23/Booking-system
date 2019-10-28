@@ -1,6 +1,7 @@
 package Objects.Factory.Database_Entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "AccountType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
@@ -60,9 +61,7 @@ public class AccountTypeEntity {
         if (id != that.id) return false;
         if (accountType != null ? !accountType.equals(that.accountType) : that.accountType != null) return false;
         if (grantApplies != null ? !grantApplies.equals(that.grantApplies) : that.grantApplies != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
-
-        return true;
+        return isDeleted != null ? isDeleted.equals(that.isDeleted) : that.isDeleted == null;
     }
 
     @Override

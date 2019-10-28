@@ -1,7 +1,12 @@
 package Objects.Factory;
 
-import java.util.ArrayList;
-
-public interface Person {
+public class Person {
+    public String string;
+    public String postcode;
+    public String city;
+    public String stateRegion;
+    public String country;
+    public int createdBy;
+    
 
 }

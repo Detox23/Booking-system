@@ -62,9 +62,7 @@ public class AssignmentCommentEntity {
         if (id != that.id) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (commentDate != null ? !commentDate.equals(that.commentDate) : that.commentDate != null) return false;
-        if (commentText != null ? !commentText.equals(that.commentText) : that.commentText != null) return false;
-
-        return true;
+        return commentText != null ? commentText.equals(that.commentText) : that.commentText == null;
     }
 
     @Override

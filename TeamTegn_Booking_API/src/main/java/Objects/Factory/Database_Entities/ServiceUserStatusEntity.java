@@ -39,9 +39,7 @@ public class ServiceUserStatusEntity {
         ServiceUserStatusEntity that = (ServiceUserStatusEntity) o;
 
         if (id != that.id) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-
-        return true;
+        return status != null ? status.equals(that.status) : that.status == null;
     }
 
     @Override

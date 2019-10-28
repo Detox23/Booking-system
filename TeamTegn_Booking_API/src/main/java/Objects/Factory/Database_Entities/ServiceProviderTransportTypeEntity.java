@@ -39,10 +39,7 @@ public class ServiceProviderTransportTypeEntity {
         ServiceProviderTransportTypeEntity that = (ServiceProviderTransportTypeEntity) o;
 
         if (serviceProviderId != that.serviceProviderId) return false;
-        if (transportTypeId != null ? !transportTypeId.equals(that.transportTypeId) : that.transportTypeId != null)
-            return false;
-
-        return true;
+        return transportTypeId != null ? transportTypeId.equals(that.transportTypeId) : that.transportTypeId == null;
     }
 
     @Override

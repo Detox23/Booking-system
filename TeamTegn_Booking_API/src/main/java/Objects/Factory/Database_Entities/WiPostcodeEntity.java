@@ -75,9 +75,7 @@ public class WiPostcodeEntity {
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
         if (copenhagen != null ? !copenhagen.equals(that.copenhagen) : that.copenhagen != null) return false;
         if (fredericia != null ? !fredericia.equals(that.fredericia) : that.fredericia != null) return false;
-        if (arhus != null ? !arhus.equals(that.arhus) : that.arhus != null) return false;
-
-        return true;
+        return arhus != null ? arhus.equals(that.arhus) : that.arhus == null;
     }
 
     @Override

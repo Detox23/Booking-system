@@ -1,7 +1,7 @@
 package API.Services;
 
-import Shared.AssignmentDto;
-import Shared.AssignmentForCreationDto;
+import Shared.ToReturn.AssignmentDto;
+import Shared.ForCreation.AssignmentForCreationDto;
 
 import java.util.List;
 

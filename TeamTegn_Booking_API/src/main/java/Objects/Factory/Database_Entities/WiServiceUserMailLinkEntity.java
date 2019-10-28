@@ -61,9 +61,7 @@ public class WiServiceUserMailLinkEntity {
         if (serviceUserId != that.serviceUserId) return false;
         if (isUsed != that.isUsed) return false;
         if (linkId != null ? !linkId.equals(that.linkId) : that.linkId != null) return false;
-        if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
-
-        return true;
+        return dateCreated != null ? dateCreated.equals(that.dateCreated) : that.dateCreated == null;
     }
 
     @Override

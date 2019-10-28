@@ -39,9 +39,7 @@ public class ServiceProviderLocationEntity {
         ServiceProviderLocationEntity that = (ServiceProviderLocationEntity) o;
 
         if (serviceProviderId != that.serviceProviderId) return false;
-        if (locationId != that.locationId) return false;
-
-        return true;
+        return locationId == that.locationId;
     }
 
     @Override

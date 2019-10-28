@@ -39,10 +39,7 @@ public class ServiceProviderPreferredNotificationEntity {
         ServiceProviderPreferredNotificationEntity that = (ServiceProviderPreferredNotificationEntity) o;
 
         if (id != that.id) return false;
-        if (notificationType != null ? !notificationType.equals(that.notificationType) : that.notificationType != null)
-            return false;
-
-        return true;
+        return notificationType != null ? notificationType.equals(that.notificationType) : that.notificationType == null;
     }
 
     @Override

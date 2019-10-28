@@ -97,9 +97,7 @@ public class ServiceProviderHasWheelsEntity {
         if (fromDate != null ? !fromDate.equals(that.fromDate) : that.fromDate != null) return false;
         if (fromTime != null ? !fromTime.equals(that.fromTime) : that.fromTime != null) return false;
         if (toDate != null ? !toDate.equals(that.toDate) : that.toDate != null) return false;
-        if (toTime != null ? !toTime.equals(that.toTime) : that.toTime != null) return false;
-
-        return true;
+        return toTime != null ? toTime.equals(that.toTime) : that.toTime == null;
     }
 
     @Override

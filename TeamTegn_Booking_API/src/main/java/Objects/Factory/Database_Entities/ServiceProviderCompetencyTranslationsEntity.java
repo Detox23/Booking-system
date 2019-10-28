@@ -51,10 +51,7 @@ public class ServiceProviderCompetencyTranslationsEntity {
 
         if (serviceProviderCompetencyId != that.serviceProviderCompetencyId) return false;
         if (competency != null ? !competency.equals(that.competency) : that.competency != null) return false;
-        if (languageCulture != null ? !languageCulture.equals(that.languageCulture) : that.languageCulture != null)
-            return false;
-
-        return true;
+        return languageCulture != null ? languageCulture.equals(that.languageCulture) : that.languageCulture == null;
     }
 
     @Override

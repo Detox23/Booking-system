@@ -36,9 +36,7 @@ public class AssignmentOtherContactEmailEntity {
         AssignmentOtherContactEmailEntity that = (AssignmentOtherContactEmailEntity) o;
 
         if (id != that.id) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-
-        return true;
+        return email != null ? email.equals(that.email) : that.email == null;
     }
 
     @Override

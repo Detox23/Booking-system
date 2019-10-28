@@ -1,13 +1,11 @@
-package Shared;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+package Shared.ToReturn;
+
+
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 public class AccountDto {
-
-
     private int id;
 
     private String accountName;
@@ -20,11 +18,11 @@ public class AccountDto {
 
     private int departmentID;
 
-    private String ean;
+    private List<String> ean;
 
     private String telephoneCode;
 
-    private String telephonenumber;
+    private String telephoneNumber;
 
     private String faxCode;
 
@@ -53,6 +51,34 @@ public class AccountDto {
     private String contactEmail;
 
     private String contactTelephone;
+
+    private AccountTypeDto accountType;
+
+    private boolean deleted;
+
+    private Timestamp createdDate;
+
+    private Timestamp lastModified;
+
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Timestamp getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Timestamp lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public boolean isDeleted(){return deleted;}
+
+    public void setDeleted(boolean deleted){this.deleted= deleted;}
 
     public int getId() {
         return id;
@@ -102,11 +128,11 @@ public class AccountDto {
         this.departmentID = departmentID;
     }
 
-    public String getEan() {
+    public List<String> getEan() {
         return ean;
     }
 
-    public void setEan(String ean) {
+    public void setEan(List<String> ean) {
         this.ean = ean;
     }
 
@@ -118,12 +144,12 @@ public class AccountDto {
         this.telephoneCode = telephoneCode;
     }
 
-    public String getTelephonenumber() {
-        return telephonenumber;
+    public String getTelephoneNumber() {
+        return telephoneNumber;
     }
 
-    public void setTelephonenumber(String telephonenumber) {
-        this.telephonenumber = telephonenumber;
+    public void setTelephoneNumber(String telephonenumber) {
+        this.telephoneNumber = telephonenumber;
     }
 
     public String getFaxCode() {
@@ -237,4 +263,9 @@ public class AccountDto {
     public void setContactTelephone(String contactTelephone) {
         this.contactTelephone = contactTelephone;
     }
+
+    public AccountTypeDto getAccountTypeInformation(){return accountType;}
+
+    public void setAccountType(AccountTypeDto accountType) {this.accountType = accountType; }
+
 }

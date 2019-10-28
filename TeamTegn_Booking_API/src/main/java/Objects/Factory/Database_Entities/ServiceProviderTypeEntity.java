@@ -39,9 +39,7 @@ public class ServiceProviderTypeEntity {
         ServiceProviderTypeEntity that = (ServiceProviderTypeEntity) o;
 
         if (id != that.id) return false;
-        if (providerType != null ? !providerType.equals(that.providerType) : that.providerType != null) return false;
-
-        return true;
+        return providerType != null ? providerType.equals(that.providerType) : that.providerType == null;
     }
 
     @Override

@@ -52,10 +52,7 @@ public class AssignmentTypeTranslationsEntity {
         if (assignmentTypeId != that.assignmentTypeId) return false;
         if (assignmentTypeName != null ? !assignmentTypeName.equals(that.assignmentTypeName) : that.assignmentTypeName != null)
             return false;
-        if (languageCulture != null ? !languageCulture.equals(that.languageCulture) : that.languageCulture != null)
-            return false;
-
-        return true;
+        return languageCulture != null ? languageCulture.equals(that.languageCulture) : that.languageCulture == null;
     }
 
     @Override

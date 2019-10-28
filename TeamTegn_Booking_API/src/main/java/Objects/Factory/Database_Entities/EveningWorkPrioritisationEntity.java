@@ -36,10 +36,7 @@ public class EveningWorkPrioritisationEntity {
         EveningWorkPrioritisationEntity that = (EveningWorkPrioritisationEntity) o;
 
         if (id != that.id) return false;
-        if (prioritisation != null ? !prioritisation.equals(that.prioritisation) : that.prioritisation != null)
-            return false;
-
-        return true;
+        return prioritisation != null ? prioritisation.equals(that.prioritisation) : that.prioritisation == null;
     }
 
     @Override

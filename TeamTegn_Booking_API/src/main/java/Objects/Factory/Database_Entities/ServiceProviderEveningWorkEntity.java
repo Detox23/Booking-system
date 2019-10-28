@@ -51,9 +51,7 @@ public class ServiceProviderEveningWorkEntity {
 
         if (serviceProviderId != that.serviceProviderId) return false;
         if (weekDayId != that.weekDayId) return false;
-        if (eveningWorkPrioritisationId != that.eveningWorkPrioritisationId) return false;
-
-        return true;
+        return eveningWorkPrioritisationId == that.eveningWorkPrioritisationId;
     }
 
     @Override

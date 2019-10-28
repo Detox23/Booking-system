@@ -39,10 +39,7 @@ public class AssignmentImportanceEntity {
         AssignmentImportanceEntity that = (AssignmentImportanceEntity) o;
 
         if (id != that.id) return false;
-        if (importanceName != null ? !importanceName.equals(that.importanceName) : that.importanceName != null)
-            return false;
-
-        return true;
+        return importanceName != null ? importanceName.equals(that.importanceName) : that.importanceName == null;
     }
 
     @Override

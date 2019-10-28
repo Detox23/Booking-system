@@ -36,9 +36,7 @@ public class TransportTypeEntity {
         TransportTypeEntity that = (TransportTypeEntity) o;
 
         if (id != that.id) return false;
-        if (transport != null ? !transport.equals(that.transport) : that.transport != null) return false;
-
-        return true;
+        return transport != null ? transport.equals(that.transport) : that.transport == null;
     }
 
     @Override

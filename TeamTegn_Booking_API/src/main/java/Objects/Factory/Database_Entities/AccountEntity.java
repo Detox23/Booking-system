@@ -1,9 +1,13 @@
 package Objects.Factory.Database_Entities;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@DynamicUpdate
 @Table(name = "Account", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AccountEntity {
     private int id;
@@ -27,7 +31,7 @@ public class AccountEntity {
     private Timestamp createdDate;
     private Timestamp lastModified;
     private Integer lastModifiedBy;
-    private boolean isDeleted;
+    private boolean deleted;
     private String email;
     private String contactName;
     private String contactEmail;
@@ -36,6 +40,7 @@ public class AccountEntity {
 
     @Id
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -245,13 +250,14 @@ public class AccountEntity {
     }
 
     @Basic
+    @Type(type="org.hibernate.type.NumericBooleanType")
     @Column(name = "IsDeleted", nullable = false)
     public boolean isDeleted() {
-        return isDeleted;
+        return deleted;
     }
 
     public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+        this.deleted = deleted;
     }
 
     @Basic
@@ -294,6 +300,7 @@ public class AccountEntity {
         this.contactTelephone = contactTelephone;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -304,7 +311,7 @@ public class AccountEntity {
         if (id != that.id) return false;
         if (parentId != that.parentId) return false;
         if (createdBy != that.createdBy) return false;
-        if (isDeleted != that.isDeleted) return false;
+        if (deleted != that.deleted) return false;
         if (accountName != null ? !accountName.equals(that.accountName) : that.accountName != null) return false;
         if (primaryContactId != null ? !primaryContactId.equals(that.primaryContactId) : that.primaryContactId != null)
             return false;
@@ -330,10 +337,7 @@ public class AccountEntity {
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (contactName != null ? !contactName.equals(that.contactName) : that.contactName != null) return false;
         if (contactEmail != null ? !contactEmail.equals(that.contactEmail) : that.contactEmail != null) return false;
-        if (contactTelephone != null ? !contactTelephone.equals(that.contactTelephone) : that.contactTelephone != null)
-            return false;
-
-        return true;
+        return contactTelephone != null ? contactTelephone.equals(that.contactTelephone) : that.contactTelephone == null;
     }
 
     @Override
@@ -359,7 +363,7 @@ public class AccountEntity {
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
         result = 31 * result + (lastModifiedBy != null ? lastModifiedBy.hashCode() : 0);
-        result = 31 * result + (isDeleted ? 1 : 0);
+        result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (contactName != null ? contactName.hashCode() : 0);
         result = 31 * result + (contactEmail != null ? contactEmail.hashCode() : 0);
@@ -367,7 +371,7 @@ public class AccountEntity {
         return result;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "AccountTypeID", referencedColumnName = "ID", nullable = false)
     public AccountTypeEntity getAccountTypeByAccountTypeId() {
         return accountTypeByAccountTypeId;

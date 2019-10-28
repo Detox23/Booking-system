@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Account_EAN", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
@@ -12,7 +9,7 @@ public class AccountEanEntity {
     private String eanNumber;
     private int accountId;
 
-    @Basic
+    @Id
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;
@@ -51,9 +48,7 @@ public class AccountEanEntity {
 
         if (id != that.id) return false;
         if (accountId != that.accountId) return false;
-        if (eanNumber != null ? !eanNumber.equals(that.eanNumber) : that.eanNumber != null) return false;
-
-        return true;
+        return eanNumber != null ? eanNumber.equals(that.eanNumber) : that.eanNumber == null;
     }
 
     @Override

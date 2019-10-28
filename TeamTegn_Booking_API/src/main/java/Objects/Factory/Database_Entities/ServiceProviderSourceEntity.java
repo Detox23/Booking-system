@@ -36,10 +36,7 @@ public class ServiceProviderSourceEntity {
         ServiceProviderSourceEntity that = (ServiceProviderSourceEntity) o;
 
         if (id != that.id) return false;
-        if (providerSource != null ? !providerSource.equals(that.providerSource) : that.providerSource != null)
-            return false;
-
-        return true;
+        return providerSource != null ? providerSource.equals(that.providerSource) : that.providerSource == null;
     }
 
     @Override

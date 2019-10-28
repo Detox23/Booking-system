@@ -52,9 +52,7 @@ public class AssignmentStatusTypeEntity {
         if (id != that.id) return false;
         if (assignmentStatusTypeName != null ? !assignmentStatusTypeName.equals(that.assignmentStatusTypeName) : that.assignmentStatusTypeName != null)
             return false;
-        if (displayOrder != null ? !displayOrder.equals(that.displayOrder) : that.displayOrder != null) return false;
-
-        return true;
+        return displayOrder != null ? displayOrder.equals(that.displayOrder) : that.displayOrder == null;
     }
 
     @Override

@@ -36,10 +36,7 @@ public class AssignmentTypeEntity {
         AssignmentTypeEntity that = (AssignmentTypeEntity) o;
 
         if (id != that.id) return false;
-        if (assignmentTypeName != null ? !assignmentTypeName.equals(that.assignmentTypeName) : that.assignmentTypeName != null)
-            return false;
-
-        return true;
+        return assignmentTypeName != null ? assignmentTypeName.equals(that.assignmentTypeName) : that.assignmentTypeName == null;
     }
 
     @Override

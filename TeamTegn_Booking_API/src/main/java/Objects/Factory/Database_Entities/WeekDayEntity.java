@@ -36,9 +36,7 @@ public class WeekDayEntity {
         WeekDayEntity that = (WeekDayEntity) o;
 
         if (id != that.id) return false;
-        if (weekDay != null ? !weekDay.equals(that.weekDay) : that.weekDay != null) return false;
-
-        return true;
+        return weekDay != null ? weekDay.equals(that.weekDay) : that.weekDay == null;
     }
 
     @Override

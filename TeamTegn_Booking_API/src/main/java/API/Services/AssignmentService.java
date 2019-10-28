@@ -1,14 +1,11 @@
 package API.Services;
 
-import API.DAO.AssignmentDAO;
 import API.DAO.IAssignmentDAO;
 import Objects.Factory.Database_Entities.AssignmentEntity;
-import Shared.AccountDto;
-import Shared.AssignmentDto;
-import Shared.AssignmentForCreationDto;
+import Shared.ToReturn.AssignmentDto;
+import Shared.ForCreation.AssignmentForCreationDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.AllArguments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

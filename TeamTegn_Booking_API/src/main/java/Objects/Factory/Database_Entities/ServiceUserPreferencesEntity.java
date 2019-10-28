@@ -60,9 +60,7 @@ public class ServiceUserPreferencesEntity {
         if (id != that.id) return false;
         if (serviceUserId != that.serviceUserId) return false;
         if (serviceProviderId != that.serviceProviderId) return false;
-        if (rating != that.rating) return false;
-
-        return true;
+        return rating == that.rating;
     }
 
     @Override

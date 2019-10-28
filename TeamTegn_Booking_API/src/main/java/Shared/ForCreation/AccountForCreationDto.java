@@ -1,9 +1,11 @@
-package Shared;
+package Shared.ForCreation;
 
-import Objects.Factory.Person;
+import Objects.Factory.IPerson;
 import org.springframework.beans.factory.annotation.Required;
 
-public class AccountForCreationDto implements Person {
+import java.util.List;
+
+public class AccountForCreationDto implements IPerson {
 
     private String accountName;
 
@@ -15,7 +17,7 @@ public class AccountForCreationDto implements Person {
 
     private int departmentID;
 
-    private String ean;
+    private List<String> ean;
 
     private String telephoneCode;
 
@@ -49,14 +51,14 @@ public class AccountForCreationDto implements Person {
 
     private String contactTelephone;
 
-    public AccountForCreationDto(String accountName, int accountTypeID){
-        this.accountName = accountName;
-        this.accountTypeID = accountTypeID;
+    public AccountForCreationDto(){
+
     }
 
     public String getAccountName() {
         return accountName;
     }
+
     @Required
     public void setAccountName(String accountName) {
         this.accountName = accountName;
@@ -65,6 +67,7 @@ public class AccountForCreationDto implements Person {
     public int getAccountTypeID() {
         return accountTypeID;
     }
+
     @Required
     public void setAccountTypeID(int accountTypeID) {
         this.accountTypeID = accountTypeID;
@@ -73,6 +76,7 @@ public class AccountForCreationDto implements Person {
     public int getParentID() {
         return parentID;
     }
+
     @Required
     public void setParentID(int parentID) {
         this.parentID = parentID;
@@ -94,11 +98,11 @@ public class AccountForCreationDto implements Person {
         this.departmentID = departmentID;
     }
 
-    public String getEan() {
+    public List<String> getEan() {
         return ean;
     }
 
-    public void setEan(String ean) {
+    public void setEan(List<String> ean) {
         this.ean = ean;
     }
 

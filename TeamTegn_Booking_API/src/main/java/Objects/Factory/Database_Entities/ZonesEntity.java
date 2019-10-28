@@ -27,9 +27,7 @@ public class ZonesEntity {
 
         ZonesEntity that = (ZonesEntity) o;
 
-        if (zoneNumber != that.zoneNumber) return false;
-
-        return true;
+        return zoneNumber == that.zoneNumber;
     }
 
     @Override

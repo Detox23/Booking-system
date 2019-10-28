@@ -36,9 +36,7 @@ public class RatingEntity {
         RatingEntity that = (RatingEntity) o;
 
         if (id != that.id) return false;
-        if (ratingName != null ? !ratingName.equals(that.ratingName) : that.ratingName != null) return false;
-
-        return true;
+        return ratingName != null ? ratingName.equals(that.ratingName) : that.ratingName == null;
     }
 
     @Override
