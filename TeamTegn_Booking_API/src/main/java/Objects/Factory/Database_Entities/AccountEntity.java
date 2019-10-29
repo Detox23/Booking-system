@@ -5,17 +5,19 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @DynamicUpdate
 @Table(name = "Account", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AccountEntity {
-    private int id;
+    private int id; //skipped
     private String accountName;
+    private AccountTypeEntity accountTypeByAccountTypeId; //accountTypeID
     private int parentId;
     private Integer primaryContactId;
     private Integer departmentId;
-    private String ean;
+    private String ean; //as string [database limitations]
     private String telephoneCode;
     private String telephoneNumber;
     private String faxCode;
@@ -28,15 +30,15 @@ public class AccountEntity {
     private String stateRegion;
     private String country;
     private int createdBy;
-    private Timestamp createdDate;
-    private Timestamp lastModified;
-    private Integer lastModifiedBy;
-    private boolean deleted;
+    private Timestamp createdDate; //done automatically
+    private Timestamp lastModified; // skipped
+    private Integer lastModifiedBy; // skipped
+    private boolean deleted; //done automatically
     private String email;
     private String contactName;
     private String contactEmail;
     private String contactTelephone;
-    private AccountTypeEntity accountTypeByAccountTypeId;
+
 
     @Id
     @Column(name = "ID", nullable = false)

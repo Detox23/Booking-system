@@ -54,6 +54,8 @@ public class AccountDto {
 
     private AccountTypeDto accountType;
 
+    private List<AccountComment> accountComments;
+
     private boolean deleted;
 
     private Timestamp createdDate;

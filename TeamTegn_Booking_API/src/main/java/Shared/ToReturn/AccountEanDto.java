@@ -1,6 +1,6 @@
 package Shared.ToReturn;
 
-public class AccountEANDto {
+public class AccountEanDto {
     private int id;
     private String eanNumber;
     private int accountId;

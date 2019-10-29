@@ -18,6 +18,8 @@ import java.util.List;
 @Service
 public class AccountService implements IAccountService {
 
+    private PropertyMap skipMapWhileCreation;
+
     @Autowired
     private IAccountDAO accountDAO;
 
@@ -27,25 +29,31 @@ public class AccountService implements IAccountService {
     @Autowired
     private ModelMapper modelMapper;
 
-    PropertyMap<AccountForCreationDto, AccountEntity> skipModifiedFieldsMap = new PropertyMap<AccountForCreationDto, AccountEntity>(){
-        protected void configure(){
-            skip().setId(0);
-            skip().setLastModified(null);
-            skip().setAccountTypeByAccountTypeId(null);
-            skip().setLastModifiedBy(null);
 
-        }
-    };
 
     public boolean addAccount(AccountForCreationDto account)
     {
         AccountTypeEntity accountTypeEntity = accountDAO.findAccountType(account.getAccountTypeID());
-        modelMapper.addMappings(skipModifiedFieldsMap);
-        AccountEntity dbAccount = modelMapper.map(account, AccountEntity.class);
-        dbAccount.setAccountTypeByAccountTypeId(accountTypeEntity);
-        dbAccount.setDeleted(false);
-        dbAccount.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-        return accountDAO.addAccount(dbAccount);
+        if(this.skipMapWhileCreation == null){
+            PropertyMap<AccountForCreationDto, AccountEntity> skipModifiedFieldsMap = new PropertyMap<AccountForCreationDto, AccountEntity>(){
+                protected void configure(){
+                    skip().setId(0);
+                    skip().setLastModified(null);
+                    skip().setAccountTypeByAccountTypeId(null);
+                    skip().setLastModifiedBy(null);
+                    skip().setCreatedDate(null);
+                    skip().setDeleted(false);
+                }
+            };
+            this.skipMapWhileCreation = skipModifiedFieldsMap;
+            modelMapper.addMappings(skipModifiedFieldsMap);
+        }
+        AccountEntity accountEntity = modelMapper.map(account, AccountEntity.class);
+        accountEntity.setAccountTypeByAccountTypeId(accountTypeEntity);
+        accountEntity.setDeleted(false);
+        accountEntity.setEan(null);
+        accountEntity.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        return accountDAO.addAccount(accountEntity, account.getEan());
     }
 
     public boolean deleteAccount(int id)
@@ -88,10 +96,18 @@ public class AccountService implements IAccountService {
         return finalListToReturn;
     }
 
-    //Tylko na tearaz
-    public AccountDto update(AccountForCreationDto account)
+    //Tylko na teraz
+    @Override
+    //TODO
+    public boolean update(AccountForCreationDto account)
     {
         AccountEntity dbAccount = modelMapper.map(account, AccountEntity.class);
-        return null;
+        return false;
+    }
+
+    //TODO
+    @Override
+    public boolean deleteAccountComment(int accountID, int commentID) {
+        return false;
     }
 }

@@ -2,14 +2,21 @@ package API.DAO;
 import Objects.Factory.Database_Entities.AccountEanEntity;
 import Objects.Factory.Database_Entities.AccountEntity;
 import Objects.Factory.Database_Entities.AccountTypeEntity;
+import Shared.ForCreation.AccountEanForCreationDto;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import DAO.HibernateUtil;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.resource.transaction.spi.TransactionStatus;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
 
 //Manipulating and communication of Account object with database
 @Repository
@@ -18,6 +25,10 @@ public class AccountDAO implements IAccountDAO, IAccountEanNumberDAO {
     //SessionFactory is a factory for Session object. We can create one SessionFactory implementation per
     //database in any application. It is thread safe and used by all threads of an application.
     //Initial state of the SessionFactory is immutable, it includes all of the metadata about Object/Relational Mapping
+
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     //Returns all accounts form the database.
     @Override
@@ -66,15 +77,38 @@ public class AccountDAO implements IAccountDAO, IAccountEanNumberDAO {
 
     //Adds account to a database
     @Override
-    public boolean addAccount(AccountEntity account){
+    public boolean addAccount(AccountEntity account, List<String> eans){
         //Retrieves and opens session from the factory.
         Session session = HibernateUtil.getSessionFactory().openSession();
         //Retrieves and begins transaction.
         Transaction tx = session.beginTransaction();
-        session.save(account);
-        tx.commit();
-        session.close();
-        return true;
+        boolean aResult = false;
+        try {
+
+            session.save(account);
+
+            int result_id = account.getId();
+            if (result_id != 0) {
+                if (eans.size() > 0) {
+                    for (int index = 0; index < eans.size(); index++) {
+                        AccountEanForCreationDto accountEanForCreationDto = new AccountEanForCreationDto();
+                        accountEanForCreationDto.setAccountId(String.valueOf(result_id));
+                        accountEanForCreationDto.setEanNumber(eans.get(index));
+                        AccountEanEntity accountEanEntity = modelMapper.map(accountEanForCreationDto, AccountEanEntity.class);
+                        accountEanEntity.setId(0);
+                        session.save(accountEanEntity);
+                    }
+                }
+            }
+            aResult = true;
+        }catch (Exception e){
+            e.printStackTrace();
+            tx.rollback();
+        }finally {
+            session.close();
+            return aResult;
+        }
+
     }
 
     //Deletes account from a database
@@ -85,6 +119,7 @@ public class AccountDAO implements IAccountDAO, IAccountEanNumberDAO {
             AccountEntity account = findAccountByID(Id);
             Transaction tx = session.beginTransaction();
             account.setDeleted(true);
+            session.update(account);
             tx.commit();
             session.close();
             return tx.getStatus() == TransactionStatus.COMMITTED;

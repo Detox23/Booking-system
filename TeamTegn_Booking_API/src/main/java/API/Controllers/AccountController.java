@@ -1,7 +1,7 @@
 package API.Controllers;
-import API.Services.AccountService;
 import API.DAO.IAccountDAO;
 import API.DAO.AccountDAO;
+import API.Services.IAccountService;
 import Shared.ForCreation.AccountForCreationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -13,16 +13,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/accounts")
 public class AccountController extends BaseController {
 
-    private IAccountDAO accountDao = new AccountDAO();
+
     @Autowired
-    private AccountService accountService;
-    //Retrives all accounts
+    private IAccountService accountService;
+
+    //Retrieves all accounts
     @RequestMapping(value="/list", method = RequestMethod.GET)
     public ResponseEntity<?> seeAllAccounts() {
         return new ResponseEntity<>(accountService.list(), new HttpHeaders(), HttpStatus.OK);
     }
 
-    //Retrives one account
+    @RequestMapping(value="/find/{id}/comment/delete/{id}", method=RequestMethod.DELETE)
+    public ResponseEntity<?> deleteAccountComment(@PathVariable int accountID, @PathVariable int commentID){
+        return new ResponseEntity<>(accountService.deleteAccountComment(accountID, commentID), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    //Retrieves one account
     @RequestMapping(value= "/find/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> seeAccount(@PathVariable int id){
         return new ResponseEntity<>(accountService.findAccount(id), new HttpHeaders(), HttpStatus.OK);
