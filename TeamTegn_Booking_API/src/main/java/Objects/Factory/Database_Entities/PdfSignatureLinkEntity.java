@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -15,7 +12,7 @@ public class PdfSignatureLinkEntity {
     private int assignmentId;
     private Integer serviceProviderId;
 
-    @Basic
+    @Id
     @Column(name = "LinkID", nullable = false, length = 60)
     public String getLinkId() {
         return linkId;

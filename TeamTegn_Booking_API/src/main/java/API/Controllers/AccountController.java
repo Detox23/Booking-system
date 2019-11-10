@@ -1,7 +1,6 @@
 package API.Controllers;
-import API.DAO.IAccountDAO;
-import API.DAO.AccountDAO;
 import API.Services.IAccountService;
+import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,13 +16,14 @@ public class AccountController extends BaseController {
     @Autowired
     private IAccountService accountService;
 
-    //Retrieves all accounts
+
+
     @RequestMapping(value="/list", method = RequestMethod.GET)
     public ResponseEntity<?> seeAllAccounts() {
         return new ResponseEntity<>(accountService.list(), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/find/{id}/comment/delete/{id}", method=RequestMethod.DELETE)
+    @RequestMapping(value="/find/{accountID}/comment/delete/{commentID}", method=RequestMethod.DELETE)
     public ResponseEntity<?> deleteAccountComment(@PathVariable int accountID, @PathVariable int commentID){
         return new ResponseEntity<>(accountService.deleteAccountComment(accountID, commentID), new HttpHeaders(), HttpStatus.OK);
     }
@@ -41,15 +41,27 @@ public class AccountController extends BaseController {
     }
 
     //Deletes an account
-    @RequestMapping(value="/delete/{id}",  method = { RequestMethod.DELETE})
+    @RequestMapping(value="/delete/{id}",  method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAccount(@PathVariable int id){
         return new ResponseEntity<>(accountService.deleteAccount(id), new HttpHeaders(), HttpStatus.ACCEPTED);
     }
 
     //Updates an account
-    @RequestMapping(value="/update", method= RequestMethod.PATCH, consumes = "application/json-patch+json")
-    public ResponseEntity<?> updateAccount(@RequestBody AccountForCreationDto account) {
-        return new ResponseEntity<>(accountService.update(account), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value="/update/{id}", method= RequestMethod.PATCH)
+    public ResponseEntity<?> updateAccount(@RequestBody AccountForCreationDto account, @PathVariable int id) {
+        return new ResponseEntity<>(accountService.update(account, id), new HttpHeaders(), HttpStatus.OK);
     }
+
+    @RequestMapping(value="/eanNumber/delete/{accoundID}/{eanNumber}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteEanNumber(@PathVariable int accoundID, @PathVariable String eanNumber) {
+        return new ResponseEntity<>(accountService.deleteEAN(accoundID, eanNumber), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    //Adds ean number to existing account.
+    @RequestMapping(value="/eanNumber/add", method = RequestMethod.POST)
+    public ResponseEntity<?> addEanNumber(@RequestBody AccountEanForCreationDto accountEan) {
+        return new ResponseEntity<>(accountService.addEAN(accountEan), new HttpHeaders(), HttpStatus.OK);
+    }
+
 }
 

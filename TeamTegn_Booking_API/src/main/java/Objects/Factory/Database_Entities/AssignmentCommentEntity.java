@@ -12,6 +12,7 @@ public class AssignmentCommentEntity {
     private String commentText;
     private AssignmentEntity assignmentByAssignmentId;
 
+    @Id
     @Basic
     @Column(name = "ID", nullable = false)
     public int getId() {

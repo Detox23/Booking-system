@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Rating_Translations", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
@@ -12,7 +9,7 @@ public class RatingTranslationsEntity {
     private String ratingName;
     private String languageCulture;
 
-    @Basic
+    @Id
     @Column(name = "RatingID", nullable = false)
     public int getRatingId() {
         return ratingId;

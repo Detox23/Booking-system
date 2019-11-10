@@ -1,5 +1,4 @@
 package Objects.Factory.Database_Entities;
-
 import javax.persistence.*;
 
 @Entity
@@ -39,10 +38,4 @@ public class AbsenceTypeEntity {
         return absenceTypeName != null ? absenceTypeName.equals(that.absenceTypeName) : that.absenceTypeName == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (absenceTypeName != null ? absenceTypeName.hashCode() : 0);
-        return result;
-    }
 }

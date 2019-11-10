@@ -1,6 +1,6 @@
 package API.Services;
 
-import API.DAO.IAssignmentDAO;
+import API.Repository.IAssignmentDAO;
 import Objects.Factory.Database_Entities.AssignmentEntity;
 import Shared.ToReturn.AssignmentDto;
 import Shared.ForCreation.AssignmentForCreationDto;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 public class AssignmentService implements IAssignmentService {
+    
     @Autowired
     private ModelMapper mapper;
 
@@ -23,7 +24,7 @@ public class AssignmentService implements IAssignmentService {
     public AssignmentDto add(AssignmentForCreationDto assignmentEntity) {
         AssignmentEntity dbEntity = mapper.map(assignmentEntity, AssignmentEntity.class);
         AssignmentEntity assignment = assignmentDAO.add(dbEntity);
-        return  mapper.map(assignment, AssignmentDto.class);
+        return mapper.map(assignment, AssignmentDto.class);
     }
 
     @Override

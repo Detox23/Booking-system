@@ -64,12 +64,4 @@ public class AccountTypeEntity {
         return isDeleted != null ? isDeleted.equals(that.isDeleted) : that.isDeleted == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
-        result = 31 * result + (grantApplies != null ? grantApplies.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
-        return result;
-    }
 }

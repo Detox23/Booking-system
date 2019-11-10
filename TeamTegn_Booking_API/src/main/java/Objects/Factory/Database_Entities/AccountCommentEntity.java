@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -15,6 +12,7 @@ public class AccountCommentEntity {
     private Timestamp commentDate;
     private String commentText;
 
+    @Id
     @Basic
     @Column(name = "ID", nullable = false)
     public int getId() {
@@ -79,13 +77,4 @@ public class AccountCommentEntity {
         return commentText != null ? commentText.equals(that.commentText) : that.commentText == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (accountId != null ? accountId.hashCode() : 0);
-        result = 31 * result + (commentDate != null ? commentDate.hashCode() : 0);
-        result = 31 * result + (commentText != null ? commentText.hashCode() : 0);
-        return result;
-    }
 }

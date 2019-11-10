@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -40,7 +37,7 @@ public class ServiceUserRegistrationEntity {
     private String username;
     private String password;
 
-    @Basic
+    @Id
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

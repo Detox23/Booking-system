@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ServiceProvider_EveningWork", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
@@ -12,7 +9,7 @@ public class ServiceProviderEveningWorkEntity {
     private int weekDayId;
     private int eveningWorkPrioritisationId;
 
-    @Basic
+    @Id
     @Column(name = "ServiceProviderID", nullable = false)
     public int getServiceProviderId() {
         return serviceProviderId;

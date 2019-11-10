@@ -12,6 +12,7 @@ public class AssignmentServiceProviderEntity {
     private String serviceProviderInitials;
     private AssignmentEntity assignmentByAssignmentId;
 
+    @Id
     @Basic
     @Column(name = "ServiceProviderID", nullable = false)
     public int getServiceProviderId() {

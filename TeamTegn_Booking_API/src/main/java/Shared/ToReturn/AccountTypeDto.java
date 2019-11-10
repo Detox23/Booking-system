@@ -6,7 +6,6 @@ public class AccountTypeDto {
     private String accountType;
     private Boolean grantApplies;
     private Boolean isDeleted;
-    private Map<String, String> translations;
 
     public int getId() {
             return id;
@@ -38,12 +37,6 @@ public class AccountTypeDto {
 
     public void setDeleted(Boolean deleted) {
             isDeleted = deleted;
-    }
-
-    public Map<String,String> getTranslations(){return translations;}
-
-    public void setTranslations(Map<String,String> translations){
-        this.translations = translations;
     }
 
 }

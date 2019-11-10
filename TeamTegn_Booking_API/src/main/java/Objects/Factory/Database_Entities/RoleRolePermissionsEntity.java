@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Role_RolePermissions", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
@@ -12,7 +9,7 @@ public class RoleRolePermissionsEntity {
     private int rolePermissionId;
     private boolean rolePermissionValue;
 
-    @Basic
+    @Id
     @Column(name = "RoleID", nullable = false)
     public int getRoleId() {
         return roleId;

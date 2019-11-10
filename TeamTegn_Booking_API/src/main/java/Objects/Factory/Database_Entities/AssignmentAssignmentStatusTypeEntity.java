@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,6 +11,8 @@ public class AssignmentAssignmentStatusTypeEntity {
     private int assignmentStatusTypeId;
     private Timestamp dateCreated;
 
+
+    @Id
     @Basic
     @Column(name = "ID", nullable = false)
     public int getId() {
@@ -67,12 +66,4 @@ public class AssignmentAssignmentStatusTypeEntity {
         return dateCreated != null ? dateCreated.equals(that.dateCreated) : that.dateCreated == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + assignmentId;
-        result = 31 * result + assignmentStatusTypeId;
-        result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
-        return result;
-    }
 }

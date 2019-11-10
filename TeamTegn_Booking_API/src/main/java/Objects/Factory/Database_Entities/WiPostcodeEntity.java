@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "WI_Postcode", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
@@ -14,7 +11,7 @@ public class WiPostcodeEntity {
     private Boolean fredericia;
     private Boolean arhus;
 
-    @Basic
+    @Id
     @Column(name = "Postcode", nullable = false, length = 50)
     public String getPostcode() {
         return postcode;

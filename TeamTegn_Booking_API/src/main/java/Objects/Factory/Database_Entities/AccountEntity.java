@@ -1,16 +1,20 @@
 package Objects.Factory.Database_Entities;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Entity
 @DynamicUpdate
 @Table(name = "Account", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AccountEntity {
+
     private int id; //skipped
     private String accountName;
     private AccountTypeEntity accountTypeByAccountTypeId; //accountTypeID
@@ -46,7 +50,6 @@ public class AccountEntity {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -92,7 +95,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "EAN", nullable = true, length = 50)
+    @Column(name = "EAN", nullable = true, length = 50, columnDefinition = "string default null")
     public String getEan() {
         return ean;
     }
@@ -212,6 +215,7 @@ public class AccountEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
     public int getCreatedBy() {
         return createdBy;
@@ -222,6 +226,7 @@ public class AccountEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -232,6 +237,7 @@ public class AccountEntity {
     }
 
     @Basic
+    @UpdateTimestamp
     @Column(name = "LastModified", nullable = true)
     public Timestamp getLastModified() {
         return lastModified;
@@ -242,6 +248,7 @@ public class AccountEntity {
     }
 
     @Basic
+    @LastModifiedBy
     @Column(name = "LastModifiedBy", nullable = true)
     public Integer getLastModifiedBy() {
         return lastModifiedBy;
@@ -253,7 +260,7 @@ public class AccountEntity {
 
     @Basic
     @Type(type="org.hibernate.type.NumericBooleanType")
-    @Column(name = "IsDeleted", nullable = false)
+    @Column(name = "IsDeleted", nullable = false, columnDefinition = "boolean default false")
     public boolean isDeleted() {
         return deleted;
     }
@@ -334,44 +341,12 @@ public class AccountEntity {
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
-        if (lastModifiedBy != null ? !lastModifiedBy.equals(that.lastModifiedBy) : that.lastModifiedBy != null)
-            return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (contactName != null ? !contactName.equals(that.contactName) : that.contactName != null) return false;
         if (contactEmail != null ? !contactEmail.equals(that.contactEmail) : that.contactEmail != null) return false;
         return contactTelephone != null ? contactTelephone.equals(that.contactTelephone) : that.contactTelephone == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (accountName != null ? accountName.hashCode() : 0);
-        result = 31 * result + parentId;
-        result = 31 * result + (primaryContactId != null ? primaryContactId.hashCode() : 0);
-        result = 31 * result + (departmentId != null ? departmentId.hashCode() : 0);
-        result = 31 * result + (ean != null ? ean.hashCode() : 0);
-        result = 31 * result + (telephoneCode != null ? telephoneCode.hashCode() : 0);
-        result = 31 * result + (telephoneNumber != null ? telephoneNumber.hashCode() : 0);
-        result = 31 * result + (faxCode != null ? faxCode.hashCode() : 0);
-        result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);
-        result = 31 * result + (website != null ? website.hashCode() : 0);
-        result = 31 * result + (cvrNumber != null ? cvrNumber.hashCode() : 0);
-        result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (stateRegion != null ? stateRegion.hashCode() : 0);
-        result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + createdBy;
-        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
-        result = 31 * result + (lastModifiedBy != null ? lastModifiedBy.hashCode() : 0);
-        result = 31 * result + (deleted ? 1 : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (contactName != null ? contactName.hashCode() : 0);
-        result = 31 * result + (contactEmail != null ? contactEmail.hashCode() : 0);
-        result = 31 * result + (contactTelephone != null ? contactTelephone.hashCode() : 0);
-        return result;
-    }
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "AccountTypeID", referencedColumnName = "ID", nullable = false)

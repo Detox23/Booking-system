@@ -1,6 +1,8 @@
 package API.Controllers;
 
-import org.hibernate.ObjectNotFoundException;
+import API.Exceptions.AccountNotFoundWhileAddingEANNumberException;
+import API.Exceptions.AddingTheSameEANNumberToSameAccountException;
+import API.Exceptions.MappingAccountDatabseToDtoException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,4 +28,21 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
 //        String bodyOfResponse = "The record was not found.";
 //        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 //    }
+    @ExceptionHandler(value={AccountNotFoundWhileAddingEANNumberException.class})
+    protected  ResponseEntity<Object> handleAccountNotFoundWhileAddingEanNumberException(RuntimeException ex, WebRequest request){
+        String bodyOfResponse = "You tried to add an ean number to an not existing account.";
+        return  handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(value={AddingTheSameEANNumberToSameAccountException.class})
+    protected  ResponseEntity<Object> handleAddingTheSameEANNumberToSameAccountException(RuntimeException ex, WebRequest request){
+        String bodyOfResponse = "You can not add two same ean numbers to same account.";
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(value= MappingAccountDatabseToDtoException.class)
+    protected  ResponseEntity<Object> handleMappingAccountDatabseToDtoException(RuntimeException ex, WebRequest request){
+        String bodyOfResponse = "Null value occured while mapping objects.";
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
 }

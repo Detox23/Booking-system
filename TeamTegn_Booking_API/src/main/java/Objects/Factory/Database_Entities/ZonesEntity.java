@@ -1,16 +1,13 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Zones", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ZonesEntity {
     private int zoneNumber;
 
-    @Basic
+    @Id
     @Column(name = "ZoneNumber", nullable = false)
     public int getZoneNumber() {
         return zoneNumber;

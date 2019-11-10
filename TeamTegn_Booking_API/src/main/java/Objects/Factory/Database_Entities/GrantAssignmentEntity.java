@@ -1,16 +1,15 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Grant_Assignment", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
-public class GrantAssignmentEntity {
+public class GrantAssignmentEntity implements Serializable {
     private GrantEntity grantByGrantId;
     private AssignmentEntity assignmentByAssignmentId;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "GrantID", referencedColumnName = "ID", nullable = false)
     public GrantEntity getGrantByGrantId() {

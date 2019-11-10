@@ -3,7 +3,7 @@ import java.util.List;
 
 public class AccountEanForCreationDto {
     private String eanNumber;
-    private String accountId;
+    private int accountId;
 
     public AccountEanForCreationDto(){
 
@@ -17,11 +17,11 @@ public class AccountEanForCreationDto {
         this.eanNumber = eanNumber;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 }

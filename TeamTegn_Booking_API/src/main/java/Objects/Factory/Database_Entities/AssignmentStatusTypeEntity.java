@@ -1,9 +1,6 @@
 package Objects.Factory.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "AssignmentStatusType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
@@ -12,7 +9,7 @@ public class AssignmentStatusTypeEntity {
     private String assignmentStatusTypeName;
     private Integer displayOrder;
 
-    @Basic
+    @Id
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

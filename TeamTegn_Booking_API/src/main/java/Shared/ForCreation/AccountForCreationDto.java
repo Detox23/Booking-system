@@ -48,7 +48,7 @@ public class AccountForCreationDto implements IPerson {
     public int getAccountTypeID() {
         return accountTypeID;
     }
-    @Required
+
     public void setAccountTypeID(int accountTypeID) {
         this.accountTypeID = accountTypeID;
     }

@@ -62,6 +62,15 @@ public class AccountDto {
 
     private Timestamp lastModified;
 
+    private int lastModifiedBy;
+
+
+    public int getLastModifiedBy(){return lastModifiedBy;}
+
+    public void setLastModifiedBy(int lastModifiedBy){
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
     public Timestamp getCreatedDate() {
         return createdDate;
     }
