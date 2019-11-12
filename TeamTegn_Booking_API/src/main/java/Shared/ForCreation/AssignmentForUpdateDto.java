@@ -1,10 +1,10 @@
-package Shared.ToReturn;
+package Shared.ForCreation;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class AssignmentDto {
-    private int id;
+public class AssignmentForUpdateDto
+{
     private Integer assignmentTypeId;
     private Integer importanceId;
     private Integer interpretationTypeId;
@@ -26,11 +26,6 @@ public class AssignmentDto {
     private Timestamp startTime;
     private Timestamp endTime;
     private int totalTime;
-    private Integer createdBy;
-    private Timestamp createdDate;
-    private Timestamp lastModified;
-    private Integer lastModifiedBy;
-    private boolean isDeleted;
     private boolean assignedStatus;
     private Integer assignmentStatusId;
     private String bookingNumber;
@@ -50,14 +45,6 @@ public class AssignmentDto {
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Integer getAssignmentTypeId() {
         return assignmentTypeId;
@@ -225,46 +212,6 @@ public class AssignmentDto {
 
     public void setTotalTime(int totalTime) {
         this.totalTime = totalTime;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Timestamp getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Timestamp getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Timestamp lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 
     public boolean isAssignedStatus() {

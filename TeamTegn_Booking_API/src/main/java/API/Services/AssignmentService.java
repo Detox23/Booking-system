@@ -1,8 +1,9 @@
 package API.Services;
 
+import API.Repository.Assignment.AssignmentDAOImpl;
 import API.Repository.Assignment.AssignmentDAO;
-import API.Repository.Assignment.IAssignmentDAO;
 import Objects.Factory.Database_Entities.AssignmentEntity;
+import Shared.ForCreation.AssignmentForUpdateDto;
 import Shared.ToReturn.AssignmentDto;
 import Shared.ForCreation.AssignmentForCreationDto;
 import org.modelmapper.ModelMapper;
@@ -21,9 +22,8 @@ public class AssignmentService implements IAssignmentService {
     private ModelMapper mapper;
 
     @Autowired
-    private IAssignmentDAO assignmentDAO;
-    @Autowired
-    private AssignmentDAO assignmentDAOImpl;
+    private AssignmentDAO assignmentDAO;
+
 
     @Override
     public AssignmentDto add(AssignmentForCreationDto assignmentEntity) {
@@ -35,7 +35,11 @@ public class AssignmentService implements IAssignmentService {
     @Override
     public AssignmentDto get(int id) {
         Optional<AssignmentEntity> assignment = assignmentDAO.findById(id);
-        return  mapper.map(assignment, AssignmentDto.class);
+        if(assignment.isPresent()) {
+            return mapper.map(assignment.get(), AssignmentDto.class);
+        }
+
+        return null;
     }
 
     @Override
@@ -46,7 +50,19 @@ public class AssignmentService implements IAssignmentService {
     }
 
     @Override
-    public void check() {
-        assignmentDAOImpl.check();
+    public boolean delete(int id) {
+        assignmentDAO.deleteById(id);
+        return assignmentDAO.findById(id).get() == null;
     }
+
+    @Override
+    public AssignmentDto update(int id, AssignmentForUpdateDto assignmentEntity) {
+        AssignmentEntity as = mapper.map(assignmentEntity, AssignmentEntity.class);
+        as.setId(id);
+        AssignmentEntity entity = assignmentDAO.updateAssignment(as);
+        return  mapper.map(entity, AssignmentDto.class);
+
+    }
+
+
 }
