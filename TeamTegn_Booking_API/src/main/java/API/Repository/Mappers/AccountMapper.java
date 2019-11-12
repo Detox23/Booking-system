@@ -1,5 +1,9 @@
 package API.Repository.Mappers;
 
+import API.Repository.Account.IAccountDAO;
+import API.Repository.Account.IAccountDAOImpl;
+import API.Services.AccountService;
+import API.Services.IAccountService;
 import Objects.Factory.Database_Entities.AccountEanEntity;
 import Objects.Factory.Database_Entities.AccountEntity;
 import Objects.Factory.Database_Entities.AccountTypeEntity;
@@ -47,13 +51,46 @@ public class AccountMapper {
 
     }
 
+    public static AccountEntity mapAccountDtoToAccountEntity(@NotNull AccountDto accountDto, @NotNull AccountTypeEntity accountTypeEntity){
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setId(accountDto.getId());
+        accountEntity.setAccountName(accountDto.getAccountName());
+        accountEntity.setAccountTypeByAccountTypeId(accountTypeEntity);
+        accountEntity.setParentId(accountDto.getParentID());
+        accountEntity.setPrimaryContactId(accountDto.getPrimaryContactID());
+        accountEntity.setDepartmentId(accountDto.getPrimaryContactID());
+        accountEntity.setEan(null);
+        accountEntity.setTelephoneCode(accountDto.getTelephoneCode());
+        accountEntity.setTelephoneNumber(accountDto.getTelephoneNumber());
+        accountEntity.setFaxCode(accountDto.getFaxCode());
+        accountEntity.setFaxNumber(accountDto.getFaxNumber());
+        accountEntity.setWebsite(accountDto.getWebsite());
+        accountEntity.setCvrNumber(accountDto.getCvrNumber());
+        accountEntity.setStreet(accountDto.getStreet());
+        accountEntity.setPostcode(accountDto.getPostcode());
+        accountEntity.setCity(accountDto.getCity());
+        accountEntity.setStateRegion(accountDto.getStateRegion());
+        accountEntity.setCountry(accountDto.getCountry());
+        accountEntity.setCreatedBy(accountEntity.getCreatedBy());
+        accountEntity.setCreatedDate(accountEntity.getCreatedDate());
+        accountEntity.setLastModified(accountDto.getLastModified());
+        accountEntity.setLastModifiedBy(accountDto.getLastModifiedBy());
+        accountEntity.setDeleted(accountDto.isDeleted());
+        accountEntity.setEmail(accountDto.getEmail());
+        accountEntity.setContactName(accountDto.getContactName());
+        accountEntity.setContactEmail(accountDto.getContactEmail());
+        accountEntity.setContactTelephone(accountDto.getContactTelephone());
+        return accountEntity;
+    }
+
+
     public static AccountEntity mapAccountForCreationToAccountEntity(@NotNull AccountForCreationDto accountForCreationDto,AccountTypeEntity accountTypeEntity) {
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setAccountTypeByAccountTypeId(accountTypeEntity);
         accountEntity.setAccountName(accountForCreationDto.getAccountName());
-        accountEntity.setParentId(accountForCreationDto.getParentID());
-        accountEntity.setPrimaryContactId(accountForCreationDto.getPrimaryContactID());
-        accountEntity.setDepartmentId(accountForCreationDto.getDepartmentID());
+        accountEntity.setParentId(accountForCreationDto.getParentId());
+        accountEntity.setPrimaryContactId(accountForCreationDto.getPrimaryContactId());
+        accountEntity.setDepartmentId(accountForCreationDto.getDepartmentId());
         accountEntity.setTelephoneCode(accountForCreationDto.getTelephoneCode());
         accountEntity.setTelephoneNumber(accountForCreationDto.getTelephoneNumber());
         accountEntity.setFaxCode(accountForCreationDto.getFaxCode());

@@ -35,11 +35,11 @@ public class AccountAPITests {
     private IAccountDAOImpl IAccountDAOImpl;
 
 
-    @Before
-    public void setUp(){
-        AccountEntity account = new AccountEntity();
-        account.setId(123);
-        Mockito.when(IAccountDAOImpl.findAccountByID(account.getId())).thenReturn(account);
-    }
+//    @Before
+//    public void setUp(){
+//        AccountEntity account = new AccountEntity();
+//        account.setId(123);
+//        Mockito.when(IAccountDAOImpl.findAccountByID(account.getId())).thenReturn(account);
+//    }
 
 }

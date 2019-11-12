@@ -1,14 +1,13 @@
-package API.Repository;
+package API.Repository.Assignment;
 
 import Objects.Factory.Database_Entities.AssignmentEntity;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-public interface IAssignmentDAO
+@Repository
+public interface IAssignmentDAO  extends PagingAndSortingRepository<AssignmentEntity, Integer>
 {
-    AssignmentEntity add(AssignmentEntity assignmentEntity);
-    AssignmentEntity get(int id);
-    List<AssignmentEntity> getAll();
-    boolean delete(int id);
+
 
 }

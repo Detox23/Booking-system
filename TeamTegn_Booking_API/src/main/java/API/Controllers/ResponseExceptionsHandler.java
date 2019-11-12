@@ -1,5 +1,6 @@
 package API.Controllers;
 
+import API.Exceptions.AccountNotExistsUpdateException;
 import API.Exceptions.AccountNotFoundWhileAddingEANNumberException;
 import API.Exceptions.AddingTheSameEANNumberToSameAccountException;
 import API.Exceptions.MappingAccountDatabseToDtoException;
@@ -44,5 +45,11 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
     protected  ResponseEntity<Object> handleMappingAccountDatabseToDtoException(RuntimeException ex, WebRequest request){
         String bodyOfResponse = "Null value occured while mapping objects.";
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(value= AccountNotExistsUpdateException.class)
+    protected  ResponseEntity<Object> handleAccountNotExistsUpdateException(RuntimeException ex, WebRequest request){
+        String bodyOfResponse = "Value you wanted to update is not in the database.";
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 }

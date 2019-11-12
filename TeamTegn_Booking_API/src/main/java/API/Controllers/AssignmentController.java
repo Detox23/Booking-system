@@ -3,6 +3,7 @@ package API.Controllers;
 import API.Services.AssignmentService;
 import Shared.ForCreation.AssignmentForCreationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ public class AssignmentController extends BaseController {
     private AssignmentService assignmentService;
 
     @RequestMapping( method = RequestMethod.GET)
-    public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(assignmentService.getAll(), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        return new ResponseEntity<>(assignmentService.getAll(pageable), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value= "/{id}", method = {RequestMethod.GET})
@@ -33,9 +34,11 @@ public class AssignmentController extends BaseController {
         return new ResponseEntity<>(assignmentService.add(assignment), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{id}",  method = { RequestMethod.DELETE})
-    public ResponseEntity<?> delete(@PathVariable int id){
-        return new ResponseEntity<>(assignmentService.delete(id), new HttpHeaders(), HttpStatus.ACCEPTED);
+    @RequestMapping(value="/check",  method = { RequestMethod.GET})
+    public ResponseEntity<?> delete(){
+        assignmentService.check();
+
+        return new ResponseEntity<>(assignmentService.get(9909009), new HttpHeaders(), HttpStatus.OK);
     }
 
  /*   @RequestMapping( method= RequestMethod.PATCH)

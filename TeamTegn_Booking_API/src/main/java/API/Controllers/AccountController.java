@@ -1,7 +1,9 @@
 package API.Controllers;
+import API.Exceptions.*;
 import API.Services.IAccountService;
 import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
+import Shared.ToReturn.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,7 +38,7 @@ public class AccountController extends BaseController {
 
     //Creates an account [Requires sending a json file send]
     @RequestMapping(value="/add", method=RequestMethod.POST)
-    public ResponseEntity<?> createAccount(@RequestBody AccountForCreationDto account) {
+    public ResponseEntity<?> createAccount(@RequestBody AccountForCreationDto account) throws NoAccountIDAfterSavingException, MappingAccountDatabseToDtoException, AccountNotFoundWhileAddingEANNumberException {
         return new ResponseEntity<>(accountService.addAccount(account), new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -47,9 +49,9 @@ public class AccountController extends BaseController {
     }
 
     //Updates an account
-    @RequestMapping(value="/update/{id}", method= RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccount(@RequestBody AccountForCreationDto account, @PathVariable int id) {
-        return new ResponseEntity<>(accountService.update(account, id), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value="/update", method= RequestMethod.PUT)
+    public ResponseEntity<?> updateAccount(@RequestBody AccountDto account) throws AccountNotExistsUpdateException, UpdateErrorException {
+        return new ResponseEntity<>(accountService.update(account), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value="/eanNumber/delete/{accoundID}/{eanNumber}", method = RequestMethod.DELETE)
@@ -59,7 +61,7 @@ public class AccountController extends BaseController {
 
     //Adds ean number to existing account.
     @RequestMapping(value="/eanNumber/add", method = RequestMethod.POST)
-    public ResponseEntity<?> addEanNumber(@RequestBody AccountEanForCreationDto accountEan) {
+    public ResponseEntity<?> addEanNumber(@RequestBody AccountEanForCreationDto accountEan) throws AccountNotFoundWhileAddingEANNumberException, AddingTheSameEANNumberToSameAccountException {
         return new ResponseEntity<>(accountService.addEAN(accountEan), new HttpHeaders(), HttpStatus.OK);
     }
 

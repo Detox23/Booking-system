@@ -8,6 +8,10 @@
     <artifactId>BookingRESTAPI</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <start-class>API.MainApplicationClass</start-class>
+    </properties>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -126,6 +130,7 @@
     </dependencies>
 
     <properties>
+
         <java.version>1.8</java.version>
     </properties>
 

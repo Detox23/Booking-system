@@ -1,44 +1,30 @@
 package API.Repository.Account;
 
-import API.Exceptions.AccountNotFoundWhileAddingEANNumberException;
-import API.Exceptions.AddingTheSameEANNumberToSameAccountException;
-import API.Exceptions.MappingAccountDatabseToDtoException;
-import API.Exceptions.NoAccountIDAfterSavingException;
-import API.Repository.Mappers.AccountMapper;
-import Shared.ToReturn.AccountDto;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
-import org.jetbrains.annotations.NotNull;
+import Shared.ToReturn.AccountEanDto;
+import Shared.ToReturn.AccountTypeDto;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import Objects.Factory.Database_Entities.AccountTypeEntity;
 import Objects.Factory.Database_Entities.AccountEanEntity;
 import Objects.Factory.Database_Entities.AccountEntity;
 import Shared.ForCreation.AccountEanForCreationDto;
-
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.criteria.CriteriaBuilder;
-
 import org.springframework.stereotype.Component;
-
-import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.Predicate;
+import API.Repository.Mappers.AccountMapper;
+import org.jetbrains.annotations.NotNull;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
-import org.modelmapper.ModelMapper;
-import org.hibernate.*;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Propagation;
+import Shared.ToReturn.AccountDto;
 
-import java.util.List;
+import java.lang.reflect.Type;
+import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
-
+import API.Exceptions.*;
+import java.util.List;
 
 @Component
-public class IAccountDAOImpl {
+public class IAccountDAOImpl implements IAccountDAOCustom {
 
     @Autowired
     private ModelMapper modelMapper;
@@ -56,86 +42,83 @@ public class IAccountDAOImpl {
     private EntityManager entityManager;
 
 
-    public List<AccountEntity> list() {
-        return (List<AccountEntity>) accountDAO.findAll();
+    public List<AccountDto> list() {
+        Type listType = new TypeToken<List<AccountDto>>() {}.getType();
+        return modelMapper.map(accountDAO.findAll(), listType);
     }
 
 
-    public AccountEntity findAccountByID(int id) {
-        return accountDAO.findById(id).get();
-    }
-
-    @Transactional
-    public AccountEntity updateAccount(@NotNull AccountEntity accountEntity){
-        AccountEntity found =  entityManager.find(AccountEntity.class, accountEntity.getId());
-        return entityManager.merge(found);
-    }
-
-    public AccountTypeEntity findAccountType(int id){
-        return accountTypeDAO.findById(id).get();
+    public AccountDto findAccountByID(int id) {
+        return modelMapper.map(accountDAO.findById(id).get(), AccountDto.class);
     }
 
 
-
-    public AccountDto addAccount(AccountEntity account, List<String> eans) throws NoAccountIDAfterSavingException, MappingAccountDatabseToDtoException {
-        EntityTransaction transaction = null;
-        Session session = null;
+    public AccountDto updateAccount(@NotNull AccountEntity accountDto) throws AccountNotExistsUpdateException, UpdateErrorException {
         try {
-            session = entityManager.unwrap(Session.class);
-            transaction = entityManager.getTransaction();
-            transaction.begin();
-            account.setAccountTypeByAccountTypeId(entityManager.getReference(AccountTypeEntity.class, account.getAccountTypeByAccountTypeId().getId()));
-            accountDAO.save(account);
-            int result_id = account.getId();
-            if (result_id != 0) {
-                if (eans.size() > 0) {
-                    IntStream.range(0, eans.size()).forEach(index -> {
-                        AccountEanForCreationDto accountEanForCreationDto = new AccountEanForCreationDto();
-                        accountEanForCreationDto.setAccountId((int) result_id);
-                        accountEanForCreationDto.setEanNumber(eans.get(index));
-                        AccountEanEntity accountEanEntity = AccountMapper.mapAccountEanForCreationToAccountEanEntity(accountEanForCreationDto);
-                        accountEanEntity.setId(0);
-                        accountEanNumberCrudDAO.addeanNumber(accountEanEntity);
-                    });
+            AccountEntity found = accountDAO.findById(accountDto.getId()).get();
+            AccountEntity copy = found;
+            if (found != null) {
+                found = accountDto;
+                found.setCreatedDate(copy.getCreatedDate());
+                found.setCreatedBy(copy.getCreatedBy());
+                AccountEntity result = accountDAO.save(found);
+                if (result != null) {
+                    return modelMapper.map(result, AccountDto.class);
+                } else {
+                    throw new UpdateErrorException("Update failure");
                 }
-                AccountDto toReturn = AccountMapper.mapAccountEntityToAccountDto(account, eans);
-                transaction.commit();
+            }
+        }catch (NoSuchElementException e){
+            throw new AccountNotExistsUpdateException("Not found");
+        }
+        return null;
+    }
+
+
+
+    public AccountDto addAccount(AccountEntity account, List<String> eans, int accountTypeId) throws NoAccountIDAfterSavingException{
+        try {
+            account.setAccountTypeByAccountTypeId(accountTypeDAO.findById(accountTypeId).get());
+            AccountEntity accountEntity = accountDAO.saveAndFlush(account);
+            int result_id = accountEntity.getId();
+            if (result_id != 0) {
+                if (eans != null) {
+                    for(int index = 0; index < eans.size(); index++){
+                        AccountEanEntity accountEanEntity = new AccountEanEntity();
+                        accountEanEntity.setAccountId(result_id);
+                        accountEanEntity.setEanNumber(eans.get(index));
+                        accountEanEntity.setId(0);
+                        try {
+                            accountEanNumberCrudDAO.addEanNumber(accountEanEntity);
+                        } catch (AccountNotFoundWhileAddingEANNumberException | AddingTheSameEANNumberToSameAccountException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                AccountDto toReturn = modelMapper.map(account, AccountDto.class);
                 return toReturn;
             }else{
                 throw new NoAccountIDAfterSavingException("ID does not exists.");
             }
-        }catch (NoAccountIDAfterSavingException e){
-            transaction.rollback();
-            throw e;
-        }
-        catch (NullPointerException e2){
-            transaction.rollback();
-            throw new MappingAccountDatabseToDtoException("Error while mapping.");
+        }catch (NoAccountIDAfterSavingException noAccountIdAfterSaving){
+            throw noAccountIdAfterSaving;
         }
     }
 
-    @Transactional
-    public boolean deleteAccount(int Id){
+
+    public boolean deleteAccount(int id){
         try {
-            Session session = entityManager.unwrap(Session.class);
-            AccountEntity account = findAccountByID(Id);
-            Transaction tx = session.beginTransaction();
+            AccountEntity account = accountDAO.findById(id).get();
             account.setDeleted(true);
-            session.update(account);
-            tx.commit();
-            session.close();
-            return tx.getStatus() == TransactionStatus.COMMITTED;
-        }catch (org.hibernate.ObjectNotFoundException notFoundException){
+            AccountEntity updatedAccount = accountDAO.saveAndFlush(account);
+            if (updatedAccount.isDeleted() == true) {
+                return true;
+            }
+        } catch (org.hibernate.ObjectNotFoundException notFoundException) {
             throw notFoundException;
+
         }
+        return false;
     }
 
-    public List<AccountEanEntity> findAccountEANNumber(int accountID) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<AccountEanEntity> criteria = builder.createQuery(AccountEanEntity.class);
-        Root<AccountEanEntity> root = criteria.from(AccountEanEntity.class);
-        criteria.where(builder.equal(root.get("accountId"), accountID));
-        List<AccountEanEntity> numbers = entityManager.createQuery(criteria).getResultList();
-        return numbers;
-    }
 }

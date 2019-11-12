@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface IAccountEanDAO extends JpaRepository<AccountEanEntity, Integer>, JpaSpecificationExecutor<AccountEanEntity>
+public interface IAccountEanDAO extends JpaRepository<AccountEanEntity, Integer>, IAccountEanCustom
 {
-    boolean addeanNumber(AccountEanEntity accountEanEntity);
-    boolean deleteeanNumber(int accountID, String EANNumber);
+
 
 }

@@ -1,17 +1,16 @@
 package Shared.ForCreation;
 
 import Objects.Factory.IPerson;
-import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;
 
 public class AccountForCreationDto implements IPerson {
 
     private String accountName;
-    private int accountTypeID;
-    private int parentID;
-    private int primaryContactID;
-    private int departmentID;
+    private int accountTypeId;
+    private int parentId;
+    private int primaryContactId;
+    private int departmentId;
     private List<String> ean;
     private String telephoneCode;
     private String telephoneNumber;
@@ -39,42 +38,39 @@ public class AccountForCreationDto implements IPerson {
     public String getAccountName() {
         return accountName;
     }
-    @Required
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
 
 
-    public int getAccountTypeID() {
-        return accountTypeID;
+    public int getAccountTypeId() {
+        return accountTypeId;
     }
-
-    public void setAccountTypeID(int accountTypeID) {
-        this.accountTypeID = accountTypeID;
-    }
-
-
-    public int getParentID() {
-        return parentID;
-    }
-    @Required
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
+    public void setAccountTypeId(int accountTypeId) {
+        this.accountTypeId = accountTypeId;
     }
 
 
-    public int getPrimaryContactID() {
-        return primaryContactID;
+    public int getParentId() {
+        return parentId;
     }
-    public void setPrimaryContactID(int primaryContactID) {
-        this.primaryContactID = primaryContactID;
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
-    public int getDepartmentID() {
-        return departmentID;
+
+    public int getPrimaryContactId() {
+        return primaryContactId;
     }
-    public void setDepartmentID(int departmentID) {
-        this.departmentID = departmentID;
+    public void setPrimaryContactId(int primaryContactId) {
+        this.primaryContactId = primaryContactId;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
     }
 
     public List<String> getEan() {
@@ -164,7 +160,6 @@ public class AccountForCreationDto implements IPerson {
     public int getCreatedBy() {
         return createdBy;
     }
-    @Required
     public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }

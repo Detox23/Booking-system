@@ -3,7 +3,10 @@ package API.Repository.Account;
 import API.Exceptions.AccountNotFoundWhileAddingEANNumberException;
 import API.Exceptions.AddingTheSameEANNumberToSameAccountException;
 import Objects.Factory.Database_Entities.AccountEanEntity;
+import Shared.ToReturn.AccountEanDto;
 import org.jetbrains.annotations.NotNull;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -13,13 +16,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class IAccountEanDAOImpl {
+public class IAccountEanDAOImpl implements IAccountEanCustom {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private IAccountDAO accountDAO;
@@ -28,7 +35,7 @@ public class IAccountEanDAOImpl {
     private IAccountEanDAO accountEanNumberCrudDAO;
 
     @Transactional
-    public boolean deleteeanNumber(int accountID, String EANNumber) {
+    public boolean deleteEanNumber(int accountID, String EANNumber) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<AccountEanEntity> criteriaQuery = criteriaBuilder.createQuery(AccountEanEntity.class);
         Root<AccountEanEntity> root = criteriaQuery.from(AccountEanEntity.class);
@@ -41,9 +48,18 @@ public class IAccountEanDAOImpl {
         return true;
     }
 
+    public List<AccountEanDto> findAccountEANNumber(int accountID) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<AccountEanEntity> criteria = builder.createQuery(AccountEanEntity.class);
+        Root<AccountEanEntity> root = criteria.from(AccountEanEntity.class);
+        criteria.where(builder.equal(root.get("accountId"), accountID));
+        List<AccountEanEntity> numbers = entityManager.createQuery(criteria).getResultList();
+        Type listType = new TypeToken<List<AccountEanDto>>() {}.getType();
+        return modelMapper.map(numbers, listType);
+    }
 
     @Transactional
-    public boolean addeanNumber(@NotNull AccountEanEntity accountEanEntity) throws AccountNotFoundWhileAddingEANNumberException, AddingTheSameEANNumberToSameAccountException
+    public boolean addEanNumber(@NotNull AccountEanEntity accountEanEntity) throws AccountNotFoundWhileAddingEANNumberException, AddingTheSameEANNumberToSameAccountException
     {
         try {
             if (accountDAO.findAccountByID(accountEanEntity.getAccountId()) != null) {
