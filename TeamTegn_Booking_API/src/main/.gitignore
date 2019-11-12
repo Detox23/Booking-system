@@ -1,3 +1,2 @@
-/java/API/Repository/HibernateUtil.java
-/java/API/MainApplicationClass.java
 /resources/persistence.xml
+/java/API/Configurations/DataSourceConfig.java

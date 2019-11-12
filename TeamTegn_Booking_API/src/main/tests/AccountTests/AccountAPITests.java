@@ -1,4 +1,5 @@
 package AccountTests;
+import API.MainApplicationClass;
 import API.Repository.Account.IAccountDAOImpl;
 import Shared.ForCreation.AccountForCreationDto;
 import org.junit.Before;
