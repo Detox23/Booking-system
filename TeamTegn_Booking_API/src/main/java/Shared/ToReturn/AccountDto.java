@@ -1,7 +1,4 @@
 package Shared.ToReturn;
-
-
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 

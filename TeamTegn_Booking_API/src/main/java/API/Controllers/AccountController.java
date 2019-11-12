@@ -15,8 +15,15 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController extends BaseController {
 
 
-    @Autowired
+
     private IAccountService accountService;
+
+    @Autowired
+    public void setAccountService(IAccountService accountService) {
+        this.accountService = accountService;
+    }
+
+
 
 
 

@@ -1,0 +1,42 @@
+package API.Controllers;
+
+import API.Services.IDepartmentService;
+import Shared.ForCreation.DepartmentForCreationDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/departments")
+public class DepartmentController extends BaseController {
+
+    @Autowired
+    private IDepartmentService departmentService;
+
+    @RequestMapping(value="/list", method= RequestMethod.GET)
+    public ResponseEntity<?> seeAllDepartments(){
+        return new ResponseEntity<>(departmentService.seeAllDepartments(), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/find/{name}", method=RequestMethod.GET)
+    public ResponseEntity<?> findDepartment(@PathVariable String name){
+        return new ResponseEntity<>(departmentService.findDepartment(name), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/delete/{name}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteDepartment(@PathVariable String name){
+        return new ResponseEntity<>(departmentService.deleteDepartment(name), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/add", method = RequestMethod.POST)
+    public ResponseEntity<?> addDepartment(@RequestBody DepartmentForCreationDto department){
+        return new ResponseEntity<>(departmentService.addDepartment(department), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/update", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateDepartment(@RequestBody DepartmentForCreationDto department){
+        return new ResponseEntity<>(departmentService.updateDepartment(department), new HttpHeaders(), HttpStatus.OK);
+    }
+}

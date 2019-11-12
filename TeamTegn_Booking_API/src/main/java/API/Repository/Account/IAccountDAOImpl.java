@@ -1,5 +1,4 @@
 package API.Repository.Account;
-
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,14 +6,11 @@ import API.Database_Entities.AccountEanEntity;
 import API.Database_Entities.AccountEntity;
 import org.springframework.stereotype.Component;
 import javax.persistence.PersistenceContext;
-
 import org.jetbrains.annotations.NotNull;
 import javax.persistence.EntityManager;
 import Shared.ToReturn.AccountDto;
-
 import java.lang.reflect.Type;
 import java.util.NoSuchElementException;
-
 import API.Exceptions.*;
 import java.util.List;
 
@@ -25,7 +21,7 @@ public class IAccountDAOImpl implements IAccountDAOCustom {
     private ModelMapper modelMapper;
 
     @Autowired
-    private IAccountDAO accountDAO;
+    private IAccountDAO iAccountDAO;
 
     @Autowired
     private IAccountTypeDAO accountTypeDAO;
@@ -39,24 +35,24 @@ public class IAccountDAOImpl implements IAccountDAOCustom {
 
     public List<AccountDto> list() {
         Type listType = new TypeToken<List<AccountDto>>() {}.getType();
-        return modelMapper.map(accountDAO.findAll(), listType);
+        return modelMapper.map(iAccountDAO.findAll(), listType);
     }
 
 
     public AccountDto findAccountByID(int id) {
-        return modelMapper.map(accountDAO.findById(id).get(), AccountDto.class);
+        return modelMapper.map(iAccountDAO.findById(id).get(), AccountDto.class);
     }
 
 
     public AccountDto updateAccount(@NotNull AccountEntity accountDto) throws AccountNotExistsUpdateException, UpdateErrorException {
         try {
-            AccountEntity found = accountDAO.findById(accountDto.getId()).get();
+            AccountEntity found = iAccountDAO.findById(accountDto.getId()).get();
             AccountEntity copy = found;
             if (found != null) {
                 found = accountDto;
                 found.setCreatedDate(copy.getCreatedDate());
                 found.setCreatedBy(copy.getCreatedBy());
-                AccountEntity result = accountDAO.save(found);
+                AccountEntity result = iAccountDAO.save(found);
                 if (result != null) {
                     return modelMapper.map(result, AccountDto.class);
                 } else {
@@ -74,7 +70,7 @@ public class IAccountDAOImpl implements IAccountDAOCustom {
     public AccountDto addAccount(AccountEntity account, List<String> eans, int accountTypeId) throws NoAccountIDAfterSavingException{
         try {
             account.setAccountTypeByAccountTypeId(accountTypeDAO.findById(accountTypeId).get());
-            AccountEntity accountEntity = accountDAO.saveAndFlush(account);
+            AccountEntity accountEntity = iAccountDAO.saveAndFlush(account);
             int result_id = accountEntity.getId();
             if (result_id != 0) {
                 if (eans != null) {
@@ -103,9 +99,9 @@ public class IAccountDAOImpl implements IAccountDAOCustom {
 
     public boolean deleteAccount(int id){
         try {
-            AccountEntity account = accountDAO.findById(id).get();
+            AccountEntity account = iAccountDAO.findById(id).get();
             account.setDeleted(true);
-            AccountEntity updatedAccount = accountDAO.saveAndFlush(account);
+            AccountEntity updatedAccount = iAccountDAO.saveAndFlush(account);
             if (updatedAccount.isDeleted() == true) {
                 return true;
             }
