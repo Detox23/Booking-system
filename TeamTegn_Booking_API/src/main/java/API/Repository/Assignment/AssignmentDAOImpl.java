@@ -12,16 +12,12 @@ import javax.validation.constraints.NotNull;
 public class AssignmentDAOImpl
 {
 
-    @Autowired
-    private AssignmentDAO assignmentDAO;
-
     @PersistenceContext
     private EntityManager entityManager;
 
     @Transactional
     public AssignmentEntity updateAssignment(@NotNull AssignmentEntity accountEntity){
-//        AssignmentEntity found =  entityManager.find(AssignmentEntity.class, accountEntity.getId());
-//        return entityManager.merge(found);
-       return assignmentDAO.updateAssignment(accountEntity);
+        AssignmentEntity found =  entityManager.find(AssignmentEntity.class, accountEntity.getId());
+        return entityManager.merge(found);
     }
 }

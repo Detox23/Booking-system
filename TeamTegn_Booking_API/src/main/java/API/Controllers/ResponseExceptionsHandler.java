@@ -1,9 +1,7 @@
 package API.Controllers;
 
-import API.Exceptions.AccountNotExistsUpdateException;
-import API.Exceptions.AccountNotFoundWhileAddingEANNumberException;
-import API.Exceptions.AddingTheSameEANNumberToSameAccountException;
-import API.Exceptions.MappingAccountDatabseToDtoException;
+import API.Exceptions.*;
+import org.hibernate.sql.Update;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +47,9 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value= AccountNotExistsUpdateException.class)
     protected  ResponseEntity<Object> handleAccountNotExistsUpdateException(RuntimeException ex, WebRequest request){
-        String bodyOfResponse = "Value you wanted to update is not in the database.";
+        String bodyOfResponse = "Object that you wanted to update is not in the database.";
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
+
+
 }

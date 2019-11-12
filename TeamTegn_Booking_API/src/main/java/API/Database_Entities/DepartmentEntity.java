@@ -1,5 +1,8 @@
 package API.Database_Entities;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -23,6 +26,7 @@ public class DepartmentEntity {
 
     @Id
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -142,6 +146,7 @@ public class DepartmentEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
     public int getCreatedBy() {
         return createdBy;
@@ -152,6 +157,7 @@ public class DepartmentEntity {
     }
 
     @Basic
+    @CreatedDate
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;

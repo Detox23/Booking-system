@@ -1,7 +1,10 @@
 package API.Controllers;
 
+import API.Exceptions.AccountNotExistsUpdateException;
+import API.Exceptions.UpdateErrorException;
 import API.Services.IDepartmentService;
 import Shared.ForCreation.DepartmentForCreationDto;
+import Shared.ToReturn.DepartmentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,8 +29,13 @@ public class DepartmentController extends BaseController {
     }
 
     @RequestMapping(value="/delete/{name}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteDepartment(@PathVariable String name){
-        return new ResponseEntity<>(departmentService.deleteDepartment(name), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> deleteDepartment(@PathVariable String name)  {
+        try{
+            return new ResponseEntity<>(departmentService.deleteDepartment(name), new HttpHeaders(), HttpStatus.OK);
+
+        }catch (AccountNotExistsUpdateException e){
+            return new ResponseEntity<>("Could not delete not existing department.", new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value="/add", method = RequestMethod.POST)
@@ -36,7 +44,7 @@ public class DepartmentController extends BaseController {
     }
 
     @RequestMapping(value="/update", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateDepartment(@RequestBody DepartmentForCreationDto department){
+    public ResponseEntity<?> updateDepartment(@RequestBody DepartmentDto department){
         return new ResponseEntity<>(departmentService.updateDepartment(department), new HttpHeaders(), HttpStatus.OK);
     }
 }
