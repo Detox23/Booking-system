@@ -1,5 +1,7 @@
 package Shared.ForCreation;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -173,6 +175,7 @@ public class AssignmentForUpdateDto
     public void setServiceUserId(int serviceUserId) {
         this.serviceUserId = serviceUserId;
     }
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="Europe/Berlin")
 
     public Timestamp getAssignmentDate() {
         return assignmentDate;
@@ -181,6 +184,7 @@ public class AssignmentForUpdateDto
     public void setAssignmentDate(Timestamp assignmentDate) {
         this.assignmentDate = assignmentDate;
     }
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 
     public Date getAssignmentEndDate() {
         return assignmentEndDate;
@@ -189,6 +193,7 @@ public class AssignmentForUpdateDto
     public void setAssignmentEndDate(Date assignmentEndDate) {
         this.assignmentEndDate = assignmentEndDate;
     }
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="Europe/Berlin")
 
     public Timestamp getStartTime() {
         return startTime;
@@ -197,6 +202,7 @@ public class AssignmentForUpdateDto
     public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="Europe/Berlin")
 
     public Timestamp getEndTime() {
         return endTime;

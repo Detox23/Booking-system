@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 public class AssignmentDAOImpl
 {
 
+
     @PersistenceContext
     private EntityManager entityManager;
 
