@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface IDepartmentDAOCustom {
     List<DepartmentDto> list();
+    DepartmentDto findDepartment(String name);
 }

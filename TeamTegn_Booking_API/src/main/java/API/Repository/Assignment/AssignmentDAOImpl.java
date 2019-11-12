@@ -1,5 +1,6 @@
 package API.Repository.Assignment;
 import API.Database_Entities.AssignmentEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,12 +12,16 @@ import javax.validation.constraints.NotNull;
 public class AssignmentDAOImpl
 {
 
+    @Autowired
+    private AssignmentDAO assignmentDAO;
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Transactional
     public AssignmentEntity updateAssignment(@NotNull AssignmentEntity accountEntity){
-        AssignmentEntity found =  entityManager.find(AssignmentEntity.class, accountEntity.getId());
-        return entityManager.merge(found);
+//        AssignmentEntity found =  entityManager.find(AssignmentEntity.class, accountEntity.getId());
+//        return entityManager.merge(found);
+       return assignmentDAO.updateAssignment(accountEntity);
     }
 }

@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface IDepartmentDAO extends JpaRepository<DepartmentEntity, Integer>, IDepartmentDAOCustom {
+public interface IDepartmentDAO extends IDepartmentDAOCustom, JpaRepository<DepartmentEntity, Integer>{
+    DepartmentEntity findByDepartmentName(String name);
 }

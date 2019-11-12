@@ -21,7 +21,7 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     public DepartmentDto findDepartment(String name) {
-        return null;
+        return departmentDAO.findDepartment(name);
     }
 
     @Override
