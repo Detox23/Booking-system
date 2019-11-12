@@ -1,10 +1,7 @@
 package Shared.ForCreation;
-
-import Objects.Factory.IPerson;
-
 import java.util.List;
 
-public class AccountForCreationDto implements IPerson {
+public class AccountForCreationDto{
 
     private String accountName;
     private int accountTypeId;

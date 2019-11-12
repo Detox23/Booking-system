@@ -1,12 +1,8 @@
 package API.Repository.Mappers;
 
-import API.Repository.Account.IAccountDAO;
-import API.Repository.Account.IAccountDAOImpl;
-import API.Services.AccountService;
-import API.Services.IAccountService;
-import Objects.Factory.Database_Entities.AccountEanEntity;
-import Objects.Factory.Database_Entities.AccountEntity;
-import Objects.Factory.Database_Entities.AccountTypeEntity;
+import API.Database_Entities.AccountEanEntity;
+import API.Database_Entities.AccountEntity;
+import API.Database_Entities.AccountTypeEntity;
 import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ToReturn.AccountDto;

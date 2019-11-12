@@ -1,25 +1,20 @@
 package API.Repository.Account;
 
-import Shared.ToReturn.AccountEanDto;
-import Shared.ToReturn.AccountTypeDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import Objects.Factory.Database_Entities.AccountTypeEntity;
-import Objects.Factory.Database_Entities.AccountEanEntity;
-import Objects.Factory.Database_Entities.AccountEntity;
-import Shared.ForCreation.AccountEanForCreationDto;
+import API.Database_Entities.AccountEanEntity;
+import API.Database_Entities.AccountEntity;
 import org.springframework.stereotype.Component;
 import javax.persistence.PersistenceContext;
-import API.Repository.Mappers.AccountMapper;
+
 import org.jetbrains.annotations.NotNull;
 import javax.persistence.EntityManager;
 import Shared.ToReturn.AccountDto;
 
 import java.lang.reflect.Type;
 import java.util.NoSuchElementException;
-import java.util.stream.IntStream;
+
 import API.Exceptions.*;
 import java.util.List;
 

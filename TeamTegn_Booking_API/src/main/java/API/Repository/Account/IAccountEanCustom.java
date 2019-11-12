@@ -2,7 +2,7 @@ package API.Repository.Account;
 
 import API.Exceptions.AccountNotFoundWhileAddingEANNumberException;
 import API.Exceptions.AddingTheSameEANNumberToSameAccountException;
-import Objects.Factory.Database_Entities.AccountEanEntity;
+import API.Database_Entities.AccountEanEntity;
 import Shared.ToReturn.AccountEanDto;
 
 import java.util.List;

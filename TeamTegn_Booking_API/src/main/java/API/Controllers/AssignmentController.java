@@ -47,12 +47,4 @@ public class AssignmentController extends BaseController {
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody AssignmentForUpdateDto forUpdate){
         return new ResponseEntity<>(assignmentService.update(id, forUpdate), new HttpHeaders(), HttpStatus.OK);
     }
-
- /*   @RequestMapping( method= RequestMethod.PATCH)
-    public ResponseEntity<?> update(@RequestBody Account account){
-        return new ResponseEntity<>(assignmentService.update(account), new HttpHeaders(), HttpStatus.OK);
-    }*/
-
-
-
 }

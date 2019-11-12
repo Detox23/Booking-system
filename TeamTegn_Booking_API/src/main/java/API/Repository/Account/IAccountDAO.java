@@ -1,6 +1,6 @@
 package API.Repository.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
-import Objects.Factory.Database_Entities.AccountEntity;
+import API.Database_Entities.AccountEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository

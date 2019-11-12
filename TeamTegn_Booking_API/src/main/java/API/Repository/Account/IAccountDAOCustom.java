@@ -2,7 +2,7 @@ package API.Repository.Account;
 
 import API.Exceptions.MappingAccountDatabseToDtoException;
 import API.Exceptions.AccountNotExistsUpdateException;
-import Objects.Factory.Database_Entities.AccountEntity;
+import API.Database_Entities.AccountEntity;
 import API.Exceptions.NoAccountIDAfterSavingException;
 import API.Exceptions.UpdateErrorException;
 import Shared.ToReturn.AccountDto;

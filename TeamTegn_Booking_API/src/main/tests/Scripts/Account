@@ -1,0 +1,63 @@
+USE [TeamTegn_BookingSystem_Devleopment]
+GO
+
+/****** Object:  Table [dbo].[Account]    Script Date: 12.11.2019 13:40:56 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Account](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[AccountName] [nvarchar](255) NOT NULL,
+	[AccountTypeID] [int] NOT NULL,
+	[ParentID] [int] NOT NULL,
+	[PrimaryContactID] [int] NULL,
+	[DepartmentID] [int] NULL,
+	[EAN] [nvarchar](50) NULL,
+	[TelephoneCode] [nvarchar](50) NULL,
+	[TelephoneNumber] [nvarchar](50) NULL,
+	[FaxCode] [nvarchar](50) NULL,
+	[FaxNumber] [nvarchar](50) NULL,
+	[Website] [nvarchar](100) NULL,
+	[CVRNumber] [nvarchar](50) NULL,
+	[Street] [nvarchar](150) NULL,
+	[Postcode] [nvarchar](50) NULL,
+	[City] [nvarchar](50) NULL,
+	[StateRegion] [nvarchar](50) NULL,
+	[Country] [nvarchar](100) NULL,
+	[CreatedBy] [int] NOT NULL,
+	[CreatedDate] [datetime] NULL,
+	[LastModified] [datetime] NULL,
+	[LastModifiedBy] [int] NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[Email] [nvarchar](50) NULL,
+	[ContactName] [nvarchar](100) NULL,
+	[ContactEmail] [nvarchar](100) NULL,
+	[ContactTelephone] [nvarchar](100) NULL,
+ CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Account] ADD  CONSTRAINT [DF_Account_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+GO
+
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_AccountType] FOREIGN KEY([AccountTypeID])
+REFERENCES [dbo].[AccountType] ([ID])
+GO
+
+ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_Account_AccountType]
+GO
+
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FKmnsn0rfqjawlcfgskn1aip5rt] FOREIGN KEY([AccountTypeID])
+REFERENCES [dbo].[AccountType] ([ID])
+GO
+
+ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FKmnsn0rfqjawlcfgskn1aip5rt]
+GO
+
+
