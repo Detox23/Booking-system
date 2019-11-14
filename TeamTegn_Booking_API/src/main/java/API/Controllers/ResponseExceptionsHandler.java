@@ -11,6 +11,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @ControllerAdvice
 @EnableWebMvc
 public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
@@ -51,5 +53,24 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+    @ExceptionHandler(value= NotFoundException.class)
+    protected  ResponseEntity<Object> handleNoSuchElementException(NotFoundException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value= NotEnoughDataForCreationException.class)
+    protected  ResponseEntity<Object> handleNotEnoughDataForCreationException(NotEnoughDataForCreationException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value= DuplicateException.class)
+    protected  ResponseEntity<Object> handleDuplicateException(DuplicateException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value=UpdatePatchException.class)
+    protected  ResponseEntity<Object> handleUpdatePatchException(UpdatePatchException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }

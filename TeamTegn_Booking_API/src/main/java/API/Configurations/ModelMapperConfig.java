@@ -29,7 +29,7 @@ public class ModelMapperConfig {
             }
         };
 
-        PropertyMap<AssignmentForCreationDto, AssignmentEntity> adddingAssignment = new PropertyMap<AssignmentForCreationDto, AssignmentEntity>(){
+        PropertyMap<AssignmentForCreationDto, AssignmentEntity> addingAssignmentMap = new PropertyMap<AssignmentForCreationDto, AssignmentEntity>(){
             protected void configure(){
                 skip().setId(0);
             }
@@ -37,7 +37,7 @@ public class ModelMapperConfig {
 
         mapper.addMappings(addingServiceProviderMap);
         mapper.addMappings(addingAccountMap);
-        mapper.addMappings(adddingAssignment);
+        mapper.addMappings(addingAssignmentMap);
         return mapper;
     }
 }

@@ -1,4 +1,5 @@
 package API.Services.ServiceProviderService;
+import API.Exceptions.UpdatePatchException;
 import Shared.ForCreation.ServiceProviderForCreationDto;
 import Shared.ForCreation.ServiceProviderForUpdate;
 import Shared.ToReturn.ServiceProviderDto;

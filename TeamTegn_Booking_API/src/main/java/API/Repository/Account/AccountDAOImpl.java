@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 
 import Shared.ToReturn.AccountDto;
 
+import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 
 import API.Exceptions.*;
@@ -63,7 +64,7 @@ public class AccountDAOImpl implements AccountDAOCustom {
     }
 
 
-    public AccountDto updateAccount(@NotNull AccountEntity accountDto) throws AccountNotExistsUpdateException, UpdateErrorException {
+    public AccountDto updateAccount(@NotNull AccountEntity accountDto) throws UpdateErrorException {
         try {
             AccountEntity found = accountDAO.findById(accountDto.getId()).get();
             patcherHandler.fillNotNullFields(found, accountDto);
@@ -74,7 +75,9 @@ public class AccountDAOImpl implements AccountDAOCustom {
                 throw new UpdateErrorException("Update failure");
             }
         } catch (NoSuchElementException e) {
-            throw new AccountNotExistsUpdateException("Not found.");
+            throw new NotFoundException("Not found.");
+        } catch(IntrospectionException introspectionException){
+            throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
         }
 
     }

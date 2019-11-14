@@ -3,12 +3,14 @@ package API.Repository.ServiceProvider;
 import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.ServiceProviderEntity;
+import API.Exceptions.UpdatePatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import Shared.ToReturn.ServiceProviderDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 
+import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -68,13 +70,21 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     }
 
     @Override
-    public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider) {
-        ServiceProviderEntity found = serviceProviderDAO.findById(serviceProvider.getId()).get();
-        if (serviceProvider.getCpr() != null){
-            serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
+    public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider){
+        try {
+            ServiceProviderEntity found = serviceProviderDAO.findById(serviceProvider.getId()).get();
+            if (serviceProvider.getCpr() != null) {
+                serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
+            }
+            patcherHandler.fillNotNullFields(found, serviceProvider);
+            ServiceProviderEntity updated = serviceProviderDAO.save(found);
+            if (updated.getCpr() != null) {
+                updated.setCpr(encryptionHandler.decrypt(updated.getCpr()));
+            }
+            return modelMapper.map(updated, ServiceProviderDto.class);
+        } catch (IntrospectionException interspectionException) {
+            throw new UpdatePatchException("There was an error while updating a service provider [PATCHING].");
         }
-        patcherHandler.fillNotNullFields(found, serviceProvider);
-        return modelMapper.map(serviceProviderDAO.save(found), ServiceProviderDto.class);
     }
 
     @Override
