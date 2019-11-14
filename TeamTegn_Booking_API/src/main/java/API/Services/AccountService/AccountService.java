@@ -50,7 +50,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public AccountDto findAccount(int id) {
-        AccountDto accountToReturn = accountDAO.findAccountByID(id);
+        AccountDto accountToReturn = accountDAO.getOneAccount(id);
         List<AccountEanDto> foundEANNumberForAccounts = accountEanDAO.findAccountEANNumber(accountToReturn.getId());
         List<String> listEan = new ArrayList<>();
         accountToReturn.setEan(listEan);
@@ -63,7 +63,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public List<AccountDto> list() {
-        List<AccountDto> foundAccounts = accountDAO.list();
+        List<AccountDto> foundAccounts = accountDAO.listAllAccounts();
         List<AccountDto> finalListToReturn = new ArrayList<>();
         IntStream.range(0, foundAccounts.size()).parallel().forEach(index -> {
             List<AccountEanDto> foundEANNumberForAccounts = accountEanDAO.findAccountEANNumber(foundAccounts.get(index).getId());

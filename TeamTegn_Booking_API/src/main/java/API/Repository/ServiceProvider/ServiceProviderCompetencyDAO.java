@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ServiceProviderCompetencyDAO extends JpaRepository<ServiceProviderCompetencyEntity, Integer>, ServiceProviderCompetencyCustom {
     List<ServiceProviderCompetencyEntity> findAllByCompetencyIs(String name);
+
 }

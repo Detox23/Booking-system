@@ -48,7 +48,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
             return modelMapper.map(serviceProviderCompetencyDAO.findAll(), listType);
         }catch(Exception e){
             e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            throw new RuntimeException("Unknown error.");
         }
     }
 
@@ -61,7 +61,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
             throw new NotFoundException("Competency was not found.");
         }catch(Exception e){
             e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            throw new RuntimeException("Unknown error.");
         }
     }
 

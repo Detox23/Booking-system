@@ -51,16 +51,57 @@ public class AccountDAOImpl implements AccountDAOCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
-
-    public List<AccountDto> list() {
-        Type listType = new TypeToken<List<AccountDto>>() {
-        }.getType();
-        return modelMapper.map(accountDAO.findAll(), listType);
+    @Override
+    public List<AccountDto> listAllAccounts() {
+        try {
+            Type listType = new TypeToken<List<AccountDto>>() {
+            }.getType();
+            return modelMapper.map(accountDAO.findAll(), listType);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error.");
+        }
     }
 
 
-    public AccountDto findAccountByID(int id) {
-        return modelMapper.map(accountDAO.findById(id).get(), AccountDto.class);
+    public AccountDto getOneAccount(int id) {
+        try {
+            AccountEntity found = accountDAO.findById(id).get();
+            return modelMapper.map(found, AccountDto.class);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new NotFoundException("Account was not found.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error.");
+        }
+    }
+
+    public AccountDto addAccount(AccountEntity account, List<String> eans, int accountTypeId) throws NoAccountIDAfterSavingException {
+        try {
+            if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0) {
+                throw new DuplicateException("Account with exact name and CVR number already exists.");
+            }
+            account.setAccountTypeByAccountTypeId(accountTypeDAO.findById(accountTypeId).get());
+            AccountEntity accountEntity = accountDAO.save(account);
+            if (accountEntity.getId() > 0) {
+                if (eans != null) {
+                    for (int index = 0; index < eans.size(); index++) {
+                        AccountEanEntity accountEanEntity = new AccountEanEntity();
+                        accountEanEntity.setAccountId(accountEntity.getId());
+                        accountEanEntity.setEanNumber(eans.get(index));
+                        accountEanNumberCrudDAO.addEanNumber(accountEanEntity);
+                    }
+                }
+                return modelMapper.map(account, AccountDto.class);
+            } else {
+                throw new UnknownAddingException("There was a problem with adding an account.");
+            }
+        }catch (DuplicateException duplicateException){
+            throw duplicateException;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error.");
+        }
     }
 
 
@@ -76,40 +117,10 @@ public class AccountDAOImpl implements AccountDAOCustom {
             }
         } catch (NoSuchElementException e) {
             throw new NotFoundException("Not found.");
-        } catch(IntrospectionException introspectionException){
+        } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
         }
 
-    }
-
-
-    public AccountDto addAccount(AccountEntity account, List<String> eans, int accountTypeId) throws NoAccountIDAfterSavingException {
-        try {
-            account.setAccountTypeByAccountTypeId(accountTypeDAO.findById(accountTypeId).get());
-            AccountEntity accountEntity = accountDAO.saveAndFlush(account);
-            int result_id = accountEntity.getId();
-            if (result_id != 0) {
-                if (eans != null) {
-                    for (int index = 0; index < eans.size(); index++) {
-                        AccountEanEntity accountEanEntity = new AccountEanEntity();
-                        accountEanEntity.setAccountId(result_id);
-                        accountEanEntity.setEanNumber(eans.get(index));
-                        accountEanEntity.setId(0);
-                        try {
-                            accountEanNumberCrudDAO.addEanNumber(accountEanEntity);
-                        } catch (AccountNotFoundWhileAddingEANNumberException | AddingTheSameEANNumberToSameAccountException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                AccountDto toReturn = modelMapper.map(account, AccountDto.class);
-                return toReturn;
-            } else {
-                throw new NoAccountIDAfterSavingException("ID does not exists.");
-            }
-        } catch (NoAccountIDAfterSavingException noAccountIdAfterSaving) {
-            throw noAccountIdAfterSaving;
-        }
     }
 
 

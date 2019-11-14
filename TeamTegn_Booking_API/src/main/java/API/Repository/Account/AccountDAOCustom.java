@@ -6,9 +6,9 @@ import Shared.ToReturn.AccountDto;
 import java.util.List;
 
 public interface AccountDAOCustom {
+    List<AccountDto> listAllAccounts();
     AccountDto addAccount(AccountEntity account, List<String> eans, int accountTypeId) throws NoAccountIDAfterSavingException, MappingAccountDatabseToDtoException;
     boolean deleteAccount(int Id);
-    List<AccountDto> list();
-    AccountDto findAccountByID(int id);
+    AccountDto getOneAccount(int id);
     AccountDto updateAccount(AccountEntity accountEntity) throws AccountNotExistsUpdateException, UpdateErrorException, UpdatePatchException;
 }

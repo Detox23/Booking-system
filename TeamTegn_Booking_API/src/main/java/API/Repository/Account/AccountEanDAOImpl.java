@@ -62,7 +62,7 @@ public class AccountEanDAOImpl implements AccountEanCustom {
     public boolean addEanNumber(@NotNull AccountEanEntity accountEanEntity) throws AccountNotFoundWhileAddingEANNumberException, AddingTheSameEANNumberToSameAccountException
     {
         try {
-            if (accountDAO.findAccountByID(accountEanEntity.getAccountId()) != null) {
+            if (accountDAO.getOneAccount(accountEanEntity.getAccountId()) != null) {
                 CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
                 CriteriaQuery<AccountEanEntity> criteriaQuery = criteriaBuilder.createQuery(AccountEanEntity.class);
                 Root<AccountEanEntity> root = criteriaQuery.from(AccountEanEntity.class);
