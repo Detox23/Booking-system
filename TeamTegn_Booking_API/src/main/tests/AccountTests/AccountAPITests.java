@@ -1,6 +1,6 @@
 package AccountTests;
 import API.MainApplicationClass;
-import API.Repository.Account.IAccountDAOImpl;
+import API.Repository.Account.AccountDAOImpl;
 import Shared.ForCreation.AccountForCreationDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +51,7 @@ public class AccountAPITests {
     private JdbcTemplate jdbc;
 
     @MockBean
-    private IAccountDAOImpl accountDAO;
+    private AccountDAOImpl accountDAO;
 
     private static final String CREATE_ACCOUNT_SQL_SCRIPT = "classpath:Account.sql";
 

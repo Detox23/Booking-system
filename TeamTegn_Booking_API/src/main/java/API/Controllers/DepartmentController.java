@@ -2,7 +2,7 @@ package API.Controllers;
 
 import API.Exceptions.AccountNotExistsUpdateException;
 import API.Exceptions.UpdateErrorException;
-import API.Services.IDepartmentService;
+import API.Services.DepartmentService.IDepartmentService;
 import Shared.ForCreation.DepartmentForCreationDto;
 import Shared.ToReturn.DepartmentDto;
 import org.springframework.beans.factory.annotation.Autowired;

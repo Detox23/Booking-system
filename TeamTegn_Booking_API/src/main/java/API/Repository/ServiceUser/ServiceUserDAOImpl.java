@@ -13,7 +13,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Override
     public ServiceUserEntity add(ServiceUserEntity userEntity) {
-        //TODO: in service/ controller set curren user as creator
+        //TODO: in service/ controller set current user as creator
         userEntity.setCreatedDate( Timestamp.valueOf(LocalDateTime.now()));
         return jpaRepository.save(userEntity);
     }

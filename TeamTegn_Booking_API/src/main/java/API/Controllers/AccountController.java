@@ -1,6 +1,6 @@
 package API.Controllers;
 import API.Exceptions.*;
-import API.Services.IAccountService;
+import API.Services.AccountService.IAccountService;
 import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ToReturn.AccountDto;

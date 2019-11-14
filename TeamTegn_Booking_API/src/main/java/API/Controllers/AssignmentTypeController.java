@@ -1,6 +1,6 @@
 package API.Controllers;
 
-import API.Services.IAssignmentTypeService;
+import API.Services.AssignmentService.IAssignmentTypeService;
 import Shared.ForCreation.AssignmentTypeForCreationDto;
 import Shared.ForCreation.AssignmentTypeForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
