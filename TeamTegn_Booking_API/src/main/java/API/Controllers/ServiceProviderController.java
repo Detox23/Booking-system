@@ -1,13 +1,8 @@
 package API.Controllers;
 
-import API.Exceptions.UpdatePatchException;
-import API.Services.ServiceProviderService.IServiceProviderCompetencyService;
 import API.Services.ServiceProviderService.IServiceProviderService;
-import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;
-import Shared.ForCreation.ServiceProviderCompetencyForUpdateDto;
 import Shared.ForCreation.ServiceProviderForCreationDto;
 import Shared.ForCreation.ServiceProviderForUpdate;
-import Shared.ToReturn.ServiceProviderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

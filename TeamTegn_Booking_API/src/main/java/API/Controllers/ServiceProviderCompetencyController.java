@@ -1,6 +1,5 @@
 package API.Controllers;
 
-import API.Exceptions.UpdatePatchException;
 import API.Services.ServiceProviderService.IServiceProviderCompetencyService;
 import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;
 import Shared.ForCreation.ServiceProviderCompetencyForUpdateDto;
@@ -21,18 +20,18 @@ public class ServiceProviderCompetencyController extends BaseController {
         this.serviceProviderCompetencyService = serviceProviderCompetencyService;
     }
 
-    @RequestMapping(value="/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllCompetencies(){
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllCompetencies() {
         return new ResponseEntity<>(serviceProviderCompetencyService.listAllCompetencies(), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getOneCompetency(@PathVariable int id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getOneCompetency(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderCompetencyService.getOneCompetency(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value="/", method = RequestMethod.POST)
-    public ResponseEntity<?> addOneCompetency(@RequestBody ServiceProviderCompetencyForCreationDto serviceProviderCompetency){
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity<?> addOneCompetency(@RequestBody ServiceProviderCompetencyForCreationDto serviceProviderCompetency) {
         return new ResponseEntity<>(serviceProviderCompetencyService.addOneCompetency(serviceProviderCompetency), new HttpHeaders(), HttpStatus.CREATED);
     }
 
@@ -41,8 +40,8 @@ public class ServiceProviderCompetencyController extends BaseController {
         return new ResponseEntity<>(serviceProviderCompetencyService.updateOneCompetency(serviceProviderCompetency), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteOneCompetency(@PathVariable int id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteOneCompetency(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderCompetencyService.deleteOneCompetency(id), new HttpHeaders(), HttpStatus.OK);
     }
 

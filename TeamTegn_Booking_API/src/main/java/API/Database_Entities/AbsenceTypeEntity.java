@@ -1,4 +1,5 @@
 package API.Database_Entities;
+
 import javax.persistence.*;
 
 @Entity

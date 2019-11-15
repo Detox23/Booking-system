@@ -2,7 +2,6 @@ package API.Services.ServiceProviderService;
 
 import API.Database_Entities.ServiceProviderEntity;
 import API.Exceptions.NotFoundException;
-import API.Exceptions.UpdatePatchException;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ForCreation.ServiceProviderForCreationDto;
 import Shared.ForCreation.ServiceProviderForUpdate;
@@ -41,7 +40,7 @@ public class ServiceProviderService implements IServiceProviderService {
     public ServiceProviderDto findServiceProvider(int id) {
         try {
             return serviceProviderDAO.findOne(id);
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new NotFoundException("Service provider not found");
         }
     }
@@ -50,16 +49,16 @@ public class ServiceProviderService implements IServiceProviderService {
     @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderDto addServiceProvider(ServiceProviderForCreationDto serviceProvider) {
         ServiceProviderDto saved = serviceProviderDAO.addServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class));
-        if (saved != null){
+        if (saved != null) {
             return saved;
-        }else{
+        } else {
             return null;
         }
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public ServiceProviderDto updateServiceProvider(ServiceProviderForUpdate serviceProvider){
+    public ServiceProviderDto updateServiceProvider(ServiceProviderForUpdate serviceProvider) {
         return serviceProviderDAO.updateServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class));
     }
 

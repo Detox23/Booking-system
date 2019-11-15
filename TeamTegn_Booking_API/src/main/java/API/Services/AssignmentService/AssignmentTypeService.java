@@ -21,23 +21,25 @@ public class AssignmentTypeService implements IAssignmentTypeService {
 
     @Autowired
     private AssignmentTypeDAOImpl repository;
+
     @Override
     public AssignmentTypeDto add(AssignmentTypeForCreationDto assignmentEntity) {
-       AssignmentTypeEntity a = mapper.map(assignmentEntity, AssignmentTypeEntity.class);
-        return   mapper.map(repository.add(a), AssignmentTypeDto.class);
+        AssignmentTypeEntity a = mapper.map(assignmentEntity, AssignmentTypeEntity.class);
+        return mapper.map(repository.add(a), AssignmentTypeDto.class);
     }
 
     @Override
     public AssignmentTypeDto get(int id) {
-        return   mapper.map(repository.findByID(id), AssignmentTypeDto.class);
+        return mapper.map(repository.findByID(id), AssignmentTypeDto.class);
     }
 
     @Override
     public List<AssignmentTypeDto> getAll() {
 
-        List<AssignmentTypeEntity> elements = (List<AssignmentTypeEntity>) Lists.newArrayList( repository.list() );
+        List<AssignmentTypeEntity> elements = (List<AssignmentTypeEntity>) Lists.newArrayList(repository.list());
 
-         return mapper.map(elements,   new TypeToken<List<AssignmentTypeDto>>(){}.getType());
+        return mapper.map(elements, new TypeToken<List<AssignmentTypeDto>>() {
+        }.getType());
     }
 
     @Override
@@ -49,6 +51,6 @@ public class AssignmentTypeService implements IAssignmentTypeService {
     public AssignmentTypeDto update(int id, AssignmentTypeForUpdateDto assignmentEntity) {
         AssignmentTypeEntity a = mapper.map(assignmentEntity, AssignmentTypeEntity.class);
 
-        return   mapper.map(repository.update(a), AssignmentTypeDto.class);
+        return mapper.map(repository.update(a), AssignmentTypeDto.class);
     }
 }

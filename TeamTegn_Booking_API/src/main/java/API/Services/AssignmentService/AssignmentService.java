@@ -1,10 +1,10 @@
 package API.Services.AssignmentService;
 
-import API.Repository.Assignment.AssignmentDAO;
 import API.Database_Entities.AssignmentEntity;
+import API.Repository.Assignment.AssignmentDAO;
+import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
 import Shared.ToReturn.AssignmentDto;
-import Shared.ForCreation.AssignmentForCreationDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class AssignmentService implements IAssignmentService {
     @Override
     public AssignmentDto get(int id) {
         Optional<AssignmentEntity> assignment = assignmentDAO.findById(id);
-        if(assignment.isPresent()) {
+        if (assignment.isPresent()) {
             return mapper.map(assignment.get(), AssignmentDto.class);
         }
 
@@ -43,8 +43,9 @@ public class AssignmentService implements IAssignmentService {
 
     @Override
     public Page<AssignmentDto> getAll(Pageable pageable) {
-        Page<AssignmentEntity> list = assignmentDAO.findAll( pageable);
-        Page<AssignmentDto> listDtos = mapper.map(list, new TypeToken<Page<AssignmentDto>>(){}.getType());
+        Page<AssignmentEntity> list = assignmentDAO.findAll(pageable);
+        Page<AssignmentDto> listDtos = mapper.map(list, new TypeToken<Page<AssignmentDto>>() {
+        }.getType());
         return listDtos;
     }
 
@@ -59,7 +60,7 @@ public class AssignmentService implements IAssignmentService {
         AssignmentEntity as = mapper.map(assignmentEntity, AssignmentEntity.class);
         as.setId(id);
         AssignmentEntity entity = assignmentDAO.updateAssignment(as);
-        return  mapper.map(entity, AssignmentDto.class);
+        return mapper.map(entity, AssignmentDto.class);
 
     }
 

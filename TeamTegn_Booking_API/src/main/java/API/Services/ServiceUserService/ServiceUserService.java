@@ -34,8 +34,9 @@ public class ServiceUserService implements IServiceUserService {
 
     @Override
     public List<ServiceUserDto> getAll() {
-        List<ServiceUserEntity> elements = (List<ServiceUserEntity>) Lists.newArrayList( repository.list() );
-        return mapper.map(elements,   new TypeToken<List<ServiceUserDto>>(){}.getType());
+        List<ServiceUserEntity> elements = (List<ServiceUserEntity>) Lists.newArrayList(repository.list());
+        return mapper.map(elements, new TypeToken<List<ServiceUserDto>>() {
+        }.getType());
 
     }
 

@@ -1,6 +1,6 @@
 package API;
+
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
-import com.ulisesbocchio.jasyptspringboot.annotation.EncryptablePropertySource;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
@@ -14,11 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.util.Arrays;
-import java.util.Objects;
-
 @Configuration
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @ComponentScan
@@ -27,7 +22,7 @@ import java.util.Objects;
 @EnableJpaRepositories
 @EnableEncryptableProperties
 public class MainApplicationClass {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         SpringApplication.run(MainApplicationClass.class, args);
     }
 

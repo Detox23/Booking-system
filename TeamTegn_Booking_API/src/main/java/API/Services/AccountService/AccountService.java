@@ -1,23 +1,25 @@
 package API.Services.AccountService;
 
-import API.Exceptions.*;
-import Shared.ToReturn.AccountEanDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import API.Database_Entities.AccountEanEntity;
 import API.Database_Entities.AccountEntity;
+import API.Exceptions.NotFoundException;
+import API.Repository.Account.AccountDAO;
+import API.Repository.Account.AccountEanDAO;
+import API.Repository.Account.AccountTypeDAO;
 import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
-import org.springframework.stereotype.Service;
-import API.Repository.Account.AccountTypeDAO;
-import API.Repository.Account.AccountEanDAO;
-import API.Repository.Mappers.AccountMapper;
-import API.Repository.Account.AccountDAO;
-import org.modelmapper.ModelMapper;
-import java.util.stream.IntStream;
+import Shared.ForCreation.AccountForUpdateDto;
 import Shared.ToReturn.AccountDto;
+import Shared.ToReturn.AccountEanDto;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 
 @Service
 public class AccountService implements IAccountService {
@@ -36,8 +38,8 @@ public class AccountService implements IAccountService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public AccountDto addAccount(AccountForCreationDto account) throws NoAccountIDAfterSavingException, MappingAccountDatabseToDtoException, AccountNotFoundWhileAddingEANNumberException {
-        AccountDto addedAccount = accountDAO.addAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getAccountTypeId());
+    public AccountDto addAccount(AccountForCreationDto account) {
+        AccountDto addedAccount = accountDAO.addOneAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getAccountTypeId());
         return fillAccountWithListOfEans(addedAccount);
     }
 
@@ -45,15 +47,15 @@ public class AccountService implements IAccountService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public boolean deleteAccount(int id) {
-        return accountDAO.deleteAccount(id);
+        return accountDAO.deleteOneAccount(id);
     }
+
 
     @Override
     public AccountDto findAccount(int id) {
         AccountDto accountToReturn = accountDAO.getOneAccount(id);
-        List<AccountEanDto> foundEANNumberForAccounts = accountEanDAO.findAccountEANNumber(accountToReturn.getId());
-        List<String> listEan = new ArrayList<>();
-        accountToReturn.setEan(listEan);
+        List<AccountEanDto> foundEANNumberForAccounts = accountEanDAO.findListOfAccountEANNumbers(accountToReturn.getId());
+        accountToReturn.setEan(new ArrayList<>());
         if (foundEANNumberForAccounts != null) {
             IntStream.range(0, foundEANNumberForAccounts.size()).parallel().forEach(index ->
                     accountToReturn.getEan().add(foundEANNumberForAccounts.get(index).getEanNumber()));
@@ -66,7 +68,7 @@ public class AccountService implements IAccountService {
         List<AccountDto> foundAccounts = accountDAO.listAllAccounts();
         List<AccountDto> finalListToReturn = new ArrayList<>();
         IntStream.range(0, foundAccounts.size()).parallel().forEach(index -> {
-            List<AccountEanDto> foundEANNumberForAccounts = accountEanDAO.findAccountEANNumber(foundAccounts.get(index).getId());
+            List<AccountEanDto> foundEANNumberForAccounts = accountEanDAO.findListOfAccountEANNumbers(foundAccounts.get(index).getId());
             AccountDto accountToBeAdded = modelMapper.map(foundAccounts.get(index), AccountDto.class);
             List<String> listEanToBeAdded = new ArrayList<>();
             accountToBeAdded.setEan(listEanToBeAdded);
@@ -81,13 +83,19 @@ public class AccountService implements IAccountService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public AccountDto update(AccountDto account) throws AccountNotExistsUpdateException, UpdateErrorException {
-        AccountDto updatedAccount = accountDAO.updateAccount(AccountMapper.mapAccountDtoToAccountEntity(account, accountTypeDAO.findById(account.getAccountTypeID()).get()));
-        fillAccountWithListOfEans(updatedAccount);
-        if (updatedAccount != null){
-            return updatedAccount;
-        }else{
-            return null;
+    public AccountDto update(AccountForUpdateDto account) {
+        try {
+            AccountEntity accountEntity = modelMapper.map(account, AccountEntity.class);
+            accountEntity.setAccountTypeByAccountTypeId(accountTypeDAO.findById(account.getAccountTypeID()).get());
+            AccountDto updatedAccount = accountDAO.updateOneAccount(accountEntity);
+            if (updatedAccount != null) {
+                fillAccountWithListOfEans(updatedAccount);
+                return updatedAccount;
+            } else {
+                return null;
+            }
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new NotFoundException("Account type is not found. Update cancelled.");
         }
     }
 
@@ -98,18 +106,25 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteEAN(int accountID, String eanNumber) {
-        return accountEanDAO.deleteEanNumber(accountID, eanNumber);
+        return accountEanDAO.deleteOneEanNumber(accountID, eanNumber);
     }
 
     @Override
-    public boolean addEAN(AccountEanForCreationDto accountEan) throws AccountNotFoundWhileAddingEANNumberException, AddingTheSameEANNumberToSameAccountException {
+    @Transactional(rollbackFor = Throwable.class)
+    public boolean addEAN(AccountEanForCreationDto accountEan) {
         AccountEanEntity accountEanEntity = modelMapper.map(accountEan, AccountEanEntity.class);
-        return accountEanDAO.addEanNumber(accountEanEntity);
+        return accountEanDAO.addOneEanNumber(accountEanEntity);
     }
 
-    private AccountDto fillAccountWithListOfEans(AccountDto account){
-        List<AccountEanDto> listOfAccountEans = accountEanDAO.findAccountEANNumber(account.getId());
+    @Override
+    public List<AccountEanDto> findEANNumber(int accountID) {
+        return accountEanDAO.findListOfAccountEANNumbers(accountID);
+    }
+
+    private AccountDto fillAccountWithListOfEans(AccountDto account) {
+        List<AccountEanDto> listOfAccountEans = accountEanDAO.findListOfAccountEANNumbers(account.getId());
         account.setEan(new ArrayList<>());
         for (AccountEanDto a : listOfAccountEans) {
             account.getEan().add(a.getEanNumber());

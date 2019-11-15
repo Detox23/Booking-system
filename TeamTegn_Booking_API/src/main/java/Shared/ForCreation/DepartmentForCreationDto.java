@@ -1,14 +1,21 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class DepartmentForCreationDto {
     private int id;
+    @NotNull
     private String departmentName;
+    @NotNull
     private String street;
+    @NotNull
     private String postcode;
+    @NotNull
     private String city;
     private String stateRegion;
     private String country;
     private String telephoneCode;
+    @NotNull
     private String telephoneNumber;
     private String faxCode;
     private String faxNumber;

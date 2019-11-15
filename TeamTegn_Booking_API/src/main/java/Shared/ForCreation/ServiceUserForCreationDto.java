@@ -1,7 +1,5 @@
 package Shared.ForCreation;
 
-import java.sql.Timestamp;
-
 public class ServiceUserForCreationDto {
     private Integer gender;
     private String firstName;
@@ -28,7 +26,6 @@ public class ServiceUserForCreationDto {
     private String password;
     private int statusId;
     private String externalId;
-
 
 
     public Integer getGender() {

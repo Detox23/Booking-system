@@ -1,7 +1,5 @@
 package Shared.ForCreation;
 
-import java.sql.Timestamp;
-
 public class ServiceUserForUpdateDto {
     private Integer gender;
     private String firstName;

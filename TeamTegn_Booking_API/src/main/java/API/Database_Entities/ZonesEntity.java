@@ -1,6 +1,9 @@
 package API.Database_Entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Zones", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")

@@ -1,16 +1,13 @@
 package API.Repository.ServiceProvider;
 
+import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Exceptions.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
+import Shared.ToReturn.ServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-
-import API.Database_Entities.ServiceProviderCompetencyEntity;
-import API.Configurations.Patcher.PatcherHandler;
-
-import Shared.ToReturn.ServiceProviderCompetencyDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
@@ -44,9 +41,10 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
     @Override
     public List<ServiceProviderCompetencyDto> listAllCompetencies() {
         try {
-            Type listType = new TypeToken<List<ServiceProviderCompetencyDto>>(){}.getType();
+            Type listType = new TypeToken<List<ServiceProviderCompetencyDto>>() {
+            }.getType();
             return modelMapper.map(serviceProviderCompetencyDAO.findAll(), listType);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unknown error.");
         }
@@ -57,9 +55,9 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
         try {
             ServiceProviderCompetencyEntity found = serviceProviderCompetencyDAO.findById(id).get();
             return modelMapper.map(found, ServiceProviderCompetencyDto.class);
-        }catch(NoSuchElementException noSuchElementException){
+        } catch (NoSuchElementException noSuchElementException) {
             throw new NotFoundException("Competency was not found.");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unknown error.");
         }
@@ -71,7 +69,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
             throw new DuplicateException("Competency with exact name already exists.");
         }
         if (serviceProviderCompetency.getCompetency() == null || serviceProviderCompetency.getCompetency().length() == 0) {
-            throw new NotEnoughDataForCreationException("You provided to little information to create the competency.");
+            throw new NotEnoughDataException("You provided to little information to create the competency.");
         }
         ServiceProviderCompetencyEntity saved = serviceProviderCompetencyDAO.save(serviceProviderCompetency);
         if (saved.getId() > 0) {
@@ -92,7 +90,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
             throw new NotFoundException("Competency was not found while an attempt of making update.");
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating a competency [PATCHING].");
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unknown error");
         }
@@ -110,7 +108,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
             }
         } catch (NotFoundException emptyResult) {
             throw new NotFoundException("Competency you wanted to delete does not exist.");
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unknown error");
         }

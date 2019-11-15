@@ -2,9 +2,7 @@ package API.Services.ServiceProviderService;
 
 import API.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Exceptions.NotFoundException;
-import API.Exceptions.UpdatePatchException;
 import API.Repository.ServiceProvider.ServiceProviderCompetencyDAO;
-import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;
 import Shared.ForCreation.ServiceProviderCompetencyForUpdateDto;
 import Shared.ToReturn.ServiceProviderCompetencyDto;
@@ -40,9 +38,9 @@ public class ServiceProviderCompetencyService implements IServiceProviderCompete
 
     @Override
     public ServiceProviderCompetencyDto getOneCompetency(int id) {
-        try{
+        try {
             return serviceProviderCompetencyDAO.getOneCompetency(id);
-        }catch(NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new NotFoundException("Competency was not found");
         }
     }
@@ -55,7 +53,7 @@ public class ServiceProviderCompetencyService implements IServiceProviderCompete
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public ServiceProviderCompetencyDto updateOneCompetency(ServiceProviderCompetencyForUpdateDto serviceProviderCompetency){
+    public ServiceProviderCompetencyDto updateOneCompetency(ServiceProviderCompetencyForUpdateDto serviceProviderCompetency) {
         return serviceProviderCompetencyDAO.updateOneCompetency(modelMapper.map(serviceProviderCompetency, ServiceProviderCompetencyEntity.class));
     }
 

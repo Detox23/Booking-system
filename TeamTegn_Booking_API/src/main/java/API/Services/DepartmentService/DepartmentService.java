@@ -1,7 +1,6 @@
 package API.Services.DepartmentService;
 
 import API.Database_Entities.DepartmentEntity;
-import API.Exceptions.AccountNotExistsUpdateException;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ForCreation.DepartmentForCreationDto;
 import Shared.ToReturn.DepartmentDto;
@@ -23,34 +22,35 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     public List<DepartmentDto> seeAllDepartments() {
-        return departmentDAO.list();
+        return departmentDAO.listAllDepartments();
     }
 
     @Override
     public DepartmentDto findDepartment(String name) {
-        return departmentDAO.findDepartment(name);
+        return departmentDAO.findOneDepartment(name);
     }
 
     @Override
     @Transactional
-    public boolean deleteDepartment(String name) throws AccountNotExistsUpdateException {
-        return departmentDAO.deleteDepartment(name);
+    public boolean deleteDepartment(String name) {
+        return departmentDAO.deleteOneDepartment(name);
     }
 
 
     @Override
     @Transactional
     public DepartmentDto addDepartment(DepartmentForCreationDto department) {
-        DepartmentDto addedDepartment = departmentDAO.addDepartment(modelMapper.map(department, DepartmentEntity.class));
-        if (addedDepartment != null){
+        DepartmentDto addedDepartment = departmentDAO.addOneDepartment(modelMapper.map(department, DepartmentEntity.class));
+        if (addedDepartment != null) {
             return addedDepartment;
+        } else {
+            return null;
         }
-        throw new NullPointerException("Adding department failure.");
     }
 
     @Override
     @Transactional
     public DepartmentDto updateDepartment(DepartmentDto department) {
-        return departmentDAO.updateDepartment(modelMapper.map(department, DepartmentEntity.class));
+        return departmentDAO.updateOneDepartment(modelMapper.map(department, DepartmentEntity.class));
     }
 }

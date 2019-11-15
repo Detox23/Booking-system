@@ -5,10 +5,47 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class AssignmentForCreationDto
-{
+public class AssignmentForCreationDto {
     private Integer assignmentTypeId;
     private Integer importanceId;
+    private Integer interpretationTypeId;
+    private String assignmentTitle;
+    private String assignmentDescription;
+    private String originStreet;
+    private String originCity;
+    private String originPostCode;
+    private String originStateRegion;
+    private String originCountry;
+    private String destinationStreet;
+    private String destinationCity;
+    private String destinationPostCode;
+    private String destinationStateRegion;
+    private String destinationCountry;
+    private int serviceUserId;
+    private Timestamp assignmentDate;
+    private Date assignmentEndDate;
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private int totalTime;
+    private boolean assignedStatus;
+    private Integer assignmentStatusId;
+    private String bookingNumber;
+    private Integer serviceUserAccountId;
+    private String serviceUserAccountEan;
+    private Integer recurrenceType;
+    private Integer recurrencyFrequency;
+    private String otherContactEmail;
+    private String dntmid;
+    private String zone;
+    private String moreInfo;
+    private String ktstid;
+    private String ktstParentId;
+    private String recurrenceKey;
+    private Integer assignmentStatusTypeId;
+    private String assignmentPlace;
+    private String stukComment;
+    private Boolean isResale;
+    private Integer resaleParentId;
 
     public Integer getInterpretationTypeId() {
         return interpretationTypeId;
@@ -121,7 +158,8 @@ public class AssignmentForCreationDto
     public void setServiceUserId(int serviceUserId) {
         this.serviceUserId = serviceUserId;
     }
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="Europe/Berlin")
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Berlin")
     public Timestamp getAssignmentDate() {
         return assignmentDate;
     }
@@ -137,7 +175,8 @@ public class AssignmentForCreationDto
     public void setAssignmentEndDate(Date assignmentEndDate) {
         this.assignmentEndDate = assignmentEndDate;
     }
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="Europe/Berlin")
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Berlin")
     public Timestamp getStartTime() {
         return startTime;
     }
@@ -145,8 +184,9 @@ public class AssignmentForCreationDto
     public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
+
     //2012-04-23T18:25:43.511Z
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="Europe/Berlin")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Berlin")
     public Timestamp getEndTime() {
         return endTime;
     }
@@ -314,44 +354,5 @@ public class AssignmentForCreationDto
     public void setResaleParentId(Integer resaleParentId) {
         this.resaleParentId = resaleParentId;
     }
-
-    private Integer interpretationTypeId;
-    private String assignmentTitle;
-    private String assignmentDescription;
-    private String originStreet;
-    private String originCity;
-    private String originPostCode;
-    private String originStateRegion;
-    private String originCountry;
-    private String destinationStreet;
-    private String destinationCity;
-    private String destinationPostCode;
-    private String destinationStateRegion;
-    private String destinationCountry;
-    private int serviceUserId;
-    private Timestamp assignmentDate;
-    private Date assignmentEndDate;
-    private Timestamp startTime;
-    private Timestamp endTime;
-    private int totalTime;
-    private boolean assignedStatus;
-    private Integer assignmentStatusId;
-    private String bookingNumber;
-    private Integer serviceUserAccountId;
-    private String serviceUserAccountEan;
-    private Integer recurrenceType;
-    private Integer recurrencyFrequency;
-    private String otherContactEmail;
-    private String dntmid;
-    private String zone;
-    private String moreInfo;
-    private String ktstid;
-    private String ktstParentId;
-    private String recurrenceKey;
-    private Integer assignmentStatusTypeId;
-    private String assignmentPlace;
-    private String stukComment;
-    private Boolean isResale;
-    private Integer resaleParentId;
 
 }

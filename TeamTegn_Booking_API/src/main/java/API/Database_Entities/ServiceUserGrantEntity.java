@@ -15,6 +15,7 @@ public class ServiceUserGrantEntity implements Serializable {
     public ServiceUserEntity getServiceUserByServiceUserId() {
         return serviceUserByServiceUserId;
     }
+
     public void setServiceUserByServiceUserId(ServiceUserEntity serviceUserByServiceUserId) {
         this.serviceUserByServiceUserId = serviceUserByServiceUserId;
     }
@@ -25,6 +26,7 @@ public class ServiceUserGrantEntity implements Serializable {
     public GrantEntity getGrantByGrantId() {
         return grantByGrantId;
     }
+
     public void setGrantByGrantId(GrantEntity grantByGrantId) {
         this.grantByGrantId = grantByGrantId;
     }

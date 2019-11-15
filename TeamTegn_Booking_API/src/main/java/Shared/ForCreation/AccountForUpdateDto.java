@@ -1,35 +1,107 @@
 package Shared.ForCreation;
 
+import Shared.ToReturn.AccountComment;
+import Shared.ToReturn.AccountTypeDto;
+
+import java.sql.Timestamp;
 import java.util.List;
 
-public class AccountForCreationDto {
+public class AccountForUpdateDto {
+
+    private int id;
 
     private String accountName;
-    private int accountTypeId;
-    private int parentId;
-    private int primaryContactId;
-    private int departmentId;
+
+    private int accountTypeID;
+
+    private Integer parentId;
+
+    private Integer primaryContactId;
+
+    private Integer departmentId;
+
     private List<String> ean;
+
     private String telephoneCode;
+
     private String telephoneNumber;
+
     private String faxCode;
+
     private String faxNumber;
+
     private String website;
+
     private String cvrNumber;
+
     private String street;
+
     private String postcode;
+
     private String city;
+
     private String stateRegion;
+
     private String country;
-    private int createdBy;
+
     private String email;
+
     private String contactName;
+
     private String contactEmail;
+
     private String contactTelephone;
 
+    private AccountTypeDto accountType;
 
-    public AccountForCreationDto() {
+    private List<AccountComment> accountComments;
 
+    private Timestamp lastModified;
+
+    private int lastModifiedBy;
+
+    public AccountForUpdateDto() {
+
+    }
+
+    public int getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(int lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Timestamp getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Timestamp lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public Integer getPrimaryContactId() {
+        return primaryContactId;
+    }
+
+    public void setPrimaryContactId(Integer primaryContactId) {
+        this.primaryContactId = primaryContactId;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getAccountName() {
@@ -40,39 +112,20 @@ public class AccountForCreationDto {
         this.accountName = accountName;
     }
 
-
-    public int getAccountTypeId() {
-        return accountTypeId;
+    public int getAccountTypeID() {
+        return accountTypeID;
     }
 
-    public void setAccountTypeId(int accountTypeId) {
-        this.accountTypeId = accountTypeId;
+    public void setAccountTypeID(int accountTypeID) {
+        this.accountTypeID = accountTypeID;
     }
 
-
-    public int getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(int parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
-    }
-
-
-    public int getPrimaryContactId() {
-        return primaryContactId;
-    }
-
-    public void setPrimaryContactId(int primaryContactId) {
-        this.primaryContactId = primaryContactId;
-    }
-
-    public int getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
     }
 
     public List<String> getEan() {
@@ -95,8 +148,8 @@ public class AccountForCreationDto {
         return telephoneNumber;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setTelephoneNumber(String telephonenumber) {
+        this.telephoneNumber = telephonenumber;
     }
 
     public String getFaxCode() {
@@ -171,14 +224,6 @@ public class AccountForCreationDto {
         this.country = country;
     }
 
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -210,4 +255,13 @@ public class AccountForCreationDto {
     public void setContactTelephone(String contactTelephone) {
         this.contactTelephone = contactTelephone;
     }
+
+    public AccountTypeDto getAccountTypeInformation() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountTypeDto accountType) {
+        this.accountType = accountType;
+    }
+
 }

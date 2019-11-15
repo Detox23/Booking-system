@@ -1,10 +1,9 @@
 package API.Controllers;
 
-import API.Exceptions.*;
 import API.Services.AccountService.IAccountService;
 import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
-import Shared.ToReturn.AccountDto;
+import Shared.ForCreation.AccountForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -42,7 +41,7 @@ public class AccountController extends BaseController {
 
     //Creates an account [Requires sending a json file send]
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> createAccount(@RequestBody AccountForCreationDto account) throws NoAccountIDAfterSavingException, MappingAccountDatabseToDtoException, AccountNotFoundWhileAddingEANNumberException {
+    public ResponseEntity<?> createAccount(@RequestBody AccountForCreationDto account) {
         return new ResponseEntity<>(accountService.addAccount(account), new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -54,18 +53,23 @@ public class AccountController extends BaseController {
 
     //Updates an account
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccount(@RequestBody AccountDto account) throws AccountNotExistsUpdateException, UpdateErrorException {
+    public ResponseEntity<?> updateAccount(@RequestBody AccountForUpdateDto account) {
         return new ResponseEntity<>(accountService.update(account), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/eanNumber/{accoundID}/{eanNumber}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteEanNumber(@PathVariable int accoundID, @PathVariable String eanNumber) {
-        return new ResponseEntity<>(accountService.deleteEAN(accoundID, eanNumber), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/eanNumber/{accountID}/{eanNumber}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteEanNumber(@PathVariable int accountID, @PathVariable String eanNumber) {
+        return new ResponseEntity<>(accountService.deleteEAN(accountID, eanNumber), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/eanNumber/{accountID}", method = RequestMethod.GET)
+    public ResponseEntity<?> findEansForAccount(@PathVariable int accountID) {
+        return new ResponseEntity<>(accountService.findEANNumber(accountID), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Adds ean number to existing account.
     @RequestMapping(value = "/eanNumber", method = RequestMethod.POST)
-    public ResponseEntity<?> addEanNumber(@RequestBody AccountEanForCreationDto accountEan) throws AccountNotFoundWhileAddingEANNumberException, AddingTheSameEANNumberToSameAccountException {
+    public ResponseEntity<?> addEanNumber(@RequestBody AccountEanForCreationDto accountEan) {
         return new ResponseEntity<>(accountService.addEAN(accountEan), new HttpHeaders(), HttpStatus.OK);
     }
 

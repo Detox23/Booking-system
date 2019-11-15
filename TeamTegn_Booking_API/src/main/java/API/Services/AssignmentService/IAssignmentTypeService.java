@@ -10,9 +10,13 @@ import java.util.List;
 @Service
 public interface IAssignmentTypeService {
     AssignmentTypeDto add(AssignmentTypeForCreationDto assignmentEntity);
+
     AssignmentTypeDto get(int id);
+
     List<AssignmentTypeDto> getAll();
+
     boolean delete(int id);
+
     AssignmentTypeDto update(int id, AssignmentTypeForUpdateDto assignmentEntity);
 
 }

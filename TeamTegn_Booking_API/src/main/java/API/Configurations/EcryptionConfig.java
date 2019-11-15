@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EcryptionConfig {
     @Bean
-    public EncryptionHandler encryptionHandler(){
+    public EncryptionHandler encryptionHandler() {
         return new EncryptionHandler();
     }
 }

@@ -1,4 +1,5 @@
 package Shared.ToReturn;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -9,11 +10,11 @@ public class AccountDto {
 
     private int accountTypeID;
 
-    private int parentID;
+    private Integer parentId;
 
-    private int primaryContactID;
+    private Integer primaryContactId;
 
-    private int departmentID;
+    private Integer departmentId;
 
     private List<String> ean;
 
@@ -61,13 +62,15 @@ public class AccountDto {
 
     private int lastModifiedBy;
 
-    public AccountDto(){
+    public AccountDto() {
 
     }
 
-    public int getLastModifiedBy(){return lastModifiedBy;}
+    public int getLastModifiedBy() {
+        return lastModifiedBy;
+    }
 
-    public void setLastModifiedBy(int lastModifiedBy){
+    public void setLastModifiedBy(int lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
@@ -87,9 +90,29 @@ public class AccountDto {
         this.lastModified = lastModified;
     }
 
-    public boolean isDeleted(){return deleted;}
+    public boolean isDeleted() {
+        return deleted;
+    }
 
-    public void setDeleted(boolean deleted){this.deleted= deleted;}
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Integer getPrimaryContactId() {
+        return primaryContactId;
+    }
+
+    public void setPrimaryContactId(Integer primaryContactId) {
+        this.primaryContactId = primaryContactId;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
 
     public int getId() {
         return id;
@@ -115,28 +138,12 @@ public class AccountDto {
         this.accountTypeID = accountTypeID;
     }
 
-    public int getParentID() {
-        return parentID;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
-    }
-
-    public int getPrimaryContactID() {
-        return primaryContactID;
-    }
-
-    public void setPrimaryContactID(int primaryContactID) {
-        this.primaryContactID = primaryContactID;
-    }
-
-    public int getDepartmentID() {
-        return departmentID;
-    }
-
-    public void setDepartmentID(int departmentID) {
-        this.departmentID = departmentID;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public List<String> getEan() {
@@ -275,8 +282,12 @@ public class AccountDto {
         this.contactTelephone = contactTelephone;
     }
 
-    public AccountTypeDto getAccountTypeInformation(){return accountType;}
+    public AccountTypeDto getAccountTypeInformation() {
+        return accountType;
+    }
 
-    public void setAccountType(AccountTypeDto accountType) {this.accountType = accountType; }
+    public void setAccountType(AccountTypeDto accountType) {
+        this.accountType = accountType;
+    }
 
 }

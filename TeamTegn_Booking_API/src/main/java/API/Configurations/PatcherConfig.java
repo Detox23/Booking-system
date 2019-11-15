@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class PatcherConfig {
 
     @Bean
-    public PatcherHandler patcherHandler(){
+    public PatcherHandler patcherHandler() {
         return new PatcherHandler();
     }
 }

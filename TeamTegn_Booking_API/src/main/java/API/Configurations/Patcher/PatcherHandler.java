@@ -10,7 +10,7 @@ import java.util.Objects;
 @Component
 public class PatcherHandler {
 
-    public <T> void  fillNotNullFields(T reference, T source) throws IntrospectionException {
+    public <T> void fillNotNullFields(T reference, T source) throws IntrospectionException {
         try {
             Arrays.asList(Introspector.getBeanInfo(reference.getClass(), Object.class)
                     .getPropertyDescriptors())
