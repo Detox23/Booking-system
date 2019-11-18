@@ -2,6 +2,7 @@ package API.Services.ServiceUserService;
 
 import API.Database_Entities.ServiceUserEntity;
 import API.Repository.ServiceUser.ServiceUserDAOImpl;
+import API.Services.IServiceUserService;
 import Shared.ForCreation.ServiceUserForCreationDto;
 import Shared.ForCreation.ServiceUserForUpdateDto;
 import Shared.ToReturn.ServiceUserDto;
@@ -33,7 +34,7 @@ public class ServiceUserService implements IServiceUserService {
     }
 
     @Override
-    public List<ServiceUserDto> getAll() {
+    public List<ServiceUserDto> list() {
         List<ServiceUserEntity> elements = (List<ServiceUserEntity>) Lists.newArrayList(repository.list());
         return mapper.map(elements, new TypeToken<List<ServiceUserDto>>() {
         }.getType());
@@ -48,6 +49,7 @@ public class ServiceUserService implements IServiceUserService {
     @Override
     public ServiceUserDto update(int id, ServiceUserForUpdateDto forUpdateDto) {
         ServiceUserEntity entity = mapper.map(forUpdateDto, ServiceUserEntity.class);
+        entity.setId(id);
         ServiceUserEntity result = repository.update(entity);
         return mapper.map(result, ServiceUserDto.class);
     }

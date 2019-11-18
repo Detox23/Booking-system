@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AssignmentDAO extends PagingAndSortingRepository<AssignmentEntity, Integer> {
     AssignmentEntity updateAssignment(AssignmentEntity accountEntity);
+    AssignmentEntity findFirstByIdAndAndDeletedIsFalse(int id);
 
 }
