@@ -10,7 +10,7 @@ import java.util.List;
 public interface IServiceUserService {
     ServiceUserDto add(ServiceUserForCreationDto assignmentEntity);
     ServiceUserDto get(int id);
-    List<ServiceUserDto> getAll();
+    List<ServiceUserDto> list();
     boolean delete(int id);
     ServiceUserDto update(int id, ServiceUserForUpdateDto assignmentEntity);
 
