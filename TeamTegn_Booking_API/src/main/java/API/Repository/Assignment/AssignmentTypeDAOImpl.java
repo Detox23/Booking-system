@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
 public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {
@@ -37,14 +38,14 @@ public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {
 
     @Override
     public AssignmentTypeEntity findByID(int id) {
-        return assignmentTypeDAO.findFirstByIdAndAndDeletedIsFalse(id);
+        return assignmentTypeDAO.findById(id).get();
     }
 
     @Override
     public AssignmentTypeEntity update(AssignmentTypeEntity a) {
 
         try {
-            AssignmentTypeEntity found = assignmentTypeDAO.findFirstByIdAndAndDeletedIsFalse(a.getId());
+            AssignmentTypeEntity found = assignmentTypeDAO.findById(a.getId()).get();
             if(found != null)
             {
                 patcherHandler.fillNotNullFields(found, a);

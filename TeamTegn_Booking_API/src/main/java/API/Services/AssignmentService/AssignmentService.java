@@ -2,6 +2,7 @@ package API.Services.AssignmentService;
 
 import API.Database_Entities.AssignmentEntity;
 import API.Repository.Assignment.AssignmentDAO;
+import API.Repository.Assignment.AssignmentDAOImpl;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
 import Shared.ToReturn.AssignmentDto;
@@ -21,29 +22,25 @@ public class AssignmentService implements IAssignmentService {
     private ModelMapper mapper;
 
     @Autowired
-    private AssignmentDAO assignmentDAO;
+    private AssignmentDAOImpl assignmentRepository;
 
 
     @Override
     public AssignmentDto add(AssignmentForCreationDto assignmentEntity) {
         AssignmentEntity dbEntity = mapper.map(assignmentEntity, AssignmentEntity.class);
-        AssignmentEntity assignment = assignmentDAO.save(dbEntity);
+        AssignmentEntity assignment = assignmentRepository.addOne(dbEntity);
         return mapper.map(assignment, AssignmentDto.class);
     }
 
     @Override
     public AssignmentDto get(int id) {
-        Optional<AssignmentEntity> assignment = assignmentDAO.findById(id);
-        if (assignment.isPresent()) {
-            return mapper.map(assignment.get(), AssignmentDto.class);
-        }
-
-        return null;
+        AssignmentEntity assignment = assignmentRepository.getOne(id);
+            return mapper.map(assignment, AssignmentDto.class);
     }
 
     @Override
     public Page<AssignmentDto> getAll(Pageable pageable) {
-        Page<AssignmentEntity> list = assignmentDAO.findAll(pageable);
+        Page<AssignmentEntity> list = assignmentRepository.listAll(pageable);
         Page<AssignmentDto> listDtos = mapper.map(list, new TypeToken<Page<AssignmentDto>>() {
         }.getType());
         return listDtos;
@@ -51,15 +48,14 @@ public class AssignmentService implements IAssignmentService {
 
     @Override
     public boolean delete(int id) {
-        assignmentDAO.deleteById(id);
-        return assignmentDAO.findById(id).get() == null;
+       return assignmentRepository.deleteOne(id);
     }
 
     @Override
     public AssignmentDto update(int id, AssignmentForUpdateDto assignmentEntity) {
         AssignmentEntity as = mapper.map(assignmentEntity, AssignmentEntity.class);
         as.setId(id);
-        AssignmentEntity entity = assignmentDAO.updateAssignment(as);
+        AssignmentEntity entity = assignmentRepository.updateOne(as);
         return mapper.map(entity, AssignmentDto.class);
 
     }
