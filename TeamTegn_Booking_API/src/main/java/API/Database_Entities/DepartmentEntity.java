@@ -26,7 +26,7 @@ public class DepartmentEntity {
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -36,7 +36,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "DepartmentName", nullable = true, length = 250)
+    @Column(name = "DepartmentName", length = 250)
     public String getDepartmentName() {
         return departmentName;
     }
@@ -46,7 +46,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "Street", nullable = true, length = 50)
+    @Column(name = "Street", length = 50)
     public String getStreet() {
         return street;
     }
@@ -56,7 +56,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "Postcode", nullable = true, length = 50)
+    @Column(name = "Postcode", length = 50)
     public String getPostcode() {
         return postcode;
     }
@@ -66,7 +66,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "City", nullable = true, length = 50)
+    @Column(name = "City", length = 50)
     public String getCity() {
         return city;
     }
@@ -76,7 +76,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "StateRegion", nullable = true, length = 50)
+    @Column(name = "StateRegion", length = 50)
     public String getStateRegion() {
         return stateRegion;
     }
@@ -86,7 +86,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "Country", nullable = true, length = 100)
+    @Column(name = "Country", length = 100)
     public String getCountry() {
         return country;
     }
@@ -96,7 +96,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneCode", nullable = true, length = 50)
+    @Column(name = "TelephoneCode", length = 50)
     public String getTelephoneCode() {
         return telephoneCode;
     }
@@ -106,7 +106,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneNumber", nullable = true, length = 50)
+    @Column(name = "TelephoneNumber", length = 50)
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
@@ -116,7 +116,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "FaxCode", nullable = true, length = 50)
+    @Column(name = "FaxCode",  length = 50)
     public String getFaxCode() {
         return faxCode;
     }
@@ -126,7 +126,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "FaxNumber", nullable = true, length = 50)
+    @Column(name = "FaxNumber", length = 50)
     public String getFaxNumber() {
         return faxNumber;
     }
@@ -136,7 +136,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "Email", nullable = true, length = 50)
+    @Column(name = "Email", length = 50)
     public String getEmail() {
         return email;
     }

@@ -6,6 +6,5 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ServiceUserDAO extends JpaRepository<ServiceUserEntity, Integer> , QueryByExampleExecutor<ServiceUserEntity>
-{
+public interface ServiceUserDAO extends JpaRepository<ServiceUserEntity, Integer>, QueryByExampleExecutor<ServiceUserEntity> {
 }

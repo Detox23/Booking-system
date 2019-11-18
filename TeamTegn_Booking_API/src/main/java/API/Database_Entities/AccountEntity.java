@@ -1,4 +1,5 @@
 package API.Database_Entities;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
@@ -17,7 +18,7 @@ public class AccountEntity {
     private int id; //skipped
     private String accountName;
     private AccountTypeEntity accountTypeByAccountTypeId; //accountTypeID
-    private int parentId;
+    private Integer parentId;
     private Integer primaryContactId;
     private Integer departmentId;
     private String ean; //as string [database limitations]
@@ -45,10 +46,11 @@ public class AccountEntity {
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -65,11 +67,11 @@ public class AccountEntity {
 
     @Basic
     @Column(name = "ParentID", nullable = false)
-    public int getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(int parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -258,7 +260,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Type(type="org.hibernate.type.NumericBooleanType")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "IsDeleted", nullable = false, columnDefinition = "boolean default false")
     public boolean isDeleted() {
         return deleted;

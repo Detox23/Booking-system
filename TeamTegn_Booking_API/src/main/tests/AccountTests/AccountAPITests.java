@@ -1,6 +1,7 @@
 package AccountTests;
+
 import API.MainApplicationClass;
-import API.Repository.Account.IAccountDAOImpl;
+import API.Repository.Account.AccountDAOImpl;
 import Shared.ForCreation.AccountForCreationDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +19,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.SQLException;
-
-import static junit.framework.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 /*
@@ -44,16 +43,13 @@ turning on SQL logging
 */
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class AccountAPITests {
+    private static final String CREATE_ACCOUNT_SQL_SCRIPT = "classpath:Account.sql";
     @Autowired
     private TestEntityManager entityManager;
-
     @Autowired
     private JdbcTemplate jdbc;
-
     @MockBean
-    private IAccountDAOImpl accountDAO;
-
-    private static final String CREATE_ACCOUNT_SQL_SCRIPT = "classpath:Account.sql";
+    private AccountDAOImpl accountDAO;
 
     @Before
     public void setUp() throws SQLException {
@@ -61,7 +57,7 @@ public class AccountAPITests {
     }
 
     @Test
-    public void testAddig(){
+    public void testAddig() {
         String name = "Adam";
         int accountTypeId = 3;
         AccountForCreationDto a = new AccountForCreationDto();

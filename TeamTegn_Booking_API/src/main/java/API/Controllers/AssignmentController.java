@@ -1,6 +1,6 @@
 package API.Controllers;
 
-import API.Services.IAssignmentService;
+import API.Services.AssignmentService.IAssignmentService;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,31 +20,31 @@ public class AssignmentController extends BaseController {
     @Autowired
     private IAssignmentService assignmentService;
 
-    @RequestMapping( method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "10") int pageSize,
-                                    @RequestParam(defaultValue = "id")  String sortBy ,
-                                    @RequestParam(defaultValue = "ASC")  Sort.Direction sortDirection )
-    {
+                                    @RequestParam(defaultValue = "id") String sortBy,
+                                    @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection) {
         return new ResponseEntity<>(assignmentService.getAll(PageRequest.of(pageNumber, pageSize, sortDirection, sortBy)), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value= "/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> get(@PathVariable int id){
+    @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> get(@PathVariable int id) {
         return new ResponseEntity<>(assignmentService.get(id), new HttpHeaders(), HttpStatus.OK);
     }
 
 
-    @RequestMapping(method=RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> create(@RequestBody AssignmentForCreationDto assignment) {
         return new ResponseEntity<>(assignmentService.add(assignment), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{id}",  method = { RequestMethod.DELETE})
-    public ResponseEntity<?> delete(@PathVariable int id){
+    @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
+    public ResponseEntity<?> delete(@PathVariable int id) {
         return new ResponseEntity<>(assignmentService.delete(id), new HttpHeaders(), HttpStatus.OK);
     }
-    @RequestMapping(value="/{id}",  method = { RequestMethod.PATCH})
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody AssignmentForUpdateDto forUpdate){
+
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH})
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody AssignmentForUpdateDto forUpdate) {
         return new ResponseEntity<>(assignmentService.update(id, forUpdate), new HttpHeaders(), HttpStatus.OK);
     }
 }

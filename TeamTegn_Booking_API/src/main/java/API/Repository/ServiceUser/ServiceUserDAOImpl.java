@@ -3,6 +3,7 @@ package API.Repository.ServiceUser;
 import API.Database_Entities.ServiceUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -13,15 +14,15 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Override
     public ServiceUserEntity add(ServiceUserEntity userEntity) {
-        //TODO: in service/ controller set curren user as creator
-        userEntity.setCreatedDate( Timestamp.valueOf(LocalDateTime.now()));
+        //TODO: in service/ controller set current user as creator
+        userEntity.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         return jpaRepository.save(userEntity);
     }
 
     @Override
     public boolean deleteById(int id) {
-         jpaRepository.deleteById(id);
-         return jpaRepository.findById(id).get() == null;
+        jpaRepository.deleteById(id);
+        return jpaRepository.findById(id).get() == null;
     }
 
     @Override

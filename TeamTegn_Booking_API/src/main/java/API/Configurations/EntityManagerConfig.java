@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 @Configuration
 public class EntityManagerConfig {
     @Bean
-    public EntityManager entityManagerFactory(){
+    public EntityManager entityManagerFactory() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager;

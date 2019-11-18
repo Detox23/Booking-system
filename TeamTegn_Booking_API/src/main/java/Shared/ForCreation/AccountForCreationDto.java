@@ -1,7 +1,8 @@
 package Shared.ForCreation;
+
 import java.util.List;
 
-public class AccountForCreationDto{
+public class AccountForCreationDto {
 
     private String accountName;
     private int accountTypeId;
@@ -27,14 +28,14 @@ public class AccountForCreationDto{
     private String contactTelephone;
 
 
-
-    public AccountForCreationDto(){
+    public AccountForCreationDto() {
 
     }
 
     public String getAccountName() {
         return accountName;
     }
+
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
@@ -43,6 +44,7 @@ public class AccountForCreationDto{
     public int getAccountTypeId() {
         return accountTypeId;
     }
+
     public void setAccountTypeId(int accountTypeId) {
         this.accountTypeId = accountTypeId;
     }
@@ -51,6 +53,7 @@ public class AccountForCreationDto{
     public int getParentId() {
         return parentId;
     }
+
     public void setParentId(int parentId) {
         this.parentId = parentId;
     }
@@ -59,6 +62,7 @@ public class AccountForCreationDto{
     public int getPrimaryContactId() {
         return primaryContactId;
     }
+
     public void setPrimaryContactId(int primaryContactId) {
         this.primaryContactId = primaryContactId;
     }
@@ -66,6 +70,7 @@ public class AccountForCreationDto{
     public int getDepartmentId() {
         return departmentId;
     }
+
     public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
     }
@@ -73,6 +78,7 @@ public class AccountForCreationDto{
     public List<String> getEan() {
         return ean;
     }
+
     public void setEan(List<String> ean) {
         this.ean = ean;
     }
@@ -80,6 +86,7 @@ public class AccountForCreationDto{
     public String getTelephoneCode() {
         return telephoneCode;
     }
+
     public void setTelephoneCode(String telephoneCode) {
         this.telephoneCode = telephoneCode;
     }
@@ -87,6 +94,7 @@ public class AccountForCreationDto{
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
+
     public void setTelephoneNumber(String telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
     }
@@ -94,6 +102,7 @@ public class AccountForCreationDto{
     public String getFaxCode() {
         return faxCode;
     }
+
     public void setFaxCode(String faxCode) {
         this.faxCode = faxCode;
     }
@@ -101,6 +110,7 @@ public class AccountForCreationDto{
     public String getFaxNumber() {
         return faxNumber;
     }
+
     public void setFaxNumber(String faxNumber) {
         this.faxNumber = faxNumber;
     }
@@ -108,6 +118,7 @@ public class AccountForCreationDto{
     public String getWebsite() {
         return website;
     }
+
     public void setWebsite(String website) {
         this.website = website;
     }
@@ -115,6 +126,7 @@ public class AccountForCreationDto{
     public String getCvrNumber() {
         return cvrNumber;
     }
+
     public void setCvrNumber(String cvrNumber) {
         this.cvrNumber = cvrNumber;
     }
@@ -122,6 +134,7 @@ public class AccountForCreationDto{
     public String getStreet() {
         return street;
     }
+
     public void setStreet(String street) {
         this.street = street;
     }
@@ -129,6 +142,7 @@ public class AccountForCreationDto{
     public String getPostcode() {
         return postcode;
     }
+
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
@@ -136,6 +150,7 @@ public class AccountForCreationDto{
     public String getCity() {
         return city;
     }
+
     public void setCity(String city) {
         this.city = city;
     }
@@ -143,6 +158,7 @@ public class AccountForCreationDto{
     public String getStateRegion() {
         return stateRegion;
     }
+
     public void setStateRegion(String stateRegion) {
         this.stateRegion = stateRegion;
     }
@@ -150,6 +166,7 @@ public class AccountForCreationDto{
     public String getCountry() {
         return country;
     }
+
     public void setCountry(String country) {
         this.country = country;
     }
@@ -157,6 +174,7 @@ public class AccountForCreationDto{
     public int getCreatedBy() {
         return createdBy;
     }
+
     public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
@@ -164,6 +182,7 @@ public class AccountForCreationDto{
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -171,6 +190,7 @@ public class AccountForCreationDto{
     public String getContactName() {
         return contactName;
     }
+
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
@@ -178,6 +198,7 @@ public class AccountForCreationDto{
     public String getContactEmail() {
         return contactEmail;
     }
+
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
     }
@@ -185,6 +206,7 @@ public class AccountForCreationDto{
     public String getContactTelephone() {
         return contactTelephone;
     }
+
     public void setContactTelephone(String contactTelephone) {
         this.contactTelephone = contactTelephone;
     }

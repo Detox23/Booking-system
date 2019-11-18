@@ -1,5 +1,4 @@
 package Shared.ToReturn;
-import java.util.Map;
 
 public class AccountTypeDto {
     private int id;
@@ -8,35 +7,35 @@ public class AccountTypeDto {
     private Boolean isDeleted;
 
     public int getId() {
-            return id;
-        }
+        return id;
+    }
 
     public void setId(int id) {
-            this.id = id;
-        }
+        this.id = id;
+    }
 
     public String getAccountType() {
-            return accountType;
-        }
+        return accountType;
+    }
 
     public void setAccountType(String accountType) {
-            this.accountType = accountType;
-        }
+        this.accountType = accountType;
+    }
 
     public Boolean getGrantApplies() {
-            return grantApplies;
-        }
+        return grantApplies;
+    }
 
     public void setGrantApplies(Boolean grantApplies) {
-            this.grantApplies = grantApplies;
-        }
+        this.grantApplies = grantApplies;
+    }
 
     public Boolean getDeleted() {
-            return isDeleted;
-        }
+        return isDeleted;
+    }
 
     public void setDeleted(Boolean deleted) {
-            isDeleted = deleted;
+        isDeleted = deleted;
     }
 
 }

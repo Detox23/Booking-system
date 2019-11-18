@@ -1,5 +1,11 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -12,6 +18,7 @@ public class ServiceProviderEntity {
     private String firstName;
     private String middleName;
     private String lastName;
+    @Value("${encrypted.cpr}")
     private String cpr;
     private Integer source;
     private String telephoneCode;
@@ -42,6 +49,7 @@ public class ServiceProviderEntity {
 
     @Id
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -95,6 +103,7 @@ public class ServiceProviderEntity {
     public String getCpr() {
         return cpr;
     }
+
 
     public void setCpr(String cpr) {
         this.cpr = cpr;
@@ -251,6 +260,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
     public int getCreatedBy() {
         return createdBy;
@@ -261,6 +271,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -271,6 +282,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
+    @UpdateTimestamp
     @Column(name = "LastModified", nullable = true)
     public Timestamp getLastModified() {
         return lastModified;
@@ -281,6 +293,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
+    @LastModifiedBy
     @Column(name = "LastModifiedBy", nullable = true)
     public Integer getLastModifiedBy() {
         return lastModifiedBy;

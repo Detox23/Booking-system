@@ -1,7 +1,7 @@
 package API.Exceptions;
 
-public class UpdateErrorException extends Exception {
-    public UpdateErrorException(String msg){
+public class UpdateErrorException extends RuntimeException {
+    public UpdateErrorException(String msg) {
         super(msg);
     }
 }
