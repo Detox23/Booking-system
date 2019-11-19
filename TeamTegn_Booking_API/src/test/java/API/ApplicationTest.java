@@ -15,6 +15,6 @@ public class ApplicationTest {
 
     @Test
     public void applicationContextLoads(){
-        // °º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸
+
     }
 }

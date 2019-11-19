@@ -32,7 +32,6 @@ public class TestDataSourceConfig {
     public EntityManager entityManagerFactory() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistenceTest");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         return entityManager;
     }
 
