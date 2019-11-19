@@ -11,7 +11,8 @@ import API.Exceptions.UpdateErrorException;
 import API.MainApplicationClass;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ToReturn.AccountDto;
-import org.apache.tomcat.jni.Time;
+import Shared.ToReturn.AccountEanDto;
+import Shared.ToReturn.AccountTypeDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Timestamp;
@@ -80,7 +80,6 @@ public class AccountRepositoryTest {
         AccountEanEntity accountEanEntity = new AccountEanEntity();
         accountEanEntity.setAccountId(addedOne.getId());
         accountEanEntity.setEanNumber("123456789");
-        accountEanEntity.setEanNumber("987654321");
 
         AccountEanEntity accountEanEntity1 = new AccountEanEntity();
         accountEanEntity1.setAccountId(addedOne.getId());
@@ -93,7 +92,6 @@ public class AccountRepositoryTest {
         accountEanDAO.addOneEanNumber(accountEanEntity);
         accountEanDAO.addOneEanNumber(accountEanEntity1);
         accountEanDAO.addOneEanNumber(accountEanEntity2);
-        System.out.println("asd");
     }
 
 
@@ -102,8 +100,8 @@ public class AccountRepositoryTest {
         accountDAO.flush();
         accountTypeDAO.deleteAllInBatch();
         accountTypeDAO.flush();
-
-
+        accountEanDAO.deleteAllInBatch();
+        accountEanDAO.flush();
     }
 
     @Test
@@ -137,7 +135,7 @@ public class AccountRepositoryTest {
     public void testFindAccountThatDoesNotExistsShouldRaiseNotFoundExceptionException() {
         setUp();
         try {
-            AccountDto foundAccount = accountDAO.getOneAccount(1500);
+            accountDAO.getOneAccount(1500);
             Assert.fail();
         } catch (NotFoundException error) {
             Assert.assertEquals("Account was not found.", error.getMessage());
@@ -226,7 +224,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void testUpdatingAccountNameShouldBeDifferent(){
+    public void testUpdatingAccountNameShouldBeDifferent() {
         setUp();
         try {
             AccountEntity accountOne = new AccountEntity();
@@ -242,7 +240,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void testUpdatingAccountLastUpdateShouldBeDifferent(){
+    public void testUpdatingAccountLastUpdateShouldBeDifferent() {
         setUp();
         try {
             Timestamp lastUpdatedBefore = addedOne.getLastModified();
@@ -259,7 +257,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void testUpdatingAccountDoesNotOverwriteNotChangedPropertiesWithNulls(){
+    public void testUpdatingAccountDoesNotOverwriteNotChangedPropertiesWithNulls() {
         setUp();
         try {
             AccountEntity accountOne = new AccountEntity();
@@ -275,7 +273,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void testUpdatingAccountThatDoesNotExistsShouldThrowNotFoundException(){
+    public void testUpdatingAccountThatDoesNotExistsShouldThrowNotFoundException() {
         setUp();
         try {
             AccountEntity accountOne = new AccountEntity();
@@ -291,7 +289,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void testDeleteAccountPropertyShouldBeSetToTrue(){
+    public void testDeleteAccountPropertyShouldBeSetToTrue() {
         setUp();
         try {
             accountDAO.deleteOneAccount(addedTwo.getId());
@@ -304,7 +302,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void testDeleteAccountThatDoesNotExistsShouldThrowNotFoundException(){
+    public void testDeleteAccountThatDoesNotExistsShouldThrowNotFoundException() {
         setUp();
         try {
             accountDAO.deleteOneAccount(-1);
@@ -317,7 +315,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void testUpdateAccountThatWasDeletedShouldThrowUpdateErrorException(){
+    public void testUpdateAccountThatWasDeletedShouldThrowUpdateErrorException() {
         setUp();
         try {
             accountDAO.deleteOneAccount(addedOne.getId());
@@ -334,17 +332,129 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void testListAllEANNumbersForAccount(){
+    public void testListAllEANNumbersForAccount() {
         setUp();
         try {
-            accountDAO.deleteOneAccount(addedOne.getId());
-            AccountEntity accountOne = new AccountEntity();
-            accountOne.setId(addedOne.getId());
-            accountOne.setAccountName("UpdatedTestAccountName");
-            accountDAO.updateOneAccount(accountOne);
+            List<AccountEanDto> listOfEans = accountEanDAO.findListOfAccountEANNumbers(addedOne.getId());
+            Assert.assertEquals(2, listOfEans.size());
+        } catch (Exception error) {
             Assert.fail();
-        } catch (UpdateErrorException error) {
-            Assert.assertEquals("You can't update deleted account.", error.getMessage());
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testListAllEANNumberForAccountThatDoesNotExistsReturnsEmptyList() {
+        setUp();
+        try {
+            List<AccountEanDto> listOfEans = accountEanDAO.findListOfAccountEANNumbers(-1);
+            Assert.assertEquals(listOfEans.size(), 0);
+        } catch (Exception error) {
+            Assert.fail();
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testAddEANNumberToAnAccount() {
+        setUp();
+        try {
+            AccountEanEntity accountEanEntity = new AccountEanEntity();
+            accountEanEntity.setEanNumber("854678985");
+            accountEanEntity.setAccountId(addedOne.getId());
+            List<AccountEanDto> accountEanDtoListBefore = accountEanDAO.findListOfAccountEANNumbers(addedOne.getId());
+            accountEanDAO.addOneEanNumber(accountEanEntity);
+            List<AccountEanDto> accountEanDtoListAfter = accountEanDAO.findListOfAccountEANNumbers(addedOne.getId());
+            Assert.assertNotEquals(accountEanDtoListBefore.size(), accountEanDtoListAfter.size());
+            Assert.assertEquals(3, accountEanDtoListAfter.size());
+        } catch (Exception error) {
+            Assert.fail();
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testAddExistingEANNumberToTheSameAccountShouldThroDuplicateException() {
+        setUp();
+        try {
+            AccountEanEntity accountEanEntity = new AccountEanEntity();
+            accountEanEntity.setEanNumber("123456789");
+            accountEanEntity.setAccountId(addedOne.getId());
+            accountEanDAO.addOneEanNumber(accountEanEntity);
+            Assert.fail();
+        } catch (DuplicateException error) {
+            Assert.assertEquals("The EAN number for account already exists.", error.getMessage());
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testAddingEANNumberToAnAccountThatDoesNotExist() {
+        setUp();
+        try {
+            AccountEanEntity accountEanEntity = new AccountEanEntity();
+            accountEanEntity.setEanNumber("123456789");
+            accountEanEntity.setAccountId(-1);
+            accountEanDAO.addOneEanNumber(accountEanEntity);
+            Assert.fail();
+        } catch (NotFoundException error) {
+            Assert.assertEquals("Account to which you wanted to add EAN was not found.", error.getMessage());
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testDeleteEANNumberThatDoesNotExistThrowsNotFoundException() {
+        setUp();
+        try {
+            accountEanDAO.deleteOneEanNumber(-1, "-1");
+            Assert.fail();
+        } catch (NotFoundException error) {
+            Assert.assertEquals("No account found associated with provided ID and EAN number.", error.getMessage());
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testDeleteEANNumberShouldBeTrue() {
+        setUp();
+        try {
+            boolean result = accountEanDAO.deleteOneEanNumber(addedOne.getId(), "123456789");
+            Assert.assertTrue(result);
+        } catch (Exception error) {
+            Assert.fail();
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testFindingAccountType() {
+        setUp();
+        try {
+            AccountTypeDto found = accountTypeDAO.findOneAccountType(idAccountType2);
+            Assert.assertNotNull(found);
+        } catch (Exception error) {
+            Assert.fail();
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testFindingAccountTypeThatDoesNotExistShouldThrowNotFoundException() {
+        setUp();
+        try {
+            AccountTypeDto found = accountTypeDAO.findOneAccountType(-1);
+            Assert.fail();
+        } catch (NotFoundException error) {
+            Assert.assertEquals("Account type no found for ID.", error.getMessage());
         } finally {
             setDown();
         }

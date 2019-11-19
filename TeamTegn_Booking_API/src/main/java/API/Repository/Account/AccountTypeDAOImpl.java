@@ -9,11 +9,22 @@ import java.util.NoSuchElementException;
 
 public class AccountTypeDAOImpl implements AccountTypeCustom {
 
-    @Autowired
     private AccountTypeDAO accountTypeDAO;
 
-    @Autowired
+
     private ModelMapper modelMapper;
+
+    @Autowired
+    public void setAccountTypeDAO(AccountTypeDAO accountTypeDAO) {
+        this.accountTypeDAO = accountTypeDAO;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+
 
     @Override
     public AccountTypeDto findOneAccountType(int id) {

@@ -54,8 +54,6 @@ public class AccountEanDAOImpl implements AccountEanCustom {
             Type listType = new TypeToken<List<AccountEanDto>>() {
             }.getType();
             return modelMapper.map(numbers, listType);
-        } catch (NotFoundException noSuchElementException) {
-            throw noSuchElementException;
         } catch (Exception e) {
             throw e;
         }
