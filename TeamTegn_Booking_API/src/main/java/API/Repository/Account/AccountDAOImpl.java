@@ -11,6 +11,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
@@ -22,6 +23,7 @@ import java.util.NoSuchElementException;
 public class AccountDAOImpl implements AccountDAOCustom {
 
     private PatcherHandler patcherHandler;
+
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
@@ -59,6 +61,7 @@ public class AccountDAOImpl implements AccountDAOCustom {
         }
     }
 
+    @Transactional(rollbackFor = Throwable.class)
     public AccountDto addOneAccount(AccountEntity account, List<String> eans, int accountTypeId) {
         try {
             if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0) {

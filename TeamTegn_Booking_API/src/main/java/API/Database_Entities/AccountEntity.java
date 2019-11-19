@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 @Entity
 @DynamicUpdate
-@Table(name = "Account", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Account", schema = "dbo")
 public class AccountEntity {
 
     private int id; //skipped

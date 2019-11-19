@@ -4,11 +4,12 @@
 *.log
 # BlueJ files
 *.ctxt
-
+TeamTegn_Booking_API/src/test/resource/*.html
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 # Package Files #
 *.jar
+
 *.war
 *.nar
 *.ear
