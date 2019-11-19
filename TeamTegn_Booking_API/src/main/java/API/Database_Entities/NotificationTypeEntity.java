@@ -3,7 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "NotificationType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "NotificationType", schema = "dbo")
 public class NotificationTypeEntity {
     private int id;
     private String notificationType;

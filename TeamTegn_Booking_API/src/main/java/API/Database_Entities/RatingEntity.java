@@ -3,7 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Rating", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Rating", schema = "dbo")
 public class RatingEntity {
     private int id;
     private String ratingName;

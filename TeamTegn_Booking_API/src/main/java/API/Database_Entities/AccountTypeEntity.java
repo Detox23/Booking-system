@@ -15,7 +15,6 @@ public class AccountTypeEntity {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -31,7 +30,7 @@ public class AccountTypeEntity {
     }
 
     @Basic
-    @Column(name = "GrantApplies", nullable = true)
+    @Column(name = "GrantApplies")
     public Boolean getGrantApplies() {
         return grantApplies;
     }
@@ -41,7 +40,7 @@ public class AccountTypeEntity {
     }
 
     @Basic
-    @Column(name = "IsDeleted", nullable = true)
+    @Column(name = "IsDeleted")
     public Boolean getDeleted() {
         return isDeleted;
     }
@@ -50,6 +49,7 @@ public class AccountTypeEntity {
         isDeleted = deleted;
     }
 
+    @SuppressWarnings("EqualsReplaceableByObjectsCall")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

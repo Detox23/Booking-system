@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Assignment", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Assignment", schema = "dbo")
 public class AssignmentEntity {
     private int id;
     private Integer assignmentTypeId;

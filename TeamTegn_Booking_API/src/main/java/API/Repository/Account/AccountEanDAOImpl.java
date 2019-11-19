@@ -67,7 +67,7 @@ public class AccountEanDAOImpl implements AccountEanCustom {
             accountDAO.getOneAccount(accountEanEntity.getAccountId());
             List<AccountEanEntity> found = accountEanNumberCrudDAO.findAllByAccountIdAndEanNumber(accountEanEntity.getAccountId(), accountEanEntity.getEanNumber());
             if (found.size() < 1) {
-                AccountEanEntity result = accountEanNumberCrudDAO.save(accountEanEntity);
+                AccountEanEntity result = accountEanNumberCrudDAO.saveAndFlush(accountEanEntity);
                 if (result != null) {
                     return true;
                 } else {

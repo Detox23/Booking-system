@@ -43,7 +43,6 @@ public class AccountEntity {
     private String contactEmail;
     private String contactTelephone;
 
-
     @Id
     @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +55,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "AccountName", nullable = false, length = 255)
+    @Column(name = "AccountName", nullable = false)
     public String getAccountName() {
         return accountName;
     }
@@ -76,7 +75,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "PrimaryContactID", nullable = true)
+    @Column(name = "PrimaryContactID")
     public Integer getPrimaryContactId() {
         return primaryContactId;
     }
@@ -86,7 +85,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "DepartmentID", nullable = true)
+    @Column(name = "DepartmentID")
     public Integer getDepartmentId() {
         return departmentId;
     }
@@ -96,7 +95,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "EAN", nullable = true, length = 50, columnDefinition = "string default null")
+    @Column(name = "EAN", length = 50, columnDefinition = "string default null")
     public String getEan() {
         return ean;
     }
@@ -106,7 +105,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneCode", nullable = true, length = 50)
+    @Column(name = "TelephoneCode", length = 50)
     public String getTelephoneCode() {
         return telephoneCode;
     }
@@ -116,7 +115,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneNumber", nullable = true, length = 50)
+    @Column(name = "TelephoneNumber", length = 50)
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
@@ -126,7 +125,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "FaxCode", nullable = true, length = 50)
+    @Column(name = "FaxCode", length = 50)
     public String getFaxCode() {
         return faxCode;
     }
@@ -136,7 +135,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "FaxNumber", nullable = true, length = 50)
+    @Column(name = "FaxNumber", length = 50)
     public String getFaxNumber() {
         return faxNumber;
     }
@@ -146,7 +145,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Website", nullable = true, length = 100)
+    @Column(name = "Website", length = 100)
     public String getWebsite() {
         return website;
     }
@@ -156,7 +155,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "CVRNumber", nullable = true, length = 50)
+    @Column(name = "CVRNumber", length = 50)
     public String getCvrNumber() {
         return cvrNumber;
     }
@@ -166,7 +165,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Street", nullable = true, length = 150)
+    @Column(name = "Street", length = 150)
     public String getStreet() {
         return street;
     }
@@ -176,7 +175,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Postcode", nullable = true, length = 50)
+    @Column(name = "Postcode", length = 50)
     public String getPostcode() {
         return postcode;
     }
@@ -186,7 +185,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "City", nullable = true, length = 50)
+    @Column(name = "City", length = 50)
     public String getCity() {
         return city;
     }
@@ -196,7 +195,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "StateRegion", nullable = true, length = 50)
+    @Column(name = "StateRegion", length = 50)
     public String getStateRegion() {
         return stateRegion;
     }
@@ -206,7 +205,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Country", nullable = true, length = 100)
+    @Column(name = "Country", length = 100)
     public String getCountry() {
         return country;
     }
@@ -228,7 +227,7 @@ public class AccountEntity {
 
     @Basic
     @CreationTimestamp
-    @Column(name = "CreatedDate", nullable = true)
+    @Column(name = "CreatedDate")
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -239,7 +238,7 @@ public class AccountEntity {
 
     @Basic
     @UpdateTimestamp
-    @Column(name = "LastModified", nullable = true)
+    @Column(name = "LastModified")
     public Timestamp getLastModified() {
         return lastModified;
     }
@@ -250,7 +249,7 @@ public class AccountEntity {
 
     @Basic
     @LastModifiedBy
-    @Column(name = "LastModifiedBy", nullable = true)
+    @Column(name = "LastModifiedBy")
     public Integer getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -271,7 +270,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Email", nullable = true, length = 50)
+    @Column(name = "Email", length = 50)
     public String getEmail() {
         return email;
     }
@@ -281,7 +280,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "ContactName", nullable = true, length = 100)
+    @Column(name = "ContactName", length = 100)
     public String getContactName() {
         return contactName;
     }
@@ -291,7 +290,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "ContactEmail", nullable = true, length = 100)
+    @Column(name = "ContactEmail", length = 100)
     public String getContactEmail() {
         return contactEmail;
     }
@@ -301,7 +300,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "ContactTelephone", nullable = true, length = 100)
+    @Column(name = "ContactTelephone", length = 100)
     public String getContactTelephone() {
         return contactTelephone;
     }
@@ -311,6 +310,7 @@ public class AccountEntity {
     }
 
 
+    @SuppressWarnings("EqualsReplaceableByObjectsCall")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -319,7 +319,7 @@ public class AccountEntity {
         AccountEntity that = (AccountEntity) o;
 
         if (id != that.id) return false;
-        if (parentId != that.parentId) return false;
+        if (!parentId.equals(that.parentId)) return false;
         if (createdBy != that.createdBy) return false;
         if (deleted != that.deleted) return false;
         if (accountName != null ? !accountName.equals(that.accountName) : that.accountName != null) return false;
@@ -349,7 +349,7 @@ public class AccountEntity {
     }
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "AccountTypeID", referencedColumnName = "ID", nullable = false)
     public AccountTypeEntity getAccountTypeByAccountTypeId() {
         return accountTypeByAccountTypeId;

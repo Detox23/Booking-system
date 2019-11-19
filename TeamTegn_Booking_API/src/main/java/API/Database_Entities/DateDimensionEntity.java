@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "DateDimension", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "DateDimension", schema = "dbo")
 public class DateDimensionEntity {
     private int dateKey;
     private Date date;

@@ -61,7 +61,6 @@ public class AccountDAOImpl implements AccountDAOCustom {
         }
     }
 
-    @Transactional(rollbackFor = Throwable.class)
     public AccountDto addOneAccount(AccountEntity account, List<String> eans, int accountTypeId) {
         try {
             if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0) {
@@ -82,7 +81,7 @@ public class AccountDAOImpl implements AccountDAOCustom {
             } else {
                 throw new UnknownAddingException("There was a problem with adding an account.");
             }
-        } catch (NotEnoughDataException dataIntegrityViolidationException) {
+        } catch (NotEnoughDataException dataIntegrityViolationException) {
             throw new NotEnoughDataException("You provided to little information to create the account.");
         } catch (DataIntegrityViolationException dataIntegrityViolidationException) {
             throw new NotEnoughDataException("You provided to little information to create the account.");

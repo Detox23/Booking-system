@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Assignment_AssignmentStatusType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Assignment_AssignmentStatusType", schema = "dbo")
 public class AssignmentAssignmentStatusTypeEntity {
     private int id;
     private int assignmentId;

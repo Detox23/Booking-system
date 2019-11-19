@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ExportSettings", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "ExportSettings", schema = "dbo")
 public class ExportSettingsEntity {
     private int id;
     private String keyName;

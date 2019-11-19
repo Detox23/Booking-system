@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "EAN", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "EAN", schema = "dbo")
 public class EanEntity {
     private int id;
     private String eanNumber;

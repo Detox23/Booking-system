@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Department", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Department", schema = "dbo")
 public class DepartmentEntity {
     private int id;
     private String departmentName;

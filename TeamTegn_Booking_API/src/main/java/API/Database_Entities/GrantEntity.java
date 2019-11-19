@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Grant", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Grant", schema = "dbo")
 public class GrantEntity {
     private int id;
     private Timestamp fromDate;

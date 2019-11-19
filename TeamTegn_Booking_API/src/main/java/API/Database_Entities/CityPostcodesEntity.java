@@ -3,7 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CityPostcodes", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "CityPostcodes", schema = "dbo")
 public class CityPostcodesEntity {
     private String city;
     private String postcode;

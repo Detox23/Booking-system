@@ -3,7 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Account_EAN", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Account_EAN", schema = "dbo")
 public class AccountEanEntity {
     private int id;
     private String eanNumber;
