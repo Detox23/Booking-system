@@ -25,8 +25,8 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
 
     @Autowired
-    private AssignmentDAO jpaRepository;
-
+    private AssignmentDAO assignmentDAO;
+  
     @Autowired
     private PatcherHandler patcherHandler;
 
@@ -35,11 +35,11 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     public AssignmentEntity updateOne(@NotNull AssignmentEntity assignmentEntity) {
 
         try {
-            AssignmentEntity found = jpaRepository.findFirstByIdAndDeletedIsFalse(assignmentEntity.getId());
+            AssignmentEntity found = assignmentDAO.findFirstByIdAndDeletedIsFalse(assignmentEntity.getId());
             if(found != null)
             {
                 patcherHandler.fillNotNullFields(found, assignmentEntity);
-                AssignmentEntity result = jpaRepository.save(found);
+                AssignmentEntity result = assignmentDAO.save(found);
                 return result;
             }
             return null;
@@ -54,28 +54,28 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
     @Override
     public List<AssignmentEntity> listAll() {
-        return jpaRepository.findAllByDeletedFalse();
+        return assignmentDAO.findAllByDeletedFalse();
     }
     @Override
     public Page<AssignmentEntity> listAll(Pageable pageable) {
-        return jpaRepository.findAll(pageable);
+        return assignmentDAO.findAll(pageable);
     }
 
     @Override
     public AssignmentEntity addOne(AssignmentEntity assignmentEntity) {
-        return jpaRepository.save(assignmentEntity);
+        return assignmentDAO.save(assignmentEntity);
     }
 
     @Override
     public boolean deleteOne(int id) {
-        AssignmentEntity assignmentEntity = jpaRepository.findFirstByIdAndDeletedIsFalse(id);
+        AssignmentEntity assignmentEntity = assignmentDAO.findFirstByIdAndDeletedIsFalse(id);
         assignmentEntity.setDeleted(true);
-        return jpaRepository.save(assignmentEntity) != null;
+        return assignmentDAO.save(assignmentEntity) != null;
     }
 
     @Override
     public AssignmentEntity getOne(int id) {
-        return jpaRepository.findFirstByIdAndDeletedIsFalse(id);
+        return assignmentDAO.findFirstByIdAndDeletedIsFalse(id);
     }
 
 

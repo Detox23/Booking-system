@@ -1,6 +1,7 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -11,6 +12,15 @@ public class AssignmentAssignmentStatusTypeEntity {
     private int assignmentStatusTypeId;
     private Timestamp dateCreated;
 
+    public AssignmentAssignmentStatusTypeEntity(int assignmentId, int assignmentStatusTypeId) {
+        this.assignmentId = assignmentId;
+        this.assignmentStatusTypeId = assignmentStatusTypeId;
+        dateCreated = new Timestamp(System.currentTimeMillis());
+    }
+
+    public AssignmentAssignmentStatusTypeEntity() {
+
+    }
 
     @Id
     @Basic

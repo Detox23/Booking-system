@@ -2,6 +2,7 @@ package Shared.ToReturn;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class AssignmentDto {
     private int id;
@@ -50,6 +51,15 @@ public class AssignmentDto {
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
+    private List<Integer> listOfAssignmentStatusTypeIds;
+
+    public List<Integer> getListOfAssignmentStatusTypeIds() {
+        return listOfAssignmentStatusTypeIds;
+    }
+
+    public void setListOfAssignmentStatusTypeIds(List<Integer> listOfAssignmentStatusTypeIds) {
+        this.listOfAssignmentStatusTypeIds = listOfAssignmentStatusTypeIds;
+    }
 
     public int getId() {
         return id;

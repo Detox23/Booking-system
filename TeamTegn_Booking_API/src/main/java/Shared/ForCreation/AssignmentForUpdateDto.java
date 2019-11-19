@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class AssignmentForUpdateDto {
     private Integer assignmentTypeId;
@@ -46,6 +47,15 @@ public class AssignmentForUpdateDto {
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
+    private List<Integer> assignmentStatusTypeIds;
+
+    public List<Integer> getAssignmentStatusTypeIds() {
+        return assignmentStatusTypeIds;
+    }
+
+    public void setAssignmentStatusTypeIds(List<Integer> assignmentStatusTypeIds) {
+        this.assignmentStatusTypeIds = assignmentStatusTypeIds;
+    }
 
     public Integer getAssignmentTypeId() {
         return assignmentTypeId;

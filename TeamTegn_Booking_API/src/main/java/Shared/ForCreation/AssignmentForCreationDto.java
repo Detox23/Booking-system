@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class AssignmentForCreationDto {
     private Integer assignmentTypeId;
@@ -41,11 +42,19 @@ public class AssignmentForCreationDto {
     private String ktstid;
     private String ktstParentId;
     private String recurrenceKey;
-    private Integer assignmentStatusTypeId;
     private String assignmentPlace;
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
+    private List<Integer> assignmentStatusTypeIds;
+
+    public List<Integer> getAssignmentStatusTypeIds() {
+        return assignmentStatusTypeIds;
+    }
+
+    public void setAssignmentStatusTypeIds(List<Integer> assignmentStatusTypeIds) {
+        this.assignmentStatusTypeIds = assignmentStatusTypeIds;
+    }
 
     public Integer getInterpretationTypeId() {
         return interpretationTypeId;
@@ -315,13 +324,6 @@ public class AssignmentForCreationDto {
         this.recurrenceKey = recurrenceKey;
     }
 
-    public Integer getAssignmentStatusTypeId() {
-        return assignmentStatusTypeId;
-    }
-
-    public void setAssignmentStatusTypeId(Integer assignmentStatusTypeId) {
-        this.assignmentStatusTypeId = assignmentStatusTypeId;
-    }
 
     public String getAssignmentPlace() {
         return assignmentPlace;
