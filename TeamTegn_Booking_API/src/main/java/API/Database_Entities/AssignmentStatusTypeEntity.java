@@ -1,5 +1,7 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,8 +10,9 @@ public class AssignmentStatusTypeEntity {
     private int id;
     private String assignmentStatusTypeName;
     private Integer displayOrder;
-
+    private boolean isDeleted;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;
@@ -27,6 +30,16 @@ public class AssignmentStatusTypeEntity {
 
     public void setAssignmentStatusTypeName(String assignmentStatusTypeName) {
         this.assignmentStatusTypeName = assignmentStatusTypeName;
+    }
+    @Basic
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "IsDeleted", nullable = true, columnDefinition = "boolean default false")
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Basic
