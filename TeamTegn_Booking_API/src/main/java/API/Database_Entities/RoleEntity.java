@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Role", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Role", schema = "dbo")
 public class RoleEntity {
     private int id;
     private String roleName;

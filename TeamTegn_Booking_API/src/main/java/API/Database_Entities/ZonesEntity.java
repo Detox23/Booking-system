@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Zones", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Zones", schema = "dbo")
 public class ZonesEntity {
     private int zoneNumber;
 

@@ -3,7 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ServiceUser_Account", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "ServiceUser_Account", schema = "dbo")
 public class ServiceUserAccountEntity {
     private int serviceUserId;
     private int accountId;

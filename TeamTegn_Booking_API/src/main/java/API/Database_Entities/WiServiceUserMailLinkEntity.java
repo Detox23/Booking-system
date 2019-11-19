@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "WI_ServiceUser_MailLink", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "WI_ServiceUser_MailLink", schema = "dbo")
 public class WiServiceUserMailLinkEntity {
     private String linkId;
     private int serviceUserId;

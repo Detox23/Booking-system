@@ -3,7 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "RolePermissions", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "RolePermissions", schema = "dbo")
 public class RolePermissionsEntity {
     private int id;
     private String permissionName;

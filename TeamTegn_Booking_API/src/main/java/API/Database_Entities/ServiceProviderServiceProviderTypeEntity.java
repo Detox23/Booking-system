@@ -3,7 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ServiceProvider_ServiceProviderType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "ServiceProvider_ServiceProviderType", schema = "dbo")
 public class ServiceProviderServiceProviderTypeEntity {
     private int serviceProviderId;
     private int serviceProviderTypeId;

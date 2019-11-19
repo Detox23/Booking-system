@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "ServiceUser_Grant", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "ServiceUser_Grant", schema = "dbo")
 public class ServiceUserGrantEntity implements Serializable {
     private ServiceUserEntity serviceUserByServiceUserId;
     private GrantEntity grantByGrantId;

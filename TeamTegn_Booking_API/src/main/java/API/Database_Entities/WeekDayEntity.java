@@ -3,7 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "WeekDay", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "WeekDay", schema = "dbo")
 public class WeekDayEntity {
     private int id;
     private String weekDay;

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Reservation", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Reservation", schema = "dbo")
 public class ReservationEntity {
     private int id;
     private int serviceProviderId;

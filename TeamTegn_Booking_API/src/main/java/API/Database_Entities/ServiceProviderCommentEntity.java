@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ServiceProvider_Comment", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "ServiceProvider_Comment", schema = "dbo")
 public class ServiceProviderCommentEntity {
     private int id;
     private Integer userId;
