@@ -3,6 +3,7 @@ package API.Repository.Account;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.AccountEanEntity;
 import API.Database_Entities.AccountEntity;
+import API.Database_Entities.AccountTypeEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.AccountDto;
 import org.jetbrains.annotations.NotNull;
@@ -11,12 +12,12 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Component
@@ -66,7 +67,8 @@ public class AccountDAOImpl implements AccountDAOCustom {
             if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0) {
                 throw new DuplicateException("Account with exact name and CVR number already exists.");
             }
-            account.setAccountTypeByAccountTypeId(accountTypeDAO.findById(accountTypeId).get());
+            Optional<AccountTypeEntity> entity = accountTypeDAO.findById(accountTypeId);
+            account.setAccountTypeByAccountTypeId(entity.get());
             AccountEntity accountEntity = accountDAO.save(account);
             if (accountEntity.getId() > 0) {
                 if (eans != null) {
@@ -81,9 +83,9 @@ public class AccountDAOImpl implements AccountDAOCustom {
             } else {
                 throw new UnknownAddingException("There was a problem with adding an account.");
             }
-        } catch (NotEnoughDataException dataIntegrityViolationException) {
+        } catch (NotEnoughDataException notEnoughDataException) {
             throw new NotEnoughDataException("You provided to little information to create the account.");
-        } catch (DataIntegrityViolationException dataIntegrityViolidationException) {
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new NotEnoughDataException("You provided to little information to create the account.");
         } catch (NoSuchElementException noSuchElementException) {
             throw new NotFoundException("Account type was not found. Adding cancelled.");
