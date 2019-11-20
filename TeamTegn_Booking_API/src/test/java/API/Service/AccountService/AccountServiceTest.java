@@ -12,13 +12,14 @@ import API.Repository.Account.AccountEanDAO;
 import API.Repository.Account.AccountTypeDAO;
 import API.Services.AccountService.AccountService;
 import Shared.ForCreation.AccountForCreationDto;
+import Shared.ForCreation.AccountForUpdateDto;
 import Shared.ToReturn.AccountDto;
 import Shared.ToReturn.AccountEanDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.Mockito.*;
-import org.mockito.*;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = MainApplicationClass.class)
@@ -83,7 +87,26 @@ public class AccountServiceTest {
         accountTypeDAO.flush();
     }
 
-    private List<AccountEanDto> getListOfAccountEanDTOs(){
+    private AccountForCreationDto getAccountForCreation() {
+        AccountForCreationDto accountForCreationDto = new AccountForCreationDto();
+        accountForCreationDto.setEan(new ArrayList<>());
+        return accountForCreationDto;
+    }
+
+    private AccountForUpdateDto getAccountForUpdate(){
+        AccountForUpdateDto accountForUpdateDto = new AccountForUpdateDto();
+        accountForUpdateDto.setAccountTypeID(1);
+        return accountForUpdateDto;
+    }
+
+    private AccountDto returnedAccount() {
+        AccountDto returned = new AccountDto();
+        returned.setId(654);
+        returned.setAccountTypeID(5);
+        return returned;
+    }
+
+    private List<AccountEanDto> getListOfAccountEanDTOs() {
         List<AccountEanDto> eans = new ArrayList<>();
         AccountEanDto eanDto = new AccountEanDto();
         eanDto.setAccountId(0);
@@ -97,31 +120,26 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testAddAccountShouldReturnObjectWithEANS(){
+    public void testAddAccountShouldReturnObjectWithEANS() {
         try {
             setUp();
             AccountDAO mockAccountDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountDAO.class);
             AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
             MockitoAnnotations.initMocks(this);
-            AccountForCreationDto accountForCreationDto = new AccountForCreationDto();
-            accountForCreationDto.setEan(new ArrayList<>());
-            AccountDto returned = new AccountDto();
-            returned.setId(654);
-            returned.setAccountTypeID(5);
-            Mockito.doReturn(returned).when(mockAccountDAO).addOneAccount(any(AccountEntity.class), anyList(), anyInt());
+            Mockito.doReturn(returnedAccount()).when(mockAccountDAO).addOneAccount(any(AccountEntity.class), anyList(), anyInt());
             Mockito.doReturn(getListOfAccountEanDTOs()).when(mockAccountEANDAO).findListOfAccountEANNumbers(anyInt());
-            AccountDto result = accountService.addAccount(accountForCreationDto);
+            AccountDto result = accountService.addAccount(getAccountForCreation());
             Assert.assertEquals(2, result.getEan().size());
-        } catch(Exception e){
+        } catch (Exception e) {
             Assert.fail();
-        }finally {
+        } finally {
             setDown();
         }
     }
 
     @Test
-    public void testAddAccountShouldRollbackAddingAccountAndSizeShouldBeTwo(){
-        try{
+    public void testAddAccountShouldRollbackAddingAccountAndSizeShouldBeTwo() {
+        try {
             setUp();
             AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountDAOImpl, AccountEanDAO.class);
             MockitoAnnotations.initMocks(this);
@@ -133,12 +151,44 @@ public class AccountServiceTest {
             accountForCreationDto.setAccountName("TestRollbackAdding");
             Mockito.doThrow(NoSuchElementException.class).when(mockAccountEANDAO).addOneEanNumber(any(AccountEanEntity.class));
             accountService.addAccount(accountForCreationDto);
-        }catch (NotFoundException e){
-            Assert.assertEquals(accountService.list().size(),2);
-        }finally {
+            Assert.fail();
+        } catch (NotFoundException expectedException) {
+            Assert.assertEquals(accountService.list().size(), 2);
+        } catch (Exception e) {
+            Assert.fail();
+        } finally {
             setDown();
         }
-
     }
+
+    @Test
+    public void testFindAccountServiceAccountS() {
+        try {
+            AccountDAO mockAccountDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountDAO.class);
+            AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
+            MockitoAnnotations.initMocks(this);
+            Mockito.doReturn(returnedAccount()).when(mockAccountDAO).getOneAccount(anyInt());
+            Mockito.doReturn(getListOfAccountEanDTOs()).when(mockAccountEANDAO).findListOfAccountEANNumbers(anyInt());
+            Assert.assertEquals(2, accountService.findAccount(5).getEan().size());
+        } catch (Exception e) {
+            Assert.fail();
+        }
+    }
+
+//    @Test
+//    public void testUpdateAccountService(){
+//        try{
+//            AccountTypeDAO mockAccountTypeDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountTypeDAO.class);
+//            AccountDAO mockAccountDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountDAO.class);
+//            AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
+//            MockitoAnnotations.initMocks(this);
+//            Mockito.doReturn(Optional.of((Object) new AccountTypeEntity())).when(mockAccountTypeDAO).findById(anyInt());
+//            Mockito.doReturn()
+//
+//        }catch(Exception e){
+//
+//        }
+//
+//    }
 
 }
