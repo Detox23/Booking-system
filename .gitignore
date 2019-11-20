@@ -9,7 +9,9 @@ TeamTegn_Booking_API/src/test/resource/*.html
 .mtj.tmp/
 # Package Files #
 *.jar
-
+booking-system.properties
+booking-system.xml
+src/module_src.xml
 *.war
 *.nar
 *.ear

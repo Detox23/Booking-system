@@ -7,7 +7,6 @@
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
       <jdbc-url>jdbc:sqlserver://localhost\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment</jdbc-url>
       <driver-properties>
-        <property name="applicationName" value="DataGrip" />
         <property name="applicationIntent" value="readonly" />
       </driver-properties>
     </data-source>
