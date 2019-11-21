@@ -11,6 +11,7 @@ import API.Repository.Account.AccountDAOImpl;
 import API.Repository.Account.AccountEanDAO;
 import API.Repository.Account.AccountTypeDAO;
 import API.Services.AccountService.AccountService;
+import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AccountForUpdateDto;
 import Shared.ToReturn.AccountDto;
@@ -44,6 +45,9 @@ public class AccountServiceTest {
     private AccountDAO accountDAO;
 
     @Autowired
+    private AccountEanDAO accountEanDAO;
+
+    @Autowired
     private AccountService accountService;
 
     @Autowired
@@ -59,10 +63,11 @@ public class AccountServiceTest {
 
     private void setUp() {
 
+
+
         AccountForCreationDto accountOne = new AccountForCreationDto();
         accountOne.setAccountName("TestSetUpAccountName");
         accountOne.setCity("TestCity");
-
 
         AccountForCreationDto accountTwo = new AccountForCreationDto();
         accountTwo.setAccountName("TestSetUpAccountName2");
@@ -76,6 +81,10 @@ public class AccountServiceTest {
 
         addedOne = accountDAO.addOneAccount(modelMapper.map(accountOne, AccountEntity.class), null, result.getId());
         addedTwo = accountDAO.addOneAccount(modelMapper.map(accountTwo, AccountEntity.class), null, result.getId());
+
+        AccountEanEntity eanOne = new AccountEanEntity();
+        eanOne.setAccountId(addedOne.getId());
+        eanOne.setEanNumber("12345678");
     }
 
 
@@ -180,6 +189,7 @@ public class AccountServiceTest {
     @Test
     public void testUpdateAccountService() {
         try {
+            setUp();
             AccountTypeDAO mockAccountTypeDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountTypeDAO.class);
             AccountDAO mockAccountDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountDAO.class);
             AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
@@ -191,6 +201,8 @@ public class AccountServiceTest {
             Assert.assertEquals("TestCity", result.getCity());
         } catch (Exception e) {
             Assert.fail();
+        } finally {
+            setDown();
         }
 
     }
@@ -198,6 +210,7 @@ public class AccountServiceTest {
     @Test
     public void testAccountServiceUpdateHandleNotFoundException(){
         try {
+            setUp();
             AccountTypeDAO mockAccountTypeDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountTypeDAO.class);
             AccountDAO mockAccountDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountDAO.class);
             AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
@@ -205,16 +218,19 @@ public class AccountServiceTest {
             Mockito.doThrow(new NoSuchElementException()).when(mockAccountTypeDAO).findById(anyInt());
             Mockito.doReturn(returnedAccount()).when(mockAccountDAO).updateOneAccount(any(AccountEntity.class));
             Mockito.doReturn(getListOfAccountEanDTOs()).when(mockAccountEANDAO).findListOfAccountEANNumbers(anyInt());
-            AccountDto result = accountService.update(getAccountForUpdate());
+            accountService.update(getAccountForUpdate());
             Assert.fail();
         } catch (NotFoundException e) {
             Assert.assertEquals("Account type is not found. Update cancelled.", e.getMessage());
+        } finally {
+            setDown();
         }
     }
 
     @Test
     public void testAccountShouldReturnNull(){
         try {
+            setUp();
             AccountTypeDAO mockAccountTypeDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountTypeDAO.class);
             AccountDAO mockAccountDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountDAO.class);
             AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
@@ -226,11 +242,14 @@ public class AccountServiceTest {
             Assert.assertNull(result);
         } catch (NotFoundException e) {
             Assert.fail();
+        } finally {
+            setDown();
         }
     }
 
     @Test
     public void testAccountUpdateShouldRollbackTransaction(){
+        ModelMapper mockMapper = null;
         try {
             setUp();
 
@@ -238,7 +257,7 @@ public class AccountServiceTest {
             accountTypeEntity.setAccountType("AccountType");
             accountTypeEntity.setId(addedTwo.getId());
 
-            ModelMapper mockMapper = SpringBeanMockUtil.mockFieldOnBean(accountDAOImpl, ModelMapper.class);
+            mockMapper = SpringBeanMockUtil.mockFieldOnBean(accountDAOImpl, ModelMapper.class);
             AccountTypeDAO mockAccountTypeDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountTypeDAO.class);
 
             MockitoAnnotations.initMocks(this);
@@ -249,9 +268,10 @@ public class AccountServiceTest {
             accountService.update(getAccountForUpdate());
 
             Assert.fail();
+
         }catch(NotFoundException notFoundExpected) {
-            //RESET MOCKS
-            AccountDto assure = accountService.findAccount(addedTwo.getId());
+            reset(mockMapper);
+            AccountEntity assure = accountDAO.findById(addedTwo.getId()).get();
             Assert.assertEquals("TestSetUpAccountName2",assure);
         }catch(Exception e){
             Assert.fail();
@@ -260,9 +280,38 @@ public class AccountServiceTest {
         }
     }
 
+    //TODO
     @Test
     public void testAccountDelete(){
 
+    }
+
+    @Test
+    public void testAccountServiceAddEANNumberShouldReturnTrue(){
+        AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
+        MockitoAnnotations.initMocks(this);
+        Mockito.doReturn(true).when(mockAccountEANDAO).addOneEanNumber(any(AccountEanEntity.class));
+        Assert.assertTrue(accountService.addEAN(new AccountEanForCreationDto()));
+    }
+
+    @Test
+    public void testAccountServiceDeleteEANNumberShouldReturnTrue(){
+        AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
+        MockitoAnnotations.initMocks(this);
+        Mockito.doReturn(true).when(mockAccountEANDAO).deleteOneEanNumber(anyInt(), anyString());
+        Assert.assertTrue(accountService.deleteEAN(0, "Test"));
+    }
+
+    //Potem dodać transakcje
+    @Test
+    public void testAccountServiceListEANsForAccount() {
+        List<AccountEanDto> list = new ArrayList<>();
+        list.add(new AccountEanDto());
+        list.add(new AccountEanDto());
+        AccountEanDAO mockAccountEANDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountEanDAO.class);
+        MockitoAnnotations.initMocks(this);
+        Mockito.doReturn(list).when(mockAccountEANDAO).findListOfAccountEANNumbers(anyInt());
+        Assert.assertEquals(2, accountService.findListOfEANNumbersForAccount(0));
     }
 
 }

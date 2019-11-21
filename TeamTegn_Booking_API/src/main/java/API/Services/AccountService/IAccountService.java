@@ -26,7 +26,7 @@ public interface IAccountService {
 
     boolean addEAN(AccountEanForCreationDto accountEan);
 
-    List<AccountEanDto> findEANNumber(int accountID);
+    List<AccountEanDto> findListOfEANNumbersForAccount(int accountID);
 
     List<AccountDto> list();
 }

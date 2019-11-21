@@ -123,7 +123,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<AccountEanDto> findEANNumber(int accountID) {
+    public List<AccountEanDto> findListOfEANNumbersForAccount(int accountID) {
         return accountEanDAO.findListOfAccountEANNumbers(accountID);
     }
 
