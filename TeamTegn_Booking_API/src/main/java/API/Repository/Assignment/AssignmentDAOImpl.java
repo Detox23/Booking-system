@@ -3,10 +3,12 @@ package API.Repository.Assignment;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.AccountEntity;
 import API.Database_Entities.AssignmentEntity;
+import API.Exceptions.NotEnoughDataException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.AllArguments;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -44,7 +46,7 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
             }
             return null;
         } catch (NoSuchElementException e) {
-            throw new NotFoundException("Account was not found while an attempt of making update.");
+            throw new NotFoundException("Assignment was not found while an attempt of making update.");
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
         } catch (Exception e) {
@@ -63,7 +65,18 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
     @Override
     public AssignmentEntity addOne(AssignmentEntity assignmentEntity) {
-        return assignmentDAO.save(assignmentEntity);
+        try{
+            return  assignmentDAO.save(assignmentEntity);
+        }catch (NotEnoughDataException notEnoughDataException) {
+            throw new NotEnoughDataException("You provided to little information");
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
+            throw new NotEnoughDataException("You provided to little information");
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new NotFoundException(noSuchElementException.getMessage());
+        } catch (Exception e) {
+            throw e;
+        }
+
     }
 
     @Override

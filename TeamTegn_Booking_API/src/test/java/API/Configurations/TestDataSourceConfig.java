@@ -22,8 +22,8 @@ public class TestDataSourceConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         dataSource.setUsername("sa");
-        dataSource.setPassword("90809988Qwe");
-        dataSource.setUrl("jdbc:sqlserver://localhost\\MSSQLSERVER:1433;database=Test");
+        dataSource.setPassword("asdasd");
+        dataSource.setUrl("jdbc:sqlserver://localhost\\SQLP:1433;database=Test");
         return dataSource;
     }
 

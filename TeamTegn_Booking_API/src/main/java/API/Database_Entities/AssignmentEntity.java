@@ -1,5 +1,10 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -276,6 +281,7 @@ public class AssignmentEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy", nullable = true)
     public Integer getCreatedBy() {
         return createdBy;
@@ -286,6 +292,7 @@ public class AssignmentEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -296,6 +303,7 @@ public class AssignmentEntity {
     }
 
     @Basic
+    @UpdateTimestamp
     @Column(name = "LastModified", nullable = true)
     public Timestamp getLastModified() {
         return lastModified;
@@ -306,6 +314,7 @@ public class AssignmentEntity {
     }
 
     @Basic
+    @LastModifiedBy
     @Column(name = "LastModifiedBy", nullable = true)
     public Integer getLastModifiedBy() {
         return lastModifiedBy;
@@ -316,7 +325,7 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @Column(name = "IsDeleted", nullable = false)
+    @Column(name = "IsDeleted", nullable = false, columnDefinition = "boolean default false")
     public boolean isDeleted() {
         return isDeleted;
     }

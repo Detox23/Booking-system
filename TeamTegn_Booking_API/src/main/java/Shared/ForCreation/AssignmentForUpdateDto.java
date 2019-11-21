@@ -48,6 +48,8 @@ public class AssignmentForUpdateDto {
     private Boolean isResale;
     private Integer resaleParentId;
     private List<Integer> assignmentStatusTypeIds;
+    private List<Integer> serviceProviders;
+
 
     public List<Integer> getAssignmentStatusTypeIds() {
         return assignmentStatusTypeIds;

@@ -1,5 +1,6 @@
 package Shared.ForCreation;
 
+import Shared.ToReturn.ServiceProviderDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
@@ -47,6 +48,15 @@ public class AssignmentForCreationDto {
     private Boolean isResale;
     private Integer resaleParentId;
     private List<Integer> assignmentStatusTypeIds;
+    private List<Integer> serviceProviders;
+
+    public List<Integer> getServiceProviders() {
+        return serviceProviders;
+    }
+
+    public void setServiceProviders(List<Integer> serviceProviders) {
+        this.serviceProviders = serviceProviders;
+    }
 
     public List<Integer> getAssignmentStatusTypeIds() {
         return assignmentStatusTypeIds;

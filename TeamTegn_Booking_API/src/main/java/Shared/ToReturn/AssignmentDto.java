@@ -52,6 +52,15 @@ public class AssignmentDto {
     private Boolean isResale;
     private Integer resaleParentId;
     private List<Integer> listOfAssignmentStatusTypeIds;
+    private List<ServiceProviderDto> serviceProviders;
+
+    public List<ServiceProviderDto> getServiceProviders() {
+        return serviceProviders;
+    }
+
+    public void setServiceProviders(List<ServiceProviderDto> serviceProviders) {
+        this.serviceProviders = serviceProviders;
+    }
 
     public List<Integer> getListOfAssignmentStatusTypeIds() {
         return listOfAssignmentStatusTypeIds;

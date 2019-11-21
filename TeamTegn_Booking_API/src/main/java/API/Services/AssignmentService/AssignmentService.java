@@ -2,12 +2,14 @@ package API.Services.AssignmentService;
 
 import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentEntity;
-import API.Repository.Assignment.AAssignmentStatusTypeDAO;
-import API.Repository.Assignment.AssignmentDAO;
-import API.Repository.Assignment.AssignmentDAOImpl;
+import API.Database_Entities.AssignmentServiceProviderEntity;
+import API.Database_Entities.ServiceProviderEntity;
+import API.Repository.Assignment.*;
+import API.Services.ServiceProviderService.ServiceProviderService;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
 import Shared.ToReturn.AssignmentDto;
+import Shared.ToReturn.ServiceProviderDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,20 +30,27 @@ public class AssignmentService implements IAssignmentService {
 
     @Autowired
     private AssignmentDAOImpl assignmentRepository;
+    @Autowired
+    private AssignmentServiceProviderDAO assignmentServiceProviderRepository;
 
     @Autowired
     private AAssignmentStatusTypeDAO assignmentStatusTypeRepository;
+    @Autowired
+    private ServiceProviderService serviceProviderService;
 
 
     @Override
     @Transactional
     public AssignmentDto add(AssignmentForCreationDto assignmentEntity) {
+        List<Integer> providers = assignmentEntity.getServiceProviders();
+
         AssignmentEntity dbEntity = mapper.map(assignmentEntity, AssignmentEntity.class);
 
         AssignmentEntity assignment = assignmentRepository.addOne(dbEntity);
-        for (Integer id: assignmentEntity.getAssignmentStatusTypeIds()) {
-            assignmentStatusTypeRepository.save(new AssignmentAssignmentStatusTypeEntity(assignment.getId(), id));
-        }
+        assignmentEntity.getAssignmentStatusTypeIds()
+                        .forEach((id)->   assignmentStatusTypeRepository.save(new AssignmentAssignmentStatusTypeEntity(assignment.getId(), id)));
+
+        providers.forEach((serviceProviderId) -> addAssignmentAssignmentStatusProvider(assignment, serviceProviderId));
         return mapper.map(assignment, AssignmentDto.class);
     }
 
@@ -50,8 +60,25 @@ public class AssignmentService implements IAssignmentService {
         AssignmentDto dto =  mapper.map(assignment, AssignmentDto.class);
         List<Integer> listOfAssignmentStatusTypeIds  = assignmentStatusTypeRepository.findAllByAssignmentId(id);
         dto.setListOfAssignmentStatusTypeIds(listOfAssignmentStatusTypeIds);
+        List<AssignmentServiceProviderEntity> assignmentServiceProviderEntities  = assignmentServiceProviderRepository.findAllByAssignmentByAssignmentId(id);
+        List<ServiceProviderDto> serviceProviderDtos = new ArrayList<ServiceProviderDto>();
+
+        assignmentServiceProviderEntities.forEach((e) ->
+                                          serviceProviderDtos.add(
+                                                  serviceProviderService.findServiceProvider(e.getServiceProviderId())));
+        dto.setServiceProviders(serviceProviderDtos);
         return dto;
     }
+
+
+    private void addAssignmentAssignmentStatusProvider(AssignmentEntity assignment, int serviceProviderId) {
+        AssignmentServiceProviderEntity assignmentServiceProviderEntity = new AssignmentServiceProviderEntity();
+        assignmentServiceProviderEntity.setServiceProviderId(serviceProviderId);
+        assignmentServiceProviderEntity.setAssignmentByAssignmentId(assignment);
+
+        assignmentServiceProviderRepository.save(assignmentServiceProviderEntity);
+    }
+
 
     @Override
     public Page<AssignmentDto> getAll(Pageable pageable) {
