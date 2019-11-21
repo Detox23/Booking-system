@@ -14,7 +14,7 @@ public class DataSourceConfig {
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         dataSource.setUsername("sa");
         dataSource.setPassword("90809988Qwe");
-        dataSource.setUrl("jdbc:sqlserver://SW-TT\\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment");
+        dataSource.setUrl("jdbc:sqlserver://JAKUB\\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment");
         return dataSource;
     }
 }

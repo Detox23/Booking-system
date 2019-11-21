@@ -103,7 +103,8 @@ public class AccountDAOImpl implements AccountDAOCustom {
             }
             patcherHandler.fillNotNullFields(found, accountDto);
             AccountEntity result = accountDAO.save(found);
-            return modelMapper.map(result, AccountDto.class);
+            AccountDto toReturn = modelMapper.map(result, AccountDto.class);
+            return toReturn;
         } catch (NoSuchElementException e) {
             throw new NotFoundException("Account was not found while an attempt of making update.");
         } catch (IntrospectionException introspectionException) {

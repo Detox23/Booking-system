@@ -94,7 +94,9 @@ public class AccountServiceTest {
 
     private AccountForUpdateDto getAccountForUpdate() {
         AccountForUpdateDto accountForUpdateDto = new AccountForUpdateDto();
-        accountForUpdateDto.setAccountTypeID(1);
+        accountForUpdateDto.setId(addedTwo.getId());
+        accountForUpdateDto.setAccountName("AccountNameToBeUpdated");
+        accountForUpdateDto.setAccountTypeID(idAccountType);
         return accountForUpdateDto;
     }
 
@@ -225,6 +227,42 @@ public class AccountServiceTest {
         } catch (NotFoundException e) {
             Assert.fail();
         }
+    }
+
+    @Test
+    public void testAccountUpdateShouldRollbackTransaction(){
+        try {
+            setUp();
+
+            AccountTypeEntity accountTypeEntity = new AccountTypeEntity();
+            accountTypeEntity.setAccountType("AccountType");
+            accountTypeEntity.setId(addedTwo.getId());
+
+            ModelMapper mockMapper = SpringBeanMockUtil.mockFieldOnBean(accountDAOImpl, ModelMapper.class);
+            AccountTypeDAO mockAccountTypeDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountTypeDAO.class);
+
+            MockitoAnnotations.initMocks(this);
+
+            Mockito.doThrow(new NoSuchElementException()).when(mockMapper).map(any(AccountEntity.class), eq(AccountDto.class));
+            Mockito.doReturn(Optional.of((Object) accountTypeEntity)).when(mockAccountTypeDAO).findById(anyInt());
+
+            accountService.update(getAccountForUpdate());
+
+            Assert.fail();
+        }catch(NotFoundException notFoundExpected) {
+            //RESET MOCKS
+            AccountDto assure = accountService.findAccount(addedTwo.getId());
+            Assert.assertEquals("TestSetUpAccountName2",assure);
+        }catch(Exception e){
+            Assert.fail();
+        }finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testAccountDelete(){
+
     }
 
 }
