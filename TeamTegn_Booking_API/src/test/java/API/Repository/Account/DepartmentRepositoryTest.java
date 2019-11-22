@@ -2,6 +2,7 @@ package API.Repository.Account;
 
 import API.Database_Entities.DepartmentEntity;
 import API.Exceptions.DuplicateException;
+import API.Exceptions.NotFoundException;
 import API.MainApplicationClass;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ToReturn.DepartmentDto;
@@ -29,7 +30,7 @@ public class DepartmentRepositoryTest {
 
     private String addedName;
 
-    private void setUp(){
+    private void setUp() {
         DepartmentEntity departmentEntity = new DepartmentEntity();
         departmentEntity.setDepartmentName("TestDepartmentName");
         departmentEntity.setCity("TestDepartmentCity");
@@ -45,14 +46,14 @@ public class DepartmentRepositoryTest {
     }
 
 
-    private void setDown(){
+    private void setDown() {
         departmentDAO.deleteAllInBatch();
         departmentDAO.flush();
     }
 
     @Test
-    public void testAddDepartmentRepositoryShouldReturnNotNullObject(){
-        try{
+    public void testAddDepartmentRepositoryShouldReturnNotNullObject() {
+        try {
             setUp();
             DepartmentEntity departmentEntity = new DepartmentEntity();
             departmentEntity.setDepartmentName("TestDepartmentAdding");
@@ -60,63 +61,77 @@ public class DepartmentRepositoryTest {
             departmentEntity.setCountry("testDepartmentAddingCountry");
             Assert.assertNotNull(departmentDAO.addOneDepartment(departmentEntity));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
-        }finally {
+        } finally {
             setDown();
         }
     }
 
     @Test
-    public void testAddDepartmentRepositoryShouldThrowDuplicateException(){
+    public void testAddDepartmentRepositoryShouldThrowDuplicateException() {
         try {
             setUp();
             DepartmentEntity departmentEntity = new DepartmentEntity();
             departmentEntity.setDepartmentName("TestDepartmentName");
             departmentDAO.addOneDepartment(departmentEntity);
             Assert.fail();
-        }catch(DuplicateException duplicate){
+        } catch (DuplicateException duplicate) {
             Assert.assertEquals("Department with the name already exists.", duplicate.getMessage());
-        }finally {
+        } finally {
             setDown();
         }
     }
 
     @Test
-    public void testFindDepartmentShouldReturnSetUpObject(){
-        try{
+    public void testFindDepartmentShouldReturnSetUpObject() {
+        try {
             setUp();
             DepartmentDto found = departmentDAO.findOneDepartment(addedName);
             Assert.assertEquals("TestDepartmentName", found.getDepartmentName());
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
-        }finally {
+        } finally {
             setDown();
         }
     }
 
     @Test
-    public void testFindAllDepartmentsShouldReturnListOfSizeTwo(){
-        try{
+    public void testFindAllDepartmentsShouldReturnListOfSizeTwo() {
+        try {
             setUp();
             Assert.assertEquals(2, departmentDAO.listAllDepartments().size());
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
-        }finally {
+        } finally {
             setDown();
         }
     }
 
     @Test
-    public void testDeleteDepartmentNewListShouldHaveOneItem(){
-        try{
+    public void testFindDepartmentInvalidName() {
+        try {
+            setUp();
+            departmentDAO.findOneDepartment("NotExistingDepartment");
+            Assert.fail();
+        } catch (NotFoundException notFoundExeption) {
+            Assert.assertEquals("Department with the provided name was not found.", notFoundExeption.getMessage());
+        } finally {
+            setDown();
+        }
+    }
+
+    @Test
+    public void testDeleteDepartmentNewListShouldHaveOneItem() {
+        try {
             setUp();
             departmentDAO.deleteOneDepartment("TestDepartmentName");
             Assert.assertEquals(1, departmentDAO.listAllDepartments().size());
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
-        }finally {
+        } finally {
             setDown();
         }
     }
+
 }
