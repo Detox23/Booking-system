@@ -1,5 +1,6 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -157,8 +158,8 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @CreatedDate
-    @Column(name = "CreatedDate", nullable = true)
+    @CreationTimestamp
+    @Column(name = "CreatedDate", nullable = false)
     public Timestamp getCreatedDate() {
         return createdDate;
     }

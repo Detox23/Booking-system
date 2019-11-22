@@ -39,6 +39,7 @@ public class AccountService implements IAccountService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public AccountDto addAccount(AccountForCreationDto account) {
+
         try {
             AccountDto addedAccount = accountDAO.addOneAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getAccountTypeId());
             return fillAccountWithListOfEans(addedAccount);

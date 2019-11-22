@@ -1,6 +1,7 @@
 package API.Configurations;
 
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -23,7 +24,7 @@ public class SpringBeanMockUtil {
     }
 
     public static <T> T mockFieldOnBean(Object beanToInjectMock, Class<T> classToMock) {
-        T mocked = Mockito.mock(classToMock);
+        T mocked = Mockito.mock(classToMock, Mockito.withSettings().defaultAnswer(InvocationOnMock::callRealMethod));
         ReflectionTestUtils.setField(unwrapProxy(beanToInjectMock), null, mocked, classToMock);
         return mocked;
     }

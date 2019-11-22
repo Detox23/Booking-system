@@ -56,7 +56,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Override
     public ServiceUserEntity update(ServiceUserEntity userEntity) {
-        //TODO: in service/ controller set curren user as editor
+        //TODO: in service/ controller set current user as editor
 
         try {
             ServiceUserEntity found = jpaRepository.findFirstByIdAndAndDeletedIsFalse(userEntity.getId());

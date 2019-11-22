@@ -3,6 +3,7 @@ package API.Repository.ServiceProvider;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Exceptions.*;
+import Shared.ForCreation.ServiceProviderServiceProviderCompetencyForCreationDto;
 import Shared.ToReturn.ServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,6 +23,14 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
     private ModelMapper modelMapper;
 
     private PatcherHandler patcherHandler;
+
+    private ServiceProvider_ServiceProviderCompetencyDAO serviceProviderServiceProviderCompetencyDAO;
+
+    @Autowired
+    public void setServiceProviderServiceProviderCompetencyDAO(ServiceProvider_ServiceProviderCompetencyDAO serviceProviderServiceProviderCompetencyDAO) {
+        this.serviceProviderServiceProviderCompetencyDAO = serviceProviderServiceProviderCompetencyDAO;
+    }
+
 
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
@@ -99,6 +108,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
     @Override
     public boolean deleteOneCompetency(int id) {
         try {
+            serviceProviderServiceProviderCompetencyDAO.deleteAllByCompetencyId(id);
             serviceProviderCompetencyDAO.deleteById(id);
             try {
                 serviceProviderCompetencyDAO.findById(id).get();
@@ -113,6 +123,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
             throw new RuntimeException("Unknown error");
         }
     }
+
 
 
 }

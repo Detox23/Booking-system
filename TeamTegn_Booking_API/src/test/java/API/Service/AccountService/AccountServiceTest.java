@@ -4,6 +4,7 @@ import API.Configurations.SpringBeanMockUtil;
 import API.Database_Entities.AccountEanEntity;
 import API.Database_Entities.AccountEntity;
 import API.Database_Entities.AccountTypeEntity;
+import API.Exceptions.DeletionException;
 import API.Exceptions.NotFoundException;
 import API.MainApplicationClass;
 import API.Repository.Account.AccountDAO;
@@ -229,7 +230,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testAccountShouldReturnNull() {
+    public void testAccountUpdateShouldReturnNull() {
         try {
             setUp();
             AccountTypeDAO mockAccountTypeDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountTypeDAO.class);
@@ -250,7 +251,6 @@ public class AccountServiceTest {
 
     @Test
     public void testAccountUpdateShouldRollbackTransaction() {
-        ModelMapper mockMapper = null;
         try {
             setUp();
 
@@ -258,7 +258,7 @@ public class AccountServiceTest {
             accountTypeEntity.setAccountType("AccountType");
             accountTypeEntity.setId(addedTwo.getId());
 
-            mockMapper = SpringBeanMockUtil.mockFieldOnBean(accountDAOImpl, ModelMapper.class);
+            ModelMapper mockMapper  = SpringBeanMockUtil.mockFieldOnBean(accountDAOImpl, ModelMapper.class);
             AccountTypeDAO mockAccountTypeDAO = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountTypeDAO.class);
 
             MockitoAnnotations.initMocks(this);
@@ -271,9 +271,8 @@ public class AccountServiceTest {
             Assert.fail();
 
         } catch (NotFoundException notFoundExpected) {
-            reset(mockMapper);
-            AccountEntity assure = accountDAO.findById(addedTwo.getId()).get();
-            Assert.assertEquals("TestSetUpAccountName2", assure);
+            AccountEntity assure = accountDAO.findAccountEntityByAccountName("TestSetUpAccountName2");
+            Assert.assertNotEquals("AccountToBeUpdated", assure.getAccountName());
         } catch (Exception e) {
             Assert.fail();
         } finally {
@@ -284,7 +283,7 @@ public class AccountServiceTest {
     @Test
     public void testAccountServiceDeleteAccount() {
         try {
-            AccountDAO accountDAOMock = SpringBeanMockUtil.mockFieldOnBean(accountService, AccountDAO.class);
+            AccountDAO accountDAOMock = SpringBeanMockUtil.mockFieldOnBean(accountDAOImpl, AccountDAO.class);
             MockitoAnnotations.initMocks(this);
             Mockito.doReturn(true).when(accountDAOMock).deleteOneAccount(anyInt());
             Assert.assertTrue(accountService.deleteAccount(0));
@@ -309,6 +308,27 @@ public class AccountServiceTest {
         MockitoAnnotations.initMocks(this);
         Mockito.doReturn(true).when(mockAccountEANDAO).deleteOneEanNumber(anyInt(), anyString());
         Assert.assertTrue(accountService.deleteEAN(0, "Test"));
+    }
+
+    @Test
+    public void testAccountDeleteShouldRollback() {
+        try {
+            setUp();
+            AccountEntity acc = new AccountEntity();
+            acc.setDeleted(false);
+            acc.setCity("Not Deleted");
+            AccountDAO accountEntityMock = SpringBeanMockUtil.mockFieldOnBean(accountDAOImpl, AccountDAO.class);
+            MockitoAnnotations.initMocks(this);
+            Mockito.doReturn(acc).when(accountEntityMock).save(any(AccountEntity.class));
+            accountService.deleteAccount(addedOne.getId());
+        } catch (DeletionException deletionException) {
+            AccountEntity assure = accountDAO.findAccountEntityByAccountName(addedOne.getAccountName());
+            Assert.assertFalse(assure.isDeleted());
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        } finally {
+            setDown();
+        }
     }
 
     //TODO transaction handling
