@@ -1,6 +1,7 @@
 package API.Services.AssignmentService;
 
 import API.Database_Entities.AssignmentTypeEntity;
+import API.Repository.Assignment.AssignmentTypeDAO;
 import API.Repository.Assignment.AssignmentTypeDAOImpl;
 import Shared.ForCreation.AssignmentTypeForCreationDto;
 import Shared.ForCreation.AssignmentTypeForUpdateDto;
@@ -16,11 +17,20 @@ import java.util.List;
 @Service
 public class AssignmentTypeService implements IAssignmentTypeService {
 
-    @Autowired
+
     private ModelMapper mapper;
 
+    private AssignmentTypeDAO repository;
+
     @Autowired
-    private AssignmentTypeDAOImpl repository;
+    public void setMapper(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
+
+    @Autowired
+    public void setRepository(AssignmentTypeDAO repository) {
+        this.repository = repository;
+    }
 
     @Override
     public AssignmentTypeDto add(AssignmentTypeForCreationDto assignmentEntity) {
@@ -36,8 +46,7 @@ public class AssignmentTypeService implements IAssignmentTypeService {
     @Override
     public List<AssignmentTypeDto> getAll() {
 
-        List<AssignmentTypeEntity> elements = (List<AssignmentTypeEntity>) Lists.newArrayList(repository.list());
-
+        List<AssignmentTypeEntity> elements = Lists.newArrayList(repository.list());
         return mapper.map(elements, new TypeToken<List<AssignmentTypeDto>>() {
         }.getType());
     }

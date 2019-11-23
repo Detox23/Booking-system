@@ -106,8 +106,6 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
             throw new NotEnoughDataException("Department does not exist.");
         }catch(InvalidDataAccessApiUsageException invalidDataAccessApiUsageException){
             throw new NotEnoughDataException("There are missing information to create a service provider");
-        }catch(Exception e){
-            throw e;
         }
     }
 
@@ -117,16 +115,14 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
                 ServiceProviderServiceProviderCompetencyForCreationDto serviceProviderSPCompetency = new ServiceProviderServiceProviderCompetencyForCreationDto();
                 serviceProviderSPCompetency.setCompetencyId(competency);
                 serviceProviderSPCompetency.setServiceProviderId(id);
-                boolean resultOfAdding = serviceProviderServiceProviderCompetencyDAO.addServiceProvider_ServiceProviderCompetency(
+                boolean resultOfAdding = serviceProviderServiceProviderCompetencyDAO.addServiceProviderServiceProviderCompetency(
                         modelMapper.map(
                                 serviceProviderSPCompetency,
                                 ServiceProviderServiceProviderCompetencyEntity.class
                         )
                 );
-                if (resultOfAdding == false) {
-                    throw new UnknownAddingException(
-                            "There was an error while assigning service provider to their competency."
-                    );
+                if (!resultOfAdding) {
+                    throw new UnknownAddingException("Provided competency does not exists.");
                 }
             }
         }

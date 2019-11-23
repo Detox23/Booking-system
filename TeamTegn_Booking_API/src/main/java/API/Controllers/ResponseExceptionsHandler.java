@@ -57,4 +57,9 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
     protected  ResponseEntity<Object> handleUpdateErrorException(UpdateErrorException exeption){
         return new ResponseEntity<>(exeption.getMessage(), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(value=UnknownAddingException.class)
+    protected  ResponseEntity<Object> handleUnknownAddingException(UnknownAddingException exeption){
+        return new ResponseEntity<>(exeption.getMessage(), HttpStatus.CONFLICT);
+    }
 }

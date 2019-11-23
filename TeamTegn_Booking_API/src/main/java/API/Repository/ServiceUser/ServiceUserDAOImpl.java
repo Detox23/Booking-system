@@ -3,23 +3,36 @@ package API.Repository.ServiceUser;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.AccountEntity;
 import API.Database_Entities.ServiceUserEntity;
+import API.Exceptions.DeletionException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdateErrorException;
 import API.Exceptions.UpdatePatchException;
 import Shared.ToReturn.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
+@Component
 public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Autowired
-    private ServiceUserDAO jpaRepository;
+    public void setPatcherHandler(PatcherHandler patcherHandler) {
+        this.patcherHandler = patcherHandler;
+    }
+
     @Autowired
+    public void setJpaRepository(ServiceUserDAO jpaRepository) {
+        this.jpaRepository = jpaRepository;
+    }
+
+    private ServiceUserDAO jpaRepository;
+
+
     private PatcherHandler patcherHandler;
 
     @Override
@@ -31,8 +44,15 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Override
     public boolean deleteById(int id) {
-        jpaRepository.deleteById(id);
-        return jpaRepository.findById(id).get() == null;
+        try {
+            jpaRepository.deleteById(id);
+            jpaRepository.findById(id).get();
+            return false;
+        }catch (NoSuchElementException noSuchElementException){
+            return true;
+        }catch (Exception e){
+            throw new DeletionException("There was an error while deleting service user.");
+        }
     }
 
     @Override
@@ -59,21 +79,18 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         //TODO: in service/ controller set current user as editor
 
         try {
-            ServiceUserEntity found = jpaRepository.findFirstByIdAndAndDeletedIsFalse(userEntity.getId());
+            ServiceUserEntity found = jpaRepository.findFirstByIdAndDeletedIsFalse(userEntity.getId());
             if(found != null)
             {
             patcherHandler.fillNotNullFields(found, userEntity);
-            ServiceUserEntity result = jpaRepository.save(found);
-            return result;
+            return jpaRepository.save(found);
             }
             return null;
         } catch (NoSuchElementException e) {
             throw new NotFoundException("Account was not found while an attempt of making update.");
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
-        } catch (Exception e) {
-            throw e;
-    }
+        }
     }
 }
 

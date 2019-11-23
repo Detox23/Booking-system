@@ -10,6 +10,7 @@ public class ServiceProviderSourceEntity {
 
     @Id
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -19,7 +20,7 @@ public class ServiceProviderSourceEntity {
     }
 
     @Basic
-    @Column(name = "ProviderSource", nullable = true, length = 50)
+    @Column(name = "ProviderSource", length = 50)
     public String getProviderSource() {
         return providerSource;
     }

@@ -1,5 +1,6 @@
 package API.Repository.ServiceProvider;
 
+import API.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
 import Shared.ToReturn.ServiceProviderServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;
@@ -10,13 +11,21 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ServiceProvider_ServiceProviderCompetencyDAOImpl implements ServiceProvider_ServiceProviderCompetencyCustom {
 
     private ServiceProvider_ServiceProviderCompetencyDAO serviceProviderServiceProviderCompetencyDAO;
 
+    private ServiceProviderCompetencyDAO serviceProviderCompetencyDAO;
+
     private ModelMapper modelMapper;
+
+    @Autowired
+    public void setServiceProviderCompetencyDAO(ServiceProviderCompetencyDAO serviceProviderCompetencyDAO) {
+        this.serviceProviderCompetencyDAO = serviceProviderCompetencyDAO;
+    }
 
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
@@ -30,22 +39,17 @@ public class ServiceProvider_ServiceProviderCompetencyDAOImpl implements Service
 
 
     @Override
-    public boolean addServiceProvider_ServiceProviderCompetency(ServiceProviderServiceProviderCompetencyEntity serviceProviderServiceProviderCompetencyEntity) {
+    public boolean addServiceProviderServiceProviderCompetency(ServiceProviderServiceProviderCompetencyEntity serviceProviderServiceProviderCompetencyEntity) {
         try {
-            ServiceProviderServiceProviderCompetencyEntity result = serviceProviderServiceProviderCompetencyDAO.save(serviceProviderServiceProviderCompetencyEntity);
-            if(result != null) {
-                return true;
-            }else{
+            Optional<ServiceProviderCompetencyEntity> foundResult = serviceProviderCompetencyDAO.findById(serviceProviderServiceProviderCompetencyEntity.getId());
+            if(!foundResult.isPresent()){
                 return false;
             }
-        }catch (Exception e){
+            ServiceProviderServiceProviderCompetencyEntity addingResult = serviceProviderServiceProviderCompetencyDAO.save(serviceProviderServiceProviderCompetencyEntity);
+            return addingResult != null;
+        } catch (Exception e) {
             return false;
         }
-    }
-
-    @Override
-    public boolean deleteServiceProvider_ServiceProviderCompetency(int serviceProviderID, int competency) {
-        return false;
     }
 
     @Override

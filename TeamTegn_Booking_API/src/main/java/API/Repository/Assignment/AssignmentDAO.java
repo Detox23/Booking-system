@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AssignmentDAO extends PagingAndSortingRepository<AssignmentEntity, Integer> {
+public interface AssignmentDAO extends PagingAndSortingRepository<AssignmentEntity, Integer>, AssignmentDAOCustom {
 
     AssignmentEntity findFirstByIdAndDeletedIsFalse(int id);
 

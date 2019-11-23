@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/assignments")
 public class AssignmentController extends BaseController {
 
+    private IAssignmentService assignmentService;
 
     @Autowired
-    private IAssignmentService assignmentService;
+    public void setAssignmentService(IAssignmentService assignmentService) {
+        this.assignmentService = assignmentService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "10") int pageSize,

@@ -12,5 +12,7 @@ public interface ServiceProvider_ServiceProviderCompetencyDAO extends JpaReposit
 
     void deleteAllByServiceProviderId(int serviceProviderID);
 
+    void deleteAllByServiceProviderIdAndCompetencyId(int serviceProviderID, int competencyID);
+
     void deleteAllByCompetencyId(int competencyID);
 }

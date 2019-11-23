@@ -15,8 +15,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/departments")
 public class DepartmentController extends BaseController {
 
-    @Autowired
     private IDepartmentService departmentService;
+
+    @Autowired
+    public void setDepartmentService(IDepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<?> seeAllDepartments() {

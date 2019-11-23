@@ -16,11 +16,11 @@ public class ServiceProviderController extends BaseController {
 
     private IServiceProviderService serviceProviderService;
 
-
     @Autowired
     public void setServiceProviderService(IServiceProviderService serviceProviderService) {
         this.serviceProviderService = serviceProviderService;
     }
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<?> listAll() {

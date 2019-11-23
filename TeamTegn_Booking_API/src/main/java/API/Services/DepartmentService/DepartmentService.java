@@ -14,11 +14,19 @@ import java.util.List;
 @Service
 public class DepartmentService implements IDepartmentService {
 
-    @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
     private DepartmentDAO departmentDAO;
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+    @Autowired
+    public void setDepartmentDAO(DepartmentDAO departmentDAO) {
+        this.departmentDAO = departmentDAO;
+    }
+
 
     @Override
     public List<DepartmentDto> seeAllDepartments() {
@@ -40,12 +48,7 @@ public class DepartmentService implements IDepartmentService {
     @Override
     @Transactional
     public DepartmentDto addDepartment(DepartmentForCreationDto department) {
-        DepartmentDto addedDepartment = departmentDAO.addOneDepartment(modelMapper.map(department, DepartmentEntity.class));
-        if (addedDepartment != null) {
-            return addedDepartment;
-        } else {
-            return null;
-        }
+        return departmentDAO.addOneDepartment(modelMapper.map(department, DepartmentEntity.class));
     }
 
     @Override

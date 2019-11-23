@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/assignmentsStatus")
 public class AssignmentStatusController {
 
+    private IAssignmentStatusService assignmentService;
 
     @Autowired
-    private IAssignmentStatusService assignmentService;
+    public void setAssignmentService(IAssignmentStatusService assignmentService) {
+        this.assignmentService = assignmentService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {

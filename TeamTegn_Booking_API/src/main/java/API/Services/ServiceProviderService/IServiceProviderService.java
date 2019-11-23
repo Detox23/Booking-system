@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface IServiceProviderService {
     List<ServiceProviderDto> list();
 
@@ -18,4 +18,5 @@ public interface IServiceProviderService {
     ServiceProviderDto updateServiceProvider(ServiceProviderForUpdate serviceProvider);
 
     boolean deleteServiceProvider(int id);
+
 }

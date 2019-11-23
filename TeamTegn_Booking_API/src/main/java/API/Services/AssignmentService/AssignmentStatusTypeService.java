@@ -13,14 +13,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
 
+@Service
 public class AssignmentStatusTypeService implements IAssignmentStatusTypeService{
 
-    @Autowired
+
     private ModelMapper mapper;
-    @Autowired
+
     private AssignmentStatusTypeDAO repository;
+
+    @Autowired
+    public void setRepository(AssignmentStatusTypeDAO repository) {
+        this.repository = repository;
+    }
+
+    @Autowired
+    public void setMapper(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
 
     @Override
     public AssignmentStatusTypeDto add(AssignmentStatusTypeForCreationDto assignment) {
@@ -37,7 +47,7 @@ public class AssignmentStatusTypeService implements IAssignmentStatusTypeService
 
     @Override
     public List<AssignmentStatusTypeDto> list() {
-        List<AssignmentStatusTypeEntity> elements = (List<AssignmentStatusTypeEntity>) Lists.newArrayList(repository.listAll());
+        List<AssignmentStatusTypeEntity> elements = Lists.newArrayList(repository.listAll());
 
         return mapper.map(elements, new TypeToken<List<AssignmentStatusTypeDto>>() {
         }.getType());

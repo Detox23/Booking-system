@@ -9,12 +9,9 @@ import Shared.ForCreation.ServiceProviderForUpdate;
 import Shared.ToReturn.ServiceProviderDto;
 import Shared.ToReturn.ServiceProviderServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -66,12 +63,7 @@ public class ServiceProviderService implements IServiceProviderService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderDto addServiceProvider(ServiceProviderForCreationDto serviceProvider) {
-        ServiceProviderDto saved = serviceProviderDAO.addServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetencies());
-        if (saved != null) {
-            return saved;
-        } else {
-            return null;
-        }
+        return serviceProviderDAO.addServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetencies());
     }
 
     @Override
@@ -84,6 +76,5 @@ public class ServiceProviderService implements IServiceProviderService {
     public boolean deleteServiceProvider(int id) {
         return serviceProviderDAO.deleteServiceProvider(id);
     }
-
 
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 
-public interface AssignmentStatusDAO extends JpaRepository<AssignmentStatusEntity, Integer> {
+public interface AssignmentStatusDAO extends JpaRepository<AssignmentStatusEntity, Integer>, AssignmentStatusDAOCustom {
 
 }
 

@@ -22,13 +22,24 @@ import java.util.Optional;
 @Service
 public class AssignmentService implements IAssignmentService {
 
-    @Autowired
+
     private ModelMapper mapper;
 
     @Autowired
-    private AssignmentDAOImpl assignmentRepository;
-
+    public void setMapper(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
     @Autowired
+    public void setAssignmentRepository(AssignmentDAO assignmentRepository) {
+        this.assignmentRepository = assignmentRepository;
+    }
+    @Autowired
+    public void setAssignmentStatusTypeRepository(AAssignmentStatusTypeDAO assignmentStatusTypeRepository) {
+        this.assignmentStatusTypeRepository = assignmentStatusTypeRepository;
+    }
+
+    private AssignmentDAO assignmentRepository;
+
     private AAssignmentStatusTypeDAO assignmentStatusTypeRepository;
 
 
@@ -56,9 +67,8 @@ public class AssignmentService implements IAssignmentService {
     @Override
     public Page<AssignmentDto> getAll(Pageable pageable) {
         Page<AssignmentEntity> list = assignmentRepository.listAll(pageable);
-        Page<AssignmentDto> listDtos = mapper.map(list, new TypeToken<Page<AssignmentDto>>() {
-        }.getType());
-        return listDtos;
+        return mapper.map(list, new TypeToken<Page<AssignmentDto>>() {}.getType());
+
     }
 
     @Override
