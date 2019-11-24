@@ -2,7 +2,7 @@ package API.Controllers;
 
 import API.Services.ServiceProviderService.IServiceProviderService;
 import Shared.ForCreation.ServiceProviderForCreationDto;
-import Shared.ForCreation.ServiceProviderForUpdate;
+import Shared.ForCreation.ServiceProviderForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,7 +38,7 @@ public class ServiceProviderController extends BaseController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateOne(@RequestBody ServiceProviderForUpdate serviceProvider) {
+    public ResponseEntity<?> updateOne(@RequestBody ServiceProviderForUpdateDto serviceProvider) {
         return new ResponseEntity<>(serviceProviderService.updateServiceProvider(serviceProvider), new HttpHeaders(), HttpStatus.OK);
     }
 

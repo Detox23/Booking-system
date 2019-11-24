@@ -3,6 +3,7 @@ package API.Services.DepartmentService;
 import API.Database_Entities.DepartmentEntity;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ForCreation.DepartmentForCreationDto;
+import Shared.ForCreation.DepartmentForUpdateDto;
 import Shared.ToReturn.DepartmentDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     @Transactional
-    public DepartmentDto updateDepartment(DepartmentDto department) {
+    public DepartmentDto updateDepartment(DepartmentForUpdateDto department) {
         return departmentDAO.updateOneDepartment(modelMapper.map(department, DepartmentEntity.class));
     }
 }

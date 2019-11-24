@@ -5,7 +5,7 @@ import API.Exceptions.NotFoundException;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import API.Repository.ServiceProvider.ServiceProvider_ServiceProviderCompetencyDAO;
 import Shared.ForCreation.ServiceProviderForCreationDto;
-import Shared.ForCreation.ServiceProviderForUpdate;
+import Shared.ForCreation.ServiceProviderForUpdateDto;
 import Shared.ToReturn.ServiceProviderDto;
 import Shared.ToReturn.ServiceProviderServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;
@@ -68,7 +68,7 @@ public class ServiceProviderService implements IServiceProviderService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public ServiceProviderDto updateServiceProvider(ServiceProviderForUpdate serviceProvider) {
+    public ServiceProviderDto updateServiceProvider(ServiceProviderForUpdateDto serviceProvider) {
         return serviceProviderDAO.updateServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetencies());
     }
 

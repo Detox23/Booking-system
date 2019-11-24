@@ -3,7 +3,7 @@ package Shared.ForCreation;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class ServiceProviderForUpdate {
+public class ServiceProviderForUpdateDto {
     private int id;
     private Integer gender;
     private String firstName;

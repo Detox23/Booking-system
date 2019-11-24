@@ -27,6 +27,10 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
 //        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 //    }
 
+    @ExceptionHandler(value=UnknownException.class)
+    protected  ResponseEntity<Object> handleUnknownException(UnknownException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+    }
 
     @ExceptionHandler(value= NotFoundException.class)
     protected  ResponseEntity<Object> handleNoSuchElementException(NotFoundException exception){

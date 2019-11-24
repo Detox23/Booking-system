@@ -3,7 +3,7 @@ package API.Controllers;
 
 import API.Services.DepartmentService.IDepartmentService;
 import Shared.ForCreation.DepartmentForCreationDto;
-import Shared.ToReturn.DepartmentDto;
+import Shared.ForCreation.DepartmentForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,7 +43,7 @@ public class DepartmentController extends BaseController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateDepartment(@RequestBody DepartmentDto department) {
+    public ResponseEntity<?> updateDepartment(@RequestBody DepartmentForUpdateDto department) {
         return new ResponseEntity<>(departmentService.updateDepartment(department), new HttpHeaders(), HttpStatus.OK);
     }
 }
