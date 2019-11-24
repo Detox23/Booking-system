@@ -2,9 +2,12 @@ package API.Configurations;
 
 import API.Database_Entities.AccountEntity;
 import API.Database_Entities.AssignmentEntity;
+import API.Database_Entities.ServiceProviderAbsenceEntity;
 import API.Database_Entities.ServiceProviderEntity;
+import API.Services.ServiceProviderService.ServiceProviderAbsence;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AssignmentForCreationDto;
+import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
 import Shared.ForCreation.ServiceProviderForCreationDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -35,6 +38,12 @@ public class ModelMapperConfig {
             }
         };
 
+        PropertyMap<ServiceProviderAbsenceForCreationDto, ServiceProviderAbsenceEntity> addingServiceProviderAbsenceMap = new PropertyMap<ServiceProviderAbsenceForCreationDto, ServiceProviderAbsenceEntity>() {
+            protected void configure() {
+                skip().setId(0);
+            }
+        };
+        mapper.addMappings(addingServiceProviderAbsenceMap);
         mapper.addMappings(addingServiceProviderMap);
         mapper.addMappings(addingAccountMap);
         mapper.addMappings(addingAssignmentMap);

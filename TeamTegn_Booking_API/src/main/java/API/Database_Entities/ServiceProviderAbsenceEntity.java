@@ -1,5 +1,8 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
@@ -17,7 +20,7 @@ public class ServiceProviderAbsenceEntity {
     private Date toDate;
     private Time toTime;
     private Integer absenceDays;
-    private String createdBy;
+    private int createdBy;
     private Timestamp createdDate;
 
     @Id
@@ -112,16 +115,18 @@ public class ServiceProviderAbsenceEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy")
-    public String getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CreatedDate")
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -150,7 +155,6 @@ public class ServiceProviderAbsenceEntity {
         if (toDate != null ? !toDate.equals(that.toDate) : that.toDate != null) return false;
         if (toTime != null ? !toTime.equals(that.toTime) : that.toTime != null) return false;
         if (absenceDays != null ? !absenceDays.equals(that.absenceDays) : that.absenceDays != null) return false;
-        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
 
         return true;
@@ -167,7 +171,6 @@ public class ServiceProviderAbsenceEntity {
         result = 31 * result + (toDate != null ? toDate.hashCode() : 0);
         result = 31 * result + (toTime != null ? toTime.hashCode() : 0);
         result = 31 * result + (absenceDays != null ? absenceDays.hashCode() : 0);
-        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         return result;
     }

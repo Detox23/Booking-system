@@ -1,5 +1,7 @@
 package Shared.ForCreation;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Time;
@@ -12,12 +14,16 @@ public class ServiceProviderAbsenceForCreationDto {
     @NotNull
     private String absenceReason;
     @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fromDate;
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time fromTime;
     @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date toDate;
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time toTime;
 
 

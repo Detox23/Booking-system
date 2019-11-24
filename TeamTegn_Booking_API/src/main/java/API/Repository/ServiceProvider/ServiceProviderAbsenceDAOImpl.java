@@ -1,7 +1,13 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AbsenceTypeEntity;
 import API.Database_Entities.ServiceProviderAbsenceEntity;
+import API.Database_Entities.ServiceProviderEntity;
+import API.Exceptions.DuplicateException;
+import API.Exceptions.NotFoundException;
+import API.Exceptions.UnknownAddingException;
+import API.Repository.AbsenceType.AbsenceTypeDAO;
 import Shared.ToReturn.ServiceProviderAbsenceDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOCustom {
@@ -18,7 +25,21 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
     private ServiceProviderAbsenceDAO serviceProviderAbsenceDAO;
 
+    private AbsenceTypeDAO absenceTypeDAO;
+
+    private ServiceProviderDAO serviceProviderDAO;
+
     private PatcherHandler patcherHandler;
+
+    @Autowired
+    public void setServiceProviderDAO(ServiceProviderDAO serviceProviderDAO) {
+        this.serviceProviderDAO = serviceProviderDAO;
+    }
+
+    @Autowired
+    public void setAbsenceTypeDAO(AbsenceTypeDAO absenceTypeDAO) {
+        this.absenceTypeDAO = absenceTypeDAO;
+    }
 
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
@@ -37,7 +58,24 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
     @Override
     public ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity) {
-        return null;
+        Optional<AbsenceTypeEntity> foundAbsenceType = absenceTypeDAO.findById(serviceProviderAbsenceEntity.getAbsenceTypeId());
+        if(!foundAbsenceType.isPresent()){
+            throw new NotFoundException("There is no such absence type id.");
+        }
+        Optional<ServiceProviderEntity> foundServiceProvider = serviceProviderDAO.findById(serviceProviderAbsenceEntity.getServiceProviderId());
+        if(!foundServiceProvider.isPresent()){
+            throw new NotFoundException("There is no such service provider with the id in a database.");
+        }
+        if(serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(serviceProviderAbsenceEntity.getFromDate(), serviceProviderAbsenceEntity.getToDate(), serviceProviderAbsenceEntity.getServiceProviderId()).size() > 0){
+            throw new DuplicateException("There is already absence registered between the dates for the service provider.");
+        }
+        serviceProviderAbsenceEntity.setAbsenceDays((int)((serviceProviderAbsenceEntity.getToDate().getTime() - serviceProviderAbsenceEntity.getFromDate().getTime())/86400000));
+        ServiceProviderAbsenceEntity saved = serviceProviderAbsenceDAO.save(serviceProviderAbsenceEntity);
+        if(saved.getId()> 0){
+            return modelMapper.map(saved, ServiceProviderAbsenceDto.class);
+        }else{
+            throw new UnknownAddingException("There was a problem with adding.");
+        }
     }
 
     @Override
@@ -79,4 +117,6 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(int serviceProviderID, Time startTime, Time endTime) {
         return null;
     }
+
+
 }
