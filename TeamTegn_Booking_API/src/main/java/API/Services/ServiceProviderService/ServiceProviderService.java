@@ -63,13 +63,15 @@ public class ServiceProviderService implements IServiceProviderService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderDto addServiceProvider(ServiceProviderForCreationDto serviceProvider) {
-        return serviceProviderDAO.addServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetencies());
+        return serviceProviderDAO.addServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class),
+                serviceProvider.getCompetencies(), serviceProvider.getTypes());
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderDto updateServiceProvider(ServiceProviderForUpdateDto serviceProvider) {
-        return serviceProviderDAO.updateServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetencies());
+        return serviceProviderDAO.updateServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class),
+                serviceProvider.getCompetencies(), serviceProvider.getTypes());
     }
 
     @Override

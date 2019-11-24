@@ -5,9 +5,11 @@ import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.DepartmentEntity;
 import API.Database_Entities.ServiceProviderEntity;
 import API.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
+import API.Database_Entities.ServiceProviderServiceProviderTypeEntity;
 import API.Exceptions.*;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ForCreation.ServiceProviderServiceProviderCompetencyForCreationDto;
+import Shared.ForCreation.ServiceProviderServiceProviderTypeForCreationDto;
 import Shared.ToReturn.ServiceProviderDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -36,7 +38,12 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
 
     private ServiceProvider_ServiceProviderCompetencyDAO serviceProviderServiceProviderCompetencyDAO;
 
+    private ServiceProvider_ServiceProviderTypeDAO serviceProviderServiceProviderTypeDAO;
 
+    @Autowired
+    public void setServiceProviderServiceProviderTypeDAO(ServiceProvider_ServiceProviderTypeDAO serviceProviderServiceProviderTypeDAO) {
+        this.serviceProviderServiceProviderTypeDAO = serviceProviderServiceProviderTypeDAO;
+    }
 
     @Autowired
     public void setServiceProviderServiceProviderCompetencyDAO(ServiceProvider_ServiceProviderCompetencyDAO serviceProviderServiceProviderCompetencyDAO) {
@@ -83,7 +90,8 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     }
 
     @Override
-    public ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies) {
+    public ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies,
+                                                 List<Integer> types) {
         try {
             List<ServiceProviderEntity> checkDuplicate =
                     serviceProviderDAO.findAllByFirstNameAndMiddleNameAndLastName(
@@ -100,12 +108,37 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
             serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
             ServiceProviderEntity saved = serviceProviderDAO.save(serviceProvider);
             saved.setCpr(encryptionHandler.decrypt(saved.getCpr()));
-            addCompetenciesOfServiceProvider(competencies, saved.getId());
+            if(competencies != null){
+                addCompetenciesOfServiceProvider(competencies, saved.getId());
+            }
+            if(types != null){
+                addTypesOfServiceProvider(types, saved.getId());
+            }
             return modelMapper.map(saved, ServiceProviderDto.class);
         }catch(NoSuchElementException noSuchElementException){
             throw new NotEnoughDataException("Department does not exist.");
         }catch(InvalidDataAccessApiUsageException invalidDataAccessApiUsageException){
             throw new NotEnoughDataException("There are missing information to create a service provider");
+        }
+    }
+
+    private void addTypesOfServiceProvider(List<Integer> types, int id){
+        if (types.size() > 0) {
+            for(Integer type: types){
+                ServiceProviderServiceProviderTypeForCreationDto serviceProviderSPType = new ServiceProviderServiceProviderTypeForCreationDto();
+                serviceProviderSPType.setServiceProviderTypeId(type);
+                serviceProviderSPType.setServiceProviderId(id);
+                boolean resultOfAdding = serviceProviderServiceProviderTypeDAO.addServiceProviderServiceProviderType(
+                        modelMapper.map(
+                                serviceProviderSPType,
+                                ServiceProviderServiceProviderTypeEntity.class
+                        )
+                );
+                if (!resultOfAdding){
+                    throw new UnknownAddingException("Provided type does not exists.");
+                }
+
+            }
         }
     }
 
@@ -129,15 +162,22 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     }
 
     @Override
-    public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies) {
+    public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies,
+                                                    List<Integer> types) {
         try {
             serviceProviderServiceProviderCompetencyDAO.deleteAllByServiceProviderId(serviceProvider.getId());
+            serviceProviderServiceProviderTypeDAO.deleteAllByServiceProviderId(serviceProvider.getId());
             ServiceProviderEntity found = serviceProviderDAO.findById(serviceProvider.getId()).get();
             if (serviceProvider.getCpr() != null) {
                 serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
             }
             patcherHandler.fillNotNullFields(found, serviceProvider);
-            addCompetenciesOfServiceProvider(competencies,found.getId());
+            if(competencies != null){
+                addCompetenciesOfServiceProvider(competencies, found.getId());
+            }
+            if(types != null){
+                addTypesOfServiceProvider(types, found.getId());
+            }
             ServiceProviderEntity updated = serviceProviderDAO.save(found);
             if (updated.getCpr() != null) {
                 updated.setCpr(encryptionHandler.decrypt(updated.getCpr()));

@@ -23,6 +23,13 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeCustom {
 
     private PatcherHandler patcherHandler;
 
+    private ServiceProvider_ServiceProviderTypeDAO serviceProviderServiceProviderTypeDAO;
+
+    @Autowired
+    public void setServiceProviderServiceProviderTypeDAO(ServiceProvider_ServiceProviderTypeDAO serviceProviderServiceProviderTypeDAO) {
+        this.serviceProviderServiceProviderTypeDAO = serviceProviderServiceProviderTypeDAO;
+    }
+
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
         this.patcherHandler = patcherHandler;
@@ -74,6 +81,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeCustom {
     @Override
     public boolean deleteServiceProviderType(int id) {
         try {
+            serviceProviderServiceProviderTypeDAO.deleteAllByServiceProviderTypeId(id);
             Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(id);
             if (found.isPresent()){
                 serviceProviderTypeDAO.deleteById(found.get().getId());

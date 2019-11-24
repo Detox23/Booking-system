@@ -41,8 +41,8 @@ public class ServiceProvider_ServiceProviderCompetencyDAOImpl implements Service
     @Override
     public boolean addServiceProviderServiceProviderCompetency(ServiceProviderServiceProviderCompetencyEntity serviceProviderServiceProviderCompetencyEntity) {
         try {
-            Optional<ServiceProviderCompetencyEntity> foundResult = serviceProviderCompetencyDAO.findById(serviceProviderServiceProviderCompetencyEntity.getId());
-            if(!foundResult.isPresent()){
+            Optional<ServiceProviderCompetencyEntity> foundCompetency = serviceProviderCompetencyDAO.findById(serviceProviderServiceProviderCompetencyEntity.getCompetencyId());
+            if(!foundCompetency.isPresent()){
                 return false;
             }
             ServiceProviderServiceProviderCompetencyEntity addingResult = serviceProviderServiceProviderCompetencyDAO.save(serviceProviderServiceProviderCompetencyEntity);
@@ -55,7 +55,7 @@ public class ServiceProvider_ServiceProviderCompetencyDAOImpl implements Service
     @Override
     public List<ServiceProviderServiceProviderCompetencyDto> listAllCompetenciesOfServiceProvider(int serviceProviderID) {
         Type listType = new TypeToken<List<ServiceProviderServiceProviderCompetencyDto>>() {}.getType();
-        return modelMapper.map(serviceProviderServiceProviderCompetencyDAO.findByServiceProviderId(serviceProviderID), listType);
+        return modelMapper.map(serviceProviderServiceProviderCompetencyDAO.findAllByServiceProviderId(serviceProviderID), listType);
     }
 
 

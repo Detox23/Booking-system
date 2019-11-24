@@ -7,8 +7,20 @@ import javax.persistence.*;
 public class ServiceProviderServiceProviderTypeEntity {
     private int serviceProviderId;
     private int serviceProviderTypeId;
+    private int id;
 
     @Id
+    @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    @Basic
     @Column(name = "ServiceProviderID", nullable = false)
     public int getServiceProviderId() {
         return serviceProviderId;

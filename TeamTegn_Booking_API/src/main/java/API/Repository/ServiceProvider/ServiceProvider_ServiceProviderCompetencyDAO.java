@@ -8,7 +8,9 @@ import java.util.List;
 
 @Repository
 public interface ServiceProvider_ServiceProviderCompetencyDAO extends JpaRepository<ServiceProviderServiceProviderCompetencyEntity, Integer>, ServiceProvider_ServiceProviderCompetencyCustom {
-    List<ServiceProviderServiceProviderCompetencyEntity> findByServiceProviderId(int serviceProviderID);
+    List<ServiceProviderServiceProviderCompetencyEntity> findAllByServiceProviderId(int serviceProviderID);
+
+    ServiceProviderServiceProviderCompetencyEntity findAllByServiceProviderIdAndCompetencyId(int serviceProviderID, int competencyID);
 
     void deleteAllByServiceProviderId(int serviceProviderID);
 
