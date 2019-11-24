@@ -40,8 +40,13 @@ public class AssignmentService implements IAssignmentService {
     public void setAssignmentStatusTypeRepository(AAssignmentStatusTypeDAO assignmentStatusTypeRepository) {
         this.assignmentStatusTypeRepository = assignmentStatusTypeRepository;
     }
+    @Autowired
+    public void setAssignmentServiceProviderRepository(AssignmentServiceProviderDAO assignmentServiceProviderRepository) {
+        this.assignmentServiceProviderRepository = assignmentServiceProviderRepository;
+    }
 
     private AssignmentDAO assignmentRepository;
+    private AssignmentServiceProviderDAO assignmentServiceProviderRepository;
 
     private AAssignmentStatusTypeDAO assignmentStatusTypeRepository;
     @Autowired
