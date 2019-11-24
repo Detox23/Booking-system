@@ -62,9 +62,6 @@ public class AccountDto {
 
     private int lastModifiedBy;
 
-    public AccountDto() {
-
-    }
 
     public int getLastModifiedBy() {
         return lastModifiedBy;

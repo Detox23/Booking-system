@@ -10,6 +10,7 @@ public class AbsenceTypeEntity {
 
     @Id
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -19,7 +20,7 @@ public class AbsenceTypeEntity {
     }
 
     @Basic
-    @Column(name = "AbsenceTypeName", nullable = false, length = 255)
+    @Column(name = "AbsenceTypeName", nullable = false)
     public String getAbsenceTypeName() {
         return absenceTypeName;
     }

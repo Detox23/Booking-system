@@ -5,7 +5,7 @@ import Shared.ToReturn.ServiceProviderTypeDto;
 
 import java.util.List;
 
-public interface ServiceProviderTypeCustom {
+public interface ServiceProviderTypeDAOCustom {
     ServiceProviderTypeDto addServiceProviderType(ServiceProviderTypeEntity serviceProviderTypeEntity);
 
     ServiceProviderTypeDto updateServiceProviderType(ServiceProviderTypeEntity serviceProviderTypeEntity);

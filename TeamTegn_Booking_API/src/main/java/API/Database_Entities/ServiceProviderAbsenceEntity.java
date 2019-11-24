@@ -1,6 +1,8 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
@@ -10,16 +12,17 @@ public class ServiceProviderAbsenceEntity {
     private int serviceProviderId;
     private Integer absenceTypeId;
     private String absenceReason;
-    private Timestamp fromDate;
-    private Timestamp fromTime;
-    private Timestamp toDate;
-    private Timestamp toTime;
+    private Date fromDate;
+    private Time fromTime;
+    private Date toDate;
+    private Time toTime;
     private Integer absenceDays;
     private String createdBy;
     private Timestamp createdDate;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -29,7 +32,7 @@ public class ServiceProviderAbsenceEntity {
     }
 
     @Basic
-    @Column(name = "ServiceProviderID", nullable = false)
+    @Column(name = "ServiceProviderID")
     public int getServiceProviderId() {
         return serviceProviderId;
     }
@@ -39,7 +42,7 @@ public class ServiceProviderAbsenceEntity {
     }
 
     @Basic
-    @Column(name = "AbsenceTypeID", nullable = true)
+    @Column(name = "AbsenceTypeID")
     public Integer getAbsenceTypeId() {
         return absenceTypeId;
     }
@@ -49,7 +52,7 @@ public class ServiceProviderAbsenceEntity {
     }
 
     @Basic
-    @Column(name = "AbsenceReason", nullable = true, length = 500)
+    @Column(name = "AbsenceReason")
     public String getAbsenceReason() {
         return absenceReason;
     }
@@ -59,47 +62,47 @@ public class ServiceProviderAbsenceEntity {
     }
 
     @Basic
-    @Column(name = "FromDate", nullable = false)
-    public Timestamp getFromDate() {
+    @Column(name = "FromDate")
+    public Date getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(Timestamp fromDate) {
+    public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
     }
 
     @Basic
-    @Column(name = "FromTime", nullable = true)
-    public Timestamp getFromTime() {
+    @Column(name = "FromTime")
+    public Time getFromTime() {
         return fromTime;
     }
 
-    public void setFromTime(Timestamp fromTime) {
+    public void setFromTime(Time fromTime) {
         this.fromTime = fromTime;
     }
 
     @Basic
-    @Column(name = "ToDate", nullable = true)
-    public Timestamp getToDate() {
+    @Column(name = "ToDate")
+    public Date getToDate() {
         return toDate;
     }
 
-    public void setToDate(Timestamp toDate) {
+    public void setToDate(Date toDate) {
         this.toDate = toDate;
     }
 
     @Basic
-    @Column(name = "ToTime", nullable = true)
-    public Timestamp getToTime() {
+    @Column(name = "ToTime")
+    public Time getToTime() {
         return toTime;
     }
 
-    public void setToTime(Timestamp toTime) {
+    public void setToTime(Time toTime) {
         this.toTime = toTime;
     }
 
     @Basic
-    @Column(name = "AbsenceDays", nullable = true)
+    @Column(name = "AbsenceDays")
     public Integer getAbsenceDays() {
         return absenceDays;
     }
@@ -109,7 +112,7 @@ public class ServiceProviderAbsenceEntity {
     }
 
     @Basic
-    @Column(name = "CreatedBy", nullable = true, length = 50)
+    @Column(name = "CreatedBy")
     public String getCreatedBy() {
         return createdBy;
     }
@@ -119,7 +122,7 @@ public class ServiceProviderAbsenceEntity {
     }
 
     @Basic
-    @Column(name = "CreatedDate", nullable = true)
+    @Column(name = "CreatedDate")
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -128,6 +131,7 @@ public class ServiceProviderAbsenceEntity {
         this.createdDate = createdDate;
     }
 
+    @SuppressWarnings("RedundantIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -147,7 +151,9 @@ public class ServiceProviderAbsenceEntity {
         if (toTime != null ? !toTime.equals(that.toTime) : that.toTime != null) return false;
         if (absenceDays != null ? !absenceDays.equals(that.absenceDays) : that.absenceDays != null) return false;
         if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
-        return createdDate != null ? createdDate.equals(that.createdDate) : that.createdDate == null;
+        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
+
+        return true;
     }
 
     @Override

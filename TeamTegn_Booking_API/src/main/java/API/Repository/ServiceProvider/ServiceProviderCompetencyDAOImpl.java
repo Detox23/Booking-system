@@ -3,7 +3,6 @@ package API.Repository.ServiceProvider;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Exceptions.*;
-import Shared.ForCreation.ServiceProviderServiceProviderCompetencyForCreationDto;
 import Shared.ToReturn.ServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
-public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompetencyCustom {
+public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompetencyDAOCustom {
 
     private ServiceProviderCompetencyDAO serviceProviderCompetencyDAO;
 

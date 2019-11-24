@@ -5,7 +5,7 @@ import Shared.ToReturn.ServiceProviderCompetencyDto;
 
 import java.util.List;
 
-public interface ServiceProviderCompetencyCustom {
+public interface ServiceProviderCompetencyDAOCustom {
     List<ServiceProviderCompetencyDto> listAllCompetencies();
 
     ServiceProviderCompetencyDto getOneCompetency(int id);

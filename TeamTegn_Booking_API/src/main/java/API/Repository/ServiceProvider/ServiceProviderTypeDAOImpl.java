@@ -7,7 +7,6 @@ import Shared.ToReturn.ServiceProviderTypeDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeCustom {
+public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom {
 
     private ModelMapper modelMapper;
 

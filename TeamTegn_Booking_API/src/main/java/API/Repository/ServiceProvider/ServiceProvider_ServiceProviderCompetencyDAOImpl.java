@@ -8,13 +8,12 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class ServiceProvider_ServiceProviderCompetencyDAOImpl implements ServiceProvider_ServiceProviderCompetencyCustom {
+public class ServiceProvider_ServiceProviderCompetencyDAOImpl implements ServiceProvider_ServiceProviderCompetencyDAOCustom {
 
     private ServiceProvider_ServiceProviderCompetencyDAO serviceProviderServiceProviderCompetencyDAO;
 

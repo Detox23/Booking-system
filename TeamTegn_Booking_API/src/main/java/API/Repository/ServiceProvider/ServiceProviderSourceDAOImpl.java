@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
-public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceCustom {
+public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCustom {
 
 
     private ServiceProviderSourceDAO serviceProviderSourceDAO;

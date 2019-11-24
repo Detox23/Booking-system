@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class ServiceProvider_ServiceProviderTypeDAOImpl implements ServiceProvider_ServiceProviderTypeCustom {
+public class ServiceProvider_ServiceProviderTypeDAOImpl implements ServiceProvider_ServiceProviderTypeDAOCustom {
 
     private ModelMapper modelMapper;
 

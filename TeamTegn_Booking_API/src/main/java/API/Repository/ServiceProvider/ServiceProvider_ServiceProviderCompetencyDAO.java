@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ServiceProvider_ServiceProviderCompetencyDAO extends JpaRepository<ServiceProviderServiceProviderCompetencyEntity, Integer>, ServiceProvider_ServiceProviderCompetencyCustom {
+public interface ServiceProvider_ServiceProviderCompetencyDAO extends JpaRepository<ServiceProviderServiceProviderCompetencyEntity, Integer>, ServiceProvider_ServiceProviderCompetencyDAOCustom {
     List<ServiceProviderServiceProviderCompetencyEntity> findAllByServiceProviderId(int serviceProviderID);
 
     ServiceProviderServiceProviderCompetencyEntity findAllByServiceProviderIdAndCompetencyId(int serviceProviderID, int competencyID);
