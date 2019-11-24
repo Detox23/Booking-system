@@ -1,8 +1,9 @@
 package Shared.ForCreation;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-public class ServiceProviderForUpdate {
+public class ServiceProviderForUpdateDto {
     private int id;
     private Integer gender;
     private String firstName;
@@ -32,6 +33,24 @@ public class ServiceProviderForUpdate {
     private String serviceProviderInitials;
     private boolean status;
     private String externalId;
+    private List<Integer> competencies;
+    private List<Integer> types;
+
+    public List<Integer> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<Integer> types) {
+        this.types = types;
+    }
+
+    public List<Integer> getCompetencies(){
+        return competencies;
+    }
+
+    public void setCompetencies(List<Integer> competencies){
+        this.competencies = competencies;
+    }
 
     public int getId() {
         return id;

@@ -27,6 +27,10 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
 //        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 //    }
 
+    @ExceptionHandler(value=UnknownException.class)
+    protected  ResponseEntity<Object> handleUnknownException(UnknownException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+    }
 
     @ExceptionHandler(value= NotFoundException.class)
     protected  ResponseEntity<Object> handleNoSuchElementException(NotFoundException exception){
@@ -55,6 +59,11 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value=UpdateErrorException.class)
     protected  ResponseEntity<Object> handleUpdateErrorException(UpdateErrorException exeption){
+        return new ResponseEntity<>(exeption.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value=UnknownAddingException.class)
+    protected  ResponseEntity<Object> handleUnknownAddingException(UnknownAddingException exeption){
         return new ResponseEntity<>(exeption.getMessage(), HttpStatus.CONFLICT);
     }
 }

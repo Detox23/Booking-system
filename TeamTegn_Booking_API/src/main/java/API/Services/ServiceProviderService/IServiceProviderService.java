@@ -1,13 +1,12 @@
 package API.Services.ServiceProviderService;
 
 import Shared.ForCreation.ServiceProviderForCreationDto;
-import Shared.ForCreation.ServiceProviderForUpdate;
+import Shared.ForCreation.ServiceProviderForUpdateDto;
 import Shared.ToReturn.ServiceProviderDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface IServiceProviderService {
     List<ServiceProviderDto> list();
 
@@ -15,7 +14,8 @@ public interface IServiceProviderService {
 
     ServiceProviderDto addServiceProvider(ServiceProviderForCreationDto serviceProvider);
 
-    ServiceProviderDto updateServiceProvider(ServiceProviderForUpdate serviceProvider);
+    ServiceProviderDto updateServiceProvider(ServiceProviderForUpdateDto serviceProvider);
 
     boolean deleteServiceProvider(int id);
+
 }

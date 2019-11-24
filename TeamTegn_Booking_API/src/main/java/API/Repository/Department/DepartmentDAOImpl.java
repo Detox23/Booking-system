@@ -3,10 +3,12 @@ package API.Repository.Department;
 
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.DepartmentEntity;
+import API.Database_Entities.ServiceProviderEntity;
 import API.Exceptions.DeletionException;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ToReturn.DepartmentDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -27,8 +29,12 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
     @Autowired
     private DepartmentDAO departmentDAO;
 
+    @Autowired
+    private ServiceProviderDAO serviceProviderDAO;
+
     private PatcherHandler patcherHandler;
 
+    private final String DEFAULT_DEPARTMENT_NAME = "Unassigned";
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
         this.patcherHandler = patcherHandler;
@@ -93,6 +99,14 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
     public boolean deleteOneDepartment(String name) {
         try {
             DepartmentEntity found = departmentDAO.findByDepartmentName(name);
+            if(found.getDepartmentName() == DEFAULT_DEPARTMENT_NAME){
+                throw new DeletionException("You cannot delete the default department.");
+            }
+            List<ServiceProviderEntity> listServiceProvider = serviceProviderDAO.queryAllByDepartmentId(found.getId());
+            for(ServiceProviderEntity provider: listServiceProvider){
+                provider.setDepartmentId(departmentDAO.findByDepartmentName("Unassigned").getId());
+                serviceProviderDAO.save(provider);
+            }
             departmentDAO.deleteById(found.getId());
             DepartmentEntity assure = departmentDAO.findByDepartmentName(name);
             if (assure == null) {

@@ -3,7 +3,6 @@ package Shared.ForCreation;
 import javax.validation.constraints.NotNull;
 
 public class DepartmentForCreationDto {
-    private int id;
     @NotNull
     private String departmentName;
     @NotNull
@@ -20,14 +19,6 @@ public class DepartmentForCreationDto {
     private String faxCode;
     private String faxNumber;
     private String email;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getDepartmentName() {
         return departmentName;

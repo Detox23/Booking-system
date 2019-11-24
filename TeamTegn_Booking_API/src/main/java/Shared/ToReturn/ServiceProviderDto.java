@@ -1,6 +1,7 @@
 package Shared.ToReturn;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ServiceProviderDto {
     private int id;
@@ -35,6 +36,15 @@ public class ServiceProviderDto {
     private String serviceProviderInitials;
     private boolean status;
     private String externalId;
+    private List<Integer> competences;
+
+    public void setCompetences(List<Integer> competences) {
+        this.competences = competences;
+    }
+
+    public List<Integer> getCompetences() {
+        return competences;
+    }
 
     public int getId() {
         return id;

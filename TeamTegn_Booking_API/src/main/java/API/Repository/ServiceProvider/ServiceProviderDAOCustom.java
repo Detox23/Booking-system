@@ -10,9 +10,9 @@ public interface ServiceProviderDAOCustom {
 
     ServiceProviderDto findOne(int id);
 
-    ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider);
+    ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types);
 
-    ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider);
+    ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types);
 
     boolean deleteServiceProvider(int id);
 

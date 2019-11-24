@@ -39,6 +39,7 @@ public class AccountService implements IAccountService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public AccountDto addAccount(AccountForCreationDto account) {
+
         try {
             AccountDto addedAccount = accountDAO.addOneAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getAccountTypeId());
             return fillAccountWithListOfEans(addedAccount);
@@ -123,7 +124,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<AccountEanDto> findEANNumber(int accountID) {
+    public List<AccountEanDto> findListOfEANNumbersForAccount(int accountID) {
         return accountEanDAO.findListOfAccountEANNumbers(accountID);
     }
 

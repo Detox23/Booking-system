@@ -2,7 +2,7 @@ package API.Repository.Assignment;
 
 import API.Database_Entities.AssignmentStatusTypeEntity;
 
-public interface AssignmentStausTypeCustom {
+public interface AssignmentStatusTypeDAOCustom {
     Iterable<AssignmentStatusTypeEntity> listAll();
 
     AssignmentStatusTypeEntity findOne(int id);

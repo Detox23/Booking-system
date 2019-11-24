@@ -1,12 +1,12 @@
 package API.Services.DepartmentService;
 
 import Shared.ForCreation.DepartmentForCreationDto;
+import Shared.ForCreation.DepartmentForUpdateDto;
 import Shared.ToReturn.DepartmentDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface IDepartmentService {
     List<DepartmentDto> seeAllDepartments();
 
@@ -16,5 +16,5 @@ public interface IDepartmentService {
 
     DepartmentDto addDepartment(DepartmentForCreationDto department);
 
-    DepartmentDto updateDepartment(DepartmentDto department);
+    DepartmentDto updateDepartment(DepartmentForUpdateDto department);
 }

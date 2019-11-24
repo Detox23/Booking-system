@@ -1,0 +1,12 @@
+package API.Repository.ServiceProvider;
+
+import API.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
+import Shared.ToReturn.ServiceProviderServiceProviderCompetencyDto;
+
+import java.util.List;
+
+public interface ServiceProvider_ServiceProviderCompetencyCustom {
+    boolean addServiceProviderServiceProviderCompetency(ServiceProviderServiceProviderCompetencyEntity serviceProviderServiceProviderCompetencyEntity);
+
+    List<ServiceProviderServiceProviderCompetencyDto> listAllCompetenciesOfServiceProvider(int serviceProviderID);
+}

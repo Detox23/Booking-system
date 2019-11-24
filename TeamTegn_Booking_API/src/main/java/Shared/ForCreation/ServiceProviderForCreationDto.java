@@ -1,11 +1,17 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 public class ServiceProviderForCreationDto {
     private Integer gender;
+    @NotNull
     private String firstName;
     private String middleName;
+    @NotNull
     private String lastName;
     private String cpr;
+    @NotNull
     private Integer source;
     private String telephoneCode;
     private String telephoneNumber;
@@ -21,12 +27,31 @@ public class ServiceProviderForCreationDto {
     private String city;
     private String stateRegion;
     private String country;
+    @NotNull
     private Integer departmentId;
     private byte[] serviceProviderImage;
     private Double weekHours;
     private String serviceProviderInitials;
     private String externalId;
     private boolean status;
+    private List<Integer> competencies;
+    private List<Integer> types;
+
+    public List<Integer> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<Integer> types) {
+        this.types = types;
+    }
+
+    public List<Integer> getCompetencies(){
+        return competencies;
+    }
+
+    public void setCompetencies(List<Integer> competencies){
+        this.competencies = competencies;
+    }
 
     public Integer getGender() {
         return gender;

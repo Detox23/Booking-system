@@ -69,7 +69,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "FirstName", nullable = true, length = 50)
+    @Column(name = "FirstName", nullable = false, length = 50)
     public String getFirstName() {
         return firstName;
     }
@@ -79,7 +79,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "MiddleName", nullable = true, length = 50)
+    @Column(name = "MiddleName", length = 50)
     public String getMiddleName() {
         return middleName;
     }
@@ -89,7 +89,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "LastName", nullable = true, length = 50)
+    @Column(name = "LastName", nullable = false, length = 50)
     public String getLastName() {
         return lastName;
     }
@@ -99,7 +99,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "CPR", nullable = true, length = 250)
+    @Column(name = "CPR", nullable = false, length = 250)
     public String getCpr() {
         return cpr;
     }
@@ -314,7 +314,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "DepartmentID", nullable = true)
+    @Column(name = "DepartmentID", nullable = false)
     public Integer getDepartmentId() {
         return departmentId;
     }

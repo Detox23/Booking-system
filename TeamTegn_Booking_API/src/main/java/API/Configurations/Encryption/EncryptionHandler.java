@@ -1,5 +1,6 @@
 package API.Configurations.Encryption;
 
+import API.Exceptions.NotEnoughDataException;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -9,7 +10,11 @@ import java.util.Base64;
 public class EncryptionHandler {
 
     public String encrypt(String value) {
-        return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+        try {
+            return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+        }catch(NullPointerException nullPointerException){
+            throw new NotEnoughDataException("Providing CPR number is required to complete this operation.");
+        }
     }
 
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface IAccountService {
     AccountDto addAccount(AccountForCreationDto account);
 
@@ -26,7 +26,7 @@ public interface IAccountService {
 
     boolean addEAN(AccountEanForCreationDto accountEan);
 
-    List<AccountEanDto> findEANNumber(int accountID);
+    List<AccountEanDto> findListOfEANNumbersForAccount(int accountID);
 
     List<AccountDto> list();
 }

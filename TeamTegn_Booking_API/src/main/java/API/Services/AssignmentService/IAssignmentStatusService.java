@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface IAssignmentStatusService {
     AssignmentStatusDto add(AssignmentStatusForCreationDto assignmentEntity);
     AssignmentStatusDto get(int id);

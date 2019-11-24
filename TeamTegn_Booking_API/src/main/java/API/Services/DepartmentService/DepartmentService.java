@@ -3,6 +3,7 @@ package API.Services.DepartmentService;
 import API.Database_Entities.DepartmentEntity;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ForCreation.DepartmentForCreationDto;
+import Shared.ForCreation.DepartmentForUpdateDto;
 import Shared.ToReturn.DepartmentDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,19 @@ import java.util.List;
 @Service
 public class DepartmentService implements IDepartmentService {
 
-    @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
     private DepartmentDAO departmentDAO;
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+    @Autowired
+    public void setDepartmentDAO(DepartmentDAO departmentDAO) {
+        this.departmentDAO = departmentDAO;
+    }
+
 
     @Override
     public List<DepartmentDto> seeAllDepartments() {
@@ -40,17 +49,12 @@ public class DepartmentService implements IDepartmentService {
     @Override
     @Transactional
     public DepartmentDto addDepartment(DepartmentForCreationDto department) {
-        DepartmentDto addedDepartment = departmentDAO.addOneDepartment(modelMapper.map(department, DepartmentEntity.class));
-        if (addedDepartment != null) {
-            return addedDepartment;
-        } else {
-            return null;
-        }
+        return departmentDAO.addOneDepartment(modelMapper.map(department, DepartmentEntity.class));
     }
 
     @Override
     @Transactional
-    public DepartmentDto updateDepartment(DepartmentDto department) {
+    public DepartmentDto updateDepartment(DepartmentForUpdateDto department) {
         return departmentDAO.updateOneDepartment(modelMapper.map(department, DepartmentEntity.class));
     }
 }

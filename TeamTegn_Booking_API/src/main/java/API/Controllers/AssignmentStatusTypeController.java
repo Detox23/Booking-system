@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/assignmentStatusType")
 public class AssignmentStatusTypeController extends Serializers.Base {
 
-
-    @Autowired
     private IAssignmentStatusTypeService assignmentService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @Autowired
+    public void setAssignmentService(IAssignmentStatusTypeService assignmentService) {
+        this.assignmentService = assignmentService;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
         return new ResponseEntity<>(assignmentService.list(), new HttpHeaders(), HttpStatus.OK);
     }

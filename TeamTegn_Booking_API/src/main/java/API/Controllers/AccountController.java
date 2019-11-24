@@ -64,7 +64,7 @@ public class AccountController extends BaseController {
 
     @RequestMapping(value = "/eanNumber/{accountID}", method = RequestMethod.GET)
     public ResponseEntity<?> findEansForAccount(@PathVariable int accountID) {
-        return new ResponseEntity<>(accountService.findEANNumber(accountID), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(accountService.findListOfEANNumbersForAccount(accountID), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Adds ean number to existing account.
