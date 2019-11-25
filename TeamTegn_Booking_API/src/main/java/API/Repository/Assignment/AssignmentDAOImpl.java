@@ -1,22 +1,16 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AccountEntity;
-import API.Database_Entities.AssignmentEntity;
 import API.Exceptions.NotEnoughDataException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
-import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.AllArguments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import java.beans.IntrospectionException;
 import java.util.List;

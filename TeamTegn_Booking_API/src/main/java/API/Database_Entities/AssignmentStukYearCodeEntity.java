@@ -1,54 +1,44 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
-@Table(name = "Assignment_STUKYearCode", schema = "dbo")
+@Table(name = "AssignmentSTUKYearCode", schema = "dbo")
 public class AssignmentStukYearCodeEntity {
-    private int id;
-    private int assignmentId;
-    private int stukYearCodeId;
-    private Timestamp dateCreated;
+    private Integer id;
+    private String stukYearCodeName;
+    private Boolean isDeleted;
+    private Collection<Assignment_StukYearCodeEntity> assignmentStukYearCodesById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Basic
-    @Column(name = "AssignmentID", nullable = false)
-    public int getAssignmentId() {
-        return assignmentId;
+    @Column(name = "STUKYearCodeName", nullable = true, length = 250)
+    public String getStukYearCodeName() {
+        return stukYearCodeName;
     }
 
-    public void setAssignmentId(int assignmentId) {
-        this.assignmentId = assignmentId;
-    }
-
-    @Basic
-    @Column(name = "StukYearCodeID", nullable = false)
-    public int getStukYearCodeId() {
-        return stukYearCodeId;
-    }
-
-    public void setStukYearCodeId(int stukYearCodeId) {
-        this.stukYearCodeId = stukYearCodeId;
+    public void setStukYearCodeName(String stukYearCodeName) {
+        this.stukYearCodeName = stukYearCodeName;
     }
 
     @Basic
-    @Column(name = "DateCreated", nullable = true)
-    public Timestamp getDateCreated() {
-        return dateCreated;
+    @Column(name = "IsDeleted", nullable = false)
+    public Boolean getDeleted() {
+        return isDeleted;
     }
 
-    public void setDateCreated(Timestamp dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override
@@ -58,18 +48,28 @@ public class AssignmentStukYearCodeEntity {
 
         AssignmentStukYearCodeEntity that = (AssignmentStukYearCodeEntity) o;
 
-        if (id != that.id) return false;
-        if (assignmentId != that.assignmentId) return false;
-        if (stukYearCodeId != that.stukYearCodeId) return false;
-        return dateCreated != null ? dateCreated.equals(that.dateCreated) : that.dateCreated == null;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (stukYearCodeName != null ? !stukYearCodeName.equals(that.stukYearCodeName) : that.stukYearCodeName != null)
+            return false;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + assignmentId;
-        result = 31 * result + stukYearCodeId;
-        result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (stukYearCodeName != null ? stukYearCodeName.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "assignmentStukYearCodeByStukYearCodeId")
+    public Collection<Assignment_StukYearCodeEntity> getAssignmentStukYearCodesById() {
+        return assignmentStukYearCodesById;
+    }
+
+    public void setAssignmentStukYearCodesById(Collection<Assignment_StukYearCodeEntity> assignmentStukYearCodesById) {
+        this.assignmentStukYearCodesById = assignmentStukYearCodesById;
     }
 }

@@ -6,20 +6,19 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "Assignment_Comment", schema = "dbo")
 public class AssignmentCommentEntity {
-    private int id;
+    private Integer id;
     private Integer userId;
     private Timestamp commentDate;
     private String commentText;
     private AssignmentEntity assignmentByAssignmentId;
 
-    @Id
     @Basic
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,15 +59,17 @@ public class AssignmentCommentEntity {
 
         AssignmentCommentEntity that = (AssignmentCommentEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (commentDate != null ? !commentDate.equals(that.commentDate) : that.commentDate != null) return false;
-        return commentText != null ? commentText.equals(that.commentText) : that.commentText == null;
+        if (commentText != null ? !commentText.equals(that.commentText) : that.commentText != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (commentDate != null ? commentDate.hashCode() : 0);
         result = 31 * result + (commentText != null ? commentText.hashCode() : 0);

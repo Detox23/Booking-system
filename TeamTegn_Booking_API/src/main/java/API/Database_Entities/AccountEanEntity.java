@@ -5,18 +5,17 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Account_EAN", schema = "dbo")
 public class AccountEanEntity {
-    private int id;
+    private Integer id;
     private String eanNumber;
-    private int accountId;
+    private AccountEntity accountByAccountId;
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,16 +29,6 @@ public class AccountEanEntity {
         this.eanNumber = eanNumber;
     }
 
-    @Basic
-    @Column(name = "AccountID", nullable = false)
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,9 +36,26 @@ public class AccountEanEntity {
 
         AccountEanEntity that = (AccountEanEntity) o;
 
-        if (id != that.id) return false;
-        if (accountId != that.accountId) return false;
-        return eanNumber != null ? eanNumber.equals(that.eanNumber) : that.eanNumber == null;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (eanNumber != null ? !eanNumber.equals(that.eanNumber) : that.eanNumber != null) return false;
+
+        return true;
     }
 
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (eanNumber != null ? eanNumber.hashCode() : 0);
+        return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "AccountID", referencedColumnName = "ID", nullable = false)
+    public AccountEntity getAccountByAccountId() {
+        return accountByAccountId;
+    }
+
+    public void setAccountByAccountId(AccountEntity accountByAccountId) {
+        this.accountByAccountId = accountByAccountId;
+    }
 }

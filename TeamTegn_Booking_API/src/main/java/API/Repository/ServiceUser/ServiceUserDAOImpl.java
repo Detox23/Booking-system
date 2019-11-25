@@ -1,13 +1,9 @@
 package API.Repository.ServiceUser;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AccountEntity;
-import API.Database_Entities.ServiceUserEntity;
 import API.Exceptions.DeletionException;
 import API.Exceptions.NotFoundException;
-import API.Exceptions.UpdateErrorException;
 import API.Exceptions.UpdatePatchException;
-import Shared.ToReturn.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;

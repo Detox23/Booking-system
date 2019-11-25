@@ -6,41 +6,20 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "Account_Comment", schema = "dbo")
 public class AccountCommentEntity {
-    private int id;
-    private Integer userId;
-    private Integer accountId;
+    private Integer id;
     private Timestamp commentDate;
     private String commentText;
+    private SystemUserEntity systemUserByUserId;
+    private AccountEntity accountByAccountId;
 
     @Id
-    @Basic
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "UserID", nullable = true)
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    @Basic
-    @Column(name = "AccountID", nullable = true)
-    public Integer getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
     }
 
     @Basic
@@ -70,11 +49,38 @@ public class AccountCommentEntity {
 
         AccountCommentEntity that = (AccountCommentEntity) o;
 
-        if (id != that.id) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        if (accountId != null ? !accountId.equals(that.accountId) : that.accountId != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (commentDate != null ? !commentDate.equals(that.commentDate) : that.commentDate != null) return false;
-        return commentText != null ? commentText.equals(that.commentText) : that.commentText == null;
+        if (commentText != null ? !commentText.equals(that.commentText) : that.commentText != null) return false;
+
+        return true;
     }
 
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (commentDate != null ? commentDate.hashCode() : 0);
+        result = 31 * result + (commentText != null ? commentText.hashCode() : 0);
+        return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "UserID", referencedColumnName = "ID")
+    public SystemUserEntity getSystemUserByUserId() {
+        return systemUserByUserId;
+    }
+
+    public void setSystemUserByUserId(SystemUserEntity systemUserByUserId) {
+        this.systemUserByUserId = systemUserByUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "AccountID", referencedColumnName = "ID")
+    public AccountEntity getAccountByAccountId() {
+        return accountByAccountId;
+    }
+
+    public void setAccountByAccountId(AccountEntity accountByAccountId) {
+        this.accountByAccountId = accountByAccountId;
+    }
 }

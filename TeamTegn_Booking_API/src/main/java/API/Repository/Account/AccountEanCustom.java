@@ -1,6 +1,5 @@
 package API.Repository.Account;
 
-import API.Database_Entities.AccountEanEntity;
 import Shared.ToReturn.AccountEanDto;
 
 import java.util.List;

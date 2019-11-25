@@ -1,12 +1,9 @@
 package API.Services.ServiceProviderService;
 
-import API.Database_Entities.ServiceProviderAbsenceEntity;
-import API.Database_Entities.ServiceProviderEntity;
 import API.Repository.ServiceProvider.ServiceProviderAbsenceDAO;
 import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
 import Shared.ForCreation.ServiceProviderAbsenceForUpdateDto;
 import Shared.ToReturn.ServiceProviderAbsenceDto;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

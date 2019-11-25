@@ -1,7 +1,6 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AssignmentStatusTypeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;

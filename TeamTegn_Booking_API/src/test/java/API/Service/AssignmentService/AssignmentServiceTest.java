@@ -1,14 +1,10 @@
 package API.Service.AssignmentService;
 
 import API.Configurations.SpringBeanMockUtil;
-import API.Database_Entities.AssignmentEntity;
-import API.Database_Entities.AssignmentStatusTypeEntity;
 import API.MainApplicationClass;
 import API.Repository.Assignment.AAssignmentStatusTypeDAO;
 import API.Repository.Assignment.AssignmentDAO;
 import API.Repository.Assignment.AssignmentServiceProviderDAO;
-import API.Repository.Assignment.AssignmentStatusTypeDAO;
-import API.Services.AssignmentService.AssignmentService;
 import API.Services.AssignmentService.IAssignmentService;
 import API.Services.ServiceProviderService.ServiceProviderService;
 import Shared.ForCreation.AssignmentForCreationDto;

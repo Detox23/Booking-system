@@ -1,21 +1,23 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "AccountType", schema = "dbo")
 public class AccountTypeEntity {
-    private int id;
+    private Integer id;
     private String accountType;
-    private Boolean grantApplies;
     private Boolean isDeleted;
+    private Collection<AccountEntity> accountsById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,17 +32,7 @@ public class AccountTypeEntity {
     }
 
     @Basic
-    @Column(name = "GrantApplies")
-    public Boolean getGrantApplies() {
-        return grantApplies;
-    }
-
-    public void setGrantApplies(Boolean grantApplies) {
-        this.grantApplies = grantApplies;
-    }
-
-    @Basic
-    @Column(name = "IsDeleted")
+    @Column(name = "IsDeleted", nullable = true)
     public Boolean getDeleted() {
         return isDeleted;
     }
@@ -49,7 +41,6 @@ public class AccountTypeEntity {
         isDeleted = deleted;
     }
 
-    @SuppressWarnings("EqualsReplaceableByObjectsCall")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,10 +48,27 @@ public class AccountTypeEntity {
 
         AccountTypeEntity that = (AccountTypeEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (accountType != null ? !accountType.equals(that.accountType) : that.accountType != null) return false;
-        if (grantApplies != null ? !grantApplies.equals(that.grantApplies) : that.grantApplies != null) return false;
-        return isDeleted != null ? isDeleted.equals(that.isDeleted) : that.isDeleted == null;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
+
+        return true;
     }
 
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "accountTypeByAccountTypeId")
+    public Collection<AccountEntity> getAccountsById() {
+        return accountsById;
+    }
+
+    public void setAccountsById(Collection<AccountEntity> accountsById) {
+        this.accountsById = accountsById;
+    }
 }

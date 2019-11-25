@@ -5,16 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "AssignmentCancelReason", schema = "dbo")
 public class AssignmentCancelReasonEntity {
-    private int id;
+    private Integer id;
     private String cancelReasonName;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,13 +35,16 @@ public class AssignmentCancelReasonEntity {
 
         AssignmentCancelReasonEntity that = (AssignmentCancelReasonEntity) o;
 
-        if (id != that.id) return false;
-        return cancelReasonName != null ? cancelReasonName.equals(that.cancelReasonName) : that.cancelReasonName == null;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (cancelReasonName != null ? !cancelReasonName.equals(that.cancelReasonName) : that.cancelReasonName != null)
+            return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (cancelReasonName != null ? cancelReasonName.hashCode() : 0);
         return result;
     }

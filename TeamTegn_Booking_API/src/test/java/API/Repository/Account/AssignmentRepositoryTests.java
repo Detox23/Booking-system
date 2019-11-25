@@ -1,7 +1,5 @@
 package API.Repository.Account;
 
-import API.Database_Entities.AccountEntity;
-import API.Database_Entities.AssignmentEntity;
 import API.Exceptions.NotEnoughDataException;
 import API.MainApplicationClass;
 import API.Repository.Assignment.AssignmentDAO;
@@ -13,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,10 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)

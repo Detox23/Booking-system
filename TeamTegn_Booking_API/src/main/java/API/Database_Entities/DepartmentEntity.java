@@ -1,16 +1,13 @@
 package API.Database_Entities;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Table(name = "Department", schema = "dbo")
 public class DepartmentEntity {
-    private int id;
+    private Integer id;
     private String departmentName;
     private String street;
     private String postcode;
@@ -22,22 +19,24 @@ public class DepartmentEntity {
     private String faxCode;
     private String faxNumber;
     private String email;
-    private int createdBy;
+    private Integer createdBy;
     private Timestamp createdDate;
+    private Boolean isDeleted;
+    private Collection<ServiceUserEntity> serviceUsersById;
+    private Collection<SystemUserDepartmentEntity> systemUserDepartmentsById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Basic
-    @Column(name = "DepartmentName", length = 250)
+    @Column(name = "DepartmentName", nullable = true, length = 250)
     public String getDepartmentName() {
         return departmentName;
     }
@@ -47,7 +46,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "Street", length = 50)
+    @Column(name = "Street", nullable = true, length = 50)
     public String getStreet() {
         return street;
     }
@@ -57,7 +56,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "Postcode", length = 50)
+    @Column(name = "Postcode", nullable = true, length = 50)
     public String getPostcode() {
         return postcode;
     }
@@ -67,7 +66,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "City", length = 50)
+    @Column(name = "City", nullable = true, length = 50)
     public String getCity() {
         return city;
     }
@@ -77,7 +76,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "StateRegion", length = 50)
+    @Column(name = "StateRegion", nullable = true, length = 50)
     public String getStateRegion() {
         return stateRegion;
     }
@@ -87,7 +86,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "Country", length = 100)
+    @Column(name = "Country", nullable = true, length = 100)
     public String getCountry() {
         return country;
     }
@@ -97,7 +96,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneCode", length = 50)
+    @Column(name = "TelephoneCode", nullable = true, length = 50)
     public String getTelephoneCode() {
         return telephoneCode;
     }
@@ -107,7 +106,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneNumber", length = 50)
+    @Column(name = "TelephoneNumber", nullable = true, length = 50)
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
@@ -117,7 +116,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "FaxCode",  length = 50)
+    @Column(name = "FaxCode", nullable = true, length = 50)
     public String getFaxCode() {
         return faxCode;
     }
@@ -127,7 +126,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "FaxNumber", length = 50)
+    @Column(name = "FaxNumber", nullable = true, length = 50)
     public String getFaxNumber() {
         return faxNumber;
     }
@@ -137,7 +136,7 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @Column(name = "Email", length = 50)
+    @Column(name = "Email", nullable = true, length = 50)
     public String getEmail() {
         return email;
     }
@@ -147,25 +146,33 @@ public class DepartmentEntity {
     }
 
     @Basic
-    @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 
     @Basic
-    @CreationTimestamp
-    @Column(name = "CreatedDate", nullable = false)
+    @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
     }
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    @Basic
+    @Column(name = "IsDeleted", nullable = false)
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override
@@ -175,8 +182,7 @@ public class DepartmentEntity {
 
         DepartmentEntity that = (DepartmentEntity) o;
 
-        if (id != that.id) return false;
-        if (createdBy != that.createdBy) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (departmentName != null ? !departmentName.equals(that.departmentName) : that.departmentName != null)
             return false;
         if (street != null ? !street.equals(that.street) : that.street != null) return false;
@@ -191,12 +197,16 @@ public class DepartmentEntity {
         if (faxCode != null ? !faxCode.equals(that.faxCode) : that.faxCode != null) return false;
         if (faxNumber != null ? !faxNumber.equals(that.faxNumber) : that.faxNumber != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        return createdDate != null ? createdDate.equals(that.createdDate) : that.createdDate == null;
+        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
+        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (departmentName != null ? departmentName.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
@@ -208,8 +218,27 @@ public class DepartmentEntity {
         result = 31 * result + (faxCode != null ? faxCode.hashCode() : 0);
         result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + createdBy;
+        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "departmentByDepartmentId")
+    public Collection<ServiceUserEntity> getServiceUsersById() {
+        return serviceUsersById;
+    }
+
+    public void setServiceUsersById(Collection<ServiceUserEntity> serviceUsersById) {
+        this.serviceUsersById = serviceUsersById;
+    }
+
+    @OneToMany(mappedBy = "departmentByDepartmentId")
+    public Collection<SystemUserDepartmentEntity> getSystemUserDepartmentsById() {
+        return systemUserDepartmentsById;
+    }
+
+    public void setSystemUserDepartmentsById(Collection<SystemUserDepartmentEntity> systemUserDepartmentsById) {
+        this.systemUserDepartmentsById = systemUserDepartmentsById;
     }
 }

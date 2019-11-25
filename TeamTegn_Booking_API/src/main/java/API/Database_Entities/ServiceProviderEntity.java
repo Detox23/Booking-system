@@ -1,26 +1,19 @@
 package API.Database_Entities;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Collection;
 
 @Entity
 @Table(name = "ServiceProvider", schema = "dbo")
 public class ServiceProviderEntity {
-    private int id;
+    private Integer id;
     private Integer gender;
     private String firstName;
     private String middleName;
     private String lastName;
-    @Value("${encrypted.cpr}")
     private String cpr;
-    private Integer source;
     private String telephoneCode;
     private String telephoneNumber;
     private String mobileCode;
@@ -35,26 +28,34 @@ public class ServiceProviderEntity {
     private String city;
     private String stateRegion;
     private String country;
-    private int createdBy;
+    private Integer createdBy;
     private Timestamp createdDate;
     private Timestamp lastModified;
     private Integer lastModifiedBy;
-    private boolean isDeleted;
+    private Boolean isDeleted;
     private Integer departmentId;
     private byte[] serviceProviderImage;
     private Double weekHours;
     private String serviceProviderInitials;
-    private boolean status;
+    private Boolean status;
     private String externalId;
+    private ServiceProviderSourceEntity serviceProviderSourceBySource;
+    private ServiceProviderPreferredNotificationEntity serviceProviderPreferredNotificationByPreferredNotificationId;
+    private TransportTypeEntity transportTypeByTransportId;
+    private Collection<ServiceProviderAbsenceEntity> serviceProviderAbsencesById;
+    private Collection<ServiceProviderCommentEntity> serviceProviderCommentsById;
+    private Collection<ServiceProviderEveningWorkEntity> serviceProviderEveningWorksById;
+    private Collection<ServiceProviderServiceProviderCompetencyEntity> serviceProviderServiceProviderCompetenciesById;
+    private Collection<ServiceProviderServiceProviderTypeEntity> serviceProviderServiceProviderTypesById;
+    private Collection<ServiceUserPreferencesEntity> serviceUserPreferencesById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -69,7 +70,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "FirstName", nullable = false, length = 50)
+    @Column(name = "FirstName", nullable = true, length = 50)
     public String getFirstName() {
         return firstName;
     }
@@ -79,7 +80,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "MiddleName", length = 50)
+    @Column(name = "MiddleName", nullable = true, length = 50)
     public String getMiddleName() {
         return middleName;
     }
@@ -89,7 +90,7 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "LastName", nullable = false, length = 50)
+    @Column(name = "LastName", nullable = true, length = 50)
     public String getLastName() {
         return lastName;
     }
@@ -99,24 +100,13 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @Column(name = "CPR", nullable = false, length = 250)
+    @Column(name = "CPR", nullable = true, length = 250)
     public String getCpr() {
         return cpr;
     }
 
-
     public void setCpr(String cpr) {
         this.cpr = cpr;
-    }
-
-    @Basic
-    @Column(name = "Source", nullable = true)
-    public Integer getSource() {
-        return source;
-    }
-
-    public void setSource(Integer source) {
-        this.source = source;
     }
 
     @Basic
@@ -260,18 +250,16 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 
     @Basic
-    @CreationTimestamp
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -282,7 +270,6 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @UpdateTimestamp
     @Column(name = "LastModified", nullable = true)
     public Timestamp getLastModified() {
         return lastModified;
@@ -293,7 +280,6 @@ public class ServiceProviderEntity {
     }
 
     @Basic
-    @LastModifiedBy
     @Column(name = "LastModifiedBy", nullable = true)
     public Integer getLastModifiedBy() {
         return lastModifiedBy;
@@ -305,16 +291,16 @@ public class ServiceProviderEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public boolean isDeleted() {
+    public Boolean getDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 
     @Basic
-    @Column(name = "DepartmentID", nullable = false)
+    @Column(name = "DepartmentID", nullable = true)
     public Integer getDepartmentId() {
         return departmentId;
     }
@@ -355,11 +341,11 @@ public class ServiceProviderEntity {
 
     @Basic
     @Column(name = "Status", nullable = false)
-    public boolean isStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
@@ -380,16 +366,12 @@ public class ServiceProviderEntity {
 
         ServiceProviderEntity that = (ServiceProviderEntity) o;
 
-        if (id != that.id) return false;
-        if (createdBy != that.createdBy) return false;
-        if (isDeleted != that.isDeleted) return false;
-        if (status != that.status) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         if (cpr != null ? !cpr.equals(that.cpr) : that.cpr != null) return false;
-        if (source != null ? !source.equals(that.source) : that.source != null) return false;
         if (telephoneCode != null ? !telephoneCode.equals(that.telephoneCode) : that.telephoneCode != null)
             return false;
         if (telephoneNumber != null ? !telephoneNumber.equals(that.telephoneNumber) : that.telephoneNumber != null)
@@ -406,27 +388,31 @@ public class ServiceProviderEntity {
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
         if (stateRegion != null ? !stateRegion.equals(that.stateRegion) : that.stateRegion != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
         if (lastModifiedBy != null ? !lastModifiedBy.equals(that.lastModifiedBy) : that.lastModifiedBy != null)
             return false;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
         if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
         if (!Arrays.equals(serviceProviderImage, that.serviceProviderImage)) return false;
         if (weekHours != null ? !weekHours.equals(that.weekHours) : that.weekHours != null) return false;
         if (serviceProviderInitials != null ? !serviceProviderInitials.equals(that.serviceProviderInitials) : that.serviceProviderInitials != null)
             return false;
-        return externalId != null ? externalId.equals(that.externalId) : that.externalId == null;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (externalId != null ? !externalId.equals(that.externalId) : that.externalId != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (cpr != null ? cpr.hashCode() : 0);
-        result = 31 * result + (source != null ? source.hashCode() : 0);
         result = 31 * result + (telephoneCode != null ? telephoneCode.hashCode() : 0);
         result = 31 * result + (telephoneNumber != null ? telephoneNumber.hashCode() : 0);
         result = 31 * result + (mobileCode != null ? mobileCode.hashCode() : 0);
@@ -441,17 +427,101 @@ public class ServiceProviderEntity {
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (stateRegion != null ? stateRegion.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + createdBy;
+        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
         result = 31 * result + (lastModifiedBy != null ? lastModifiedBy.hashCode() : 0);
-        result = 31 * result + (isDeleted ? 1 : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         result = 31 * result + (departmentId != null ? departmentId.hashCode() : 0);
         result = 31 * result + Arrays.hashCode(serviceProviderImage);
         result = 31 * result + (weekHours != null ? weekHours.hashCode() : 0);
         result = 31 * result + (serviceProviderInitials != null ? serviceProviderInitials.hashCode() : 0);
-        result = 31 * result + (status ? 1 : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (externalId != null ? externalId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "Source", referencedColumnName = "ID")
+    public ServiceProviderSourceEntity getServiceProviderSourceBySource() {
+        return serviceProviderSourceBySource;
+    }
+
+    public void setServiceProviderSourceBySource(ServiceProviderSourceEntity serviceProviderSourceBySource) {
+        this.serviceProviderSourceBySource = serviceProviderSourceBySource;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "PreferredNotificationID", referencedColumnName = "ID")
+    public ServiceProviderPreferredNotificationEntity getServiceProviderPreferredNotificationByPreferredNotificationId() {
+        return serviceProviderPreferredNotificationByPreferredNotificationId;
+    }
+
+    public void setServiceProviderPreferredNotificationByPreferredNotificationId(ServiceProviderPreferredNotificationEntity serviceProviderPreferredNotificationByPreferredNotificationId) {
+        this.serviceProviderPreferredNotificationByPreferredNotificationId = serviceProviderPreferredNotificationByPreferredNotificationId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "TransportID", referencedColumnName = "ID")
+    public TransportTypeEntity getTransportTypeByTransportId() {
+        return transportTypeByTransportId;
+    }
+
+    public void setTransportTypeByTransportId(TransportTypeEntity transportTypeByTransportId) {
+        this.transportTypeByTransportId = transportTypeByTransportId;
+    }
+
+    @OneToMany(mappedBy = "serviceProviderByServiceProviderId")
+    public Collection<ServiceProviderAbsenceEntity> getServiceProviderAbsencesById() {
+        return serviceProviderAbsencesById;
+    }
+
+    public void setServiceProviderAbsencesById(Collection<ServiceProviderAbsenceEntity> serviceProviderAbsencesById) {
+        this.serviceProviderAbsencesById = serviceProviderAbsencesById;
+    }
+
+    @OneToMany(mappedBy = "serviceProviderByServiceProviderId")
+    public Collection<ServiceProviderCommentEntity> getServiceProviderCommentsById() {
+        return serviceProviderCommentsById;
+    }
+
+    public void setServiceProviderCommentsById(Collection<ServiceProviderCommentEntity> serviceProviderCommentsById) {
+        this.serviceProviderCommentsById = serviceProviderCommentsById;
+    }
+
+    @OneToMany(mappedBy = "serviceProviderByServiceProviderId")
+    public Collection<ServiceProviderEveningWorkEntity> getServiceProviderEveningWorksById() {
+        return serviceProviderEveningWorksById;
+    }
+
+    public void setServiceProviderEveningWorksById(Collection<ServiceProviderEveningWorkEntity> serviceProviderEveningWorksById) {
+        this.serviceProviderEveningWorksById = serviceProviderEveningWorksById;
+    }
+
+    @OneToMany(mappedBy = "serviceProviderByServiceProviderId")
+    public Collection<ServiceProviderServiceProviderCompetencyEntity> getServiceProviderServiceProviderCompetenciesById() {
+        return serviceProviderServiceProviderCompetenciesById;
+    }
+
+    public void setServiceProviderServiceProviderCompetenciesById(Collection<ServiceProviderServiceProviderCompetencyEntity> serviceProviderServiceProviderCompetenciesById) {
+        this.serviceProviderServiceProviderCompetenciesById = serviceProviderServiceProviderCompetenciesById;
+    }
+
+    @OneToMany(mappedBy = "serviceProviderByServiceProviderId")
+    public Collection<ServiceProviderServiceProviderTypeEntity> getServiceProviderServiceProviderTypesById() {
+        return serviceProviderServiceProviderTypesById;
+    }
+
+    public void setServiceProviderServiceProviderTypesById(Collection<ServiceProviderServiceProviderTypeEntity> serviceProviderServiceProviderTypesById) {
+        this.serviceProviderServiceProviderTypesById = serviceProviderServiceProviderTypesById;
+    }
+
+    @OneToMany(mappedBy = "serviceProviderByServiceProviderId")
+    public Collection<ServiceUserPreferencesEntity> getServiceUserPreferencesById() {
+        return serviceUserPreferencesById;
+    }
+
+    public void setServiceUserPreferencesById(Collection<ServiceUserPreferencesEntity> serviceUserPreferencesById) {
+        this.serviceUserPreferencesById = serviceUserPreferencesById;
     }
 }

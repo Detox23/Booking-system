@@ -1,26 +1,28 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "AssignmentTitle", schema = "dbo")
 public class AssignmentTitleEntity {
-    private int id;
+    private Integer id;
     private String title;
     private Boolean isDeleted;
+    private Collection<AssignmentEntity> assignmentsByTitle;
 
-    @Id
+    @Basic
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "Title", nullable = true, length = 250)
+    @Id
+    @Column(name = "Title", nullable = false, length = 250)
     public String getTitle() {
         return title;
     }
@@ -46,16 +48,27 @@ public class AssignmentTitleEntity {
 
         AssignmentTitleEntity that = (AssignmentTitleEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        return isDeleted != null ? isDeleted.equals(that.isDeleted) : that.isDeleted == null;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "assignmentTitleByAssignmentTitle")
+    public Collection<AssignmentEntity> getAssignmentsByTitle() {
+        return assignmentsByTitle;
+    }
+
+    public void setAssignmentsByTitle(Collection<AssignmentEntity> assignmentsByTitle) {
+        this.assignmentsByTitle = assignmentsByTitle;
     }
 }

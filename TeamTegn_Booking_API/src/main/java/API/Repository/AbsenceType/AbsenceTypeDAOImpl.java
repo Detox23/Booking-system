@@ -1,7 +1,6 @@
 package API.Repository.AbsenceType;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AbsenceTypeEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.AbsenceTypeDto;
 import org.modelmapper.ModelMapper;

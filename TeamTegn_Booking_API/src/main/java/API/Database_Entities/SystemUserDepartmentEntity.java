@@ -1,48 +1,33 @@
 package API.Database_Entities;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "SystemUser_Department", schema = "dbo")
 public class SystemUserDepartmentEntity {
-    private int systemUserId;
-    private int departmentId;
+    private SystemUserEntity systemUserBySystemUserId;
+    private DepartmentEntity departmentByDepartmentId;
 
-    @Id
-    @Column(name = "SystemUserID", nullable = false)
-    public int getSystemUserId() {
-        return systemUserId;
+    @ManyToOne
+    @JoinColumn(name = "SystemUserID", referencedColumnName = "ID", nullable = false)
+    public SystemUserEntity getSystemUserBySystemUserId() {
+        return systemUserBySystemUserId;
     }
 
-    public void setSystemUserId(int systemUserId) {
-        this.systemUserId = systemUserId;
+    public void setSystemUserBySystemUserId(SystemUserEntity systemUserBySystemUserId) {
+        this.systemUserBySystemUserId = systemUserBySystemUserId;
     }
 
-    @Basic
-    @Column(name = "DepartmentID", nullable = false)
-    public int getDepartmentId() {
-        return departmentId;
+    @ManyToOne
+    @JoinColumn(name = "DepartmentID", referencedColumnName = "ID", nullable = false)
+    public DepartmentEntity getDepartmentByDepartmentId() {
+        return departmentByDepartmentId;
     }
 
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SystemUserDepartmentEntity that = (SystemUserDepartmentEntity) o;
-
-        if (systemUserId != that.systemUserId) return false;
-        return departmentId == that.departmentId;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = systemUserId;
-        result = 31 * result + departmentId;
-        return result;
+    public void setDepartmentByDepartmentId(DepartmentEntity departmentByDepartmentId) {
+        this.departmentByDepartmentId = departmentByDepartmentId;
     }
 }

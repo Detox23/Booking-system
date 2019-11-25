@@ -1,6 +1,9 @@
 package API.Database_Entities;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "WI_Postcode", schema = "dbo")
@@ -11,7 +14,7 @@ public class WiPostcodeEntity {
     private Boolean fredericia;
     private Boolean arhus;
 
-    @Id
+    @Basic
     @Column(name = "Postcode", nullable = false, length = 50)
     public String getPostcode() {
         return postcode;
@@ -72,7 +75,9 @@ public class WiPostcodeEntity {
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
         if (copenhagen != null ? !copenhagen.equals(that.copenhagen) : that.copenhagen != null) return false;
         if (fredericia != null ? !fredericia.equals(that.fredericia) : that.fredericia != null) return false;
-        return arhus != null ? arhus.equals(that.arhus) : that.arhus == null;
+        if (arhus != null ? !arhus.equals(that.arhus) : that.arhus != null) return false;
+
+        return true;
     }
 
     @Override

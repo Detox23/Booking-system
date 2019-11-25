@@ -1,6 +1,5 @@
 package API.Services.ServiceProviderService;
 
-import API.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.ServiceProvider.ServiceProviderCompetencyDAO;
 import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;

@@ -4,7 +4,6 @@ import API.Database_Entities.AccountEntity;
 import API.Database_Entities.AssignmentEntity;
 import API.Database_Entities.ServiceProviderAbsenceEntity;
 import API.Database_Entities.ServiceProviderEntity;
-import API.Services.ServiceProviderService.ServiceProviderAbsence;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
@@ -22,7 +21,6 @@ public class ModelMapperConfig {
         PropertyMap<AccountForCreationDto, AccountEntity> addingAccountMap = new PropertyMap<AccountForCreationDto, AccountEntity>() {
             protected void configure() {
                 skip().setId(0);
-                skip().setEan(null);
             }
         };
 

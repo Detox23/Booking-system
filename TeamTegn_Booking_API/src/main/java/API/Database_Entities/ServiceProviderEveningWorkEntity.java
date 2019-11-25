@@ -5,38 +5,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ServiceProvider_EveningWork", schema = "dbo")
 public class ServiceProviderEveningWorkEntity {
-    private int serviceProviderId;
-    private int weekDayId;
-    private int eveningWorkPrioritisationId;
-
-    @Id
-    @Column(name = "ServiceProviderID", nullable = false)
-    public int getServiceProviderId() {
-        return serviceProviderId;
-    }
-
-    public void setServiceProviderId(int serviceProviderId) {
-        this.serviceProviderId = serviceProviderId;
-    }
+    private Integer weekDayId;
+    private ServiceProviderEntity serviceProviderByServiceProviderId;
+    private EveningWorkPrioritisationEntity eveningWorkPrioritisationByEveningWorkPrioritisationId;
 
     @Basic
     @Column(name = "WeekDayID", nullable = false)
-    public int getWeekDayId() {
+    public Integer getWeekDayId() {
         return weekDayId;
     }
 
-    public void setWeekDayId(int weekDayId) {
+    public void setWeekDayId(Integer weekDayId) {
         this.weekDayId = weekDayId;
-    }
-
-    @Basic
-    @Column(name = "EveningWorkPrioritisationID", nullable = false)
-    public int getEveningWorkPrioritisationId() {
-        return eveningWorkPrioritisationId;
-    }
-
-    public void setEveningWorkPrioritisationId(int eveningWorkPrioritisationId) {
-        this.eveningWorkPrioritisationId = eveningWorkPrioritisationId;
     }
 
     @Override
@@ -46,16 +26,33 @@ public class ServiceProviderEveningWorkEntity {
 
         ServiceProviderEveningWorkEntity that = (ServiceProviderEveningWorkEntity) o;
 
-        if (serviceProviderId != that.serviceProviderId) return false;
-        if (weekDayId != that.weekDayId) return false;
-        return eveningWorkPrioritisationId == that.eveningWorkPrioritisationId;
+        if (weekDayId != null ? !weekDayId.equals(that.weekDayId) : that.weekDayId != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = serviceProviderId;
-        result = 31 * result + weekDayId;
-        result = 31 * result + eveningWorkPrioritisationId;
-        return result;
+        return weekDayId != null ? weekDayId.hashCode() : 0;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ServiceProviderID", referencedColumnName = "ID", nullable = false)
+    public ServiceProviderEntity getServiceProviderByServiceProviderId() {
+        return serviceProviderByServiceProviderId;
+    }
+
+    public void setServiceProviderByServiceProviderId(ServiceProviderEntity serviceProviderByServiceProviderId) {
+        this.serviceProviderByServiceProviderId = serviceProviderByServiceProviderId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "EveningWorkPrioritisationID", referencedColumnName = "ID", nullable = false)
+    public EveningWorkPrioritisationEntity getEveningWorkPrioritisationByEveningWorkPrioritisationId() {
+        return eveningWorkPrioritisationByEveningWorkPrioritisationId;
+    }
+
+    public void setEveningWorkPrioritisationByEveningWorkPrioritisationId(EveningWorkPrioritisationEntity eveningWorkPrioritisationByEveningWorkPrioritisationId) {
+        this.eveningWorkPrioritisationByEveningWorkPrioritisationId = eveningWorkPrioritisationByEveningWorkPrioritisationId;
     }
 }

@@ -1,8 +1,6 @@
 package API.Services.AssignmentService;
 
-import API.Database_Entities.AssignmentTypeEntity;
 import API.Repository.Assignment.AssignmentTypeDAO;
-import API.Repository.Assignment.AssignmentTypeDAOImpl;
 import Shared.ForCreation.AssignmentTypeForCreationDto;
 import Shared.ForCreation.AssignmentTypeForUpdateDto;
 import Shared.ToReturn.AssignmentTypeDto;

@@ -1,8 +1,6 @@
 package API.Services.AssignmentService;
 
-import API.Database_Entities.AssignmentStatusEntity;
 import API.Repository.Assignment.AssignmentStatusDAO;
-import API.Repository.Assignment.AssignmentStatusDAOImpl;
 import Shared.ForCreation.AssignmentStatusForCreationDto;
 import Shared.ForCreation.AssignmentStatusForUpdateDto;
 import Shared.ToReturn.AssignmentStatusDto;

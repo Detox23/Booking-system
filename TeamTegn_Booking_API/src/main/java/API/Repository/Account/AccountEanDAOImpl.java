@@ -1,6 +1,5 @@
 package API.Repository.Account;
 
-import API.Database_Entities.AccountEanEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;

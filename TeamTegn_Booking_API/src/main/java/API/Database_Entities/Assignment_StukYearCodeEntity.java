@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Assignment_AssignmentStatusType", schema = "dbo")
-public class AssignmentAssignmentStatusTypeEntity {
+@Table(name = "Assignment_STUKYearCode", schema = "dbo")
+public class Assignment_StukYearCodeEntity {
     private Integer id;
     private Timestamp dateCreated;
     private AssignmentEntity assignmentByAssignmentId;
-    private AssignmentStatusTypeEntity assignmentStatusTypeByAssignmentStatusTypeId;
+    private AssignmentStukYearCodeEntity assignmentStukYearCodeByStukYearCodeId;
 
-    @Id
+    @Basic
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;
@@ -36,7 +36,7 @@ public class AssignmentAssignmentStatusTypeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AssignmentAssignmentStatusTypeEntity that = (AssignmentAssignmentStatusTypeEntity) o;
+        Assignment_StukYearCodeEntity that = (Assignment_StukYearCodeEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
@@ -62,12 +62,12 @@ public class AssignmentAssignmentStatusTypeEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "AssignmentStatusTypeID", referencedColumnName = "ID", nullable = false)
-    public AssignmentStatusTypeEntity getAssignmentStatusTypeByAssignmentStatusTypeId() {
-        return assignmentStatusTypeByAssignmentStatusTypeId;
+    @JoinColumn(name = "StukYearCodeID", referencedColumnName = "ID", nullable = false)
+    public AssignmentStukYearCodeEntity getAssignmentStukYearCodeByStukYearCodeId() {
+        return assignmentStukYearCodeByStukYearCodeId;
     }
 
-    public void setAssignmentStatusTypeByAssignmentStatusTypeId(AssignmentStatusTypeEntity assignmentStatusTypeByAssignmentStatusTypeId) {
-        this.assignmentStatusTypeByAssignmentStatusTypeId = assignmentStatusTypeByAssignmentStatusTypeId;
+    public void setAssignmentStukYearCodeByStukYearCodeId(AssignmentStukYearCodeEntity assignmentStukYearCodeByStukYearCodeId) {
+        this.assignmentStukYearCodeByStukYearCodeId = assignmentStukYearCodeByStukYearCodeId;
     }
 }

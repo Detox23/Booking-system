@@ -5,21 +5,20 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Assignment_ServiceProvider", schema = "dbo")
 public class AssignmentServiceProviderEntity {
-    private int serviceProviderId;
+    private Integer serviceProviderId;
     private String serviceProviderFirstName;
     private String serviceProviderMiddleName;
     private String serviceProviderLastName;
     private String serviceProviderInitials;
     private AssignmentEntity assignmentByAssignmentId;
 
-    @Id
     @Basic
     @Column(name = "ServiceProviderID", nullable = false)
-    public int getServiceProviderId() {
+    public Integer getServiceProviderId() {
         return serviceProviderId;
     }
 
-    public void setServiceProviderId(int serviceProviderId) {
+    public void setServiceProviderId(Integer serviceProviderId) {
         this.serviceProviderId = serviceProviderId;
     }
 
@@ -70,19 +69,23 @@ public class AssignmentServiceProviderEntity {
 
         AssignmentServiceProviderEntity that = (AssignmentServiceProviderEntity) o;
 
-        if (serviceProviderId != that.serviceProviderId) return false;
+        if (serviceProviderId != null ? !serviceProviderId.equals(that.serviceProviderId) : that.serviceProviderId != null)
+            return false;
         if (serviceProviderFirstName != null ? !serviceProviderFirstName.equals(that.serviceProviderFirstName) : that.serviceProviderFirstName != null)
             return false;
         if (serviceProviderMiddleName != null ? !serviceProviderMiddleName.equals(that.serviceProviderMiddleName) : that.serviceProviderMiddleName != null)
             return false;
         if (serviceProviderLastName != null ? !serviceProviderLastName.equals(that.serviceProviderLastName) : that.serviceProviderLastName != null)
             return false;
-        return serviceProviderInitials != null ? serviceProviderInitials.equals(that.serviceProviderInitials) : that.serviceProviderInitials == null;
+        if (serviceProviderInitials != null ? !serviceProviderInitials.equals(that.serviceProviderInitials) : that.serviceProviderInitials != null)
+            return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = serviceProviderId;
+        int result = serviceProviderId != null ? serviceProviderId.hashCode() : 0;
         result = 31 * result + (serviceProviderFirstName != null ? serviceProviderFirstName.hashCode() : 0);
         result = 31 * result + (serviceProviderMiddleName != null ? serviceProviderMiddleName.hashCode() : 0);
         result = 31 * result + (serviceProviderLastName != null ? serviceProviderLastName.hashCode() : 0);

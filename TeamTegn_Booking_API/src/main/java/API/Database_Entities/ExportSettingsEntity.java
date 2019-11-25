@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ExportSettings", schema = "dbo")
 public class ExportSettingsEntity {
-    private int id;
+    private Integer id;
     private String keyName;
     private String valueName;
     private Timestamp created;
@@ -14,11 +14,11 @@ public class ExportSettingsEntity {
 
     @Id
     @Column(name = "Id", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -69,16 +69,18 @@ public class ExportSettingsEntity {
 
         ExportSettingsEntity that = (ExportSettingsEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (keyName != null ? !keyName.equals(that.keyName) : that.keyName != null) return false;
         if (valueName != null ? !valueName.equals(that.valueName) : that.valueName != null) return false;
         if (created != null ? !created.equals(that.created) : that.created != null) return false;
-        return deleted != null ? deleted.equals(that.deleted) : that.deleted == null;
+        if (deleted != null ? !deleted.equals(that.deleted) : that.deleted != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (keyName != null ? keyName.hashCode() : 0);
         result = 31 * result + (valueName != null ? valueName.hashCode() : 0);
         result = 31 * result + (created != null ? created.hashCode() : 0);

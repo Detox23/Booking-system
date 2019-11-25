@@ -1,20 +1,23 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "AssignmentType", schema = "dbo")
 public class AssignmentTypeEntity {
-    private int id;
+    private Integer id;
     private String assignmentTypeName;
+    private Boolean isDeleted;
+    private Collection<AssignmentEntity> assignmentsById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -28,6 +31,16 @@ public class AssignmentTypeEntity {
         this.assignmentTypeName = assignmentTypeName;
     }
 
+    @Basic
+    @Column(name = "IsDeleted", nullable = false)
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,14 +48,28 @@ public class AssignmentTypeEntity {
 
         AssignmentTypeEntity that = (AssignmentTypeEntity) o;
 
-        if (id != that.id) return false;
-        return assignmentTypeName != null ? assignmentTypeName.equals(that.assignmentTypeName) : that.assignmentTypeName == null;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (assignmentTypeName != null ? !assignmentTypeName.equals(that.assignmentTypeName) : that.assignmentTypeName != null)
+            return false;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (assignmentTypeName != null ? assignmentTypeName.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "assignmentTypeByAssignmentTypeId")
+    public Collection<AssignmentEntity> getAssignmentsById() {
+        return assignmentsById;
+    }
+
+    public void setAssignmentsById(Collection<AssignmentEntity> assignmentsById) {
+        this.assignmentsById = assignmentsById;
     }
 }

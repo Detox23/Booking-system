@@ -1,48 +1,33 @@
 package API.Database_Entities;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Table(name = "Assignment", schema = "dbo")
 public class AssignmentEntity {
-    private int id;
-    private Integer assignmentTypeId;
-    private Integer importanceId;
-    private Integer interpretationTypeId;
-    private String assignmentTitle;
+    private Integer id;
     private String assignmentDescription;
-    private String originStreet;
-    private String originCity;
-    private String originPostCode;
-    private String originStateRegion;
-    private String originCountry;
     private String destinationStreet;
     private String destinationCity;
     private String destinationPostCode;
     private String destinationStateRegion;
     private String destinationCountry;
-    private int serviceUserId;
     private Timestamp assignmentDate;
     private Date assignmentEndDate;
     private Timestamp startTime;
     private Timestamp endTime;
-    private int totalTime;
+    private Integer totalTime;
     private Integer createdBy;
     private Timestamp createdDate;
     private Timestamp lastModified;
     private Integer lastModifiedBy;
-    private boolean isDeleted;
-    private boolean assignedStatus;
+    private Boolean isDeleted;
+    private Boolean assignedStatus;
     private Integer assignmentStatusId;
     private String bookingNumber;
-    private Integer serviceUserAccountId;
     private String serviceUserAccountEan;
     private Integer recurrenceType;
     private Integer recurrencyFrequency;
@@ -53,61 +38,32 @@ public class AssignmentEntity {
     private String ktstid;
     private String ktstParentId;
     private String recurrenceKey;
-    private Integer assignmentStatusTypeId;
     private String assignmentPlace;
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
+    private AssignmentTypeEntity assignmentTypeByAssignmentTypeId;
+    private AssignmentImportanceEntity assignmentImportanceByImportanceId;
+    private AssignmentInterpretationTypeEntity assignmentInterpretationTypeByInterpretationTypeId;
+    private AssignmentTitleEntity assignmentTitleByAssignmentTitle;
+    private ServiceUserEntity serviceUserByServiceUserId;
+    private AccountEntity accountByServiceUserAccountId;
+    private AssignmentStatusEntity assignmentStatusByAssignmentStatusTypeId;
+    private VocalLanguagesEntity vocalLanguagesByVocalLanguageId;
+    private Collection<AssignmentAssignmentStatusTypeEntity> assignmentAssignmentStatusTypesById;
+    private Collection<AssignmentCommentEntity> assignmentCommentsById;
+    private Collection<Assignment_StukYearCodeEntity> assignmentStukYearCodesById;
+    private Collection<AssignmentServiceProviderEntity> assignmentServiceProvidersById;
+    private Collection<PdfSignatureLinkEntity> pdfSignatureLinksById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "AssignmentTypeID", nullable = true)
-    public Integer getAssignmentTypeId() {
-        return assignmentTypeId;
-    }
-
-    public void setAssignmentTypeId(Integer assignmentTypeId) {
-        this.assignmentTypeId = assignmentTypeId;
-    }
-
-    @Basic
-    @Column(name = "ImportanceID", nullable = true)
-    public Integer getImportanceId() {
-        return importanceId;
-    }
-
-    public void setImportanceId(Integer importanceId) {
-        this.importanceId = importanceId;
-    }
-
-    @Basic
-    @Column(name = "InterpretationTypeID", nullable = true)
-    public Integer getInterpretationTypeId() {
-        return interpretationTypeId;
-    }
-
-    public void setInterpretationTypeId(Integer interpretationTypeId) {
-        this.interpretationTypeId = interpretationTypeId;
-    }
-
-    @Basic
-    @Column(name = "AssignmentTitle", nullable = true, length = 500)
-    public String getAssignmentTitle() {
-        return assignmentTitle;
-    }
-
-    public void setAssignmentTitle(String assignmentTitle) {
-        this.assignmentTitle = assignmentTitle;
     }
 
     @Basic
@@ -118,56 +74,6 @@ public class AssignmentEntity {
 
     public void setAssignmentDescription(String assignmentDescription) {
         this.assignmentDescription = assignmentDescription;
-    }
-
-    @Basic
-    @Column(name = "OriginStreet", nullable = true, length = 250)
-    public String getOriginStreet() {
-        return originStreet;
-    }
-
-    public void setOriginStreet(String originStreet) {
-        this.originStreet = originStreet;
-    }
-
-    @Basic
-    @Column(name = "OriginCity", nullable = true, length = 50)
-    public String getOriginCity() {
-        return originCity;
-    }
-
-    public void setOriginCity(String originCity) {
-        this.originCity = originCity;
-    }
-
-    @Basic
-    @Column(name = "OriginPostCode", nullable = true, length = 50)
-    public String getOriginPostCode() {
-        return originPostCode;
-    }
-
-    public void setOriginPostCode(String originPostCode) {
-        this.originPostCode = originPostCode;
-    }
-
-    @Basic
-    @Column(name = "OriginStateRegion", nullable = true, length = 50)
-    public String getOriginStateRegion() {
-        return originStateRegion;
-    }
-
-    public void setOriginStateRegion(String originStateRegion) {
-        this.originStateRegion = originStateRegion;
-    }
-
-    @Basic
-    @Column(name = "OriginCountry", nullable = true, length = 50)
-    public String getOriginCountry() {
-        return originCountry;
-    }
-
-    public void setOriginCountry(String originCountry) {
-        this.originCountry = originCountry;
     }
 
     @Basic
@@ -221,16 +127,6 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @Column(name = "ServiceUserID", nullable = false)
-    public int getServiceUserId() {
-        return serviceUserId;
-    }
-
-    public void setServiceUserId(int serviceUserId) {
-        this.serviceUserId = serviceUserId;
-    }
-
-    @Basic
     @Column(name = "AssignmentDate", nullable = true)
     public Timestamp getAssignmentDate() {
         return assignmentDate;
@@ -272,16 +168,15 @@ public class AssignmentEntity {
 
     @Basic
     @Column(name = "TotalTime", nullable = false)
-    public int getTotalTime() {
+    public Integer getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(int totalTime) {
+    public void setTotalTime(Integer totalTime) {
         this.totalTime = totalTime;
     }
 
     @Basic
-    @CreatedBy
     @Column(name = "CreatedBy", nullable = true)
     public Integer getCreatedBy() {
         return createdBy;
@@ -292,7 +187,6 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @CreationTimestamp
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -303,7 +197,6 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @UpdateTimestamp
     @Column(name = "LastModified", nullable = true)
     public Timestamp getLastModified() {
         return lastModified;
@@ -314,7 +207,6 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @LastModifiedBy
     @Column(name = "LastModifiedBy", nullable = true)
     public Integer getLastModifiedBy() {
         return lastModifiedBy;
@@ -325,22 +217,22 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @Column(name = "IsDeleted", nullable = false, columnDefinition = "boolean default false")
-    public boolean isDeleted() {
+    @Column(name = "IsDeleted", nullable = false)
+    public Boolean getDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 
     @Basic
     @Column(name = "AssignedStatus", nullable = false)
-    public boolean isAssignedStatus() {
+    public Boolean getAssignedStatus() {
         return assignedStatus;
     }
 
-    public void setAssignedStatus(boolean assignedStatus) {
+    public void setAssignedStatus(Boolean assignedStatus) {
         this.assignedStatus = assignedStatus;
     }
 
@@ -362,16 +254,6 @@ public class AssignmentEntity {
 
     public void setBookingNumber(String bookingNumber) {
         this.bookingNumber = bookingNumber;
-    }
-
-    @Basic
-    @Column(name = "ServiceUserAccountID", nullable = true)
-    public Integer getServiceUserAccountId() {
-        return serviceUserAccountId;
-    }
-
-    public void setServiceUserAccountId(Integer serviceUserAccountId) {
-        this.serviceUserAccountId = serviceUserAccountId;
     }
 
     @Basic
@@ -475,16 +357,6 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @Column(name = "AssignmentStatusTypeID", nullable = true)
-    public Integer getAssignmentStatusTypeId() {
-        return assignmentStatusTypeId;
-    }
-
-    public void setAssignmentStatusTypeId(Integer assignmentStatusTypeId) {
-        this.assignmentStatusTypeId = assignmentStatusTypeId;
-    }
-
-    @Basic
     @Column(name = "AssignmentPlace", nullable = true, length = 500)
     public String getAssignmentPlace() {
         return assignmentPlace;
@@ -531,27 +403,8 @@ public class AssignmentEntity {
 
         AssignmentEntity that = (AssignmentEntity) o;
 
-        if (id != that.id) return false;
-        if (serviceUserId != that.serviceUserId) return false;
-        if (totalTime != that.totalTime) return false;
-        if (isDeleted != that.isDeleted) return false;
-        if (assignedStatus != that.assignedStatus) return false;
-        if (assignmentTypeId != null ? !assignmentTypeId.equals(that.assignmentTypeId) : that.assignmentTypeId != null)
-            return false;
-        if (importanceId != null ? !importanceId.equals(that.importanceId) : that.importanceId != null) return false;
-        if (interpretationTypeId != null ? !interpretationTypeId.equals(that.interpretationTypeId) : that.interpretationTypeId != null)
-            return false;
-        if (assignmentTitle != null ? !assignmentTitle.equals(that.assignmentTitle) : that.assignmentTitle != null)
-            return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (assignmentDescription != null ? !assignmentDescription.equals(that.assignmentDescription) : that.assignmentDescription != null)
-            return false;
-        if (originStreet != null ? !originStreet.equals(that.originStreet) : that.originStreet != null) return false;
-        if (originCity != null ? !originCity.equals(that.originCity) : that.originCity != null) return false;
-        if (originPostCode != null ? !originPostCode.equals(that.originPostCode) : that.originPostCode != null)
-            return false;
-        if (originStateRegion != null ? !originStateRegion.equals(that.originStateRegion) : that.originStateRegion != null)
-            return false;
-        if (originCountry != null ? !originCountry.equals(that.originCountry) : that.originCountry != null)
             return false;
         if (destinationStreet != null ? !destinationStreet.equals(that.destinationStreet) : that.destinationStreet != null)
             return false;
@@ -569,16 +422,18 @@ public class AssignmentEntity {
             return false;
         if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
         if (endTime != null ? !endTime.equals(that.endTime) : that.endTime != null) return false;
+        if (totalTime != null ? !totalTime.equals(that.totalTime) : that.totalTime != null) return false;
         if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
         if (lastModifiedBy != null ? !lastModifiedBy.equals(that.lastModifiedBy) : that.lastModifiedBy != null)
             return false;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
+        if (assignedStatus != null ? !assignedStatus.equals(that.assignedStatus) : that.assignedStatus != null)
+            return false;
         if (assignmentStatusId != null ? !assignmentStatusId.equals(that.assignmentStatusId) : that.assignmentStatusId != null)
             return false;
         if (bookingNumber != null ? !bookingNumber.equals(that.bookingNumber) : that.bookingNumber != null)
-            return false;
-        if (serviceUserAccountId != null ? !serviceUserAccountId.equals(that.serviceUserAccountId) : that.serviceUserAccountId != null)
             return false;
         if (serviceUserAccountEan != null ? !serviceUserAccountEan.equals(that.serviceUserAccountEan) : that.serviceUserAccountEan != null)
             return false;
@@ -595,48 +450,38 @@ public class AssignmentEntity {
         if (ktstParentId != null ? !ktstParentId.equals(that.ktstParentId) : that.ktstParentId != null) return false;
         if (recurrenceKey != null ? !recurrenceKey.equals(that.recurrenceKey) : that.recurrenceKey != null)
             return false;
-        if (assignmentStatusTypeId != null ? !assignmentStatusTypeId.equals(that.assignmentStatusTypeId) : that.assignmentStatusTypeId != null)
-            return false;
         if (assignmentPlace != null ? !assignmentPlace.equals(that.assignmentPlace) : that.assignmentPlace != null)
             return false;
         if (stukComment != null ? !stukComment.equals(that.stukComment) : that.stukComment != null) return false;
         if (isResale != null ? !isResale.equals(that.isResale) : that.isResale != null) return false;
-        return resaleParentId != null ? resaleParentId.equals(that.resaleParentId) : that.resaleParentId == null;
+        if (resaleParentId != null ? !resaleParentId.equals(that.resaleParentId) : that.resaleParentId != null)
+            return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (assignmentTypeId != null ? assignmentTypeId.hashCode() : 0);
-        result = 31 * result + (importanceId != null ? importanceId.hashCode() : 0);
-        result = 31 * result + (interpretationTypeId != null ? interpretationTypeId.hashCode() : 0);
-        result = 31 * result + (assignmentTitle != null ? assignmentTitle.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (assignmentDescription != null ? assignmentDescription.hashCode() : 0);
-        result = 31 * result + (originStreet != null ? originStreet.hashCode() : 0);
-        result = 31 * result + (originCity != null ? originCity.hashCode() : 0);
-        result = 31 * result + (originPostCode != null ? originPostCode.hashCode() : 0);
-        result = 31 * result + (originStateRegion != null ? originStateRegion.hashCode() : 0);
-        result = 31 * result + (originCountry != null ? originCountry.hashCode() : 0);
         result = 31 * result + (destinationStreet != null ? destinationStreet.hashCode() : 0);
         result = 31 * result + (destinationCity != null ? destinationCity.hashCode() : 0);
         result = 31 * result + (destinationPostCode != null ? destinationPostCode.hashCode() : 0);
         result = 31 * result + (destinationStateRegion != null ? destinationStateRegion.hashCode() : 0);
         result = 31 * result + (destinationCountry != null ? destinationCountry.hashCode() : 0);
-        result = 31 * result + serviceUserId;
         result = 31 * result + (assignmentDate != null ? assignmentDate.hashCode() : 0);
         result = 31 * result + (assignmentEndDate != null ? assignmentEndDate.hashCode() : 0);
         result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
         result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
-        result = 31 * result + totalTime;
+        result = 31 * result + (totalTime != null ? totalTime.hashCode() : 0);
         result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
         result = 31 * result + (lastModifiedBy != null ? lastModifiedBy.hashCode() : 0);
-        result = 31 * result + (isDeleted ? 1 : 0);
-        result = 31 * result + (assignedStatus ? 1 : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (assignedStatus != null ? assignedStatus.hashCode() : 0);
         result = 31 * result + (assignmentStatusId != null ? assignmentStatusId.hashCode() : 0);
         result = 31 * result + (bookingNumber != null ? bookingNumber.hashCode() : 0);
-        result = 31 * result + (serviceUserAccountId != null ? serviceUserAccountId.hashCode() : 0);
         result = 31 * result + (serviceUserAccountEan != null ? serviceUserAccountEan.hashCode() : 0);
         result = 31 * result + (recurrenceType != null ? recurrenceType.hashCode() : 0);
         result = 31 * result + (recurrencyFrequency != null ? recurrencyFrequency.hashCode() : 0);
@@ -647,11 +492,135 @@ public class AssignmentEntity {
         result = 31 * result + (ktstid != null ? ktstid.hashCode() : 0);
         result = 31 * result + (ktstParentId != null ? ktstParentId.hashCode() : 0);
         result = 31 * result + (recurrenceKey != null ? recurrenceKey.hashCode() : 0);
-        result = 31 * result + (assignmentStatusTypeId != null ? assignmentStatusTypeId.hashCode() : 0);
         result = 31 * result + (assignmentPlace != null ? assignmentPlace.hashCode() : 0);
         result = 31 * result + (stukComment != null ? stukComment.hashCode() : 0);
         result = 31 * result + (isResale != null ? isResale.hashCode() : 0);
         result = 31 * result + (resaleParentId != null ? resaleParentId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "AssignmentTypeID", referencedColumnName = "ID")
+    public AssignmentTypeEntity getAssignmentTypeByAssignmentTypeId() {
+        return assignmentTypeByAssignmentTypeId;
+    }
+
+    public void setAssignmentTypeByAssignmentTypeId(AssignmentTypeEntity assignmentTypeByAssignmentTypeId) {
+        this.assignmentTypeByAssignmentTypeId = assignmentTypeByAssignmentTypeId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ImportanceID", referencedColumnName = "ID")
+    public AssignmentImportanceEntity getAssignmentImportanceByImportanceId() {
+        return assignmentImportanceByImportanceId;
+    }
+
+    public void setAssignmentImportanceByImportanceId(AssignmentImportanceEntity assignmentImportanceByImportanceId) {
+        this.assignmentImportanceByImportanceId = assignmentImportanceByImportanceId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "InterpretationTypeID", referencedColumnName = "ID")
+    public AssignmentInterpretationTypeEntity getAssignmentInterpretationTypeByInterpretationTypeId() {
+        return assignmentInterpretationTypeByInterpretationTypeId;
+    }
+
+    public void setAssignmentInterpretationTypeByInterpretationTypeId(AssignmentInterpretationTypeEntity assignmentInterpretationTypeByInterpretationTypeId) {
+        this.assignmentInterpretationTypeByInterpretationTypeId = assignmentInterpretationTypeByInterpretationTypeId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "AssignmentTitle", referencedColumnName = "Title")
+    public AssignmentTitleEntity getAssignmentTitleByAssignmentTitle() {
+        return assignmentTitleByAssignmentTitle;
+    }
+
+    public void setAssignmentTitleByAssignmentTitle(AssignmentTitleEntity assignmentTitleByAssignmentTitle) {
+        this.assignmentTitleByAssignmentTitle = assignmentTitleByAssignmentTitle;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ServiceUserID", referencedColumnName = "ID", nullable = false)
+    public ServiceUserEntity getServiceUserByServiceUserId() {
+        return serviceUserByServiceUserId;
+    }
+
+    public void setServiceUserByServiceUserId(ServiceUserEntity serviceUserByServiceUserId) {
+        this.serviceUserByServiceUserId = serviceUserByServiceUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ServiceUserAccountID", referencedColumnName = "ID")
+    public AccountEntity getAccountByServiceUserAccountId() {
+        return accountByServiceUserAccountId;
+    }
+
+    public void setAccountByServiceUserAccountId(AccountEntity accountByServiceUserAccountId) {
+        this.accountByServiceUserAccountId = accountByServiceUserAccountId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "AssignmentStatusTypeID", referencedColumnName = "ID")
+    public AssignmentStatusEntity getAssignmentStatusByAssignmentStatusTypeId() {
+        return assignmentStatusByAssignmentStatusTypeId;
+    }
+
+    public void setAssignmentStatusByAssignmentStatusTypeId(AssignmentStatusEntity assignmentStatusByAssignmentStatusTypeId) {
+        this.assignmentStatusByAssignmentStatusTypeId = assignmentStatusByAssignmentStatusTypeId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "VocalLanguageID", referencedColumnName = "ID")
+    public VocalLanguagesEntity getVocalLanguagesByVocalLanguageId() {
+        return vocalLanguagesByVocalLanguageId;
+    }
+
+    public void setVocalLanguagesByVocalLanguageId(VocalLanguagesEntity vocalLanguagesByVocalLanguageId) {
+        this.vocalLanguagesByVocalLanguageId = vocalLanguagesByVocalLanguageId;
+    }
+
+    @OneToMany(mappedBy = "assignmentByAssignmentId")
+    public Collection<AssignmentAssignmentStatusTypeEntity> getAssignmentAssignmentStatusTypesById() {
+        return assignmentAssignmentStatusTypesById;
+    }
+
+    public void setAssignmentAssignmentStatusTypesById(Collection<AssignmentAssignmentStatusTypeEntity> assignmentAssignmentStatusTypesById) {
+        this.assignmentAssignmentStatusTypesById = assignmentAssignmentStatusTypesById;
+    }
+
+    @OneToMany(mappedBy = "assignmentByAssignmentId")
+    public Collection<AssignmentCommentEntity> getAssignmentCommentsById() {
+        return assignmentCommentsById;
+    }
+
+    public void setAssignmentCommentsById(Collection<AssignmentCommentEntity> assignmentCommentsById) {
+        this.assignmentCommentsById = assignmentCommentsById;
+    }
+
+    @OneToMany(mappedBy = "assignmentByAssignmentId")
+    public Collection<Assignment_StukYearCodeEntity> getAssignmentStukYearCodesById() {
+        return assignmentStukYearCodesById;
+    }
+
+    public void setAssignmentStukYearCodesById(Collection<Assignment_StukYearCodeEntity> assignmentStukYearCodesById) {
+        this.assignmentStukYearCodesById = assignmentStukYearCodesById;
+    }
+
+    @OneToMany(mappedBy = "assignmentByAssignmentId")
+    public Collection<AssignmentServiceProviderEntity> getAssignmentServiceProvidersById() {
+        return assignmentServiceProvidersById;
+    }
+
+    public void setAssignmentServiceProvidersById(Collection<AssignmentServiceProviderEntity> assignmentServiceProvidersById) {
+        this.assignmentServiceProvidersById = assignmentServiceProvidersById;
+    }
+
+    @OneToMany(mappedBy = "assignmentByAssignmentId")
+    public Collection<PdfSignatureLinkEntity> getPdfSignatureLinksById() {
+        return pdfSignatureLinksById;
+    }
+
+    public void setPdfSignatureLinksById(Collection<PdfSignatureLinkEntity> pdfSignatureLinksById) {
+        this.pdfSignatureLinksById = pdfSignatureLinksById;
     }
 }

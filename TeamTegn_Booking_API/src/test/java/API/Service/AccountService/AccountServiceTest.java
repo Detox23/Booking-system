@@ -1,9 +1,6 @@
 package API.Service.AccountService;
 
 import API.Configurations.SpringBeanMockUtil;
-import API.Database_Entities.AccountEanEntity;
-import API.Database_Entities.AccountEntity;
-import API.Database_Entities.AccountTypeEntity;
 import API.Exceptions.DeletionException;
 import API.Exceptions.NotFoundException;
 import API.MainApplicationClass;

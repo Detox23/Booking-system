@@ -6,19 +6,19 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ServiceProvider_Comment", schema = "dbo")
 public class ServiceProviderCommentEntity {
-    private int id;
+    private Integer id;
     private Integer userId;
-    private Integer serviceProviderId;
     private Timestamp commentDate;
     private String commentText;
+    private ServiceProviderEntity serviceProviderByServiceProviderId;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,16 +30,6 @@ public class ServiceProviderCommentEntity {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    @Basic
-    @Column(name = "ServiceProviderID", nullable = true)
-    public Integer getServiceProviderId() {
-        return serviceProviderId;
-    }
-
-    public void setServiceProviderId(Integer serviceProviderId) {
-        this.serviceProviderId = serviceProviderId;
     }
 
     @Basic
@@ -69,21 +59,30 @@ public class ServiceProviderCommentEntity {
 
         ServiceProviderCommentEntity that = (ServiceProviderCommentEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        if (serviceProviderId != null ? !serviceProviderId.equals(that.serviceProviderId) : that.serviceProviderId != null)
-            return false;
         if (commentDate != null ? !commentDate.equals(that.commentDate) : that.commentDate != null) return false;
-        return commentText != null ? commentText.equals(that.commentText) : that.commentText == null;
+        if (commentText != null ? !commentText.equals(that.commentText) : that.commentText != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (serviceProviderId != null ? serviceProviderId.hashCode() : 0);
         result = 31 * result + (commentDate != null ? commentDate.hashCode() : 0);
         result = 31 * result + (commentText != null ? commentText.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ServiceProviderID", referencedColumnName = "ID")
+    public ServiceProviderEntity getServiceProviderByServiceProviderId() {
+        return serviceProviderByServiceProviderId;
+    }
+
+    public void setServiceProviderByServiceProviderId(ServiceProviderEntity serviceProviderByServiceProviderId) {
+        this.serviceProviderByServiceProviderId = serviceProviderByServiceProviderId;
     }
 }

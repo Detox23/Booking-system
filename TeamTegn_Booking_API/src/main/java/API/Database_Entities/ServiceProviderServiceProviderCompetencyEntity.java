@@ -5,40 +5,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ServiceProvider_ServiceProviderCompetency", schema = "dbo")
 public class ServiceProviderServiceProviderCompetencyEntity {
-    private int id;
-    private int serviceProviderId;
-    private int competencyId;
-
+    private Integer id;
+    private ServiceProviderEntity serviceProviderByServiceProviderId;
+    private ServiceProviderCompetencyEntity serviceProviderCompetencyByCompetencyId;
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId(){
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "ServiceProviderID", nullable = false)
-    public int getServiceProviderId() {
-        return serviceProviderId;
-    }
-
-    public void setServiceProviderId(int serviceProviderId) {
-        this.serviceProviderId = serviceProviderId;
-    }
-
-    @Basic
-    @Column(name = "CompetencyID", nullable = false)
-    public int getCompetencyId() {
-        return competencyId;
-    }
-
-    public void setCompetencyId(int competencyId) {
-        this.competencyId = competencyId;
     }
 
     @Override
@@ -48,14 +26,33 @@ public class ServiceProviderServiceProviderCompetencyEntity {
 
         ServiceProviderServiceProviderCompetencyEntity that = (ServiceProviderServiceProviderCompetencyEntity) o;
 
-        if (serviceProviderId != that.serviceProviderId) return false;
-        return competencyId == that.competencyId;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = serviceProviderId;
-        result = 31 * result + competencyId;
-        return result;
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ServiceProviderID", referencedColumnName = "ID", nullable = false)
+    public ServiceProviderEntity getServiceProviderByServiceProviderId() {
+        return serviceProviderByServiceProviderId;
+    }
+
+    public void setServiceProviderByServiceProviderId(ServiceProviderEntity serviceProviderByServiceProviderId) {
+        this.serviceProviderByServiceProviderId = serviceProviderByServiceProviderId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "CompetencyID", referencedColumnName = "ID", nullable = false)
+    public ServiceProviderCompetencyEntity getServiceProviderCompetencyByCompetencyId() {
+        return serviceProviderCompetencyByCompetencyId;
+    }
+
+    public void setServiceProviderCompetencyByCompetencyId(ServiceProviderCompetencyEntity serviceProviderCompetencyByCompetencyId) {
+        this.serviceProviderCompetencyByCompetencyId = serviceProviderCompetencyByCompetencyId;
     }
 }

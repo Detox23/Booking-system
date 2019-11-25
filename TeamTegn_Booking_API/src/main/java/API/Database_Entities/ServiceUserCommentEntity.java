@@ -6,40 +6,20 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ServiceUser_Comment", schema = "dbo")
 public class ServiceUserCommentEntity {
-    private int id;
-    private Integer userId;
-    private Integer serviceUserId;
+    private Integer id;
     private Timestamp commentDate;
     private String commentText;
+    private SystemUserEntity systemUserByUserId;
+    private ServiceUserEntity serviceUserByServiceUserId;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "UserID", nullable = true)
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    @Basic
-    @Column(name = "ServiceUserID", nullable = true)
-    public Integer getServiceUserId() {
-        return serviceUserId;
-    }
-
-    public void setServiceUserId(Integer serviceUserId) {
-        this.serviceUserId = serviceUserId;
     }
 
     @Basic
@@ -69,21 +49,38 @@ public class ServiceUserCommentEntity {
 
         ServiceUserCommentEntity that = (ServiceUserCommentEntity) o;
 
-        if (id != that.id) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        if (serviceUserId != null ? !serviceUserId.equals(that.serviceUserId) : that.serviceUserId != null)
-            return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (commentDate != null ? !commentDate.equals(that.commentDate) : that.commentDate != null) return false;
-        return commentText != null ? commentText.equals(that.commentText) : that.commentText == null;
+        if (commentText != null ? !commentText.equals(that.commentText) : that.commentText != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (serviceUserId != null ? serviceUserId.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (commentDate != null ? commentDate.hashCode() : 0);
         result = 31 * result + (commentText != null ? commentText.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "UserID", referencedColumnName = "ID")
+    public SystemUserEntity getSystemUserByUserId() {
+        return systemUserByUserId;
+    }
+
+    public void setSystemUserByUserId(SystemUserEntity systemUserByUserId) {
+        this.systemUserByUserId = systemUserByUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ServiceUserID", referencedColumnName = "ID")
+    public ServiceUserEntity getServiceUserByServiceUserId() {
+        return serviceUserByServiceUserId;
+    }
+
+    public void setServiceUserByServiceUserId(ServiceUserEntity serviceUserByServiceUserId) {
+        this.serviceUserByServiceUserId = serviceUserByServiceUserId;
     }
 }

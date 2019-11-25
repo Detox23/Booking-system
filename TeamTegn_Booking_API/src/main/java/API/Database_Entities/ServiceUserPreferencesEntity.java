@@ -5,49 +5,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ServiceUserPreferences", schema = "dbo")
 public class ServiceUserPreferencesEntity {
-    private int id;
-    private int serviceUserId;
-    private int serviceProviderId;
-    private int rating;
+    private Integer id;
+    private ServiceUserEntity serviceUserByServiceUserId;
+    private ServiceProviderEntity serviceProviderByServiceProviderId;
+    private RatingEntity ratingByRating;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "ServiceUserID", nullable = false)
-    public int getServiceUserId() {
-        return serviceUserId;
-    }
-
-    public void setServiceUserId(int serviceUserId) {
-        this.serviceUserId = serviceUserId;
-    }
-
-    @Basic
-    @Column(name = "ServiceProviderID", nullable = false)
-    public int getServiceProviderId() {
-        return serviceProviderId;
-    }
-
-    public void setServiceProviderId(int serviceProviderId) {
-        this.serviceProviderId = serviceProviderId;
-    }
-
-    @Basic
-    @Column(name = "Rating", nullable = false)
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
     }
 
     @Override
@@ -57,18 +27,43 @@ public class ServiceUserPreferencesEntity {
 
         ServiceUserPreferencesEntity that = (ServiceUserPreferencesEntity) o;
 
-        if (id != that.id) return false;
-        if (serviceUserId != that.serviceUserId) return false;
-        if (serviceProviderId != that.serviceProviderId) return false;
-        return rating == that.rating;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + serviceUserId;
-        result = 31 * result + serviceProviderId;
-        result = 31 * result + rating;
-        return result;
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ServiceUserID", referencedColumnName = "ID", nullable = false)
+    public ServiceUserEntity getServiceUserByServiceUserId() {
+        return serviceUserByServiceUserId;
+    }
+
+    public void setServiceUserByServiceUserId(ServiceUserEntity serviceUserByServiceUserId) {
+        this.serviceUserByServiceUserId = serviceUserByServiceUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ServiceProviderID", referencedColumnName = "ID", nullable = false)
+    public ServiceProviderEntity getServiceProviderByServiceProviderId() {
+        return serviceProviderByServiceProviderId;
+    }
+
+    public void setServiceProviderByServiceProviderId(ServiceProviderEntity serviceProviderByServiceProviderId) {
+        this.serviceProviderByServiceProviderId = serviceProviderByServiceProviderId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "Rating", referencedColumnName = "ID", nullable = false)
+    public RatingEntity getRatingByRating() {
+        return ratingByRating;
+    }
+
+    public void setRatingByRating(RatingEntity ratingByRating) {
+        this.ratingByRating = ratingByRating;
     }
 }

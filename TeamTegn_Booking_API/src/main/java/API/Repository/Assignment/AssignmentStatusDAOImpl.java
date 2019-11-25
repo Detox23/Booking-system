@@ -1,15 +1,12 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AssignmentStatusEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
-import java.util.List;
 import java.util.NoSuchElementException;
 @Component
 

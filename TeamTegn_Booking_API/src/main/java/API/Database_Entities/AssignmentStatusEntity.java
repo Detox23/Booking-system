@@ -1,24 +1,23 @@
 package API.Database_Entities;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "AssignmentStatus", schema = "dbo")
 public class AssignmentStatusEntity {
-    private int id;
+    private Integer id;
     private String assignmentStatusName;
-    private boolean isDeleted;
+    private Boolean isDeleted;
+    private Collection<AssignmentEntity> assignmentsById;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -31,16 +30,17 @@ public class AssignmentStatusEntity {
     public void setAssignmentStatusName(String assignmentStatusName) {
         this.assignmentStatusName = assignmentStatusName;
     }
+
     @Basic
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    @Column(name = "IsDeleted", nullable = false, columnDefinition = "boolean default false")
-    public boolean getIsDeleted() {
+    @Column(name = "IsDeleted", nullable = false)
+    public Boolean getDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,14 +48,28 @@ public class AssignmentStatusEntity {
 
         AssignmentStatusEntity that = (AssignmentStatusEntity) o;
 
-        if (id != that.id) return false;
-        return assignmentStatusName != null ? assignmentStatusName.equals(that.assignmentStatusName) : that.assignmentStatusName == null;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (assignmentStatusName != null ? !assignmentStatusName.equals(that.assignmentStatusName) : that.assignmentStatusName != null)
+            return false;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (assignmentStatusName != null ? assignmentStatusName.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "assignmentStatusByAssignmentStatusTypeId")
+    public Collection<AssignmentEntity> getAssignmentsById() {
+        return assignmentsById;
+    }
+
+    public void setAssignmentsById(Collection<AssignmentEntity> assignmentsById) {
+        this.assignmentsById = assignmentsById;
     }
 }

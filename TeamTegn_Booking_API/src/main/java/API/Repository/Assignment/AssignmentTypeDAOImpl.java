@@ -1,8 +1,6 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AssignmentEntity;
-import API.Database_Entities.AssignmentTypeEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Component
 public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {

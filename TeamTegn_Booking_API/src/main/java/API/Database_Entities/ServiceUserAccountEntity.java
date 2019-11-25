@@ -1,48 +1,33 @@
 package API.Database_Entities;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "ServiceUser_Account", schema = "dbo")
 public class ServiceUserAccountEntity {
-    private int serviceUserId;
-    private int accountId;
+    private ServiceUserEntity serviceUserByServiceUserId;
+    private AccountEntity accountByAccountId;
 
-    @Id
-    @Column(name = "ServiceUserID", nullable = false)
-    public int getServiceUserId() {
-        return serviceUserId;
+    @ManyToOne
+    @JoinColumn(name = "ServiceUserID", referencedColumnName = "ID", nullable = false)
+    public ServiceUserEntity getServiceUserByServiceUserId() {
+        return serviceUserByServiceUserId;
     }
 
-    public void setServiceUserId(int serviceUserId) {
-        this.serviceUserId = serviceUserId;
+    public void setServiceUserByServiceUserId(ServiceUserEntity serviceUserByServiceUserId) {
+        this.serviceUserByServiceUserId = serviceUserByServiceUserId;
     }
 
-    @Basic
-    @Column(name = "AccountID", nullable = false)
-    public int getAccountId() {
-        return accountId;
+    @ManyToOne
+    @JoinColumn(name = "AccountID", referencedColumnName = "ID", nullable = false)
+    public AccountEntity getAccountByAccountId() {
+        return accountByAccountId;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ServiceUserAccountEntity that = (ServiceUserAccountEntity) o;
-
-        if (serviceUserId != that.serviceUserId) return false;
-        return accountId == that.accountId;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = serviceUserId;
-        result = 31 * result + accountId;
-        return result;
+    public void setAccountByAccountId(AccountEntity accountByAccountId) {
+        this.accountByAccountId = accountByAccountId;
     }
 }

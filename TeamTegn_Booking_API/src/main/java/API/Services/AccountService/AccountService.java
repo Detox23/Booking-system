@@ -1,7 +1,5 @@
 package API.Services.AccountService;
 
-import API.Database_Entities.AccountEanEntity;
-import API.Database_Entities.AccountEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.Account.AccountEanDAO;

@@ -1,27 +1,17 @@
 package API.Database_Entities;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
-@DynamicUpdate
 @Table(name = "Account", schema = "dbo")
 public class AccountEntity {
-
-    private int id; //skipped
+    private Integer id;
     private String accountName;
-    private AccountTypeEntity accountTypeByAccountTypeId; //accountTypeID
     private Integer parentId;
     private Integer primaryContactId;
     private Integer departmentId;
-    private String ean; //as string [database limitations]
     private String telephoneCode;
     private String telephoneNumber;
     private String faxCode;
@@ -33,29 +23,33 @@ public class AccountEntity {
     private String city;
     private String stateRegion;
     private String country;
-    private int createdBy;
-    private Timestamp createdDate; //done automatically
-    private Timestamp lastModified; // skipped
-    private Integer lastModifiedBy; // skipped
-    private boolean deleted; //done automatically
+    private Integer createdBy;
+    private Timestamp createdDate;
+    private Timestamp lastModified;
+    private Integer lastModifiedBy;
+    private Boolean isDeleted;
     private String email;
     private String contactName;
     private String contactEmail;
     private String contactTelephone;
+    private AccountTypeEntity accountTypeByAccountTypeId;
+    private Collection<AccountCommentEntity> accountCommentsById;
+    private Collection<AccountEanEntity> accountEansById;
+    private Collection<AssignmentEntity> assignmentsById;
+    private Collection<ServiceUserAccountEntity> serviceUserAccountsById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Basic
-    @Column(name = "AccountName", nullable = false)
+    @Column(name = "AccountName", nullable = false, length = 255)
     public String getAccountName() {
         return accountName;
     }
@@ -75,7 +69,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "PrimaryContactID")
+    @Column(name = "PrimaryContactID", nullable = true)
     public Integer getPrimaryContactId() {
         return primaryContactId;
     }
@@ -85,7 +79,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "DepartmentID")
+    @Column(name = "DepartmentID", nullable = true)
     public Integer getDepartmentId() {
         return departmentId;
     }
@@ -95,17 +89,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "EAN", length = 50, columnDefinition = "string default null")
-    public String getEan() {
-        return ean;
-    }
-
-    public void setEan(String ean) {
-        this.ean = ean;
-    }
-
-    @Basic
-    @Column(name = "TelephoneCode", length = 50)
+    @Column(name = "TelephoneCode", nullable = true, length = 50)
     public String getTelephoneCode() {
         return telephoneCode;
     }
@@ -115,7 +99,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneNumber", length = 50)
+    @Column(name = "TelephoneNumber", nullable = true, length = 50)
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
@@ -125,7 +109,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "FaxCode", length = 50)
+    @Column(name = "FaxCode", nullable = true, length = 50)
     public String getFaxCode() {
         return faxCode;
     }
@@ -135,7 +119,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "FaxNumber", length = 50)
+    @Column(name = "FaxNumber", nullable = true, length = 50)
     public String getFaxNumber() {
         return faxNumber;
     }
@@ -145,7 +129,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Website", length = 100)
+    @Column(name = "Website", nullable = true, length = 100)
     public String getWebsite() {
         return website;
     }
@@ -155,7 +139,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "CVRNumber", length = 50)
+    @Column(name = "CVRNumber", nullable = true, length = 50)
     public String getCvrNumber() {
         return cvrNumber;
     }
@@ -165,7 +149,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Street", length = 150)
+    @Column(name = "Street", nullable = true, length = 150)
     public String getStreet() {
         return street;
     }
@@ -175,7 +159,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Postcode", length = 50)
+    @Column(name = "Postcode", nullable = true, length = 50)
     public String getPostcode() {
         return postcode;
     }
@@ -185,7 +169,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "City", length = 50)
+    @Column(name = "City", nullable = true, length = 50)
     public String getCity() {
         return city;
     }
@@ -195,7 +179,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "StateRegion", length = 50)
+    @Column(name = "StateRegion", nullable = true, length = 50)
     public String getStateRegion() {
         return stateRegion;
     }
@@ -205,7 +189,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "Country", length = 100)
+    @Column(name = "Country", nullable = true, length = 100)
     public String getCountry() {
         return country;
     }
@@ -215,19 +199,17 @@ public class AccountEntity {
     }
 
     @Basic
-    @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 
     @Basic
-    @CreationTimestamp
-    @Column(name = "CreatedDate")
+    @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -237,8 +219,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @UpdateTimestamp
-    @Column(name = "LastModified")
+    @Column(name = "LastModified", nullable = true)
     public Timestamp getLastModified() {
         return lastModified;
     }
@@ -248,8 +229,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @LastModifiedBy
-    @Column(name = "LastModifiedBy")
+    @Column(name = "LastModifiedBy", nullable = true)
     public Integer getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -259,18 +239,17 @@ public class AccountEntity {
     }
 
     @Basic
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    @Column(name = "IsDeleted", nullable = false, columnDefinition = "boolean default false")
-    public boolean isDeleted() {
-        return deleted;
+    @Column(name = "IsDeleted", nullable = false)
+    public Boolean getDeleted() {
+        return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Basic
-    @Column(name = "Email", length = 50)
+    @Column(name = "Email", nullable = true, length = 50)
     public String getEmail() {
         return email;
     }
@@ -280,7 +259,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "ContactName", length = 100)
+    @Column(name = "ContactName", nullable = true, length = 100)
     public String getContactName() {
         return contactName;
     }
@@ -290,7 +269,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "ContactEmail", length = 100)
+    @Column(name = "ContactEmail", nullable = true, length = 100)
     public String getContactEmail() {
         return contactEmail;
     }
@@ -300,7 +279,7 @@ public class AccountEntity {
     }
 
     @Basic
-    @Column(name = "ContactTelephone", length = 100)
+    @Column(name = "ContactTelephone", nullable = true, length = 100)
     public String getContactTelephone() {
         return contactTelephone;
     }
@@ -309,8 +288,6 @@ public class AccountEntity {
         this.contactTelephone = contactTelephone;
     }
 
-
-    @SuppressWarnings("EqualsReplaceableByObjectsCall")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -318,15 +295,12 @@ public class AccountEntity {
 
         AccountEntity that = (AccountEntity) o;
 
-        if (id != that.id) return false;
-        if (!parentId.equals(that.parentId)) return false;
-        if (createdBy != that.createdBy) return false;
-        if (deleted != that.deleted) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (accountName != null ? !accountName.equals(that.accountName) : that.accountName != null) return false;
+        if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
         if (primaryContactId != null ? !primaryContactId.equals(that.primaryContactId) : that.primaryContactId != null)
             return false;
         if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
-        if (ean != null ? !ean.equals(that.ean) : that.ean != null) return false;
         if (telephoneCode != null ? !telephoneCode.equals(that.telephoneCode) : that.telephoneCode != null)
             return false;
         if (telephoneNumber != null ? !telephoneNumber.equals(that.telephoneNumber) : that.telephoneNumber != null)
@@ -340,16 +314,52 @@ public class AccountEntity {
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
         if (stateRegion != null ? !stateRegion.equals(that.stateRegion) : that.stateRegion != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
+        if (lastModifiedBy != null ? !lastModifiedBy.equals(that.lastModifiedBy) : that.lastModifiedBy != null)
+            return false;
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (contactName != null ? !contactName.equals(that.contactName) : that.contactName != null) return false;
         if (contactEmail != null ? !contactEmail.equals(that.contactEmail) : that.contactEmail != null) return false;
-        return contactTelephone != null ? contactTelephone.equals(that.contactTelephone) : that.contactTelephone == null;
+        if (contactTelephone != null ? !contactTelephone.equals(that.contactTelephone) : that.contactTelephone != null)
+            return false;
+
+        return true;
     }
 
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (accountName != null ? accountName.hashCode() : 0);
+        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+        result = 31 * result + (primaryContactId != null ? primaryContactId.hashCode() : 0);
+        result = 31 * result + (departmentId != null ? departmentId.hashCode() : 0);
+        result = 31 * result + (telephoneCode != null ? telephoneCode.hashCode() : 0);
+        result = 31 * result + (telephoneNumber != null ? telephoneNumber.hashCode() : 0);
+        result = 31 * result + (faxCode != null ? faxCode.hashCode() : 0);
+        result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);
+        result = 31 * result + (website != null ? website.hashCode() : 0);
+        result = 31 * result + (cvrNumber != null ? cvrNumber.hashCode() : 0);
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (stateRegion != null ? stateRegion.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
+        result = 31 * result + (lastModifiedBy != null ? lastModifiedBy.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (contactName != null ? contactName.hashCode() : 0);
+        result = 31 * result + (contactEmail != null ? contactEmail.hashCode() : 0);
+        result = 31 * result + (contactTelephone != null ? contactTelephone.hashCode() : 0);
+        return result;
+    }
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "AccountTypeID", referencedColumnName = "ID", nullable = false)
     public AccountTypeEntity getAccountTypeByAccountTypeId() {
         return accountTypeByAccountTypeId;
@@ -357,5 +367,41 @@ public class AccountEntity {
 
     public void setAccountTypeByAccountTypeId(AccountTypeEntity accountTypeByAccountTypeId) {
         this.accountTypeByAccountTypeId = accountTypeByAccountTypeId;
+    }
+
+    @OneToMany(mappedBy = "accountByAccountId")
+    public Collection<AccountCommentEntity> getAccountCommentsById() {
+        return accountCommentsById;
+    }
+
+    public void setAccountCommentsById(Collection<AccountCommentEntity> accountCommentsById) {
+        this.accountCommentsById = accountCommentsById;
+    }
+
+    @OneToMany(mappedBy = "accountByAccountId")
+    public Collection<AccountEanEntity> getAccountEansById() {
+        return accountEansById;
+    }
+
+    public void setAccountEansById(Collection<AccountEanEntity> accountEansById) {
+        this.accountEansById = accountEansById;
+    }
+
+    @OneToMany(mappedBy = "accountByServiceUserAccountId")
+    public Collection<AssignmentEntity> getAssignmentsById() {
+        return assignmentsById;
+    }
+
+    public void setAssignmentsById(Collection<AssignmentEntity> assignmentsById) {
+        this.assignmentsById = assignmentsById;
+    }
+
+    @OneToMany(mappedBy = "accountByAccountId")
+    public Collection<ServiceUserAccountEntity> getServiceUserAccountsById() {
+        return serviceUserAccountsById;
+    }
+
+    public void setServiceUserAccountsById(Collection<ServiceUserAccountEntity> serviceUserAccountsById) {
+        this.serviceUserAccountsById = serviceUserAccountsById;
     }
 }

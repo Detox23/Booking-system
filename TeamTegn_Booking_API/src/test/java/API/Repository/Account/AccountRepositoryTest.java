@@ -1,9 +1,6 @@
 package API.Repository.Account;
 
 
-import API.Database_Entities.AccountEanEntity;
-import API.Database_Entities.AccountEntity;
-import API.Database_Entities.AccountTypeEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotEnoughDataException;
 import API.Exceptions.NotFoundException;

@@ -1,9 +1,5 @@
 package API.Services.AssignmentService;
 
-import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
-import API.Database_Entities.AssignmentEntity;
-import API.Database_Entities.AssignmentServiceProviderEntity;
-import API.Database_Entities.ServiceProviderEntity;
 import API.Repository.Assignment.*;
 import API.Services.ServiceProviderService.ServiceProviderService;
 import Shared.ForCreation.AssignmentForCreationDto;
@@ -20,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AssignmentService implements IAssignmentService {

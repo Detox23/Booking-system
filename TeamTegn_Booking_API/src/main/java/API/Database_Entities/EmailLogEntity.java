@@ -6,31 +6,21 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "EmailLog", schema = "dbo")
 public class EmailLogEntity {
-    private int logId;
-    private int systemUserId;
+    private Integer logId;
     private String objectType;
     private Integer objectId;
     private String objectEmail;
     private Timestamp sentDate;
+    private SystemUserEntity systemUserBySystemUserId;
 
     @Id
     @Column(name = "LogID", nullable = false)
-    public int getLogId() {
+    public Integer getLogId() {
         return logId;
     }
 
-    public void setLogId(int logId) {
+    public void setLogId(Integer logId) {
         this.logId = logId;
-    }
-
-    @Basic
-    @Column(name = "SystemUserID", nullable = false)
-    public int getSystemUserId() {
-        return systemUserId;
-    }
-
-    public void setSystemUserId(int systemUserId) {
-        this.systemUserId = systemUserId;
     }
 
     @Basic
@@ -80,22 +70,32 @@ public class EmailLogEntity {
 
         EmailLogEntity that = (EmailLogEntity) o;
 
-        if (logId != that.logId) return false;
-        if (systemUserId != that.systemUserId) return false;
+        if (logId != null ? !logId.equals(that.logId) : that.logId != null) return false;
         if (objectType != null ? !objectType.equals(that.objectType) : that.objectType != null) return false;
         if (objectId != null ? !objectId.equals(that.objectId) : that.objectId != null) return false;
         if (objectEmail != null ? !objectEmail.equals(that.objectEmail) : that.objectEmail != null) return false;
-        return sentDate != null ? sentDate.equals(that.sentDate) : that.sentDate == null;
+        if (sentDate != null ? !sentDate.equals(that.sentDate) : that.sentDate != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = logId;
-        result = 31 * result + systemUserId;
+        int result = logId != null ? logId.hashCode() : 0;
         result = 31 * result + (objectType != null ? objectType.hashCode() : 0);
         result = 31 * result + (objectId != null ? objectId.hashCode() : 0);
         result = 31 * result + (objectEmail != null ? objectEmail.hashCode() : 0);
         result = 31 * result + (sentDate != null ? sentDate.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "SystemUserID", referencedColumnName = "ID", nullable = false)
+    public SystemUserEntity getSystemUserBySystemUserId() {
+        return systemUserBySystemUserId;
+    }
+
+    public void setSystemUserBySystemUserId(SystemUserEntity systemUserBySystemUserId) {
+        this.systemUserBySystemUserId = systemUserBySystemUserId;
     }
 }
