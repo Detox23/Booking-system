@@ -1,6 +1,7 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AssignmentStatusEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom{
         AssignmentStatusEntity assignmentStatusEntity = jpaRepository.findById(id).get();
         if(assignmentStatusEntity != null)
         {
-            assignmentStatusEntity.setIsDeleted(true);
+            assignmentStatusEntity.setDeleted(true);
             jpaRepository.save(assignmentStatusEntity);
             return true;
         }

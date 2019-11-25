@@ -1,5 +1,6 @@
 package API.Services.ServiceProviderService;
 
+import API.Database_Entities.ServiceProviderAbsenceEntity;
 import API.Repository.ServiceProvider.ServiceProviderAbsenceDAO;
 import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
 import Shared.ForCreation.ServiceProviderAbsenceForUpdateDto;

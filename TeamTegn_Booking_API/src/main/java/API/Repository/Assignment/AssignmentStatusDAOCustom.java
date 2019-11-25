@@ -1,5 +1,7 @@
 package API.Repository.Assignment;
 
+import API.Database_Entities.AssignmentStatusEntity;
+
 public interface AssignmentStatusDAOCustom {
     Iterable<AssignmentStatusEntity> listAll();
 

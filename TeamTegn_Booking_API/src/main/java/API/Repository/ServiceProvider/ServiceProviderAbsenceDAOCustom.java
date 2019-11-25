@@ -1,5 +1,6 @@
 package API.Repository.ServiceProvider;
 
+import API.Database_Entities.ServiceProviderAbsenceEntity;
 import Shared.ToReturn.ServiceProviderAbsenceDto;
 
 import java.sql.Date;

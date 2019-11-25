@@ -1,5 +1,6 @@
 package API.Repository.AbsenceType;
 
+import API.Database_Entities.AbsenceTypeEntity;
 import Shared.ToReturn.AbsenceTypeDto;
 
 import java.util.List;

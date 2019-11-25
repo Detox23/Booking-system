@@ -1,5 +1,6 @@
 package API.Services.ServiceProviderService;
 
+import API.Database_Entities.ServiceProviderSourceEntity;
 import API.Exceptions.DeletionException;
 import API.Repository.ServiceProvider.ServiceProviderSourceDAO;
 import Shared.ForCreation.ServiceProviderSourceForCreationDto;

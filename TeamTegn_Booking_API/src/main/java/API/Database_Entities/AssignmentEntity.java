@@ -1,5 +1,14 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.SQLDelete;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.web.bind.annotation.DeleteMapping;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -20,9 +29,13 @@ public class AssignmentEntity {
     private Timestamp startTime;
     private Timestamp endTime;
     private Integer totalTime;
+    @CreatedBy
     private Integer createdBy;
+    @CreationTimestamp
     private Timestamp createdDate;
+    @LastModifiedDate
     private Timestamp lastModified;
+    @LastModifiedBy
     private Integer lastModifiedBy;
     private Boolean isDeleted;
     private Boolean assignedStatus;

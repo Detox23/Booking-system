@@ -1,6 +1,7 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AssignmentStatusTypeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -49,7 +50,7 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
     public boolean deleteOne(int id) {
         Optional<AssignmentStatusTypeEntity> found = assignmentStatusTypeDAO.findById(id);
         if (found.isPresent()) {
-            found.get().setIsDeleted(true);
+            found.get().setDeleted(true);
             assignmentStatusTypeDAO.save(found.get());
             return true;
         }

@@ -1,5 +1,6 @@
 package API.Services.DepartmentService;
 
+import API.Database_Entities.DepartmentEntity;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ForCreation.DepartmentForCreationDto;
 import Shared.ForCreation.DepartmentForUpdateDto;

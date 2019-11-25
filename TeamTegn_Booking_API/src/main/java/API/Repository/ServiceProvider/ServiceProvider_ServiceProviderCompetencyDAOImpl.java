@@ -1,5 +1,7 @@
 package API.Repository.ServiceProvider;
 
+import API.Database_Entities.ServiceProviderCompetencyEntity;
+import API.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
 import Shared.ToReturn.ServiceProviderServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

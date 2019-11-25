@@ -1,6 +1,9 @@
 package API.Repository.Account;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AccountEanEntity;
+import API.Database_Entities.AccountEntity;
+import API.Database_Entities.AccountTypeEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.AccountDto;
 import org.jetbrains.annotations.NotNull;
@@ -118,7 +121,7 @@ public class AccountDAOImpl implements AccountDAOCustom {
             AccountEntity account = accountDAO.findById(id).get();
             account.setDeleted(true);
             AccountEntity updatedAccount = accountDAO.save(account);
-            if (updatedAccount.isDeleted() == true) {
+            if (updatedAccount.getDeleted() == true) {
                 return true;
             } else {
                 throw new DeletionException("Account was not deleted.");

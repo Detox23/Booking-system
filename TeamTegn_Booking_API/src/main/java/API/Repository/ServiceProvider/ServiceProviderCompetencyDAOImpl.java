@@ -1,6 +1,7 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.ServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;

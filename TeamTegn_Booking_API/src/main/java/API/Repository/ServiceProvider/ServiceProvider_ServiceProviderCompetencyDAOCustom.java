@@ -1,5 +1,6 @@
 package API.Repository.ServiceProvider;
 
+import API.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
 import Shared.ToReturn.ServiceProviderServiceProviderCompetencyDto;
 
 import java.util.List;

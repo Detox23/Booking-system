@@ -1,5 +1,6 @@
 package API.Repository.Assignment;
 
+import API.Database_Entities.AssignmentEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
