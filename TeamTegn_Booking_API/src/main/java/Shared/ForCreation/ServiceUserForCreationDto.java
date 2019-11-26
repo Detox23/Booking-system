@@ -2,11 +2,9 @@ package Shared.ForCreation;
 
 import Shared.ToReturn.*;
 
-import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.List;
 
 public class ServiceUserForCreationDto {
-    private Integer id;
     private Integer gender;
     private String firstName;
     private String middleName;
@@ -26,17 +24,220 @@ public class ServiceUserForCreationDto {
     private String city;
     private String stateRegion;
     private String country;
-    private Integer createdBy;
-    private Timestamp createdDate;
-    private Integer lastModifiedBy;
-    private Timestamp lastModified;
-    private Boolean isDeleted;
-    private byte[] serviceUserImage;
     private String username;
     private String password;
     private String externalId;
     private Integer roleId;
     private Integer departmentId;
     private Integer serviceUserStatusId;
+    private List<Integer> accountsIds;
 
+    public List<Integer> getAccountsIds() {
+        return accountsIds;
+    }
+
+    public void setAccountsIds(List<Integer> accountsIds) {
+        this.accountsIds = accountsIds;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getCpr() {
+        return cpr;
+    }
+
+    public void setCpr(String cpr) {
+        this.cpr = cpr;
+    }
+
+    public String getTelephoneCode() {
+        return telephoneCode;
+    }
+
+    public void setTelephoneCode(String telephoneCode) {
+        this.telephoneCode = telephoneCode;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getMobileCode() {
+        return mobileCode;
+    }
+
+    public void setMobileCode(String mobileCode) {
+        this.mobileCode = mobileCode;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getFaxCode() {
+        return faxCode;
+    }
+
+    public void setFaxCode(String faxCode) {
+        this.faxCode = faxCode;
+    }
+
+    public String getFaxNumber() {
+        return faxNumber;
+    }
+
+    public void setFaxNumber(String faxNumber) {
+        this.faxNumber = faxNumber;
+    }
+
+    public String getEmail1() {
+        return email1;
+    }
+
+    public void setEmail1(String email1) {
+        this.email1 = email1;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+
+    public void setEmail2(String email2) {
+        this.email2 = email2;
+    }
+
+    public String getSkype() {
+        return skype;
+    }
+
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStateRegion() {
+        return stateRegion;
+    }
+
+    public void setStateRegion(String stateRegion) {
+        this.stateRegion = stateRegion;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Integer getServiceUserStatusId() {
+        return serviceUserStatusId;
+    }
+
+    public void setServiceUserStatusId(Integer serviceUserStatusId) {
+        this.serviceUserStatusId = serviceUserStatusId;
+    }
 }

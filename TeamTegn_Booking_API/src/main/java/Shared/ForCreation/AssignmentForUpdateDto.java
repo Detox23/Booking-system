@@ -15,10 +15,14 @@ public class AssignmentForUpdateDto {
         private String destinationPostCode;
         private String destinationStateRegion;
         private String destinationCountry;
-        private Timestamp assignmentDate;
-        private Date assignmentEndDate;
-        private Timestamp startTime;
-        private Timestamp endTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Timestamp assignmentDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date assignmentEndDate;
+    @JsonFormat(pattern = "HH:mm:ss")
+    private Timestamp startTime;
+    @JsonFormat(pattern = "HH:mm:ss")
+    private Timestamp endTime;
         private Integer totalTime;
         private Boolean assignedStatus;
         private String bookingNumber;

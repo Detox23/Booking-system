@@ -34,7 +34,7 @@ public class        ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Override
     public ServiceUserEntity add(ServiceUserEntity userEntity) {
-        //TODO: in service/ controller set current user as creator
+        userEntity.setDeleted(false);
         userEntity.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         return serviceUserDAO.save(userEntity);
     }
@@ -64,27 +64,18 @@ public class        ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Override
     public Iterable<ServiceUserEntity> list() {
-        ServiceUserEntity userEntity = new ServiceUserEntity();
-        userEntity.setDeleted(false);
-        Example<ServiceUserEntity> usExample = Example.of(userEntity);
 
-        return serviceUserDAO.findAll(usExample);
+        return serviceUserDAO.findAllByDeletedFalse();
     }
 
     @Override
     public ServiceUserEntity findByID(int id) {
-        ServiceUserEntity userEntity = new ServiceUserEntity();
-        userEntity.setDeleted(false);
-        userEntity.setId(id);
-        Example<ServiceUserEntity> uExample = Example.of(userEntity);
 
-        return serviceUserDAO.findOne(uExample).get();
+        return serviceUserDAO.findFirstByIdAndDeletedIsFalse(id);
     }
 
     @Override
     public ServiceUserEntity update(ServiceUserEntity userEntity) {
-        //TODO: in service/ controller set current user as editor
-
         try {
             ServiceUserEntity found = serviceUserDAO.findFirstByIdAndDeletedIsFalse(userEntity.getId());
             if(found != null)

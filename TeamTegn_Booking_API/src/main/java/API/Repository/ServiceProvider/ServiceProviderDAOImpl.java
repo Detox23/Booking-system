@@ -107,6 +107,7 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
             }
             DepartmentEntity result = departmentDAO.findById(serviceProvider.getDepartmentId()).get();
             serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
+            serviceProvider.setDeleted(false);
             ServiceProviderEntity saved = serviceProviderDAO.save(serviceProvider);
             saved.setCpr(encryptionHandler.decrypt(saved.getCpr()));
             if(competencies != null){

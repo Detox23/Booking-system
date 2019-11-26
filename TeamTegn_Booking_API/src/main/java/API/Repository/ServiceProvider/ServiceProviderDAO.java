@@ -10,4 +10,6 @@ import java.util.List;
 public interface ServiceProviderDAO extends JpaRepository<ServiceProviderEntity, Integer>, ServiceProviderDAOCustom {
     List<ServiceProviderEntity> queryAllByDepartmentId(int departmentID);
     List<ServiceProviderEntity> findAllByFirstNameAndMiddleNameAndLastName(String firstName, String middleName, String lastName);
+    ServiceProviderEntity findMiddleNameAndFirstNameAndLastNameAndServiceProviderInitialsById(int id);
+
 }

@@ -9,4 +9,5 @@ import java.util.List;
 public interface AssignmentServiceProviderDAO extends JpaRepository<AssignmentServiceProviderEntity, Integer> {
 
     List<AssignmentServiceProviderEntity> findAllByAssignmentId(int assignmentId);
+
 }

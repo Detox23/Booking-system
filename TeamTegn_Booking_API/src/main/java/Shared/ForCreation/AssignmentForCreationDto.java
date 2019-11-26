@@ -4,24 +4,32 @@ import API.Database_Entities.*;
 import Shared.ToReturn.ServiceProviderDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
 public class AssignmentForCreationDto {
-    private Integer id;
     private String assignmentDescription;
     private String destinationStreet;
     private String destinationCity;
     private String destinationPostCode;
     private String destinationStateRegion;
     private String destinationCountry;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp assignmentDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date assignmentEndDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @NotNull
     private Timestamp startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @NotNull
     private Timestamp endTime;
+    @NotNull
     private Integer totalTime;
+    @NotNull
     private Boolean assignedStatus;
     private String bookingNumber;
     private String serviceUserAccountEan;
@@ -42,6 +50,7 @@ public class AssignmentForCreationDto {
     private Integer assignmentImportanceId;
     private Integer assignmentInterpretationTypeId;
     private String assignmentTitle;
+    @NotNull
     private Integer serviceUserId;
     private Integer accountId;
     private Integer assignmentStatusId;
@@ -65,13 +74,7 @@ public class AssignmentForCreationDto {
         this.serviceProviders = serviceProviders;
     }
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getAssignmentDescription() {
         return assignmentDescription;
@@ -124,7 +127,6 @@ public class AssignmentForCreationDto {
     public Timestamp getAssignmentDate() {
         return assignmentDate;
     }
-
     public void setAssignmentDate(Timestamp assignmentDate) {
         this.assignmentDate = assignmentDate;
     }

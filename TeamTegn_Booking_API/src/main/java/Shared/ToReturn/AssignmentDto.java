@@ -1,6 +1,7 @@
 package Shared.ToReturn;
 
 import API.Database_Entities.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -20,9 +21,13 @@ public class AssignmentDto {
     private String destinationStateRegion;
     private String destinationCountry;
     private int serviceUserId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp assignmentDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date assignmentEndDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Timestamp startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Timestamp endTime;
     private int totalTime;
     private Integer createdBy;

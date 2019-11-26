@@ -1,12 +1,17 @@
 package Shared.ToReturn;
 
 import API.Database_Entities.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 
 public class ServiceUserDto {
-    private Integer id;
+    private  Integer id;
     private Integer gender;
     private String firstName;
     private String middleName;
@@ -26,30 +31,32 @@ public class ServiceUserDto {
     private String city;
     private String stateRegion;
     private String country;
+    @CreatedBy
     private Integer createdBy;
+    @CreationTimestamp
     private Timestamp createdDate;
+    @LastModifiedBy
     private Integer lastModifiedBy;
+    @LastModifiedDate
     private Timestamp lastModified;
     private Boolean isDeleted;
-    private byte[] serviceUserImage;
     private String username;
-    private String password;
     private String externalId;
     private Integer roleId;
-    private Collection<AssignmentDto> assignmentsById;
-    private DepartmentDto departmentByDepartmentId;
-    private ServiceUserStatusDto serviceUserStatusByStatusId;
-    private Collection<ServiceUserPreferencesDto> serviceUserPreferencesById;
-    private Collection<ServiceUserAccountDto> serviceUserAccountsById;
-    private Collection<ServiceUserCommentDto> serviceUserCommentsById;
+    private Integer departmentId;
+    private Integer serviceUserStatusId;
+    private List<AccountDto> accounts;
 
-    public Integer getId() {
-        return id;
+    public List<AccountDto> getAccounts() {
+        return accounts;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAccounts(List<AccountDto> accounts) {
+        this.accounts = accounts;
     }
+
+
+
 
     public Integer getGender() {
         return gender;
@@ -243,13 +250,6 @@ public class ServiceUserDto {
         isDeleted = deleted;
     }
 
-    public byte[] getServiceUserImage() {
-        return serviceUserImage;
-    }
-
-    public void setServiceUserImage(byte[] serviceUserImage) {
-        this.serviceUserImage = serviceUserImage;
-    }
 
     public String getUsername() {
         return username;
@@ -259,13 +259,7 @@ public class ServiceUserDto {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getExternalId() {
         return externalId;
@@ -283,51 +277,28 @@ public class ServiceUserDto {
         this.roleId = roleId;
     }
 
-    public Collection<AssignmentDto> getAssignmentsById() {
-        return assignmentsById;
+    public Integer getDepartmentId() {
+        return departmentId;
     }
 
-    public void setAssignmentsById(Collection<AssignmentDto> assignmentsById) {
-        this.assignmentsById = assignmentsById;
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
-    public DepartmentDto getDepartmentByDepartmentId() {
-        return departmentByDepartmentId;
+    public Integer getServiceUserStatusId() {
+        return serviceUserStatusId;
     }
 
-    public void setDepartmentByDepartmentId(DepartmentDto departmentByDepartmentId) {
-        this.departmentByDepartmentId = departmentByDepartmentId;
+    public Integer getId() {
+        return id;
     }
 
-    public ServiceUserStatusDto getServiceUserStatusByStatusId() {
-        return serviceUserStatusByStatusId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setServiceUserStatusByStatusId(ServiceUserStatusDto serviceUserStatusByStatusId) {
-        this.serviceUserStatusByStatusId = serviceUserStatusByStatusId;
-    }
-
-    public Collection<ServiceUserPreferencesDto> getServiceUserPreferencesById() {
-        return serviceUserPreferencesById;
-    }
-
-    public void setServiceUserPreferencesById(Collection<ServiceUserPreferencesDto> serviceUserPreferencesById) {
-        this.serviceUserPreferencesById = serviceUserPreferencesById;
-    }
-
-    public Collection<ServiceUserAccountDto> getServiceUserAccountsById() {
-        return serviceUserAccountsById;
-    }
-
-    public void setServiceUserAccountsById(Collection<ServiceUserAccountDto> serviceUserAccountsById) {
-        this.serviceUserAccountsById = serviceUserAccountsById;
-    }
-
-    public Collection<ServiceUserCommentDto> getServiceUserCommentsById() {
-        return serviceUserCommentsById;
-    }
-
-    public void setServiceUserCommentsById(Collection<ServiceUserCommentDto> serviceUserCommentsById) {
-        this.serviceUserCommentsById = serviceUserCommentsById;
+    public void setServiceUserStatusId(Integer serviceUserStatusId) {
+        this.serviceUserStatusId = serviceUserStatusId;
     }
 }
+

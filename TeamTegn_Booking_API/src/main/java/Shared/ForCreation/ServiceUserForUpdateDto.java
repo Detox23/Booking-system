@@ -1,5 +1,12 @@
 package Shared.ForCreation;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.sql.Timestamp;
+
 public class ServiceUserForUpdateDto {
     private Integer gender;
     private String firstName;
@@ -20,12 +27,14 @@ public class ServiceUserForUpdateDto {
     private String city;
     private String stateRegion;
     private String country;
-    private byte[] serviceUserImage;
-    private Integer departmentId;
     private String username;
     private String password;
-    private int statusId;
     private String externalId;
+    private Integer roleId;
+    private Integer departmentId;
+    private Integer serviceUserStatusId;
+
+
 
     public Integer getGender() {
         return gender;
@@ -179,22 +188,6 @@ public class ServiceUserForUpdateDto {
         this.country = country;
     }
 
-    public byte[] getServiceUserImage() {
-        return serviceUserImage;
-    }
-
-    public void setServiceUserImage(byte[] serviceUserImage) {
-        this.serviceUserImage = serviceUserImage;
-    }
-
-    public Integer getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -211,19 +204,35 @@ public class ServiceUserForUpdateDto {
         this.password = password;
     }
 
-    public int getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
-    }
-
     public String getExternalId() {
         return externalId;
     }
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Integer getServiceUserStatusId() {
+        return serviceUserStatusId;
+    }
+
+    public void setServiceUserStatusId(Integer serviceUserStatusId) {
+        this.serviceUserStatusId = serviceUserStatusId;
     }
 }

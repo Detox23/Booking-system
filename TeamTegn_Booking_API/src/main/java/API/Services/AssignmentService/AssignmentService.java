@@ -3,7 +3,9 @@ package API.Services.AssignmentService;
 import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentEntity;
 import API.Database_Entities.AssignmentServiceProviderEntity;
+import API.Database_Entities.ServiceProviderEntity;
 import API.Repository.Assignment.*;
+import API.Repository.ServiceProvider.ServiceProviderDAO;
 import API.Services.ServiceProviderService.ServiceProviderService;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
@@ -23,7 +25,12 @@ import java.util.List;
 @Service
 public class AssignmentService implements IAssignmentService {
 
+    private AssignmentDAO assignmentRepository;
+    private AssignmentServiceProviderDAO assignmentServiceProviderRepository;
 
+    private AAssignmentStatusTypeDAO assignmentStatusTypeRepository;
+    @Autowired
+    private ServiceProviderDAO serviceProviderRepository;
     private ModelMapper mapper;
 
     @Autowired
@@ -44,12 +51,7 @@ public class AssignmentService implements IAssignmentService {
         this.assignmentServiceProviderRepository = assignmentServiceProviderRepository;
     }
 
-    private AssignmentDAO assignmentRepository;
-    private AssignmentServiceProviderDAO assignmentServiceProviderRepository;
 
-    private AAssignmentStatusTypeDAO assignmentStatusTypeRepository;
-    @Autowired
-    private ServiceProviderService serviceProviderService;
 
 
     @Override
@@ -58,12 +60,17 @@ public class AssignmentService implements IAssignmentService {
         List<Integer> providers = assignmentEntity.getServiceProviders();
 
         AssignmentEntity dbEntity = mapper.map(assignmentEntity, AssignmentEntity.class);
-
+        dbEntity.setDeleted(false);
         AssignmentEntity assignment = assignmentRepository.addOne(dbEntity);
-        assignmentEntity.getAssignmentStatusTypeIds()
-                        .forEach((id)->   assignmentStatusTypeRepository.save(new AssignmentAssignmentStatusTypeEntity(assignment.getId(), id)));
-
-        providers.forEach((serviceProviderId) -> addAssignmentAssignmentStatusProvider(assignment, serviceProviderId));
+       if(assignmentEntity.getAssignmentStatusTypeIds() != null )
+       {
+           assignmentEntity.getAssignmentStatusTypeIds()
+                   .forEach((id)->   assignmentStatusTypeRepository.save(new AssignmentAssignmentStatusTypeEntity(assignment.getId(), id)));
+       }
+            if(providers!= null)
+            {
+                providers.forEach((serviceProviderId) -> addAssignmentAssignmentStatusProvider(assignment, serviceProviderId));
+            }
         return mapper.map(assignment, AssignmentDto.class);
     }
 
@@ -78,15 +85,21 @@ public class AssignmentService implements IAssignmentService {
 
         assignmentServiceProviderEntities.forEach((e) ->
                                           serviceProviderDtos.add(
-                                                  serviceProviderService.findServiceProvider(e.getServiceProviderId())));
+                                                  serviceProviderRepository.findOne(e.getServiceProviderId())));
         dto.setServiceProviders(serviceProviderDtos);
         return dto;
     }
 
 
     private void addAssignmentAssignmentStatusProvider(AssignmentEntity assignment, int serviceProviderId) {
+        ServiceProviderEntity serviceProviderEntity = serviceProviderRepository.findMiddleNameAndFirstNameAndLastNameAndServiceProviderInitialsById(serviceProviderId);
+
         AssignmentServiceProviderEntity assignmentServiceProviderEntity = new AssignmentServiceProviderEntity();
         assignmentServiceProviderEntity.setServiceProviderId(serviceProviderId);
+        assignmentServiceProviderEntity.setServiceProviderFirstName(serviceProviderEntity.getFirstName());
+        assignmentServiceProviderEntity.setServiceProviderLastName(serviceProviderEntity.getLastName());
+        assignmentServiceProviderEntity.setServiceProviderInitials(serviceProviderEntity.getServiceProviderInitials());
+        assignmentServiceProviderEntity.setServiceProviderMiddleName(serviceProviderEntity.getMiddleName());
         assignmentServiceProviderEntity.setAssignmentId(assignment.getId());
 
         assignmentServiceProviderRepository.save(assignmentServiceProviderEntity);
