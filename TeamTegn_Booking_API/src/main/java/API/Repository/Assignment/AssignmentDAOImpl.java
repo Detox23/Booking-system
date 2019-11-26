@@ -83,7 +83,6 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
                 throw new NotFoundException("The assigment status type was not found.");
             }
 
-
             AssignmentEntity toDelete = found.get();
             toDelete.setDeleted(true);
             AssignmentEntity deletionResult = assignmentDAO.save(toDelete);
