@@ -6,5 +6,4 @@ public class ServiceUserCommentDto {
     private Integer id;
     private Timestamp commentDate;
     private String commentText;
-    private SystemUserDto systemUserByUserId;
 }

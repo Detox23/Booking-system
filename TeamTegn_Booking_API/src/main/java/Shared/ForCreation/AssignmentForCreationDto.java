@@ -46,6 +46,24 @@ public class AssignmentForCreationDto {
     private Integer accountId;
     private Integer assignmentStatusId;
     private Integer vocalLanguageseId;
+    private List<Integer> serviceProviders;
+    private List<Integer> assignmentStatusTypeIds;
+
+    public List<Integer> getAssignmentStatusTypeIds() {
+        return assignmentStatusTypeIds;
+    }
+
+    public void setAssignmentStatusTypeIds(List<Integer> assignmentStatusTypeIds) {
+        this.assignmentStatusTypeIds = assignmentStatusTypeIds;
+    }
+
+    public List<Integer> getServiceProviders() {
+        return serviceProviders;
+    }
+
+    public void setServiceProviders(List<Integer> serviceProviders) {
+        this.serviceProviders = serviceProviders;
+    }
 
     public Integer getId() {
         return id;

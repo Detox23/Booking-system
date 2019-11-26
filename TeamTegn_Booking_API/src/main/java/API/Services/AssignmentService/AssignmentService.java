@@ -72,7 +72,7 @@ public class AssignmentService implements IAssignmentService {
         AssignmentEntity assignment = assignmentRepository.getOne(id);
         AssignmentDto dto =  mapper.map(assignment, AssignmentDto.class);
         List<Integer> listOfAssignmentStatusTypeIds  = assignmentStatusTypeRepository.findAllByAssignmentId(id);
-        dto.setListOfAssignmentStatusTypeIds(listOfAssignmentStatusTypeIds);
+        dto.setAssignmentStatusTypeIds(listOfAssignmentStatusTypeIds);
         List<AssignmentServiceProviderEntity> assignmentServiceProviderEntities  = assignmentServiceProviderRepository.findAllByAssignmentId(id);
         List<ServiceProviderDto> serviceProviderDtos = new ArrayList<>();
 

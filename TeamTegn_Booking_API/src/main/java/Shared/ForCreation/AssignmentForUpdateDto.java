@@ -45,7 +45,18 @@ public class AssignmentForUpdateDto {
         private Integer assignmentStatusId;
         private Integer vocalLanguageseId;
 
-        public Integer getId() {
+    public List<Integer> getAssignmentStatusTypeIds() {
+        return assignmentStatusTypeIds;
+    }
+
+    public void setAssignmentStatusTypeIds(List<Integer> assignmentStatusTypeIds) {
+        this.assignmentStatusTypeIds = assignmentStatusTypeIds;
+    }
+
+    private List<Integer> assignmentStatusTypeIds;
+
+
+    public Integer getId() {
             return id;
         }
 
