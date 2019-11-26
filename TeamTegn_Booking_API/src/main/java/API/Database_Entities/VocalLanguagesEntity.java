@@ -12,6 +12,7 @@ public class VocalLanguagesEntity {
     private Timestamp createdDate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

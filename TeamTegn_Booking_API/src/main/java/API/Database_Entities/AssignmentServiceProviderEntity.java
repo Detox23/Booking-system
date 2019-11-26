@@ -14,6 +14,7 @@ public class AssignmentServiceProviderEntity {
     private String serviceProviderInitials;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

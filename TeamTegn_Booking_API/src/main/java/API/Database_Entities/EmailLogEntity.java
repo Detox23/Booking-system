@@ -14,6 +14,7 @@ public class EmailLogEntity {
     private Timestamp sentDate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LogID", nullable = false)
     public int getLogId() {
         return logId;

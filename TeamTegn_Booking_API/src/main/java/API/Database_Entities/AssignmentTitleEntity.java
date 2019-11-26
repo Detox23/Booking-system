@@ -10,6 +10,7 @@ public class AssignmentTitleEntity {
     private Boolean isDeleted;
 
     @Basic
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

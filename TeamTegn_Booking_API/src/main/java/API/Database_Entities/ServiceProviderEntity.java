@@ -43,6 +43,7 @@ public class ServiceProviderEntity {
     private Integer transportId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

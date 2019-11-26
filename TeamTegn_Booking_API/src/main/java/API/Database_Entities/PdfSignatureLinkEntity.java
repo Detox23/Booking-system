@@ -14,6 +14,7 @@ public class PdfSignatureLinkEntity {
     private Integer serviceProviderId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

@@ -12,6 +12,7 @@ public class Assignment_StukYearCodeEntity {
     private Timestamp dateCreated;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

@@ -3,6 +3,7 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
+
 @Table(name = "ServiceProvider_EveningWork", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ServiceProviderEveningWorkEntity {
     private int id;
@@ -11,6 +12,7 @@ public class ServiceProviderEveningWorkEntity {
     private int eveningWorkPrioritisationId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

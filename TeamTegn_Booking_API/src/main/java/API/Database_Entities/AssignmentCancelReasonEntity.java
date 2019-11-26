@@ -9,6 +9,7 @@ public class AssignmentCancelReasonEntity {
     private String cancelReasonName;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;

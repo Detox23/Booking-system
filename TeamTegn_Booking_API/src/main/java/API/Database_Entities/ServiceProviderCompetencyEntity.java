@@ -13,6 +13,7 @@ public class ServiceProviderCompetencyEntity {
     private boolean isDeleted;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
         return id;
