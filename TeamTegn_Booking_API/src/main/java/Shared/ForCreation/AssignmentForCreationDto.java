@@ -1,38 +1,29 @@
 package Shared.ForCreation;
 
+import API.Database_Entities.*;
 import Shared.ToReturn.ServiceProviderDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 
 public class AssignmentForCreationDto {
-    private Integer assignmentTypeId;
-    private Integer importanceId;
-    private Integer interpretationTypeId;
-    private String assignmentTitle;
+    private Integer id;
     private String assignmentDescription;
-    private String originStreet;
-    private String originCity;
-    private String originPostCode;
-    private String originStateRegion;
-    private String originCountry;
     private String destinationStreet;
     private String destinationCity;
     private String destinationPostCode;
     private String destinationStateRegion;
     private String destinationCountry;
-    private int serviceUserId;
     private Timestamp assignmentDate;
     private Date assignmentEndDate;
     private Timestamp startTime;
     private Timestamp endTime;
-    private int totalTime;
-    private boolean assignedStatus;
-    private Integer assignmentStatusId;
+    private Integer totalTime;
+    private Boolean assignedStatus;
     private String bookingNumber;
-    private Integer serviceUserAccountId;
     private String serviceUserAccountEan;
     private Integer recurrenceType;
     private Integer recurrencyFrequency;
@@ -47,39 +38,21 @@ public class AssignmentForCreationDto {
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
-    private List<Integer> assignmentStatusTypeIds;
-    private List<Integer> serviceProviders;
+    private Integer assignmentTypeId;
+    private Integer assignmentImportanceId;
+    private Integer assignmentInterpretationTypeId;
+    private String assignmentTitle;
+    private Integer serviceUserId;
+    private Integer accountId;
+    private Integer assignmentStatusId;
+    private Integer vocalLanguageseId;
 
-    public List<Integer> getServiceProviders() {
-        return serviceProviders;
+    public Integer getId() {
+        return id;
     }
 
-    public void setServiceProviders(List<Integer> serviceProviders) {
-        this.serviceProviders = serviceProviders;
-    }
-
-    public List<Integer> getAssignmentStatusTypeIds() {
-        return assignmentStatusTypeIds;
-    }
-
-    public void setAssignmentStatusTypeIds(List<Integer> assignmentStatusTypeIds) {
-        this.assignmentStatusTypeIds = assignmentStatusTypeIds;
-    }
-
-    public Integer getInterpretationTypeId() {
-        return interpretationTypeId;
-    }
-
-    public void setInterpretationTypeId(Integer interpretationTypeId) {
-        this.interpretationTypeId = interpretationTypeId;
-    }
-
-    public String getAssignmentTitle() {
-        return assignmentTitle;
-    }
-
-    public void setAssignmentTitle(String assignmentTitle) {
-        this.assignmentTitle = assignmentTitle;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getAssignmentDescription() {
@@ -88,46 +61,6 @@ public class AssignmentForCreationDto {
 
     public void setAssignmentDescription(String assignmentDescription) {
         this.assignmentDescription = assignmentDescription;
-    }
-
-    public String getOriginStreet() {
-        return originStreet;
-    }
-
-    public void setOriginStreet(String originStreet) {
-        this.originStreet = originStreet;
-    }
-
-    public String getOriginCity() {
-        return originCity;
-    }
-
-    public void setOriginCity(String originCity) {
-        this.originCity = originCity;
-    }
-
-    public String getOriginPostCode() {
-        return originPostCode;
-    }
-
-    public void setOriginPostCode(String originPostCode) {
-        this.originPostCode = originPostCode;
-    }
-
-    public String getOriginStateRegion() {
-        return originStateRegion;
-    }
-
-    public void setOriginStateRegion(String originStateRegion) {
-        this.originStateRegion = originStateRegion;
-    }
-
-    public String getOriginCountry() {
-        return originCountry;
-    }
-
-    public void setOriginCountry(String originCountry) {
-        this.originCountry = originCountry;
     }
 
     public String getDestinationStreet() {
@@ -170,15 +103,6 @@ public class AssignmentForCreationDto {
         this.destinationCountry = destinationCountry;
     }
 
-    public int getServiceUserId() {
-        return serviceUserId;
-    }
-
-    public void setServiceUserId(int serviceUserId) {
-        this.serviceUserId = serviceUserId;
-    }
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Berlin")
     public Timestamp getAssignmentDate() {
         return assignmentDate;
     }
@@ -195,7 +119,6 @@ public class AssignmentForCreationDto {
         this.assignmentEndDate = assignmentEndDate;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Berlin")
     public Timestamp getStartTime() {
         return startTime;
     }
@@ -204,8 +127,6 @@ public class AssignmentForCreationDto {
         this.startTime = startTime;
     }
 
-    //2012-04-23T18:25:43.511Z
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Berlin")
     public Timestamp getEndTime() {
         return endTime;
     }
@@ -214,28 +135,21 @@ public class AssignmentForCreationDto {
         this.endTime = endTime;
     }
 
-    public int getTotalTime() {
+    public Integer getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(int totalTime) {
+    public void setTotalTime(Integer totalTime) {
         this.totalTime = totalTime;
     }
 
-    public boolean isAssignedStatus() {
+
+    public Boolean getAssignedStatus() {
         return assignedStatus;
     }
 
-    public void setAssignedStatus(boolean assignedStatus) {
+    public void setAssignedStatus(Boolean assignedStatus) {
         this.assignedStatus = assignedStatus;
-    }
-
-    public Integer getAssignmentStatusId() {
-        return assignmentStatusId;
-    }
-
-    public void setAssignmentStatusId(Integer assignmentStatusId) {
-        this.assignmentStatusId = assignmentStatusId;
     }
 
     public String getBookingNumber() {
@@ -244,14 +158,6 @@ public class AssignmentForCreationDto {
 
     public void setBookingNumber(String bookingNumber) {
         this.bookingNumber = bookingNumber;
-    }
-
-    public Integer getServiceUserAccountId() {
-        return serviceUserAccountId;
-    }
-
-    public void setServiceUserAccountId(Integer serviceUserAccountId) {
-        this.serviceUserAccountId = serviceUserAccountId;
     }
 
     public String getServiceUserAccountEan() {
@@ -334,7 +240,6 @@ public class AssignmentForCreationDto {
         this.recurrenceKey = recurrenceKey;
     }
 
-
     public String getAssignmentPlace() {
         return assignmentPlace;
     }
@@ -367,4 +272,67 @@ public class AssignmentForCreationDto {
         this.resaleParentId = resaleParentId;
     }
 
+    public Integer getAssignmentTypeId() {
+        return assignmentTypeId;
+    }
+
+    public void setAssignmentTypeId(Integer assignmentTypeId) {
+        this.assignmentTypeId = assignmentTypeId;
+    }
+
+    public Integer getAssignmentImportanceId() {
+        return assignmentImportanceId;
+    }
+
+    public void setAssignmentImportanceId(Integer assignmentImportanceId) {
+        this.assignmentImportanceId = assignmentImportanceId;
+    }
+
+    public Integer getAssignmentInterpretationTypeId() {
+        return assignmentInterpretationTypeId;
+    }
+
+    public void setAssignmentInterpretationTypeId(Integer assignmentInterpretationTypeId) {
+        this.assignmentInterpretationTypeId = assignmentInterpretationTypeId;
+    }
+
+    public String getAssignmentTitle() {
+        return assignmentTitle;
+    }
+
+    public void setAssignmentTitle(String assignmentTitle) {
+        this.assignmentTitle = assignmentTitle;
+    }
+
+    public Integer getServiceUserId() {
+        return serviceUserId;
+    }
+
+    public void setServiceUserId(Integer serviceUserId) {
+        this.serviceUserId = serviceUserId;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
+    public Integer getAssignmentStatusId() {
+        return assignmentStatusId;
+    }
+
+    public void setAssignmentStatusId(Integer assignmentStatusId) {
+        this.assignmentStatusId = assignmentStatusId;
+    }
+
+    public Integer getVocalLanguageseId() {
+        return vocalLanguageseId;
+    }
+
+    public void setVocalLanguageseId(Integer vocalLanguageseId) {
+        this.vocalLanguageseId = vocalLanguageseId;
+    }
 }
