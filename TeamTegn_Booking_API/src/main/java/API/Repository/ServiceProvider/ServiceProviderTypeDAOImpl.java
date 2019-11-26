@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -64,7 +65,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
     public ServiceProviderTypeDto updateServiceProviderType(ServiceProviderTypeEntity serviceProviderTypeEntity) {
         try {
             Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(serviceProviderTypeEntity.getId());
-            if (!found.isPresent()){
+            if (!found.isPresent()) {
                 throw new NotFoundException("Provider type was not found while an attempt of making update.");
             }
             patcherHandler.fillNotNullFields(found.get(), serviceProviderTypeEntity);
@@ -72,7 +73,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
             return modelMapper.map(updated, ServiceProviderTypeDto.class);
         } catch (IntrospectionException e) {
             throw new UpdatePatchException("There was an error while updating a type. [PATCHING] ");
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -80,7 +81,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
     @Override
     public ServiceProviderTypeDto findServiceProviderType(int id) {
         Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(id);
-        if (!found.isPresent()){
+        if (!found.isPresent()) {
             throw new NotFoundException("Service provider type with the ID does not exist.");
         }
         return modelMapper.map(found.get(), ServiceProviderTypeDto.class);
@@ -89,7 +90,8 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
     @Override
     public List<ServiceProviderTypeDto> listServiceProviderTypes() {
         try {
-            Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {}.getType();
+            Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {
+            }.getType();
             return modelMapper.map(serviceProviderTypeDAO.findAll(), listType);
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +103,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
     public boolean deleteServiceProviderType(int id) {
         try {
             Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(id);
-            if (!found.isPresent()) {
+            if (!found.isPresent() || found.get().isDeleted()) {
                 throw new NotFoundException("The service provider type was not found.");
             }
             ServiceProviderTypeEntity toDelete = found.get();
@@ -112,7 +114,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
             } else {
                 return false;
             }
-        }catch (NotFoundException notFoundException){
+        } catch (NotFoundException notFoundException) {
             throw notFoundException;
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,13 +2,15 @@ package API.Controllers;
 
 import API.Services.ServiceProviderService.IServiceProviderAbsence;
 import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
-import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;
-import Shared.ForCreation.ServiceProviderCompetencyForUpdateDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
+import java.sql.Time;
 
 @RestController
 @RequestMapping("/api/serviceProviderAbsence")
@@ -41,6 +43,35 @@ public class ServiceProviderAbsenceController {
         return new ResponseEntity<>(serviceProviderAbsence.deleteServiceProviderAbsence(id), new HttpHeaders(), HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/time/{startTime}/{endTime}", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceProviderAbsencesInTime(
+            @PathVariable @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss") Time startTime,
+            @PathVariable @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss") Time endTime) {
+        return new ResponseEntity<>(serviceProviderAbsence.findServiceProviderAbsencesInTime(startTime, endTime), new HttpHeaders(), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/time/{startTime}/{endTime}/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceProviderAbsenceInTime(
+            @PathVariable @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss") Time startTime,
+            @PathVariable @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss") Time endTime,
+            @PathVariable int id) {
+        return new ResponseEntity<>(serviceProviderAbsence.findServiceProviderAbsencesForServiceProviderInTime(startTime, endTime, id), new HttpHeaders(), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/date/{startDate}/{endDate}", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceProviderAbsencesInDate(
+            @PathVariable @JsonFormat(pattern="yyyy-MM-dd") Date startDate,
+            @PathVariable @JsonFormat(pattern="yyyy-MM-dd") Date endDate) {
+        return new ResponseEntity<>(serviceProviderAbsence.findServiceProviderAbsencesInPeriod(startDate, endDate), new HttpHeaders(), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/date/{startDate}/{endDate}/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceProviderAbsenceInDate(
+            @PathVariable @JsonFormat(pattern="yyyy-MM-dd") Date startDate,
+            @PathVariable @JsonFormat(pattern="yyyy-MM-dd") Date endDate,
+            @PathVariable int id) {
+        return new ResponseEntity<>(serviceProviderAbsence.findServiceProviderAbsencesForServiceProviderInPeriod(startDate, endDate, id), new HttpHeaders(), HttpStatus.CREATED);
+    }
 
 
 }

@@ -1,15 +1,23 @@
 package API.Repository.ServiceProvider;
 
 import API.Database_Entities.ServiceProviderAbsenceEntity;
+import API.Services.ServiceProviderService.ServiceProviderAbsence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 @Repository
 public interface ServiceProviderAbsenceDAO extends JpaRepository<ServiceProviderAbsenceEntity, Integer>, ServiceProviderAbsenceDAOCustom {
-    List<ServiceProviderAbsenceEntity> findAllByFromDateIsAfterAndToDateIsBeforeAndServiceProviderIdIs(Date fromDate, Date toDate, int serviceProviderID);
     List<ServiceProviderAbsenceEntity> findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(Date fromDate, Date toDate, int serviceProviderID);
+
     List<ServiceProviderAbsenceEntity> findAllByServiceProviderId(int serviceProviderID);
+
+    List<ServiceProviderAbsenceEntity> findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqual(Date fromDate, Date toDate);
+
+    List<ServiceProviderAbsenceEntity> findAllByFromTimeIsGreaterThanEqualAndToTimeIsLessThanEqual(Time fromTime, Time toTime);
+
+    List<ServiceProviderAbsenceEntity> findAllByFromTimeIsGreaterThanEqualAndToTimeIsLessThanEqualAndServiceProviderId(Time fromTime, Time toTime, int serviceProviderID);
 }

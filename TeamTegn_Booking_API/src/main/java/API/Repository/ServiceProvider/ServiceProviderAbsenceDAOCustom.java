@@ -12,7 +12,7 @@ public interface ServiceProviderAbsenceDAOCustom {
 
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProvider(int serviceProviderID);
 
-    List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(int serviceProviderID, Date startDate, Date endDate);
+    List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(Date startDate, Date endDate, int serviceProviderID);
 
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInPeriod(Date startDate, Date endDate);
 
@@ -22,6 +22,6 @@ public interface ServiceProviderAbsenceDAOCustom {
 
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInTime(Time startTime, Time endTime);
 
-    List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(int serviceProviderID, Time startTime, Time endTime);
+    List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time fromTime, Time toTime, int serviceProviderID);
 
 }

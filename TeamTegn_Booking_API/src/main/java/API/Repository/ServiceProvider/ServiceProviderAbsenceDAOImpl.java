@@ -60,7 +60,11 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     @Override
     public ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity) {
         try {
-            if (serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(serviceProviderAbsenceEntity.getFromDate(), serviceProviderAbsenceEntity.getToDate(), serviceProviderAbsenceEntity.getServiceProviderId()).size() > 0) {
+            if (serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(
+                    serviceProviderAbsenceEntity.getFromDate(),
+                    serviceProviderAbsenceEntity.getToDate(),
+                    serviceProviderAbsenceEntity.getServiceProviderId()
+            ).size() > 0) {
                 throw new DuplicateException("There is already absence registered between the dates for the service provider.");
             }
             serviceProviderAbsenceEntity.setAbsenceHours(calculateHoursFromDates(
@@ -71,38 +75,49 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
             ServiceProviderAbsenceEntity saved = serviceProviderAbsenceDAO.save(serviceProviderAbsenceEntity);
             return modelMapper.map(saved, ServiceProviderAbsenceDto.class);
 
-        }catch(ConstraintViolationException constraintViolationException){
+        } catch (ConstraintViolationException constraintViolationException) {
             throw new NotFoundException("The id of service provider or absence type is incorrect");
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new UnknownAddingException(e.getMessage());
         }
     }
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProvider(int serviceProviderID) {
-        Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {}.getType();
+        Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
+        }.getType();
         return modelMapper.map(serviceProviderAbsenceDAO.findAllByServiceProviderId(serviceProviderID), listType);
     }
 
     @Override
-    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(int serviceProviderID, Date startDate, Date endDate) {
-        return null;
+    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(Date startDate, Date endDate, int serviceProviderID) {
+        Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
+        }.getType();
+        return modelMapper.map(serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(startDate, endDate, serviceProviderID), listType);
     }
+
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInPeriod(Date startDate, Date endDate) {
-        return null;
+        Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
+        }.getType();
+        return modelMapper.map(serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqual(
+                startDate,
+                endDate
+        ), listType);
     }
 
     @Override
     public List<ServiceProviderAbsenceDto> listAllServiceProviderAbsences() {
-        return null;
+        Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
+        }.getType();
+        return modelMapper.map(serviceProviderAbsenceDAO.findAll(), listType);
     }
 
     @Override
     public boolean deleteServiceProviderAbsence(int id) {
         Optional<ServiceProviderAbsenceEntity> found = serviceProviderAbsenceDAO.findById(id);
-        if(!found.isPresent()){
+        if (!found.isPresent()) {
             throw new NotFoundException("The absence with ID does not exist.");
         }
         serviceProviderAbsenceDAO.deleteById(id);
@@ -111,15 +126,26 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInTime(Time startTime, Time endTime) {
-        return null;
+        Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
+        }.getType();
+        return modelMapper.map(serviceProviderAbsenceDAO.findAllByFromTimeIsGreaterThanEqualAndToTimeIsLessThanEqual(
+                startTime,
+                endTime
+        ), listType);
     }
 
     @Override
-    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(int serviceProviderID, Time startTime, Time endTime) {
-        return null;
+    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time fromTime, Time toTime, int serviceProviderID) {
+        Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
+        }.getType();
+        return modelMapper.map(
+                serviceProviderAbsenceDAO.findAllByFromTimeIsGreaterThanEqualAndToTimeIsLessThanEqualAndServiceProviderId(
+                        fromTime, toTime, serviceProviderID)
+                , listType);
     }
 
-    private float calculateHoursFromDates(Date fromDate, Time fromTime, Date toDate, Time toTime){
+
+    private float calculateHoursFromDates(Date fromDate, Time fromTime, Date toDate, Time toTime) {
         return (((toDate.getTime() + toTime.getTime()) - (fromDate.getTime() + fromTime.getTime())) / 3600000);
     }
 
