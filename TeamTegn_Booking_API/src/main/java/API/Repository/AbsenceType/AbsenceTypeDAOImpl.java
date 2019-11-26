@@ -62,7 +62,7 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
     public AbsenceTypeDto updateAbsenceType(AbsenceTypeEntity absenceTypeEntity) {
         try {
             Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(absenceTypeEntity.getId());
-            if (!found.isPresent()|| found.get().isDeleted()) {
+            if (!found.isPresent() || found.get().isDeleted()) {
                 throw new NotFoundException("Absence type was not found.");
             }
             patcherHandler.fillNotNullFields(found.get(), absenceTypeEntity);
@@ -79,11 +79,11 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
     public AbsenceTypeDto findAbsenceType(int id) {
         try {
             Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(id);
-            if (!found.isPresent()|| found.get().isDeleted()) {
+            if (!found.isPresent() || found.get().isDeleted()) {
                 throw new NotFoundException("Absence type does not exist.");
             }
             return modelMapper.map(found.get(), AbsenceTypeDto.class);
-        }catch (NoSuchElementException noSuchElementException) {
+        } catch (NoSuchElementException noSuchElementException) {
             throw new NotFoundException(noSuchElementException.getMessage());
         } catch (Exception e) {
             throw e;
@@ -101,7 +101,7 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
     public boolean deleteAbsenceType(int id) {
         try {
             Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(id);
-            if (!found.isPresent()) {
+            if (!found.isPresent() || found.get().isDeleted()) {
                 throw new NotFoundException("The assigment status type was not found.");
             }
             AbsenceTypeEntity toDelete = found.get();

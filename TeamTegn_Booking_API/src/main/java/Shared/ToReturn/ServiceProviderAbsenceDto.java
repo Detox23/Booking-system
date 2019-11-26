@@ -1,5 +1,7 @@
 package Shared.ToReturn;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -9,8 +11,10 @@ public class ServiceProviderAbsenceDto {
     private int serviceProviderId;
     private Integer absenceTypeId;
     private String absenceReason;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fromDate;
     private Time fromTime;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date toDate;
     private Time toTime;
     private Integer absenceDays;
@@ -24,7 +28,6 @@ public class ServiceProviderAbsenceDto {
     public void setId(int id) {
         this.id = id;
     }
-
 
     public int getServiceProviderId() {
         return serviceProviderId;

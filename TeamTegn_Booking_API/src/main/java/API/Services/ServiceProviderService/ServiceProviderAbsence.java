@@ -43,18 +43,18 @@ public class ServiceProviderAbsence implements IServiceProviderAbsence {
     }
 
     @Override
-    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(int serviceProviderID, Date startDate, Date endDate) {
-        return null;
+    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(Date startDate, Date endDate, int serviceProviderID) {
+        return serviceProviderAbsenceDAO.findServiceProviderAbsencesForServiceProviderInPeriod(startDate,endDate,serviceProviderID);
     }
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInPeriod(Date startDate, Date endDate) {
-        return null;
+        return serviceProviderAbsenceDAO.findServiceProviderAbsencesInPeriod(startDate, endDate);
     }
 
     @Override
     public List<ServiceProviderAbsenceDto> listAllServiceProviderAbsences() {
-        return null;
+        return serviceProviderAbsenceDAO.listAllServiceProviderAbsences();
     }
 
     @Override
@@ -65,12 +65,12 @@ public class ServiceProviderAbsence implements IServiceProviderAbsence {
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInTime(Time startTime, Time endTime) {
-        return null;
+        return serviceProviderAbsenceDAO.findServiceProviderAbsencesInTime(startTime, endTime);
     }
 
     @Override
-    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(int serviceProviderID, Time startTime, Time endTime) {
-        return null;
+    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time startTime, Time endTime,int serviceProviderID) {
+        return findServiceProviderAbsencesForServiceProviderInTime(startTime, endTime, serviceProviderID);
     }
 
 
