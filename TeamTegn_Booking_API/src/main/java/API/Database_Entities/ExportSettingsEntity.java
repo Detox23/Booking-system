@@ -4,9 +4,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ExportSettings", schema = "dbo")
+@Table(name = "ExportSettings", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ExportSettingsEntity {
-    private Integer id;
+    private int id;
     private String keyName;
     private String valueName;
     private Timestamp created;
@@ -14,11 +14,11 @@ public class ExportSettingsEntity {
 
     @Id
     @Column(name = "Id", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -69,7 +69,7 @@ public class ExportSettingsEntity {
 
         ExportSettingsEntity that = (ExportSettingsEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
         if (keyName != null ? !keyName.equals(that.keyName) : that.keyName != null) return false;
         if (valueName != null ? !valueName.equals(that.valueName) : that.valueName != null) return false;
         if (created != null ? !created.equals(that.created) : that.created != null) return false;
@@ -80,7 +80,7 @@ public class ExportSettingsEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (keyName != null ? keyName.hashCode() : 0);
         result = 31 * result + (valueName != null ? valueName.hashCode() : 0);
         result = 31 * result + (created != null ? created.hashCode() : 0);

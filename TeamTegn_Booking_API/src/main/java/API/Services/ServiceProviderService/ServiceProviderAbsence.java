@@ -1,5 +1,6 @@
 package API.Services.ServiceProviderService;
 
+import API.Database_Entities.ServiceProviderAbsenceEntity;
 import API.Repository.ServiceProvider.ServiceProviderAbsenceDAO;
 import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
 import Shared.ForCreation.ServiceProviderAbsenceForUpdateDto;
@@ -37,14 +38,8 @@ public class ServiceProviderAbsence implements IServiceProviderAbsence {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public ServiceProviderAbsenceDto updateServiceProviderAbsence(ServiceProviderAbsenceForUpdateDto serviceProviderAbsenceEntity) {
-        return null;
-    }
-
-    @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProvider(int serviceProviderID) {
-        return null;
+        return serviceProviderAbsenceDAO.findServiceProviderAbsencesForServiceProvider(serviceProviderID);
     }
 
     @Override
@@ -65,7 +60,7 @@ public class ServiceProviderAbsence implements IServiceProviderAbsence {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public boolean deleteServiceProviderAbsence(int id) {
-        return false;
+        return serviceProviderAbsenceDAO.deleteServiceProviderAbsence(id);
     }
 
     @Override

@@ -1,23 +1,21 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "AccountType", schema = "dbo")
+@Table(name = "AccountType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AccountTypeEntity {
-    private Integer id;
+    private int id;
     private String accountType;
     private Boolean isDeleted;
-    private Collection<AccountEntity> accountsById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -48,7 +46,7 @@ public class AccountTypeEntity {
 
         AccountTypeEntity that = (AccountTypeEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
         if (accountType != null ? !accountType.equals(that.accountType) : that.accountType != null) return false;
         if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
@@ -57,18 +55,9 @@ public class AccountTypeEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
         result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "accountTypeByAccountTypeId")
-    public Collection<AccountEntity> getAccountsById() {
-        return accountsById;
-    }
-
-    public void setAccountsById(Collection<AccountEntity> accountsById) {
-        this.accountsById = accountsById;
     }
 }

@@ -3,7 +3,6 @@ package Shared.ToReturn;
 public class AccountTypeDto {
     private int id;
     private String accountType;
-    private Boolean grantApplies;
     private Boolean isDeleted;
 
     public int getId() {
@@ -20,14 +19,6 @@ public class AccountTypeDto {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
-    }
-
-    public Boolean getGrantApplies() {
-        return grantApplies;
-    }
-
-    public void setGrantApplies(Boolean grantApplies) {
-        this.grantApplies = grantApplies;
     }
 
     public Boolean getDeleted() {

@@ -1,33 +1,63 @@
 package API.Database_Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "SystemUser_Department", schema = "dbo")
+@Table(name = "SystemUser_Department", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class SystemUserDepartmentEntity {
-    private SystemUserEntity systemUserBySystemUserId;
-    private DepartmentEntity departmentByDepartmentId;
+    private int id;
+    private int systemUserId;
+    private int departmentId;
 
-    @ManyToOne
-    @JoinColumn(name = "SystemUserID", referencedColumnName = "ID", nullable = false)
-    public SystemUserEntity getSystemUserBySystemUserId() {
-        return systemUserBySystemUserId;
+    @Id
+    @Column(name = "ID", nullable = false)
+    public int getId() {
+        return id;
     }
 
-    public void setSystemUserBySystemUserId(SystemUserEntity systemUserBySystemUserId) {
-        this.systemUserBySystemUserId = systemUserBySystemUserId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "DepartmentID", referencedColumnName = "ID", nullable = false)
-    public DepartmentEntity getDepartmentByDepartmentId() {
-        return departmentByDepartmentId;
+    @Basic
+    @Column(name = "SystemUserID", nullable = false)
+    public int getSystemUserId() {
+        return systemUserId;
     }
 
-    public void setDepartmentByDepartmentId(DepartmentEntity departmentByDepartmentId) {
-        this.departmentByDepartmentId = departmentByDepartmentId;
+    public void setSystemUserId(int systemUserId) {
+        this.systemUserId = systemUserId;
+    }
+
+    @Basic
+    @Column(name = "DepartmentID", nullable = false)
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SystemUserDepartmentEntity that = (SystemUserDepartmentEntity) o;
+
+        if (id != that.id) return false;
+        if (systemUserId != that.systemUserId) return false;
+        if (departmentId != that.departmentId) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + systemUserId;
+        result = 31 * result + departmentId;
+        return result;
     }
 }

@@ -3,22 +3,43 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Assignment_ServiceProvider", schema = "dbo")
+@Table(name = "Assignment_ServiceProvider", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AssignmentServiceProviderEntity {
-    private Integer serviceProviderId;
+    private int id;
+    private int assignmentId;
+    private int serviceProviderId;
     private String serviceProviderFirstName;
     private String serviceProviderMiddleName;
     private String serviceProviderLastName;
     private String serviceProviderInitials;
-    private AssignmentEntity assignmentByAssignmentId;
+
+    @Id
+    @Column(name = "ID", nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "AssignmentID", nullable = false)
+    public int getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(int assignmentId) {
+        this.assignmentId = assignmentId;
+    }
 
     @Basic
     @Column(name = "ServiceProviderID", nullable = false)
-    public Integer getServiceProviderId() {
+    public int getServiceProviderId() {
         return serviceProviderId;
     }
 
-    public void setServiceProviderId(Integer serviceProviderId) {
+    public void setServiceProviderId(int serviceProviderId) {
         this.serviceProviderId = serviceProviderId;
     }
 
@@ -69,8 +90,9 @@ public class AssignmentServiceProviderEntity {
 
         AssignmentServiceProviderEntity that = (AssignmentServiceProviderEntity) o;
 
-        if (serviceProviderId != null ? !serviceProviderId.equals(that.serviceProviderId) : that.serviceProviderId != null)
-            return false;
+        if (id != that.id) return false;
+        if (assignmentId != that.assignmentId) return false;
+        if (serviceProviderId != that.serviceProviderId) return false;
         if (serviceProviderFirstName != null ? !serviceProviderFirstName.equals(that.serviceProviderFirstName) : that.serviceProviderFirstName != null)
             return false;
         if (serviceProviderMiddleName != null ? !serviceProviderMiddleName.equals(that.serviceProviderMiddleName) : that.serviceProviderMiddleName != null)
@@ -85,21 +107,13 @@ public class AssignmentServiceProviderEntity {
 
     @Override
     public int hashCode() {
-        int result = serviceProviderId != null ? serviceProviderId.hashCode() : 0;
+        int result = id;
+        result = 31 * result + assignmentId;
+        result = 31 * result + serviceProviderId;
         result = 31 * result + (serviceProviderFirstName != null ? serviceProviderFirstName.hashCode() : 0);
         result = 31 * result + (serviceProviderMiddleName != null ? serviceProviderMiddleName.hashCode() : 0);
         result = 31 * result + (serviceProviderLastName != null ? serviceProviderLastName.hashCode() : 0);
         result = 31 * result + (serviceProviderInitials != null ? serviceProviderInitials.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AssignmentID", referencedColumnName = "ID", nullable = false)
-    public AssignmentEntity getAssignmentByAssignmentId() {
-        return assignmentByAssignmentId;
-    }
-
-    public void setAssignmentByAssignmentId(AssignmentEntity assignmentByAssignmentId) {
-        this.assignmentByAssignmentId = assignmentByAssignmentId;
     }
 }

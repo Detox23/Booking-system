@@ -1,23 +1,21 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "TransportType", schema = "dbo")
+@Table(name = "TransportType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class TransportTypeEntity {
-    private Integer id;
+    private int id;
     private String transport;
-    private Boolean isDeleted;
-    private Collection<ServiceProviderEntity> serviceProvidersById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,11 +31,11 @@ public class TransportTypeEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -48,27 +46,18 @@ public class TransportTypeEntity {
 
         TransportTypeEntity that = (TransportTypeEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (transport != null ? !transport.equals(that.transport) : that.transport != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (transport != null ? transport.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "transportTypeByTransportId")
-    public Collection<ServiceProviderEntity> getServiceProvidersById() {
-        return serviceProvidersById;
-    }
-
-    public void setServiceProvidersById(Collection<ServiceProviderEntity> serviceProvidersById) {
-        this.serviceProvidersById = serviceProvidersById;
     }
 }

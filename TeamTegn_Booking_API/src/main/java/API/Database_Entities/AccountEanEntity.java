@@ -3,19 +3,20 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Account_EAN", schema = "dbo")
+@Table(name = "Account_EAN", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AccountEanEntity {
-    private Integer id;
+    private int id;
     private String eanNumber;
-    private AccountEntity accountByAccountId;
+    private int accountId;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -29,6 +30,16 @@ public class AccountEanEntity {
         this.eanNumber = eanNumber;
     }
 
+    @Basic
+    @Column(name = "AccountID", nullable = false)
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -36,7 +47,8 @@ public class AccountEanEntity {
 
         AccountEanEntity that = (AccountEanEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (accountId != that.accountId) return false;
         if (eanNumber != null ? !eanNumber.equals(that.eanNumber) : that.eanNumber != null) return false;
 
         return true;
@@ -44,18 +56,9 @@ public class AccountEanEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (eanNumber != null ? eanNumber.hashCode() : 0);
+        result = 31 * result + accountId;
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AccountID", referencedColumnName = "ID", nullable = false)
-    public AccountEntity getAccountByAccountId() {
-        return accountByAccountId;
-    }
-
-    public void setAccountByAccountId(AccountEntity accountByAccountId) {
-        this.accountByAccountId = accountByAccountId;
     }
 }

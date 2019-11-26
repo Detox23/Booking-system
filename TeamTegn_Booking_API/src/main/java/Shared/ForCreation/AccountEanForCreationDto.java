@@ -1,12 +1,12 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class AccountEanForCreationDto {
+    @NotNull
     private String eanNumber;
+    @NotNull
     private int accountId;
-
-    public AccountEanForCreationDto() {
-
-    }
 
     public String getEanNumber() {
         return eanNumber;

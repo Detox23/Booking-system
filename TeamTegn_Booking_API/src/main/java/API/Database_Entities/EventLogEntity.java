@@ -4,22 +4,32 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "EventLog", schema = "dbo")
+@Table(name = "EventLog", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class EventLogEntity {
-    private Integer id;
+    private int id;
+    private Integer systemUserId;
     private String exceptionMessage;
     private String stackTrace;
     private Timestamp dateCreated;
-    private SystemUserEntity systemUserBySystemUserId;
 
-    @Basic
+    @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "SystemUserID", nullable = true)
+    public Integer getSystemUserId() {
+        return systemUserId;
+    }
+
+    public void setSystemUserId(Integer systemUserId) {
+        this.systemUserId = systemUserId;
     }
 
     @Basic
@@ -59,7 +69,8 @@ public class EventLogEntity {
 
         EventLogEntity that = (EventLogEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (systemUserId != null ? !systemUserId.equals(that.systemUserId) : that.systemUserId != null) return false;
         if (exceptionMessage != null ? !exceptionMessage.equals(that.exceptionMessage) : that.exceptionMessage != null)
             return false;
         if (stackTrace != null ? !stackTrace.equals(that.stackTrace) : that.stackTrace != null) return false;
@@ -70,20 +81,11 @@ public class EventLogEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (systemUserId != null ? systemUserId.hashCode() : 0);
         result = 31 * result + (exceptionMessage != null ? exceptionMessage.hashCode() : 0);
         result = 31 * result + (stackTrace != null ? stackTrace.hashCode() : 0);
         result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "SystemUserID", referencedColumnName = "ID")
-    public SystemUserEntity getSystemUserBySystemUserId() {
-        return systemUserBySystemUserId;
-    }
-
-    public void setSystemUserBySystemUserId(SystemUserEntity systemUserBySystemUserId) {
-        this.systemUserBySystemUserId = systemUserBySystemUserId;
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/departments")
+@RequestMapping("/api/department")
 public class DepartmentController extends BaseController {
 
     private IDepartmentService departmentService;
@@ -32,9 +32,9 @@ public class DepartmentController extends BaseController {
         return new ResponseEntity<>(departmentService.findDepartment(name), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteDepartment(@PathVariable String name) {
-        return new ResponseEntity<>(departmentService.deleteDepartment(name), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteDepartment(@PathVariable int id) {
+        return new ResponseEntity<>(departmentService.deleteDepartment(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)

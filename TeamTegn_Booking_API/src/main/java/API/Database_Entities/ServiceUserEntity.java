@@ -3,12 +3,11 @@ package API.Database_Entities;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Collection;
 
 @Entity
-@Table(name = "ServiceUser", schema = "dbo")
+@Table(name = "ServiceUser", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ServiceUserEntity {
-    private Integer id;
+    private int id;
     private Integer gender;
     private String firstName;
     private String middleName;
@@ -32,26 +31,22 @@ public class ServiceUserEntity {
     private Timestamp createdDate;
     private Integer lastModifiedBy;
     private Timestamp lastModified;
-    private Boolean isDeleted;
+    private boolean isDeleted;
     private byte[] serviceUserImage;
+    private Integer departmentId;
     private String username;
     private String password;
+    private int statusId;
     private String externalId;
     private Integer roleId;
-    private Collection<AssignmentEntity> assignmentsById;
-    private DepartmentEntity departmentByDepartmentId;
-    private ServiceUserStatusEntity serviceUserStatusByStatusId;
-    private Collection<ServiceUserPreferencesEntity> serviceUserPreferencesById;
-    private Collection<ServiceUserAccountEntity> serviceUserAccountsById;
-    private Collection<ServiceUserCommentEntity> serviceUserCommentsById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -287,11 +282,11 @@ public class ServiceUserEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -303,6 +298,16 @@ public class ServiceUserEntity {
 
     public void setServiceUserImage(byte[] serviceUserImage) {
         this.serviceUserImage = serviceUserImage;
+    }
+
+    @Basic
+    @Column(name = "DepartmentID", nullable = true)
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     @Basic
@@ -323,6 +328,16 @@ public class ServiceUserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "StatusID", nullable = false)
+    public int getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
     }
 
     @Basic
@@ -352,7 +367,9 @@ public class ServiceUserEntity {
 
         ServiceUserEntity that = (ServiceUserEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (isDeleted != that.isDeleted) return false;
+        if (statusId != that.statusId) return false;
         if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null) return false;
@@ -379,8 +396,8 @@ public class ServiceUserEntity {
         if (lastModifiedBy != null ? !lastModifiedBy.equals(that.lastModifiedBy) : that.lastModifiedBy != null)
             return false;
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
         if (!Arrays.equals(serviceUserImage, that.serviceUserImage)) return false;
+        if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
         if (username != null ? !username.equals(that.username) : that.username != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
         if (externalId != null ? !externalId.equals(that.externalId) : that.externalId != null) return false;
@@ -391,7 +408,7 @@ public class ServiceUserEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
@@ -415,68 +432,14 @@ public class ServiceUserEntity {
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (lastModifiedBy != null ? lastModifiedBy.hashCode() : 0);
         result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         result = 31 * result + Arrays.hashCode(serviceUserImage);
+        result = 31 * result + (departmentId != null ? departmentId.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + statusId;
         result = 31 * result + (externalId != null ? externalId.hashCode() : 0);
         result = 31 * result + (roleId != null ? roleId.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "serviceUserByServiceUserId")
-    public Collection<AssignmentEntity> getAssignmentsById() {
-        return assignmentsById;
-    }
-
-    public void setAssignmentsById(Collection<AssignmentEntity> assignmentsById) {
-        this.assignmentsById = assignmentsById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "DepartmentID", referencedColumnName = "ID")
-    public DepartmentEntity getDepartmentByDepartmentId() {
-        return departmentByDepartmentId;
-    }
-
-    public void setDepartmentByDepartmentId(DepartmentEntity departmentByDepartmentId) {
-        this.departmentByDepartmentId = departmentByDepartmentId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "StatusID", referencedColumnName = "ID", nullable = false)
-    public ServiceUserStatusEntity getServiceUserStatusByStatusId() {
-        return serviceUserStatusByStatusId;
-    }
-
-    public void setServiceUserStatusByStatusId(ServiceUserStatusEntity serviceUserStatusByStatusId) {
-        this.serviceUserStatusByStatusId = serviceUserStatusByStatusId;
-    }
-
-    @OneToMany(mappedBy = "serviceUserByServiceUserId")
-    public Collection<ServiceUserPreferencesEntity> getServiceUserPreferencesById() {
-        return serviceUserPreferencesById;
-    }
-
-    public void setServiceUserPreferencesById(Collection<ServiceUserPreferencesEntity> serviceUserPreferencesById) {
-        this.serviceUserPreferencesById = serviceUserPreferencesById;
-    }
-
-    @OneToMany(mappedBy = "serviceUserByServiceUserId")
-    public Collection<ServiceUserAccountEntity> getServiceUserAccountsById() {
-        return serviceUserAccountsById;
-    }
-
-    public void setServiceUserAccountsById(Collection<ServiceUserAccountEntity> serviceUserAccountsById) {
-        this.serviceUserAccountsById = serviceUserAccountsById;
-    }
-
-    @OneToMany(mappedBy = "serviceUserByServiceUserId")
-    public Collection<ServiceUserCommentEntity> getServiceUserCommentsById() {
-        return serviceUserCommentsById;
-    }
-
-    public void setServiceUserCommentsById(Collection<ServiceUserCommentEntity> serviceUserCommentsById) {
-        this.serviceUserCommentsById = serviceUserCommentsById;
     }
 }

@@ -1,6 +1,10 @@
 package API.Repository.Account;
 
 import API.Configurations.Patcher.PatcherHandler;
+
+import API.Database_Entities.AccountEanEntity;
+import API.Database_Entities.AccountEntity;
+import API.Database_Entities.AccountTypeEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.AccountDto;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +45,7 @@ public class AccountDAOImpl implements AccountDAOCustom {
         try {
             Type listType = new TypeToken<List<AccountDto>>() {
             }.getType();
-            return modelMapper.map(accountDAO.findAll(), listType);
+            return modelMapper.map(accountDAO.findAllByDeletedIsFalse(), listType);
         } catch (Exception e) {
             throw e;
         }
@@ -50,10 +54,11 @@ public class AccountDAOImpl implements AccountDAOCustom {
 
     public AccountDto getOneAccount(int id) {
         try {
-            AccountEntity found = accountDAO.findById(id).get();
-            return modelMapper.map(found, AccountDto.class);
-        } catch (NoSuchElementException noSuchElementException) {
-            throw new NotFoundException("Account was not found.");
+            Optional<AccountEntity> found = accountDAO.findById(id);
+            if (!found.isPresent() || found.get().isDeleted()) {
+                throw new NotFoundException("Account does not exist.");
+            }
+            return modelMapper.map(found.get(), AccountDto.class);
         } catch (Exception e) {
             throw e;
         }
@@ -65,7 +70,11 @@ public class AccountDAOImpl implements AccountDAOCustom {
                 throw new DuplicateException("Account with exact name and CVR number already exists.");
             }
             Optional<AccountTypeEntity> entity = accountTypeDAO.findById(accountTypeId);
-            account.setAccountTypeByAccountTypeId(entity.get());
+            if (!entity.isPresent()) {
+                throw new NotFoundException("Account type was not found while adding account.");
+            }
+            account.setAccountTypeId(entity.get().getId());
+            account.setDeleted(false);
             AccountEntity accountEntity = accountDAO.save(account);
             if (accountEntity.getId() > 0) {
                 if (eans != null) {
@@ -94,16 +103,14 @@ public class AccountDAOImpl implements AccountDAOCustom {
     //checked
     public AccountDto updateOneAccount(@NotNull AccountEntity accountDto) {
         try {
-            AccountEntity found = accountDAO.findById(accountDto.getId()).get();
-            if (found.isDeleted() == true) {
-                throw new UpdateErrorException("You can't update deleted account.");
+            Optional<AccountEntity> found = accountDAO.findById(accountDto.getId());
+            if (!found.isPresent() || found.get().isDeleted()) {
+                throw new NotFoundException("The account you want to update was deleted or does not exist.");
             }
-            patcherHandler.fillNotNullFields(found, accountDto);
-            AccountEntity result = accountDAO.save(found);
+            patcherHandler.fillNotNullFields(found.get(), accountDto);
+            AccountEntity result = accountDAO.save(found.get());
             AccountDto toReturn = modelMapper.map(result, AccountDto.class);
             return toReturn;
-        } catch (NoSuchElementException e) {
-            throw new NotFoundException("Account was not found while an attempt of making update.");
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
         } catch (Exception e) {
@@ -115,20 +122,23 @@ public class AccountDAOImpl implements AccountDAOCustom {
     //checked
     public boolean deleteOneAccount(int id) {
         try {
-            AccountEntity account = accountDAO.findById(id).get();
-            account.setDeleted(true);
-            AccountEntity updatedAccount = accountDAO.save(account);
-            if (updatedAccount.isDeleted() == true) {
+            Optional<AccountEntity> found = accountDAO.findById(id);
+            if (!found.isPresent() || found.get().isDeleted()) {
+                throw new NotFoundException("Account does not exist.");
+            }
+            AccountEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            AccountEntity deletionResult = accountDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
                 return true;
             } else {
-                throw new DeletionException("Account was not deleted.");
+                return false;
             }
-        } catch (DeletionException deletionException) {
-            throw deletionException;
-        } catch (NoSuchElementException emptyResult) {
-            throw new NotFoundException("Account you wanted to delete does not exist.");
+        } catch (NotFoundException notFoundException) {
+            throw notFoundException;
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
         }
     }
 

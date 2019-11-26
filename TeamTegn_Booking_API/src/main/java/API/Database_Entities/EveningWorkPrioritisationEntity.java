@@ -1,23 +1,21 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "EveningWorkPrioritisation", schema = "dbo")
+@Table(name = "EveningWorkPrioritisation", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class EveningWorkPrioritisationEntity {
-    private Integer id;
+    private int id;
     private String prioritisation;
-    private Boolean isDeleted;
-    private Collection<ServiceProviderEveningWorkEntity> serviceProviderEveningWorksById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,11 +31,11 @@ public class EveningWorkPrioritisationEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -48,28 +46,19 @@ public class EveningWorkPrioritisationEntity {
 
         EveningWorkPrioritisationEntity that = (EveningWorkPrioritisationEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (prioritisation != null ? !prioritisation.equals(that.prioritisation) : that.prioritisation != null)
             return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (prioritisation != null ? prioritisation.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "eveningWorkPrioritisationByEveningWorkPrioritisationId")
-    public Collection<ServiceProviderEveningWorkEntity> getServiceProviderEveningWorksById() {
-        return serviceProviderEveningWorksById;
-    }
-
-    public void setServiceProviderEveningWorksById(Collection<ServiceProviderEveningWorkEntity> serviceProviderEveningWorksById) {
-        this.serviceProviderEveningWorksById = serviceProviderEveningWorksById;
     }
 }

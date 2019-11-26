@@ -1,6 +1,7 @@
 package API.Repository.AbsenceType;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AbsenceTypeEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.AbsenceTypeDto;
 import org.modelmapper.ModelMapper;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
@@ -47,6 +49,7 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
         if (absenceTypeEntity.getAbsenceTypeName() == null || absenceTypeEntity.getAbsenceTypeName().length() == 0) {
             throw new NotEnoughDataException("You provided too little information to create the absence type.");
         }
+        absenceTypeEntity.setDeleted(false);
         AbsenceTypeEntity saved = absenceTypeDAO.save(absenceTypeEntity);
         if (saved.getId() > 0) {
             return modelMapper.map(saved, AbsenceTypeDto.class);
@@ -59,7 +62,7 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
     public AbsenceTypeDto updateAbsenceType(AbsenceTypeEntity absenceTypeEntity) {
         try {
             Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(absenceTypeEntity.getId());
-            if (!found.isPresent()) {
+            if (!found.isPresent()|| found.get().isDeleted()) {
                 throw new NotFoundException("Absence type was not found.");
             }
             patcherHandler.fillNotNullFields(found.get(), absenceTypeEntity);
@@ -74,11 +77,16 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
 
     @Override
     public AbsenceTypeDto findAbsenceType(int id) {
-        Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(id);
-        if (!found.isPresent()) {
-            throw new NotFoundException("There was no absence type found.");
-        } else {
+        try {
+            Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(id);
+            if (!found.isPresent()|| found.get().isDeleted()) {
+                throw new NotFoundException("Absence type does not exist.");
+            }
             return modelMapper.map(found.get(), AbsenceTypeDto.class);
+        }catch (NoSuchElementException noSuchElementException) {
+            throw new NotFoundException(noSuchElementException.getMessage());
+        } catch (Exception e) {
+            throw e;
         }
     }
 
@@ -86,21 +94,29 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
     public List<AbsenceTypeDto> listAbsenceTypes() {
         Type listType = new TypeToken<List<AbsenceTypeDto>>() {
         }.getType();
-        return modelMapper.map(absenceTypeDAO.findAll(), listType);
+        return modelMapper.map(absenceTypeDAO.findAllByDeletedIsFalse(), listType);
     }
 
     @Override
     public boolean deleteAbsenceType(int id) {
         try {
             Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(id);
-            if (found.isPresent()) {
-                absenceTypeDAO.deleteById(found.get().getId());
+            if (!found.isPresent()) {
+                throw new NotFoundException("The assigment status type was not found.");
+            }
+            AbsenceTypeEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            AbsenceTypeEntity deletionResult = absenceTypeDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
                 return true;
             } else {
                 return false;
             }
+        } catch (NotFoundException notFoundException) {
+            throw notFoundException;
         } catch (Exception e) {
-            throw new UnknownException(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
         }
     }
 }

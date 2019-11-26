@@ -1,5 +1,8 @@
 package API.Services.AssignmentService;
 
+import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
+import API.Database_Entities.AssignmentEntity;
+import API.Database_Entities.AssignmentServiceProviderEntity;
 import API.Repository.Assignment.*;
 import API.Services.ServiceProviderService.ServiceProviderService;
 import Shared.ForCreation.AssignmentForCreationDto;
@@ -28,7 +31,8 @@ public class AssignmentService implements IAssignmentService {
         this.mapper = mapper;
     }
     @Autowired
-    public void setAssignmentRepository(AssignmentDAO assignmentRepository) {
+    public void
+    setAssignmentRepository(AssignmentDAO assignmentRepository) {
         this.assignmentRepository = assignmentRepository;
     }
     @Autowired
@@ -69,8 +73,8 @@ public class AssignmentService implements IAssignmentService {
         AssignmentDto dto =  mapper.map(assignment, AssignmentDto.class);
         List<Integer> listOfAssignmentStatusTypeIds  = assignmentStatusTypeRepository.findAllByAssignmentId(id);
         dto.setListOfAssignmentStatusTypeIds(listOfAssignmentStatusTypeIds);
-        List<AssignmentServiceProviderEntity> assignmentServiceProviderEntities  = assignmentServiceProviderRepository.findAllByAssignmentByAssignmentId(id);
-        List<ServiceProviderDto> serviceProviderDtos = new ArrayList<ServiceProviderDto>();
+        List<AssignmentServiceProviderEntity> assignmentServiceProviderEntities  = assignmentServiceProviderRepository.findAllByAssignmentId(id);
+        List<ServiceProviderDto> serviceProviderDtos = new ArrayList<>();
 
         assignmentServiceProviderEntities.forEach((e) ->
                                           serviceProviderDtos.add(
@@ -83,7 +87,7 @@ public class AssignmentService implements IAssignmentService {
     private void addAssignmentAssignmentStatusProvider(AssignmentEntity assignment, int serviceProviderId) {
         AssignmentServiceProviderEntity assignmentServiceProviderEntity = new AssignmentServiceProviderEntity();
         assignmentServiceProviderEntity.setServiceProviderId(serviceProviderId);
-        assignmentServiceProviderEntity.setAssignmentByAssignmentId(assignment);
+        assignmentServiceProviderEntity.setAssignmentId(assignment.getId());
 
         assignmentServiceProviderRepository.save(assignmentServiceProviderEntity);
     }

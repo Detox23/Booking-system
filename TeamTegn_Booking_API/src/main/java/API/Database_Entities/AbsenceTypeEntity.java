@@ -1,23 +1,22 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "AbsenceType", schema = "dbo")
+@Table(name = "AbsenceType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AbsenceTypeEntity {
-    private Integer id;
+    private int id;
     private String absenceTypeName;
-    private Boolean isDeleted;
-    private Collection<ServiceProviderAbsenceEntity> serviceProviderAbsencesById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,11 +32,11 @@ public class AbsenceTypeEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -48,28 +47,19 @@ public class AbsenceTypeEntity {
 
         AbsenceTypeEntity that = (AbsenceTypeEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (absenceTypeName != null ? !absenceTypeName.equals(that.absenceTypeName) : that.absenceTypeName != null)
             return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (absenceTypeName != null ? absenceTypeName.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "absenceTypeByAbsenceTypeId")
-    public Collection<ServiceProviderAbsenceEntity> getServiceProviderAbsencesById() {
-        return serviceProviderAbsencesById;
-    }
-
-    public void setServiceProviderAbsencesById(Collection<ServiceProviderAbsenceEntity> serviceProviderAbsencesById) {
-        this.serviceProviderAbsencesById = serviceProviderAbsencesById;
     }
 }

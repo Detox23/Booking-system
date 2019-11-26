@@ -4,21 +4,41 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Assignment_STUKYearCode", schema = "dbo")
+@Table(name = "Assignment_STUKYearCode", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class Assignment_StukYearCodeEntity {
-    private Integer id;
+    private int id;
+    private int assignmentId;
+    private int stukYearCodeId;
     private Timestamp dateCreated;
-    private AssignmentEntity assignmentByAssignmentId;
-    private AssignmentStukYearCodeEntity assignmentStukYearCodeByStukYearCodeId;
 
-    @Basic
+    @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "AssignmentID", nullable = false)
+    public int getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(int assignmentId) {
+        this.assignmentId = assignmentId;
+    }
+
+    @Basic
+    @Column(name = "StukYearCodeID", nullable = false)
+    public int getStukYearCodeId() {
+        return stukYearCodeId;
+    }
+
+    public void setStukYearCodeId(int stukYearCodeId) {
+        this.stukYearCodeId = stukYearCodeId;
     }
 
     @Basic
@@ -38,7 +58,9 @@ public class Assignment_StukYearCodeEntity {
 
         Assignment_StukYearCodeEntity that = (Assignment_StukYearCodeEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (assignmentId != that.assignmentId) return false;
+        if (stukYearCodeId != that.stukYearCodeId) return false;
         if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
 
         return true;
@@ -46,28 +68,10 @@ public class Assignment_StukYearCodeEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
+        result = 31 * result + assignmentId;
+        result = 31 * result + stukYearCodeId;
         result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AssignmentID", referencedColumnName = "ID", nullable = false)
-    public AssignmentEntity getAssignmentByAssignmentId() {
-        return assignmentByAssignmentId;
-    }
-
-    public void setAssignmentByAssignmentId(AssignmentEntity assignmentByAssignmentId) {
-        this.assignmentByAssignmentId = assignmentByAssignmentId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "StukYearCodeID", referencedColumnName = "ID", nullable = false)
-    public AssignmentStukYearCodeEntity getAssignmentStukYearCodeByStukYearCodeId() {
-        return assignmentStukYearCodeByStukYearCodeId;
-    }
-
-    public void setAssignmentStukYearCodeByStukYearCodeId(AssignmentStukYearCodeEntity assignmentStukYearCodeByStukYearCodeId) {
-        this.assignmentStukYearCodeByStukYearCodeId = assignmentStukYearCodeByStukYearCodeId;
     }
 }

@@ -1,5 +1,6 @@
 package API.Services.DepartmentService;
 
+import API.Database_Entities.DepartmentEntity;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ForCreation.DepartmentForCreationDto;
 import Shared.ForCreation.DepartmentForUpdateDto;
@@ -40,8 +41,8 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     @Transactional
-    public boolean deleteDepartment(String name) {
-        return departmentDAO.deleteOneDepartment(name);
+    public boolean deleteDepartment(int id) {
+        return departmentDAO.deleteOneDepartment(id);
     }
 
 

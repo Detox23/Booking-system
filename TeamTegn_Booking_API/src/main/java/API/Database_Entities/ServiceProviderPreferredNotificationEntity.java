@@ -1,23 +1,21 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "ServiceProviderPreferredNotification", schema = "dbo")
+@Table(name = "ServiceProviderPreferredNotification", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ServiceProviderPreferredNotificationEntity {
-    private Integer id;
+    private int id;
     private String notificationType;
-    private Boolean isDeleted;
-    private Collection<ServiceProviderEntity> serviceProvidersById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,11 +31,11 @@ public class ServiceProviderPreferredNotificationEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -48,28 +46,19 @@ public class ServiceProviderPreferredNotificationEntity {
 
         ServiceProviderPreferredNotificationEntity that = (ServiceProviderPreferredNotificationEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (notificationType != null ? !notificationType.equals(that.notificationType) : that.notificationType != null)
             return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (notificationType != null ? notificationType.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "serviceProviderPreferredNotificationByPreferredNotificationId")
-    public Collection<ServiceProviderEntity> getServiceProvidersById() {
-        return serviceProvidersById;
-    }
-
-    public void setServiceProvidersById(Collection<ServiceProviderEntity> serviceProvidersById) {
-        this.serviceProvidersById = serviceProvidersById;
     }
 }

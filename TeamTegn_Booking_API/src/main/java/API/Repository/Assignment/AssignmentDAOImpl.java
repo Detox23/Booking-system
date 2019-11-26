@@ -1,6 +1,7 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AssignmentEntity;
 import API.Exceptions.NotEnoughDataException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.beans.IntrospectionException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
 public class AssignmentDAOImpl implements AssignmentDAOCustom {
@@ -75,9 +77,25 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
     @Override
     public boolean deleteOne(int id) {
-        AssignmentEntity assignmentEntity = assignmentDAO.findFirstByIdAndDeletedIsFalse(id);
-        assignmentEntity.setDeleted(true);
-        return assignmentDAO.save(assignmentEntity) != null;
+        try {
+            Optional<AssignmentEntity> found = assignmentDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The assigment status type was not found.");
+            }
+            AssignmentEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            AssignmentEntity deletionResult = assignmentDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NotFoundException notFoundException) {
+            throw notFoundException;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
+        }
     }
 
     @Override

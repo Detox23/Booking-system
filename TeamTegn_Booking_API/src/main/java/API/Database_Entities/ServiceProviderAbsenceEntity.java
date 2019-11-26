@@ -1,32 +1,57 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ServiceProviderAbsence", schema = "dbo")
+@Table(name = "ServiceProviderAbsence", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ServiceProviderAbsenceEntity {
-    private Integer id;
+    private int id;
+    private int serviceProviderId;
+    private Integer absenceTypeId;
     private String absenceReason;
     private Date fromDate;
-    private Object fromTime;
+    private Time fromTime;
     private Date toDate;
-    private Object toTime;
-    private Integer absenceDays;
-    private Integer createdBy;
+    private Time toTime;
+    private Float absenceDays;
+    private int createdBy;
     private Timestamp createdDate;
-    private ServiceProviderEntity serviceProviderByServiceProviderId;
-    private AbsenceTypeEntity absenceTypeByAbsenceTypeId;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "ServiceProviderID", nullable = false)
+    public int getServiceProviderId() {
+        return serviceProviderId;
+    }
+
+    public void setServiceProviderId(int serviceProviderId) {
+        this.serviceProviderId = serviceProviderId;
+    }
+
+    @Basic
+    @Column(name = "AbsenceTypeID", nullable = true)
+    public Integer getAbsenceTypeId() {
+        return absenceTypeId;
+    }
+
+    public void setAbsenceTypeId(Integer absenceTypeId) {
+        this.absenceTypeId = absenceTypeId;
     }
 
     @Basic
@@ -51,11 +76,11 @@ public class ServiceProviderAbsenceEntity {
 
     @Basic
     @Column(name = "FromTime", nullable = false)
-    public Object getFromTime() {
+    public Time getFromTime() {
         return fromTime;
     }
 
-    public void setFromTime(Object fromTime) {
+    public void setFromTime(Time fromTime) {
         this.fromTime = fromTime;
     }
 
@@ -71,35 +96,37 @@ public class ServiceProviderAbsenceEntity {
 
     @Basic
     @Column(name = "ToTime", nullable = false)
-    public Object getToTime() {
+    public Time getToTime() {
         return toTime;
     }
 
-    public void setToTime(Object toTime) {
+    public void setToTime(Time toTime) {
         this.toTime = toTime;
     }
 
     @Basic
-    @Column(name = "AbsenceDays", nullable = true)
-    public Integer getAbsenceDays() {
+    @Column(name = "AbsenceHours", nullable = true)
+    public Float getAbsenceHours() {
         return absenceDays;
     }
 
-    public void setAbsenceDays(Integer absenceDays) {
+    public void setAbsenceHours(Float absenceDays) {
         this.absenceDays = absenceDays;
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy", nullable = true)
-    public Integer getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -116,7 +143,10 @@ public class ServiceProviderAbsenceEntity {
 
         ServiceProviderAbsenceEntity that = (ServiceProviderAbsenceEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (serviceProviderId != that.serviceProviderId) return false;
+        if (absenceTypeId != null ? !absenceTypeId.equals(that.absenceTypeId) : that.absenceTypeId != null)
+            return false;
         if (absenceReason != null ? !absenceReason.equals(that.absenceReason) : that.absenceReason != null)
             return false;
         if (fromDate != null ? !fromDate.equals(that.fromDate) : that.fromDate != null) return false;
@@ -124,7 +154,6 @@ public class ServiceProviderAbsenceEntity {
         if (toDate != null ? !toDate.equals(that.toDate) : that.toDate != null) return false;
         if (toTime != null ? !toTime.equals(that.toTime) : that.toTime != null) return false;
         if (absenceDays != null ? !absenceDays.equals(that.absenceDays) : that.absenceDays != null) return false;
-        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
 
         return true;
@@ -132,35 +161,16 @@ public class ServiceProviderAbsenceEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
+        result = 31 * result + serviceProviderId;
+        result = 31 * result + (absenceTypeId != null ? absenceTypeId.hashCode() : 0);
         result = 31 * result + (absenceReason != null ? absenceReason.hashCode() : 0);
         result = 31 * result + (fromDate != null ? fromDate.hashCode() : 0);
         result = 31 * result + (fromTime != null ? fromTime.hashCode() : 0);
         result = 31 * result + (toDate != null ? toDate.hashCode() : 0);
         result = 31 * result + (toTime != null ? toTime.hashCode() : 0);
         result = 31 * result + (absenceDays != null ? absenceDays.hashCode() : 0);
-        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "ServiceProviderID", referencedColumnName = "ID", nullable = false)
-    public ServiceProviderEntity getServiceProviderByServiceProviderId() {
-        return serviceProviderByServiceProviderId;
-    }
-
-    public void setServiceProviderByServiceProviderId(ServiceProviderEntity serviceProviderByServiceProviderId) {
-        this.serviceProviderByServiceProviderId = serviceProviderByServiceProviderId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AbsenceTypeID", referencedColumnName = "ID")
-    public AbsenceTypeEntity getAbsenceTypeByAbsenceTypeId() {
-        return absenceTypeByAbsenceTypeId;
-    }
-
-    public void setAbsenceTypeByAbsenceTypeId(AbsenceTypeEntity absenceTypeByAbsenceTypeId) {
-        this.absenceTypeByAbsenceTypeId = absenceTypeByAbsenceTypeId;
     }
 }

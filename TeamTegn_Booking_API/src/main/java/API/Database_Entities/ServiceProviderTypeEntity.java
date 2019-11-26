@@ -1,23 +1,21 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "ServiceProviderType", schema = "dbo")
+@Table(name = "ServiceProviderType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ServiceProviderTypeEntity {
-    private Integer id;
+    private int id;
     private String providerType;
-    private Boolean isDeleted;
-    private Collection<ServiceProviderServiceProviderTypeEntity> serviceProviderServiceProviderTypesById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,11 +31,11 @@ public class ServiceProviderTypeEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -48,27 +46,18 @@ public class ServiceProviderTypeEntity {
 
         ServiceProviderTypeEntity that = (ServiceProviderTypeEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (providerType != null ? !providerType.equals(that.providerType) : that.providerType != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (providerType != null ? providerType.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "serviceProviderTypeByServiceProviderTypeId")
-    public Collection<ServiceProviderServiceProviderTypeEntity> getServiceProviderServiceProviderTypesById() {
-        return serviceProviderServiceProviderTypesById;
-    }
-
-    public void setServiceProviderServiceProviderTypesById(Collection<ServiceProviderServiceProviderTypeEntity> serviceProviderServiceProviderTypesById) {
-        this.serviceProviderServiceProviderTypesById = serviceProviderServiceProviderTypesById;
     }
 }

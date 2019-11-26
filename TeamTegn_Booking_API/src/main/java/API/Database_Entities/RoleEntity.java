@@ -2,25 +2,23 @@ package API.Database_Entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
-@Table(name = "Role", schema = "dbo")
+@Table(name = "Role", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class RoleEntity {
-    private Integer id;
+    private int id;
     private String roleName;
     private String roleDescription;
     private Timestamp createdDate;
-    private Boolean isDeleted;
-    private Collection<SystemUserEntity> systemUsersById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,11 +54,11 @@ public class RoleEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -71,32 +69,23 @@ public class RoleEntity {
 
         RoleEntity that = (RoleEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (roleName != null ? !roleName.equals(that.roleName) : that.roleName != null) return false;
         if (roleDescription != null ? !roleDescription.equals(that.roleDescription) : that.roleDescription != null)
             return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (roleName != null ? roleName.hashCode() : 0);
         result = 31 * result + (roleDescription != null ? roleDescription.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "roleByRoleId")
-    public Collection<SystemUserEntity> getSystemUsersById() {
-        return systemUsersById;
-    }
-
-    public void setSystemUsersById(Collection<SystemUserEntity> systemUsersById) {
-        this.systemUsersById = systemUsersById;
     }
 }

@@ -6,10 +6,6 @@ public class AccountCommentDto {
     private int accountId;
     private String commentText;
 
-    public AccountCommentDto() {
-
-    }
-
     public int getUserId() {
         return userId;
     }

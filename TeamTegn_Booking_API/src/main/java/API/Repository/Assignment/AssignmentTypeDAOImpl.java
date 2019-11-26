@@ -1,6 +1,7 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AssignmentTypeEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
 public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {
@@ -24,8 +26,23 @@ public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {
 
     @Override
     public boolean deleteById(int id) {
-        assignmentTypeDAO.deleteById(id);
-        return assignmentTypeDAO.findById(id).get() == null;
+        try {
+            Optional<AssignmentTypeEntity> found = assignmentTypeDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The assigment type was not found.");
+            }
+            AssignmentTypeEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            AssignmentTypeEntity deletionResult = assignmentTypeDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
+        }
     }
 
     @Override

@@ -27,11 +27,6 @@ public class AccountForCreationDto {
     private String contactEmail;
     private String contactTelephone;
 
-
-    public AccountForCreationDto() {
-
-    }
-
     public String getAccountName() {
         return accountName;
     }
@@ -39,7 +34,6 @@ public class AccountForCreationDto {
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
-
 
     public int getAccountTypeId() {
         return accountTypeId;
@@ -49,7 +43,6 @@ public class AccountForCreationDto {
         this.accountTypeId = accountTypeId;
     }
 
-
     public int getParentId() {
         return parentId;
     }
@@ -57,7 +50,6 @@ public class AccountForCreationDto {
     public void setParentId(int parentId) {
         this.parentId = parentId;
     }
-
 
     public int getPrimaryContactId() {
         return primaryContactId;

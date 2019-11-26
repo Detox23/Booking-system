@@ -2,6 +2,10 @@ package API.Repository.ServiceProvider;
 
 import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.DepartmentEntity;
+import API.Database_Entities.ServiceProviderEntity;
+import API.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
+import API.Database_Entities.ServiceProviderServiceProviderTypeEntity;
 import API.Exceptions.*;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ForCreation.ServiceProviderServiceProviderCompetencyForCreationDto;
@@ -17,6 +21,7 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Component
@@ -187,13 +192,23 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     @Override
     public boolean deleteServiceProvider(int id) {
         try {
-            ServiceProviderEntity found = serviceProviderDAO.findById(id).get();
-            found.setDeleted(true);
-            ServiceProviderEntity deleted = serviceProviderDAO.save(found);
-            return deleted.isDeleted();
-        }catch(Exception e){
+            Optional<ServiceProviderEntity> found = serviceProviderDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The service provider was not found.");
+            }
+            ServiceProviderEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            ServiceProviderEntity deletionResult = serviceProviderDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (NotFoundException notFoundException){
+            throw notFoundException;
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new DeletionException("Unknown error while deleting");
+            throw new RuntimeException("Unknown error");
         }
     }
 

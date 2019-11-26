@@ -4,21 +4,51 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Assignment_AssignmentStatusType", schema = "dbo")
+@Table(name = "Assignment_AssignmentStatusType", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AssignmentAssignmentStatusTypeEntity {
-    private Integer id;
+    private int id;
+    private int assignmentId;
+    private int assignmentStatusTypeId;
     private Timestamp dateCreated;
-    private AssignmentEntity assignmentByAssignmentId;
-    private AssignmentStatusTypeEntity assignmentStatusTypeByAssignmentStatusTypeId;
+
+    public AssignmentAssignmentStatusTypeEntity(int assignmentId, int assignmentStatusTypeId) {
+        this.assignmentId = assignmentId;
+        this.assignmentStatusTypeId = assignmentStatusTypeId;
+        dateCreated = new Timestamp(System.currentTimeMillis());
+    }
+
+    public AssignmentAssignmentStatusTypeEntity() {
+
+    }
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "AssignmentID", nullable = false)
+    public int getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(int assignmentId) {
+        this.assignmentId = assignmentId;
+    }
+
+    @Basic
+    @Column(name = "AssignmentStatusTypeID", nullable = false)
+    public int getAssignmentStatusTypeId() {
+        return assignmentStatusTypeId;
+    }
+
+    public void setAssignmentStatusTypeId(int assignmentStatusTypeId) {
+        this.assignmentStatusTypeId = assignmentStatusTypeId;
     }
 
     @Basic
@@ -38,7 +68,9 @@ public class AssignmentAssignmentStatusTypeEntity {
 
         AssignmentAssignmentStatusTypeEntity that = (AssignmentAssignmentStatusTypeEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (assignmentId != that.assignmentId) return false;
+        if (assignmentStatusTypeId != that.assignmentStatusTypeId) return false;
         if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
 
         return true;
@@ -46,28 +78,10 @@ public class AssignmentAssignmentStatusTypeEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
+        result = 31 * result + assignmentId;
+        result = 31 * result + assignmentStatusTypeId;
         result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AssignmentID", referencedColumnName = "ID", nullable = false)
-    public AssignmentEntity getAssignmentByAssignmentId() {
-        return assignmentByAssignmentId;
-    }
-
-    public void setAssignmentByAssignmentId(AssignmentEntity assignmentByAssignmentId) {
-        this.assignmentByAssignmentId = assignmentByAssignmentId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AssignmentStatusTypeID", referencedColumnName = "ID", nullable = false)
-    public AssignmentStatusTypeEntity getAssignmentStatusTypeByAssignmentStatusTypeId() {
-        return assignmentStatusTypeByAssignmentStatusTypeId;
-    }
-
-    public void setAssignmentStatusTypeByAssignmentStatusTypeId(AssignmentStatusTypeEntity assignmentStatusTypeByAssignmentStatusTypeId) {
-        this.assignmentStatusTypeByAssignmentStatusTypeId = assignmentStatusTypeByAssignmentStatusTypeId;
     }
 }

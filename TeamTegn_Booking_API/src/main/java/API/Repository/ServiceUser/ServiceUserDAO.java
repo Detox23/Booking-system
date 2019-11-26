@@ -1,5 +1,6 @@
 package API.Repository.ServiceUser;
 
+import API.Database_Entities.ServiceUserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;

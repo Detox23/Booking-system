@@ -1,5 +1,6 @@
 package API.Services.ServiceUserService;
 
+import API.Database_Entities.ServiceUserEntity;
 import API.Repository.ServiceUser.ServiceUserDAO;
 import Shared.ForCreation.ServiceUserForCreationDto;
 import Shared.ForCreation.ServiceUserForUpdateDto;

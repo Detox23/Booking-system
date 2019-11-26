@@ -1,6 +1,7 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.ServiceProviderTypeEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.ServiceProviderTypeDto;
 import org.modelmapper.ModelMapper;
@@ -77,22 +78,6 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
     }
 
     @Override
-    public boolean deleteServiceProviderType(int id) {
-        try {
-            serviceProviderServiceProviderTypeDAO.deleteAllByServiceProviderTypeId(id);
-            Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(id);
-            if (found.isPresent()){
-                serviceProviderTypeDAO.deleteById(found.get().getId());
-                return true;
-            }else{
-                return false;
-            }
-        } catch (Exception e){
-            throw new UnknownException(e.getMessage());
-        }
-    }
-
-    @Override
     public ServiceProviderTypeDto findServiceProviderType(int id) {
         Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(id);
         if (!found.isPresent()){
@@ -109,6 +94,29 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unknown error.");
+        }
+    }
+
+    @Override
+    public boolean deleteServiceProviderType(int id) {
+        try {
+            Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The service provider type was not found.");
+            }
+            ServiceProviderTypeEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            ServiceProviderTypeEntity deletionResult = serviceProviderTypeDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (NotFoundException notFoundException){
+            throw notFoundException;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
         }
     }
 }

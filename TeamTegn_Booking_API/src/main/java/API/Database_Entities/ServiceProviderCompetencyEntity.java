@@ -2,25 +2,23 @@ package API.Database_Entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
-@Table(name = "ServiceProviderCompetency", schema = "dbo")
+@Table(name = "ServiceProviderCompetency", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ServiceProviderCompetencyEntity {
-    private Integer id;
+    private int id;
     private String competency;
-    private Integer createdBy;
+    private int createdBy;
     private Timestamp createdDate;
-    private Boolean isDeleted;
-    private Collection<ServiceProviderServiceProviderCompetencyEntity> serviceProviderServiceProviderCompetenciesById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -36,11 +34,11 @@ public class ServiceProviderCompetencyEntity {
 
     @Basic
     @Column(name = "CreatedBy", nullable = false)
-    public Integer getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -56,11 +54,11 @@ public class ServiceProviderCompetencyEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -71,31 +69,22 @@ public class ServiceProviderCompetencyEntity {
 
         ServiceProviderCompetencyEntity that = (ServiceProviderCompetencyEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (createdBy != that.createdBy) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (competency != null ? !competency.equals(that.competency) : that.competency != null) return false;
-        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (competency != null ? competency.hashCode() : 0);
-        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
+        result = 31 * result + createdBy;
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "serviceProviderCompetencyByCompetencyId")
-    public Collection<ServiceProviderServiceProviderCompetencyEntity> getServiceProviderServiceProviderCompetenciesById() {
-        return serviceProviderServiceProviderCompetenciesById;
-    }
-
-    public void setServiceProviderServiceProviderCompetenciesById(Collection<ServiceProviderServiceProviderCompetencyEntity> serviceProviderServiceProviderCompetenciesById) {
-        this.serviceProviderServiceProviderCompetenciesById = serviceProviderServiceProviderCompetenciesById;
     }
 }

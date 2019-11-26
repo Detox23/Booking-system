@@ -11,8 +11,6 @@ import java.util.List;
 public interface IServiceProviderAbsence {
     ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceForCreationDto serviceProviderAbsenceEntity);
 
-    ServiceProviderAbsenceDto updateServiceProviderAbsence(ServiceProviderAbsenceForUpdateDto serviceProviderAbsenceEntity);
-
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProvider(int serviceProviderID);
 
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(int serviceProviderID, Date startDate, Date endDate);

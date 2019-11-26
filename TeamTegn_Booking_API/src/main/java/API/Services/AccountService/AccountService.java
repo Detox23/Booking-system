@@ -1,5 +1,7 @@
 package API.Services.AccountService;
 
+import API.Database_Entities.AccountEanEntity;
+import API.Database_Entities.AccountEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.Account.AccountEanDAO;
@@ -89,7 +91,6 @@ public class AccountService implements IAccountService {
     public AccountDto update(AccountForUpdateDto account) {
         try {
             AccountEntity accountEntity = modelMapper.map(account, AccountEntity.class);
-            accountEntity.setAccountTypeByAccountTypeId(accountTypeDAO.findById(account.getAccountTypeID()).get());
             AccountDto updatedAccount = accountDAO.updateOneAccount(accountEntity);
             if (updatedAccount != null) {
                 fillAccountWithListOfEans(updatedAccount);

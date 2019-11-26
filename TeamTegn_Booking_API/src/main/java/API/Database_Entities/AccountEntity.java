@@ -1,15 +1,19 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
 @Table(name = "Account", schema = "dbo")
 public class AccountEntity {
-    private Integer id;
+    private int id;
     private String accountName;
-    private Integer parentId;
+    private int accountTypeId;
+    private int parentId;
     private Integer primaryContactId;
     private Integer departmentId;
     private String telephoneCode;
@@ -23,28 +27,24 @@ public class AccountEntity {
     private String city;
     private String stateRegion;
     private String country;
-    private Integer createdBy;
+    private int createdBy;
     private Timestamp createdDate;
     private Timestamp lastModified;
-    private Integer lastModifiedBy;
-    private Boolean isDeleted;
+    private int lastModifiedBy;
+    private boolean isDeleted;
     private String email;
     private String contactName;
     private String contactEmail;
     private String contactTelephone;
-    private AccountTypeEntity accountTypeByAccountTypeId;
-    private Collection<AccountCommentEntity> accountCommentsById;
-    private Collection<AccountEanEntity> accountEansById;
-    private Collection<AssignmentEntity> assignmentsById;
-    private Collection<ServiceUserAccountEntity> serviceUserAccountsById;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,12 +59,22 @@ public class AccountEntity {
     }
 
     @Basic
+    @Column(name = "AccountTypeID", nullable = false)
+    public int getAccountTypeId() {
+        return accountTypeId;
+    }
+
+    public void setAccountTypeId(int accountTypeId) {
+        this.accountTypeId = accountTypeId;
+    }
+
+    @Basic
     @Column(name = "ParentID", nullable = false)
-    public Integer getParentId() {
+    public int getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(int parentId) {
         this.parentId = parentId;
     }
 
@@ -199,16 +209,18 @@ public class AccountEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
-    public Integer getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -219,6 +231,7 @@ public class AccountEntity {
     }
 
     @Basic
+    @UpdateTimestamp
     @Column(name = "LastModified", nullable = true)
     public Timestamp getLastModified() {
         return lastModified;
@@ -230,21 +243,21 @@ public class AccountEntity {
 
     @Basic
     @Column(name = "LastModifiedBy", nullable = true)
-    public Integer getLastModifiedBy() {
+    public int getLastModifiedBy() {
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(Integer lastModifiedBy) {
+    public void setLastModifiedBy(int lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -295,9 +308,12 @@ public class AccountEntity {
 
         AccountEntity that = (AccountEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (accountTypeId != that.accountTypeId) return false;
+        if (parentId != that.parentId) return false;
+        if (createdBy != that.createdBy) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (accountName != null ? !accountName.equals(that.accountName) : that.accountName != null) return false;
-        if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
         if (primaryContactId != null ? !primaryContactId.equals(that.primaryContactId) : that.primaryContactId != null)
             return false;
         if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
@@ -314,12 +330,8 @@ public class AccountEntity {
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
         if (stateRegion != null ? !stateRegion.equals(that.stateRegion) : that.stateRegion != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
-        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
-        if (lastModifiedBy != null ? !lastModifiedBy.equals(that.lastModifiedBy) : that.lastModifiedBy != null)
-            return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (contactName != null ? !contactName.equals(that.contactName) : that.contactName != null) return false;
         if (contactEmail != null ? !contactEmail.equals(that.contactEmail) : that.contactEmail != null) return false;
@@ -331,9 +343,10 @@ public class AccountEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (accountName != null ? accountName.hashCode() : 0);
-        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+        result = 31 * result + accountTypeId;
+        result = 31 * result + parentId;
         result = 31 * result + (primaryContactId != null ? primaryContactId.hashCode() : 0);
         result = 31 * result + (departmentId != null ? departmentId.hashCode() : 0);
         result = 31 * result + (telephoneCode != null ? telephoneCode.hashCode() : 0);
@@ -347,61 +360,14 @@ public class AccountEntity {
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (stateRegion != null ? stateRegion.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
+        result = 31 * result + createdBy;
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
-        result = 31 * result + (lastModifiedBy != null ? lastModifiedBy.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (contactName != null ? contactName.hashCode() : 0);
         result = 31 * result + (contactEmail != null ? contactEmail.hashCode() : 0);
         result = 31 * result + (contactTelephone != null ? contactTelephone.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AccountTypeID", referencedColumnName = "ID", nullable = false)
-    public AccountTypeEntity getAccountTypeByAccountTypeId() {
-        return accountTypeByAccountTypeId;
-    }
-
-    public void setAccountTypeByAccountTypeId(AccountTypeEntity accountTypeByAccountTypeId) {
-        this.accountTypeByAccountTypeId = accountTypeByAccountTypeId;
-    }
-
-    @OneToMany(mappedBy = "accountByAccountId")
-    public Collection<AccountCommentEntity> getAccountCommentsById() {
-        return accountCommentsById;
-    }
-
-    public void setAccountCommentsById(Collection<AccountCommentEntity> accountCommentsById) {
-        this.accountCommentsById = accountCommentsById;
-    }
-
-    @OneToMany(mappedBy = "accountByAccountId")
-    public Collection<AccountEanEntity> getAccountEansById() {
-        return accountEansById;
-    }
-
-    public void setAccountEansById(Collection<AccountEanEntity> accountEansById) {
-        this.accountEansById = accountEansById;
-    }
-
-    @OneToMany(mappedBy = "accountByServiceUserAccountId")
-    public Collection<AssignmentEntity> getAssignmentsById() {
-        return assignmentsById;
-    }
-
-    public void setAssignmentsById(Collection<AssignmentEntity> assignmentsById) {
-        this.assignmentsById = assignmentsById;
-    }
-
-    @OneToMany(mappedBy = "accountByAccountId")
-    public Collection<ServiceUserAccountEntity> getServiceUserAccountsById() {
-        return serviceUserAccountsById;
-    }
-
-    public void setServiceUserAccountsById(Collection<ServiceUserAccountEntity> serviceUserAccountsById) {
-        this.serviceUserAccountsById = serviceUserAccountsById;
     }
 }

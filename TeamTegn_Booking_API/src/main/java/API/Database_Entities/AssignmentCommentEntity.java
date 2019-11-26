@@ -4,21 +4,21 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Assignment_Comment", schema = "dbo")
+@Table(name = "Assignment_Comment", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AssignmentCommentEntity {
-    private Integer id;
+    private int id;
     private Integer userId;
+    private Integer assignmentId;
     private Timestamp commentDate;
     private String commentText;
-    private AssignmentEntity assignmentByAssignmentId;
 
-    @Basic
+    @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -30,6 +30,16 @@ public class AssignmentCommentEntity {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "AssignmentID", nullable = true)
+    public Integer getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(Integer assignmentId) {
+        this.assignmentId = assignmentId;
     }
 
     @Basic
@@ -59,8 +69,9 @@ public class AssignmentCommentEntity {
 
         AssignmentCommentEntity that = (AssignmentCommentEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (assignmentId != null ? !assignmentId.equals(that.assignmentId) : that.assignmentId != null) return false;
         if (commentDate != null ? !commentDate.equals(that.commentDate) : that.commentDate != null) return false;
         if (commentText != null ? !commentText.equals(that.commentText) : that.commentText != null) return false;
 
@@ -69,20 +80,11 @@ public class AssignmentCommentEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (assignmentId != null ? assignmentId.hashCode() : 0);
         result = 31 * result + (commentDate != null ? commentDate.hashCode() : 0);
         result = 31 * result + (commentText != null ? commentText.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AssignmentID", referencedColumnName = "ID")
-    public AssignmentEntity getAssignmentByAssignmentId() {
-        return assignmentByAssignmentId;
-    }
-
-    public void setAssignmentByAssignmentId(AssignmentEntity assignmentByAssignmentId) {
-        this.assignmentByAssignmentId = assignmentByAssignmentId;
     }
 }

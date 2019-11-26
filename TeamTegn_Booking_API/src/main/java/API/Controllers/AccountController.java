@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/account")
 public class AccountController extends BaseController {
 
 
@@ -22,15 +22,10 @@ public class AccountController extends BaseController {
         this.accountService = accountService;
     }
 
-
+    //Account
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<?> seeAllAccounts() {
         return new ResponseEntity<>(accountService.list(), new HttpHeaders(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/find/{accountID}/comment/delete/{commentID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteAccountComment(@PathVariable int accountID, @PathVariable int commentID) {
-        return new ResponseEntity<>(accountService.deleteAccountComment(accountID, commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Retrieves one account
@@ -57,6 +52,7 @@ public class AccountController extends BaseController {
         return new ResponseEntity<>(accountService.update(account), new HttpHeaders(), HttpStatus.OK);
     }
 
+    //EAN
     @RequestMapping(value = "/eanNumber/{accountID}/{eanNumber}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteEanNumber(@PathVariable int accountID, @PathVariable String eanNumber) {
         return new ResponseEntity<>(accountService.deleteEAN(accountID, eanNumber), new HttpHeaders(), HttpStatus.OK);

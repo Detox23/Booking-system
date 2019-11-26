@@ -1,6 +1,9 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AssignmentStatusTypeEntity;
+import API.Database_Entities.AssignmentTypeEntity;
+import API.Exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -47,13 +50,24 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
 
     @Override
     public boolean deleteOne(int id) {
-        Optional<AssignmentStatusTypeEntity> found = assignmentStatusTypeDAO.findById(id);
-        if (found.isPresent()) {
-            found.get().setIsDeleted(true);
-            assignmentStatusTypeDAO.save(found.get());
-            return true;
+        try {
+            Optional<AssignmentStatusTypeEntity> found = assignmentStatusTypeDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The assigment status type was not found.");
+            }
+            AssignmentStatusTypeEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            AssignmentStatusTypeEntity deletionResult = assignmentStatusTypeDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (NotFoundException notFoundException){
+            throw notFoundException;
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
         }
-
-        return false;
     }
 }

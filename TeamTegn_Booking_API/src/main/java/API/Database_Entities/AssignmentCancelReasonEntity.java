@@ -3,18 +3,18 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "AssignmentCancelReason", schema = "dbo")
+@Table(name = "AssignmentCancelReason", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AssignmentCancelReasonEntity {
-    private Integer id;
+    private int id;
     private String cancelReasonName;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -35,7 +35,7 @@ public class AssignmentCancelReasonEntity {
 
         AssignmentCancelReasonEntity that = (AssignmentCancelReasonEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
         if (cancelReasonName != null ? !cancelReasonName.equals(that.cancelReasonName) : that.cancelReasonName != null)
             return false;
 
@@ -44,7 +44,7 @@ public class AssignmentCancelReasonEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (cancelReasonName != null ? cancelReasonName.hashCode() : 0);
         return result;
     }

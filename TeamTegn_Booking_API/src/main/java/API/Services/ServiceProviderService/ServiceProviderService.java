@@ -1,5 +1,6 @@
 package API.Services.ServiceProviderService;
 
+import API.Database_Entities.ServiceProviderEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import API.Repository.ServiceProvider.ServiceProvider_ServiceProviderCompetencyDAO;

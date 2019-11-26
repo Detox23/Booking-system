@@ -1,6 +1,7 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.ServiceProviderSourceEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.ServiceProviderSourceDto;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
 public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCustom {
@@ -63,11 +65,11 @@ public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCus
             patcherHandler.fillNotNullFields(found, serviceProviderSourceEntity);
             ServiceProviderSourceEntity updated = serviceProviderSourceDAO.save(found);
             return modelMapper.map(updated, ServiceProviderSourceDto.class);
-        }catch(NoSuchElementException noSuchElementException){
+        } catch (NoSuchElementException noSuchElementException) {
             throw new NotFoundException("Provider source was not found while an attempt of making update.");
         } catch (IntrospectionException e) {
             throw new UpdatePatchException("There was an error while updating a competency. [PATCHING] ");
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -92,13 +94,23 @@ public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCus
     @Override
     public boolean deleteServiceProviderSource(int id) {
         try {
-            serviceProviderSourceDAO.deleteById(id);
-            serviceProviderSourceDAO.findById(id).get();
-            return false;
-        } catch (NoSuchElementException noSuchElementExcpetion) {
-            return true;
-        } catch (Exception exception){
-            throw new DeletionException("Unknown deletion exception.");
+            Optional<ServiceProviderSourceEntity> found = serviceProviderSourceDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The service provider source was not found.");
+            }
+            ServiceProviderSourceEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            ServiceProviderSourceEntity deletionResult = serviceProviderSourceDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (NotFoundException notFoundException){
+            throw notFoundException;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
         }
     }
 

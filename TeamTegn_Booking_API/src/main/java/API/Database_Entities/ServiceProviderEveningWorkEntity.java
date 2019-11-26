@@ -3,20 +3,51 @@ package API.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ServiceProvider_EveningWork", schema = "dbo")
+@Table(name = "ServiceProvider_EveningWork", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ServiceProviderEveningWorkEntity {
-    private Integer weekDayId;
-    private ServiceProviderEntity serviceProviderByServiceProviderId;
-    private EveningWorkPrioritisationEntity eveningWorkPrioritisationByEveningWorkPrioritisationId;
+    private int id;
+    private int serviceProviderId;
+    private int weekDayId;
+    private int eveningWorkPrioritisationId;
+
+    @Id
+    @Column(name = "ID", nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "ServiceProviderID", nullable = false)
+    public int getServiceProviderId() {
+        return serviceProviderId;
+    }
+
+    public void setServiceProviderId(int serviceProviderId) {
+        this.serviceProviderId = serviceProviderId;
+    }
 
     @Basic
     @Column(name = "WeekDayID", nullable = false)
-    public Integer getWeekDayId() {
+    public int getWeekDayId() {
         return weekDayId;
     }
 
-    public void setWeekDayId(Integer weekDayId) {
+    public void setWeekDayId(int weekDayId) {
         this.weekDayId = weekDayId;
+    }
+
+    @Basic
+    @Column(name = "EveningWorkPrioritisationID", nullable = false)
+    public int getEveningWorkPrioritisationId() {
+        return eveningWorkPrioritisationId;
+    }
+
+    public void setEveningWorkPrioritisationId(int eveningWorkPrioritisationId) {
+        this.eveningWorkPrioritisationId = eveningWorkPrioritisationId;
     }
 
     @Override
@@ -26,33 +57,20 @@ public class ServiceProviderEveningWorkEntity {
 
         ServiceProviderEveningWorkEntity that = (ServiceProviderEveningWorkEntity) o;
 
-        if (weekDayId != null ? !weekDayId.equals(that.weekDayId) : that.weekDayId != null) return false;
+        if (id != that.id) return false;
+        if (serviceProviderId != that.serviceProviderId) return false;
+        if (weekDayId != that.weekDayId) return false;
+        if (eveningWorkPrioritisationId != that.eveningWorkPrioritisationId) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return weekDayId != null ? weekDayId.hashCode() : 0;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "ServiceProviderID", referencedColumnName = "ID", nullable = false)
-    public ServiceProviderEntity getServiceProviderByServiceProviderId() {
-        return serviceProviderByServiceProviderId;
-    }
-
-    public void setServiceProviderByServiceProviderId(ServiceProviderEntity serviceProviderByServiceProviderId) {
-        this.serviceProviderByServiceProviderId = serviceProviderByServiceProviderId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "EveningWorkPrioritisationID", referencedColumnName = "ID", nullable = false)
-    public EveningWorkPrioritisationEntity getEveningWorkPrioritisationByEveningWorkPrioritisationId() {
-        return eveningWorkPrioritisationByEveningWorkPrioritisationId;
-    }
-
-    public void setEveningWorkPrioritisationByEveningWorkPrioritisationId(EveningWorkPrioritisationEntity eveningWorkPrioritisationByEveningWorkPrioritisationId) {
-        this.eveningWorkPrioritisationByEveningWorkPrioritisationId = eveningWorkPrioritisationByEveningWorkPrioritisationId;
+        int result = id;
+        result = 31 * result + serviceProviderId;
+        result = 31 * result + weekDayId;
+        result = 31 * result + eveningWorkPrioritisationId;
+        return result;
     }
 }

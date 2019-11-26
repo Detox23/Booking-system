@@ -1,23 +1,21 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "AssignmentTitle", schema = "dbo")
+@Table(name = "AssignmentTitle", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AssignmentTitleEntity {
-    private Integer id;
+    private int id;
     private String title;
     private Boolean isDeleted;
-    private Collection<AssignmentEntity> assignmentsByTitle;
 
     @Basic
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -48,7 +46,7 @@ public class AssignmentTitleEntity {
 
         AssignmentTitleEntity that = (AssignmentTitleEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
@@ -57,18 +55,9 @@ public class AssignmentTitleEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "assignmentTitleByAssignmentTitle")
-    public Collection<AssignmentEntity> getAssignmentsByTitle() {
-        return assignmentsByTitle;
-    }
-
-    public void setAssignmentsByTitle(Collection<AssignmentEntity> assignmentsByTitle) {
-        this.assignmentsByTitle = assignmentsByTitle;
     }
 }

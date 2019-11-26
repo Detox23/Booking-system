@@ -1,15 +1,23 @@
 package API.Database_Entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "CityPostcodes", schema = "dbo")
+@Table(name = "CityPostcodes", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class CityPostcodesEntity {
+    private int id;
     private String city;
     private String postcode;
+
+    @Id
+    @Column(name = "ID", nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Basic
     @Column(name = "City", nullable = true, length = 100)
@@ -38,6 +46,7 @@ public class CityPostcodesEntity {
 
         CityPostcodesEntity that = (CityPostcodesEntity) o;
 
+        if (id != that.id) return false;
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
         if (postcode != null ? !postcode.equals(that.postcode) : that.postcode != null) return false;
 
@@ -46,7 +55,8 @@ public class CityPostcodesEntity {
 
     @Override
     public int hashCode() {
-        int result = city != null ? city.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
         return result;
     }

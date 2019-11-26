@@ -50,10 +50,6 @@ public class AccountDto {
 
     private String contactTelephone;
 
-    private AccountTypeDto accountType;
-
-    private List<AccountComment> accountComments;
-
     private boolean deleted;
 
     private Timestamp createdDate;
@@ -61,7 +57,6 @@ public class AccountDto {
     private Timestamp lastModified;
 
     private int lastModifiedBy;
-
 
     public int getLastModifiedBy() {
         return lastModifiedBy;
@@ -277,14 +272,6 @@ public class AccountDto {
 
     public void setContactTelephone(String contactTelephone) {
         this.contactTelephone = contactTelephone;
-    }
-
-    public AccountTypeDto getAccountTypeInformation() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountTypeDto accountType) {
-        this.accountType = accountType;
     }
 
 }

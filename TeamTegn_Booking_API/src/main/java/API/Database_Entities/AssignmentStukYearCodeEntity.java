@@ -1,23 +1,21 @@
 package API.Database_Entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "AssignmentSTUKYearCode", schema = "dbo")
+@Table(name = "AssignmentSTUKYearCode", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class AssignmentStukYearCodeEntity {
-    private Integer id;
+    private int id;
     private String stukYearCodeName;
-    private Boolean isDeleted;
-    private Collection<Assignment_StukYearCodeEntity> assignmentStukYearCodesById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,11 +31,11 @@ public class AssignmentStukYearCodeEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -48,28 +46,19 @@ public class AssignmentStukYearCodeEntity {
 
         AssignmentStukYearCodeEntity that = (AssignmentStukYearCodeEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (stukYearCodeName != null ? !stukYearCodeName.equals(that.stukYearCodeName) : that.stukYearCodeName != null)
             return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (stukYearCodeName != null ? stukYearCodeName.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "assignmentStukYearCodeByStukYearCodeId")
-    public Collection<Assignment_StukYearCodeEntity> getAssignmentStukYearCodesById() {
-        return assignmentStukYearCodesById;
-    }
-
-    public void setAssignmentStukYearCodesById(Collection<Assignment_StukYearCodeEntity> assignmentStukYearCodesById) {
-        this.assignmentStukYearCodesById = assignmentStukYearCodesById;
     }
 }

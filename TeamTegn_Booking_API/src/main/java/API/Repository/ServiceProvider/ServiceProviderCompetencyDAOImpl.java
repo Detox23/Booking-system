@@ -1,6 +1,7 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Exceptions.*;
 import Shared.ToReturn.ServiceProviderCompetencyDto;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
 public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompetencyDAOCustom {
@@ -106,22 +108,25 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
     @Override
     public boolean deleteOneCompetency(int id) {
         try {
-            serviceProviderServiceProviderCompetencyDAO.deleteAllByCompetencyId(id);
-            serviceProviderCompetencyDAO.deleteById(id);
-            try {
-                serviceProviderCompetencyDAO.findById(id).get();
-                return false;
-            } catch (NoSuchElementException noSuchElementExceptionAssure) {
-                return true;
+            Optional<ServiceProviderCompetencyEntity> found = serviceProviderCompetencyDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The service provider competency was not found.");
             }
-        } catch (NotFoundException emptyResult) {
-            throw new NotFoundException("Competency you wanted to delete does not exist.");
+            ServiceProviderCompetencyEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            ServiceProviderCompetencyEntity deletionResult = serviceProviderCompetencyDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (NotFoundException notFoundException){
+            throw notFoundException;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unknown error");
         }
     }
-
 
 
 }

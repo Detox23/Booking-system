@@ -1,7 +1,7 @@
 package API.Repository.ServiceUser;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Exceptions.DeletionException;
+import API.Database_Entities.ServiceUserEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,10 @@ import java.beans.IntrospectionException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
-public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
+public class        ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
@@ -22,11 +23,11 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
     }
 
     @Autowired
-    public void setJpaRepository(ServiceUserDAO jpaRepository) {
-        this.jpaRepository = jpaRepository;
+    public void setServiceUserDAO(ServiceUserDAO serviceUserDAO) {
+        this.serviceUserDAO = serviceUserDAO;
     }
 
-    private ServiceUserDAO jpaRepository;
+    private ServiceUserDAO serviceUserDAO;
 
 
     private PatcherHandler patcherHandler;
@@ -35,19 +36,29 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
     public ServiceUserEntity add(ServiceUserEntity userEntity) {
         //TODO: in service/ controller set current user as creator
         userEntity.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
-        return jpaRepository.save(userEntity);
+        return serviceUserDAO.save(userEntity);
     }
 
     @Override
     public boolean deleteById(int id) {
         try {
-            jpaRepository.deleteById(id);
-            jpaRepository.findById(id).get();
-            return false;
-        }catch (NoSuchElementException noSuchElementException){
-            return true;
-        }catch (Exception e){
-            throw new DeletionException("There was an error while deleting service user.");
+            Optional<ServiceUserEntity> found = serviceUserDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The service user was not found.");
+            }
+            ServiceUserEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            ServiceUserEntity deletionResult = serviceUserDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (NotFoundException notFoundException){
+            throw notFoundException;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
         }
     }
 
@@ -57,7 +68,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         userEntity.setDeleted(false);
         Example<ServiceUserEntity> usExample = Example.of(userEntity);
 
-        return jpaRepository.findAll(usExample);
+        return serviceUserDAO.findAll(usExample);
     }
 
     @Override
@@ -67,7 +78,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         userEntity.setId(id);
         Example<ServiceUserEntity> uExample = Example.of(userEntity);
 
-        return jpaRepository.findOne(uExample).get();
+        return serviceUserDAO.findOne(uExample).get();
     }
 
     @Override
@@ -75,11 +86,11 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         //TODO: in service/ controller set current user as editor
 
         try {
-            ServiceUserEntity found = jpaRepository.findFirstByIdAndDeletedIsFalse(userEntity.getId());
+            ServiceUserEntity found = serviceUserDAO.findFirstByIdAndDeletedIsFalse(userEntity.getId());
             if(found != null)
             {
             patcherHandler.fillNotNullFields(found, userEntity);
-            return jpaRepository.save(found);
+            return serviceUserDAO.save(found);
             }
             return null;
         } catch (NoSuchElementException e) {

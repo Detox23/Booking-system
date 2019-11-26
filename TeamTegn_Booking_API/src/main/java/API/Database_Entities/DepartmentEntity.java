@@ -2,12 +2,11 @@ package API.Database_Entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
-@Table(name = "Department", schema = "dbo")
+@Table(name = "Department", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class DepartmentEntity {
-    private Integer id;
+    private int id;
     private String departmentName;
     private String street;
     private String postcode;
@@ -19,19 +18,18 @@ public class DepartmentEntity {
     private String faxCode;
     private String faxNumber;
     private String email;
-    private Integer createdBy;
+    private int createdBy;
     private Timestamp createdDate;
-    private Boolean isDeleted;
-    private Collection<ServiceUserEntity> serviceUsersById;
-    private Collection<SystemUserDepartmentEntity> systemUserDepartmentsById;
+    private boolean isDeleted;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -147,11 +145,11 @@ public class DepartmentEntity {
 
     @Basic
     @Column(name = "CreatedBy", nullable = false)
-    public Integer getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -167,11 +165,11 @@ public class DepartmentEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -182,7 +180,9 @@ public class DepartmentEntity {
 
         DepartmentEntity that = (DepartmentEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (createdBy != that.createdBy) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (departmentName != null ? !departmentName.equals(that.departmentName) : that.departmentName != null)
             return false;
         if (street != null ? !street.equals(that.street) : that.street != null) return false;
@@ -197,16 +197,14 @@ public class DepartmentEntity {
         if (faxCode != null ? !faxCode.equals(that.faxCode) : that.faxCode != null) return false;
         if (faxNumber != null ? !faxNumber.equals(that.faxNumber) : that.faxNumber != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (departmentName != null ? departmentName.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
@@ -218,27 +216,9 @@ public class DepartmentEntity {
         result = 31 * result + (faxCode != null ? faxCode.hashCode() : 0);
         result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
+        result = 31 * result + createdBy;
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "departmentByDepartmentId")
-    public Collection<ServiceUserEntity> getServiceUsersById() {
-        return serviceUsersById;
-    }
-
-    public void setServiceUsersById(Collection<ServiceUserEntity> serviceUsersById) {
-        this.serviceUsersById = serviceUsersById;
-    }
-
-    @OneToMany(mappedBy = "departmentByDepartmentId")
-    public Collection<SystemUserDepartmentEntity> getSystemUserDepartmentsById() {
-        return systemUserDepartmentsById;
-    }
-
-    public void setSystemUserDepartmentsById(Collection<SystemUserDepartmentEntity> systemUserDepartmentsById) {
-        this.systemUserDepartmentsById = systemUserDepartmentsById;
     }
 }

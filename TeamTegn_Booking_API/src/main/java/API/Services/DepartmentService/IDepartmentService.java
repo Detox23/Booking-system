@@ -12,7 +12,7 @@ public interface IDepartmentService {
 
     DepartmentDto findDepartment(String name);
 
-    boolean deleteDepartment(String name);
+    boolean deleteDepartment(int id);
 
     DepartmentDto addDepartment(DepartmentForCreationDto department);
 

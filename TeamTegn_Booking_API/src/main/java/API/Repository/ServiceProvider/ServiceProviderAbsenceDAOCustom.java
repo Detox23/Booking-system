@@ -1,5 +1,6 @@
 package API.Repository.ServiceProvider;
 
+import API.Database_Entities.ServiceProviderAbsenceEntity;
 import Shared.ToReturn.ServiceProviderAbsenceDto;
 
 import java.sql.Date;
@@ -8,8 +9,6 @@ import java.util.List;
 
 public interface ServiceProviderAbsenceDAOCustom {
     ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity);
-
-    ServiceProviderAbsenceDto updateServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity);
 
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProvider(int serviceProviderID);
 

@@ -22,16 +22,24 @@ public class ServiceProviderAbsenceController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllCompetencies() {
+    public ResponseEntity<?> listAllAbsences() {
         return new ResponseEntity<>(serviceProviderAbsence.listAllServiceProviderAbsences(), new HttpHeaders(), HttpStatus.FOUND);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findAbsencesForServiceProvider(@PathVariable int id) {
+        return new ResponseEntity<>(serviceProviderAbsence.findServiceProviderAbsencesForServiceProvider(id), new HttpHeaders(), HttpStatus.CREATED);
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> addOneCompetency(@RequestBody ServiceProviderAbsenceForCreationDto absence) {
+    public ResponseEntity<?> addOneAbsence(@RequestBody ServiceProviderAbsenceForCreationDto absence) {
         return new ResponseEntity<>(serviceProviderAbsence.addServiceProviderAbsence(absence), new HttpHeaders(), HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteOneAbsence(@PathVariable int id) {
+        return new ResponseEntity<>(serviceProviderAbsence.deleteServiceProviderAbsence(id), new HttpHeaders(), HttpStatus.CREATED);
+    }
 
 
 

@@ -1,5 +1,6 @@
 package API.Repository.Account;
 
+import API.Database_Entities.AccountEanEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
@@ -27,6 +28,7 @@ public class AccountEanDAOImpl implements AccountEanCustom {
     @Override
     public boolean deleteOneEanNumber(int accountID, String EANNumber) {
         try {
+            accountDAO.getOneAccount(accountID);
             AccountEanEntity found = accountEanNumberCrudDAO.findDistinctByAccountIdAndEanNumber(accountID, EANNumber);
             if (found == null) {
                 throw new NotFoundException("No account found associated with provided ID and EAN number.");
@@ -49,11 +51,13 @@ public class AccountEanDAOImpl implements AccountEanCustom {
     @Override
     public List<AccountEanDto> findListOfAccountEANNumbers(int accountID) {
         try {
+            accountDAO.getOneAccount(accountID);
             List<AccountEanEntity> numbers = accountEanNumberCrudDAO.findAllByAccountId(accountID);
-            Type listType = new TypeToken<List<AccountEanDto>>() {
-            }.getType();
+            Type listType = new TypeToken<List<AccountEanDto>>() {}.getType();
             return modelMapper.map(numbers, listType);
-        } catch (Exception e) {
+        }catch (NotFoundException ex) {
+            throw new NotFoundException(ex.getMessage());
+        }catch (Exception e) {
             throw e;
         }
     }

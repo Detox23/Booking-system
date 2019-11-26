@@ -4,13 +4,24 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "PDFSignature_Link", schema = "dbo")
+@Table(name = "PDFSignature_Link", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class PdfSignatureLinkEntity {
+    private int id;
     private String linkId;
     private Timestamp lastClickedDate;
-    private Integer clickedCount;
+    private int clickedCount;
+    private int assignmentId;
     private Integer serviceProviderId;
-    private AssignmentEntity assignmentByAssignmentId;
+
+    @Id
+    @Column(name = "ID", nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Basic
     @Column(name = "LinkID", nullable = false, length = 60)
@@ -34,12 +45,22 @@ public class PdfSignatureLinkEntity {
 
     @Basic
     @Column(name = "ClickedCount", nullable = false)
-    public Integer getClickedCount() {
+    public int getClickedCount() {
         return clickedCount;
     }
 
-    public void setClickedCount(Integer clickedCount) {
+    public void setClickedCount(int clickedCount) {
         this.clickedCount = clickedCount;
+    }
+
+    @Basic
+    @Column(name = "AssignmentID", nullable = false)
+    public int getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(int assignmentId) {
+        this.assignmentId = assignmentId;
     }
 
     @Basic
@@ -59,10 +80,12 @@ public class PdfSignatureLinkEntity {
 
         PdfSignatureLinkEntity that = (PdfSignatureLinkEntity) o;
 
+        if (id != that.id) return false;
+        if (clickedCount != that.clickedCount) return false;
+        if (assignmentId != that.assignmentId) return false;
         if (linkId != null ? !linkId.equals(that.linkId) : that.linkId != null) return false;
         if (lastClickedDate != null ? !lastClickedDate.equals(that.lastClickedDate) : that.lastClickedDate != null)
             return false;
-        if (clickedCount != null ? !clickedCount.equals(that.clickedCount) : that.clickedCount != null) return false;
         if (serviceProviderId != null ? !serviceProviderId.equals(that.serviceProviderId) : that.serviceProviderId != null)
             return false;
 
@@ -71,20 +94,12 @@ public class PdfSignatureLinkEntity {
 
     @Override
     public int hashCode() {
-        int result = linkId != null ? linkId.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (linkId != null ? linkId.hashCode() : 0);
         result = 31 * result + (lastClickedDate != null ? lastClickedDate.hashCode() : 0);
-        result = 31 * result + (clickedCount != null ? clickedCount.hashCode() : 0);
+        result = 31 * result + clickedCount;
+        result = 31 * result + assignmentId;
         result = 31 * result + (serviceProviderId != null ? serviceProviderId.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "AssignmentID", referencedColumnName = "ID", nullable = false)
-    public AssignmentEntity getAssignmentByAssignmentId() {
-        return assignmentByAssignmentId;
-    }
-
-    public void setAssignmentByAssignmentId(AssignmentEntity assignmentByAssignmentId) {
-        this.assignmentByAssignmentId = assignmentByAssignmentId;
     }
 }

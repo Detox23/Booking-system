@@ -2,12 +2,11 @@ package API.Database_Entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
-@Table(name = "SystemUser", schema = "dbo")
+@Table(name = "SystemUser", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class SystemUserEntity {
-    private Integer id;
+    private int id;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -23,24 +22,19 @@ public class SystemUserEntity {
     private String city;
     private String stateRegion;
     private String country;
-    private Integer createdBy;
+    private int createdBy;
     private Timestamp createdDate;
-    private Boolean isDeleted;
+    private boolean isDeleted;
     private String defaultSkinName;
-    private Collection<AccountCommentEntity> accountCommentsById;
-    private Collection<EmailLogEntity> emailLogsById;
-    private Collection<EventLogEntity> eventLogsById;
-    private Collection<ServiceUserCommentEntity> serviceUserCommentsById;
-    private RoleEntity roleByRoleId;
-    private Collection<SystemUserDepartmentEntity> systemUserDepartmentsById;
+    private Integer roleId;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -196,11 +190,11 @@ public class SystemUserEntity {
 
     @Basic
     @Column(name = "CreatedBy", nullable = false)
-    public Integer getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -216,11 +210,11 @@ public class SystemUserEntity {
 
     @Basic
     @Column(name = "IsDeleted", nullable = false)
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -234,6 +228,16 @@ public class SystemUserEntity {
         this.defaultSkinName = defaultSkinName;
     }
 
+    @Basic
+    @Column(name = "RoleID", nullable = true)
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -241,7 +245,9 @@ public class SystemUserEntity {
 
         SystemUserEntity that = (SystemUserEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != that.id) return false;
+        if (createdBy != that.createdBy) return false;
+        if (isDeleted != that.isDeleted) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
@@ -259,18 +265,17 @@ public class SystemUserEntity {
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
         if (stateRegion != null ? !stateRegion.equals(that.stateRegion) : that.stateRegion != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
-        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
         if (defaultSkinName != null ? !defaultSkinName.equals(that.defaultSkinName) : that.defaultSkinName != null)
             return false;
+        if (roleId != null ? !roleId.equals(that.roleId) : that.roleId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
@@ -286,65 +291,11 @@ public class SystemUserEntity {
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (stateRegion != null ? stateRegion.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
+        result = 31 * result + createdBy;
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isDeleted ? 1 : 0);
         result = 31 * result + (defaultSkinName != null ? defaultSkinName.hashCode() : 0);
+        result = 31 * result + (roleId != null ? roleId.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "systemUserByUserId")
-    public Collection<AccountCommentEntity> getAccountCommentsById() {
-        return accountCommentsById;
-    }
-
-    public void setAccountCommentsById(Collection<AccountCommentEntity> accountCommentsById) {
-        this.accountCommentsById = accountCommentsById;
-    }
-
-    @OneToMany(mappedBy = "systemUserBySystemUserId")
-    public Collection<EmailLogEntity> getEmailLogsById() {
-        return emailLogsById;
-    }
-
-    public void setEmailLogsById(Collection<EmailLogEntity> emailLogsById) {
-        this.emailLogsById = emailLogsById;
-    }
-
-    @OneToMany(mappedBy = "systemUserBySystemUserId")
-    public Collection<EventLogEntity> getEventLogsById() {
-        return eventLogsById;
-    }
-
-    public void setEventLogsById(Collection<EventLogEntity> eventLogsById) {
-        this.eventLogsById = eventLogsById;
-    }
-
-    @OneToMany(mappedBy = "systemUserByUserId")
-    public Collection<ServiceUserCommentEntity> getServiceUserCommentsById() {
-        return serviceUserCommentsById;
-    }
-
-    public void setServiceUserCommentsById(Collection<ServiceUserCommentEntity> serviceUserCommentsById) {
-        this.serviceUserCommentsById = serviceUserCommentsById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "RoleID", referencedColumnName = "ID")
-    public RoleEntity getRoleByRoleId() {
-        return roleByRoleId;
-    }
-
-    public void setRoleByRoleId(RoleEntity roleByRoleId) {
-        this.roleByRoleId = roleByRoleId;
-    }
-
-    @OneToMany(mappedBy = "systemUserBySystemUserId")
-    public Collection<SystemUserDepartmentEntity> getSystemUserDepartmentsById() {
-        return systemUserDepartmentsById;
-    }
-
-    public void setSystemUserDepartmentsById(Collection<SystemUserDepartmentEntity> systemUserDepartmentsById) {
-        this.systemUserDepartmentsById = systemUserDepartmentsById;
     }
 }

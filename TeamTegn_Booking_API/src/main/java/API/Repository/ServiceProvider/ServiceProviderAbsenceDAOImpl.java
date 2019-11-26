@@ -1,15 +1,19 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.ServiceProviderAbsenceEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Repository.AbsenceType.AbsenceTypeDAO;
 import Shared.ToReturn.ServiceProviderAbsenceDto;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.ConstraintViolationException;
+import java.lang.reflect.Type;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -55,34 +59,29 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
     @Override
     public ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity) {
-        Optional<AbsenceTypeEntity> foundAbsenceType = absenceTypeDAO.findById(serviceProviderAbsenceEntity.getAbsenceTypeId());
-        if(!foundAbsenceType.isPresent()){
-            throw new NotFoundException("There is no such absence type id.");
-        }
-        Optional<ServiceProviderEntity> foundServiceProvider = serviceProviderDAO.findById(serviceProviderAbsenceEntity.getServiceProviderId());
-        if(!foundServiceProvider.isPresent()){
-            throw new NotFoundException("There is no such service provider with the id in a database.");
-        }
-        if(serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(serviceProviderAbsenceEntity.getFromDate(), serviceProviderAbsenceEntity.getToDate(), serviceProviderAbsenceEntity.getServiceProviderId()).size() > 0){
-            throw new DuplicateException("There is already absence registered between the dates for the service provider.");
-        }
-        serviceProviderAbsenceEntity.setAbsenceDays((int)((serviceProviderAbsenceEntity.getToDate().getTime() - serviceProviderAbsenceEntity.getFromDate().getTime())/86400000));
-        ServiceProviderAbsenceEntity saved = serviceProviderAbsenceDAO.save(serviceProviderAbsenceEntity);
-        if(saved.getId()> 0){
+        try {
+            if (serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(serviceProviderAbsenceEntity.getFromDate(), serviceProviderAbsenceEntity.getToDate(), serviceProviderAbsenceEntity.getServiceProviderId()).size() > 0) {
+                throw new DuplicateException("There is already absence registered between the dates for the service provider.");
+            }
+            serviceProviderAbsenceEntity.setAbsenceHours(calculateHoursFromDates(
+                    serviceProviderAbsenceEntity.getFromDate(),
+                    serviceProviderAbsenceEntity.getFromTime(),
+                    serviceProviderAbsenceEntity.getToDate(),
+                    serviceProviderAbsenceEntity.getToTime()));
+            ServiceProviderAbsenceEntity saved = serviceProviderAbsenceDAO.save(serviceProviderAbsenceEntity);
             return modelMapper.map(saved, ServiceProviderAbsenceDto.class);
-        }else{
-            throw new UnknownAddingException("There was a problem with adding.");
-        }
-    }
 
-    @Override
-    public ServiceProviderAbsenceDto updateServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity) {
-        return null;
+        }catch(ConstraintViolationException constraintViolationException){
+            throw new NotFoundException("The id of service provider or absence type is incorrect");
+        }catch(Exception e){
+            throw new UnknownAddingException(e.getMessage());
+        }
     }
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProvider(int serviceProviderID) {
-        return null;
+        Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {}.getType();
+        return modelMapper.map(serviceProviderAbsenceDAO.findAllByServiceProviderId(serviceProviderID), listType);
     }
 
     @Override
@@ -102,7 +101,12 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
     @Override
     public boolean deleteServiceProviderAbsence(int id) {
-        return false;
+        Optional<ServiceProviderAbsenceEntity> found = serviceProviderAbsenceDAO.findById(id);
+        if(!found.isPresent()){
+            throw new NotFoundException("The absence with ID does not exist.");
+        }
+        serviceProviderAbsenceDAO.deleteById(id);
+        return true;
     }
 
     @Override
@@ -115,5 +119,8 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
         return null;
     }
 
+    private float calculateHoursFromDates(Date fromDate, Time fromTime, Date toDate, Time toTime){
+        return (((toDate.getTime() + toTime.getTime()) - (fromDate.getTime() + fromTime.getTime())) / 3600000);
+    }
 
 }

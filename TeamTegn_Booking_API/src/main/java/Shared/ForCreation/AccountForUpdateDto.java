@@ -12,7 +12,7 @@ public class AccountForUpdateDto {
 
     private String accountName;
 
-    private int accountTypeID;
+    private int accountTypeId;
 
     private Integer parentId;
 
@@ -59,10 +59,6 @@ public class AccountForUpdateDto {
     private Timestamp lastModified;
 
     private int lastModifiedBy;
-
-    public AccountForUpdateDto() {
-
-    }
 
     public int getLastModifiedBy() {
         return lastModifiedBy;
@@ -112,12 +108,12 @@ public class AccountForUpdateDto {
         this.accountName = accountName;
     }
 
-    public int getAccountTypeID() {
-        return accountTypeID;
+    public int getAccountTypeId() {
+        return accountTypeId;
     }
 
-    public void setAccountTypeID(int accountTypeID) {
-        this.accountTypeID = accountTypeID;
+    public void setAccountTypeId(int accountTypeId) {
+        this.accountTypeId = accountTypeId;
     }
 
     public Integer getParentId() {
