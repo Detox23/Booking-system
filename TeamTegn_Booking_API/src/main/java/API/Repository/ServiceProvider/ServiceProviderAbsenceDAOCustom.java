@@ -24,4 +24,5 @@ public interface ServiceProviderAbsenceDAOCustom {
 
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time fromTime, Time toTime, int serviceProviderID);
 
+
 }

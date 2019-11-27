@@ -32,10 +32,31 @@ public class ServiceProviderForCreationDto {
     private byte[] serviceProviderImage;
     private Double weekHours;
     private String serviceProviderInitials;
-    private String externalId;
     private boolean status;
-    private List<Integer> competencies;
+    private String externalId;
+    @NotNull
+    private Integer preferredNotificationId;
+    @NotNull
+    private Integer transportId;
+    private List<Integer> competences;
     private List<Integer> types;
+
+
+    public Integer getPreferredNotificationId() {
+        return preferredNotificationId;
+    }
+
+    public void setPreferredNotificationId(Integer preferredNotificationId) {
+        this.preferredNotificationId = preferredNotificationId;
+    }
+
+    public Integer getTransportId() {
+        return transportId;
+    }
+
+    public void setTransportId(Integer transportId) {
+        this.transportId = transportId;
+    }
 
     public List<Integer> getTypes() {
         return types;
@@ -46,11 +67,11 @@ public class ServiceProviderForCreationDto {
     }
 
     public List<Integer> getCompetencies(){
-        return competencies;
+        return competences;
     }
 
-    public void setCompetencies(List<Integer> competencies){
-        this.competencies = competencies;
+    public void setCompetencies(List<Integer> competences){
+        this.competences = competences;
     }
 
     public Integer getGender() {

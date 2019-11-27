@@ -70,7 +70,7 @@ public class ServiceProviderAbsence implements IServiceProviderAbsence {
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time startTime, Time endTime,int serviceProviderID) {
-        return findServiceProviderAbsencesForServiceProviderInTime(startTime, endTime, serviceProviderID);
+        return serviceProviderAbsenceDAO.findServiceProviderAbsencesForServiceProviderInTime(startTime, endTime, serviceProviderID);
     }
 
 
