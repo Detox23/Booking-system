@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/serviceProvider")
+@RequestMapping("/api/serviceProviders")
 public class ServiceProviderController extends BaseController {
 
     private IServiceProviderService serviceProviderService;

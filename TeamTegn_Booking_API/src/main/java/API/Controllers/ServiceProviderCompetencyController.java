@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/competency")
+@RequestMapping("/api/competencies")
 public class ServiceProviderCompetencyController extends BaseController {
 
     private IServiceProviderCompetencyService serviceProviderCompetencyService;

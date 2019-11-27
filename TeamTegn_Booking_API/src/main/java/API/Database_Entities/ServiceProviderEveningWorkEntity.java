@@ -34,11 +34,11 @@ public class ServiceProviderEveningWorkEntity {
 
     @Basic
     @Column(name = "WeekDay", nullable = false)
-    public String getWeekDayId() {
+    public String getWeekDay() {
         return weekDay;
     }
 
-    public void setWeekDayId(String weekDayId) {
+    public void setWeekDay(String weekDay) {
         this.weekDay = weekDay;
     }
 

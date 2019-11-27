@@ -13,7 +13,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 @RestController
-@RequestMapping("/api/serviceProviderAbsence")
+@RequestMapping("/api/serviceProviderAbsences")
 public class ServiceProviderAbsenceController {
 
     private IServiceProviderAbsenceService serviceProviderAbsence;
