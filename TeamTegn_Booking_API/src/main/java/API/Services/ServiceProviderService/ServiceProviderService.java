@@ -66,19 +66,7 @@ public class ServiceProviderService implements IServiceProviderService {
     public ServiceProviderDto findServiceProvider(int id) {
         try {
             ServiceProviderDto found = serviceProviderDAO.findOne(id);
-            String decrypted = encryptionHandler.decrypt(found.getCpr());
-            found.setCpr(decrypted);
-            found.setCompetences(new ArrayList<>());
-            found.setTypes(new ArrayList<>());
-            List<ServiceProviderServiceProviderCompetencyDto> listCompetency = serviceProviderServiceProviderCompetencyDAO.listAllCompetenciesOfServiceProvider(found.getId());
-            List<ServiceProviderServiceProviderTypeDto> listTypes = serviceProviderServiceProviderTypeDAO.listServiceProviderServiceProviderTypes(found.getId());
-            for(ServiceProviderServiceProviderCompetencyDto item : listCompetency) {
-                found.getCompetences().add(item.getCompetencyId());
-            }
-            for(ServiceProviderServiceProviderTypeDto item: listTypes){
-                found.getTypes().add(item.getServiceProviderTypeId());
-            }
-            return found;
+            return fillListsToReturn(found);
         } catch (NoSuchElementException e) {
             throw new NotFoundException("Service provider not found");
         }
@@ -87,23 +75,36 @@ public class ServiceProviderService implements IServiceProviderService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderDto addServiceProvider(ServiceProviderForCreationDto serviceProvider) {
-        ServiceProviderDto added = serviceProviderDAO.addServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class),
-                serviceProvider.getCompetencies(), serviceProvider.getTypes());
-        String decrypted = encryptionHandler.decrypt(added.getCpr());
-        added.setCpr(decrypted);
-        return added;
+        ServiceProviderDto added = serviceProviderDAO.addServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetences(), serviceProvider.getTypes());
+        return fillListsToReturn(added);
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderDto updateServiceProvider(ServiceProviderForUpdateDto serviceProvider) {
-        return serviceProviderDAO.updateServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class),
-                serviceProvider.getCompetences(), serviceProvider.getTypes());
+        ServiceProviderDto updated = serviceProviderDAO.updateServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetences(), serviceProvider.getTypes());
+        return fillListsToReturn(updated);
     }
 
     @Override
     public boolean deleteServiceProvider(int id) {
         return serviceProviderDAO.deleteServiceProvider(id);
+    }
+
+    private ServiceProviderDto fillListsToReturn(ServiceProviderDto serviceProvider){
+            String decrypted = encryptionHandler.decrypt(serviceProvider.getCpr());
+            serviceProvider.setCpr(decrypted);
+            serviceProvider.setCompetences(new ArrayList<>());
+            serviceProvider.setTypes(new ArrayList<>());
+            List<ServiceProviderServiceProviderCompetencyDto> listCompetency = serviceProviderServiceProviderCompetencyDAO.listAllCompetenciesOfServiceProvider(serviceProvider.getId());
+            List<ServiceProviderServiceProviderTypeDto> listTypes = serviceProviderServiceProviderTypeDAO.listServiceProviderServiceProviderTypes(serviceProvider.getId());
+            for (ServiceProviderServiceProviderCompetencyDto item : listCompetency) {
+                serviceProvider.getCompetences().add(item.getCompetencyId());
+            }
+            for (ServiceProviderServiceProviderTypeDto item : listTypes) {
+                serviceProvider.getTypes().add(item.getServiceProviderTypeId());
+            }
+            return serviceProvider;
     }
 
 }

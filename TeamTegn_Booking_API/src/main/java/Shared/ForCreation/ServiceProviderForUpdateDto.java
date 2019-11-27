@@ -35,6 +35,8 @@ public class ServiceProviderForUpdateDto {
     private String externalId;
     private Integer preferredNotificationId;
     private Integer transportId;
+    private List<Integer> competences;
+    private List<Integer> types;
 
     public List<Integer> getCompetences() {
         return competences;
@@ -43,9 +45,6 @@ public class ServiceProviderForUpdateDto {
     public void setCompetences(List<Integer> competences) {
         this.competences = competences;
     }
-
-    private List<Integer> competences;
-    private List<Integer> types;
 
     public Integer getPreferredNotificationId() {
         return preferredNotificationId;

@@ -109,35 +109,88 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
                             serviceProvider.getMiddleName(),
                             serviceProvider.getLastName()
                     );
-            if (checkDuplicate.size() > 0){
+            if (checkDuplicate.size() > 0) {
                 throw new DuplicateException(
                         "The service provider with the exact first name, middle name and last name already exists."
                 );
             }
             Optional<DepartmentEntity> departmentCheck = departmentDAO.findById(serviceProvider.getDepartmentId());
-            if(!departmentCheck.isPresent()){
+            if (!departmentCheck.isPresent()) {
                 throw new NotFoundException("Department was not found");
             }
             serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
             serviceProvider.setDeleted(false);
             ServiceProviderEntity saved = serviceProviderDAO.save(serviceProvider);
-            if(competencies != null){
+            if (competencies != null) {
                 addCompetenciesOfServiceProvider(competencies, saved.getId());
             }
-            if(types != null){
+            if (types != null) {
                 addTypesOfServiceProvider(types, saved.getId());
             }
             return modelMapper.map(saved, ServiceProviderDto.class);
-        }catch(NoSuchElementException noSuchElementException){
+        } catch (NoSuchElementException noSuchElementException) {
             throw new NotEnoughDataException("Department does not exist.");
-        }catch(InvalidDataAccessApiUsageException invalidDataAccessApiUsageException){
+        } catch (InvalidDataAccessApiUsageException invalidDataAccessApiUsageException) {
             throw new NotEnoughDataException("There are missing information to create a service provider");
         }
     }
 
-    private void addTypesOfServiceProvider(List<Integer> types, int id){
+    @Override
+    public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types) {
+        try {
+            serviceProviderServiceProviderCompetencyDAO.deleteAllByServiceProviderId(serviceProvider.getId());
+            serviceProviderServiceProviderTypeDAO.deleteAllByServiceProviderId(serviceProvider.getId());
+            ServiceProviderEntity found = serviceProviderDAO.findById(serviceProvider.getId()).get();
+            if (serviceProvider.getCpr() != null) {
+                serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
+            }
+            patcherHandler.fillNotNullFields(found, serviceProvider);
+            if (competencies != null) {
+                addCompetenciesOfServiceProvider(competencies, found.getId());
+            }
+            if (types != null) {
+                addTypesOfServiceProvider(types, found.getId());
+            }
+            Optional<DepartmentEntity> departmentCheck = departmentDAO.findById(serviceProvider.getDepartmentId());
+            if (!departmentCheck.isPresent()) {
+                throw new NotFoundException("Department was not found");
+            }
+            ServiceProviderEntity updated = serviceProviderDAO.save(found);
+            if (updated.getCpr() != null) {
+                updated.setCpr(encryptionHandler.decrypt(updated.getCpr()));
+            }
+            return modelMapper.map(updated, ServiceProviderDto.class);
+        } catch (IntrospectionException interspectionException) {
+            throw new UpdatePatchException("There was an error while updating a service provider [PATCHING].");
+        }
+    }
+
+    @Override
+    public boolean deleteServiceProvider(int id) {
+        try {
+            Optional<ServiceProviderEntity> found = serviceProviderDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("The service provider was not found.");
+            }
+            ServiceProviderEntity toDelete = found.get();
+            toDelete.setDeleted(true);
+            ServiceProviderEntity deletionResult = serviceProviderDAO.save(toDelete);
+            if (deletionResult.isDeleted()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NotFoundException notFoundException) {
+            throw notFoundException;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unknown error");
+        }
+    }
+
+    private void addTypesOfServiceProvider(List<Integer> types, int id) {
         if (types.size() > 0) {
-            for(Integer type: types){
+            for (Integer type : types) {
                 ServiceProviderServiceProviderTypeForCreationDto serviceProviderSPType = new ServiceProviderServiceProviderTypeForCreationDto();
                 serviceProviderSPType.setServiceProviderTypeId(type);
                 serviceProviderSPType.setServiceProviderId(id);
@@ -147,7 +200,7 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
                                 ServiceProviderServiceProviderTypeEntity.class
                         )
                 );
-                if (!resultOfAdding){
+                if (!resultOfAdding) {
                     throw new UnknownAddingException("Provided type does not exists.");
                 }
 
@@ -173,63 +226,5 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
             }
         }
     }
-
-    @Override
-    public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies,
-                                                    List<Integer> types) {
-        try {
-            serviceProviderServiceProviderCompetencyDAO.deleteAllByServiceProviderId(serviceProvider.getId());
-            serviceProviderServiceProviderTypeDAO.deleteAllByServiceProviderId(serviceProvider.getId());
-            ServiceProviderEntity found = serviceProviderDAO.findById(serviceProvider.getId()).get();
-            if (serviceProvider.getCpr() != null) {
-                serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
-            }
-            patcherHandler.fillNotNullFields(found, serviceProvider);
-            if(competencies != null){
-                addCompetenciesOfServiceProvider(competencies, found.getId());
-            }
-            if(types != null){
-                addTypesOfServiceProvider(types, found.getId());
-            }
-            Optional<DepartmentEntity> departmentCheck = departmentDAO.findById(serviceProvider.getDepartmentId());
-            if(!departmentCheck.isPresent()){
-                throw new NotFoundException("Department was not found");
-            }
-            ServiceProviderEntity updated = serviceProviderDAO.save(found);
-            if (updated.getCpr() != null) {
-                updated.setCpr(encryptionHandler.decrypt(updated.getCpr()));
-            }
-            ServiceProviderDto updatedToReturn = modelMapper.map(updated, ServiceProviderDto.class);
-            updatedToReturn.setCompetences(competencies);
-            updatedToReturn.setTypes(types);
-            return updatedToReturn;
-        } catch (IntrospectionException interspectionException) {
-            throw new UpdatePatchException("There was an error while updating a service provider [PATCHING].");
-        }
-    }
-
-    @Override
-    public boolean deleteServiceProvider(int id) {
-        try {
-            Optional<ServiceProviderEntity> found = serviceProviderDAO.findById(id);
-            if (!found.isPresent()) {
-                throw new NotFoundException("The service provider was not found.");
-            }
-            ServiceProviderEntity toDelete = found.get();
-            toDelete.setDeleted(true);
-            ServiceProviderEntity deletionResult = serviceProviderDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
-        }catch (NotFoundException notFoundException){
-            throw notFoundException;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error");
-        }
-    }
-
 
 }

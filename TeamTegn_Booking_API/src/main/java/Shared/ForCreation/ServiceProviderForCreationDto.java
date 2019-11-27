@@ -41,6 +41,13 @@ public class ServiceProviderForCreationDto {
     private List<Integer> competences;
     private List<Integer> types;
 
+    public List<Integer> getCompetences() {
+        return competences;
+    }
+
+    public void setCompetences(List<Integer> competences) {
+        this.competences = competences;
+    }
 
     public Integer getPreferredNotificationId() {
         return preferredNotificationId;
@@ -66,13 +73,6 @@ public class ServiceProviderForCreationDto {
         this.types = types;
     }
 
-    public List<Integer> getCompetencies(){
-        return competences;
-    }
-
-    public void setCompetencies(List<Integer> competences){
-        this.competences = competences;
-    }
 
     public Integer getGender() {
         return gender;

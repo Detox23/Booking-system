@@ -1,5 +1,7 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -44,6 +46,7 @@ public class ServiceProviderCommentEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CommentDate", nullable = true)
     public Timestamp getCommentDate() {
         return commentDate;

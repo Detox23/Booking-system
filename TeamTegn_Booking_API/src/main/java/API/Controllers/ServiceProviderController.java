@@ -1,6 +1,8 @@
 package API.Controllers;
 
 import API.Services.ServiceProviderService.IServiceProviderService;
+import Shared.ForCreation.ServiceProviderCommentForCreationDto;
+import Shared.ForCreation.ServiceProviderCommentForUpdateDto;
 import Shared.ForCreation.ServiceProviderForCreationDto;
 import Shared.ForCreation.ServiceProviderForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +49,23 @@ public class ServiceProviderController extends BaseController {
         return new ResponseEntity<>(serviceProviderService.deleteServiceProvider(id), new HttpHeaders(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceProviderComments(@PathVariable int id){
+        return null;
+    }
 
+    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteServiceProviderComment(@PathVariable int id, @PathVariable int commentID){
+        return null;
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
+    public ResponseEntity<?> addServiceProviderComment(@PathVariable int id, @RequestBody ServiceProviderCommentForCreationDto comment){
+        return null;
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
+    public ResponseEntity<?> updateServiceProviderComment(@PathVariable int id, @RequestBody ServiceProviderCommentForUpdateDto comment){
+        return null;
+    }
 }
