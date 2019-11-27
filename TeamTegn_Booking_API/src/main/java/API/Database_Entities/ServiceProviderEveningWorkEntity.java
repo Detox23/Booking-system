@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class ServiceProviderEveningWorkEntity {
     private int id;
     private int serviceProviderId;
-    private int weekDayId;
+    private String weekDay;
     private int eveningWorkPrioritisationId;
 
     @Id
@@ -33,13 +33,13 @@ public class ServiceProviderEveningWorkEntity {
     }
 
     @Basic
-    @Column(name = "WeekDayID", nullable = false)
-    public int getWeekDayId() {
-        return weekDayId;
+    @Column(name = "WeekDay", nullable = false)
+    public String getWeekDay() {
+        return weekDay;
     }
 
-    public void setWeekDayId(int weekDayId) {
-        this.weekDayId = weekDayId;
+    public void setWeekDay(String weekDay) {
+        this.weekDay = weekDay;
     }
 
     @Basic
@@ -61,7 +61,6 @@ public class ServiceProviderEveningWorkEntity {
 
         if (id != that.id) return false;
         if (serviceProviderId != that.serviceProviderId) return false;
-        if (weekDayId != that.weekDayId) return false;
         if (eveningWorkPrioritisationId != that.eveningWorkPrioritisationId) return false;
 
         return true;
@@ -71,7 +70,6 @@ public class ServiceProviderEveningWorkEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + serviceProviderId;
-        result = 31 * result + weekDayId;
         result = 31 * result + eveningWorkPrioritisationId;
         return result;
     }

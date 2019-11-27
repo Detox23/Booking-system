@@ -16,8 +16,15 @@ import javax.validation.ConstraintViolationException;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOCustom {
@@ -31,6 +38,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     private ServiceProviderDAO serviceProviderDAO;
 
     private PatcherHandler patcherHandler;
+
 
     @Autowired
     public void setServiceProviderDAO(ServiceProviderDAO serviceProviderDAO) {
@@ -60,11 +68,22 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     @Override
     public ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity) {
         try {
-            if (serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(
-                    serviceProviderAbsenceEntity.getFromDate(),
-                    serviceProviderAbsenceEntity.getToDate(),
+            List<ServiceProviderAbsenceEntity> list = serviceProviderAbsenceDAO.findAllByServiceProviderId(
                     serviceProviderAbsenceEntity.getServiceProviderId()
-            ).size() > 0) {
+            );
+
+            LocalDateTime dateTimeFrom = createDateTime(serviceProviderAbsenceEntity.getFromDate(), serviceProviderAbsenceEntity.getFromTime());
+            LocalDateTime dateTimeTo = createDateTime(serviceProviderAbsenceEntity.getToDate(), serviceProviderAbsenceEntity.getToTime());
+
+            List<ServiceProviderAbsenceEntity> filtered = new ArrayList<>();
+            for (ServiceProviderAbsenceEntity w : list) {
+                LocalDateTime dateTimeFromDB = createDateTime(w.getFromDate(), w.getFromTime());
+                LocalDateTime dateTimeToDB = createDateTime(w.getToDate(), w.getToTime());
+                if(dateTimeFrom.isBefore(dateTimeToDB) && dateTimeFromDB.isBefore(dateTimeTo)){
+                    filtered.add(w);
+                }
+            }
+            if (filtered.size() > 0) {
                 throw new DuplicateException("There is already absence registered between the dates for the service provider.");
             }
             serviceProviderAbsenceEntity.setAbsenceHours(calculateHoursFromDates(
@@ -77,6 +96,8 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
         } catch (ConstraintViolationException constraintViolationException) {
             throw new NotFoundException("The id of service provider or absence type is incorrect");
+        } catch (DuplicateException duplicateException) {
+            throw new DuplicateException(duplicateException.getMessage());
         } catch (Exception e) {
             throw new UnknownAddingException(e.getMessage());
         }
@@ -93,7 +114,14 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(Date startDate, Date endDate, int serviceProviderID) {
         Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
         }.getType();
-        return modelMapper.map(serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqualAndServiceProviderIdIs(startDate, endDate, serviceProviderID), listType);
+        return modelMapper.map(
+                serviceProviderAbsenceDAO.findAllByFromDateIsAfterAndToDateIsBeforeAndServiceProviderIdIsOrderByFromDateAsc(
+                        startDate,
+                        endDate,
+                        serviceProviderID
+                ),
+                listType
+        );
     }
 
 
@@ -101,7 +129,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInPeriod(Date startDate, Date endDate) {
         Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
         }.getType();
-        return modelMapper.map(serviceProviderAbsenceDAO.findAllByFromDateIsGreaterThanEqualAndToDateIsLessThanEqual(
+        return modelMapper.map(serviceProviderAbsenceDAO.findAllByFromDateIsAfterAndToDateIsBefore(
                 startDate,
                 endDate
         ), listType);
@@ -116,19 +144,25 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
     @Override
     public boolean deleteServiceProviderAbsence(int id) {
-        Optional<ServiceProviderAbsenceEntity> found = serviceProviderAbsenceDAO.findById(id);
-        if (!found.isPresent()) {
-            throw new NotFoundException("The absence with ID does not exist.");
+        try {
+            Optional<ServiceProviderAbsenceEntity> found = serviceProviderAbsenceDAO.findById(id);
+            if (!found.isPresent()) {
+                throw new NotFoundException("Absence with ID does not exist.");
+            }
+            serviceProviderAbsenceDAO.deleteById(id);
+            return true;
+        } catch (NotFoundException notFoundException) {
+            throw notFoundException;
+        } catch (Exception e) {
+            throw e;
         }
-        serviceProviderAbsenceDAO.deleteById(id);
-        return true;
     }
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInTime(Time startTime, Time endTime) {
         Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
         }.getType();
-        return modelMapper.map(serviceProviderAbsenceDAO.findAllByFromTimeIsGreaterThanEqualAndToTimeIsLessThanEqual(
+        return modelMapper.map(serviceProviderAbsenceDAO.findAllByFromTimeIsAfterAndToTimeIsBefore(
                 startTime,
                 endTime
         ), listType);
@@ -139,7 +173,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
         Type listType = new TypeToken<List<ServiceProviderAbsenceDto>>() {
         }.getType();
         return modelMapper.map(
-                serviceProviderAbsenceDAO.findAllByFromTimeIsGreaterThanEqualAndToTimeIsLessThanEqualAndServiceProviderId(
+                serviceProviderAbsenceDAO.findAllByFromTimeIsAfterAndToTimeIsBeforeAndServiceProviderIdIs(
                         fromTime, toTime, serviceProviderID)
                 , listType);
     }
@@ -147,6 +181,12 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
     private float calculateHoursFromDates(Date fromDate, Time fromTime, Date toDate, Time toTime) {
         return (((toDate.getTime() + toTime.getTime()) - (fromDate.getTime() + fromTime.getTime())) / 3600000);
+    }
+
+    private LocalDateTime createDateTime(Date date, Time time){
+        LocalDate dateFrom = LocalDate.parse(date.toString());
+        LocalTime timeFrom = LocalTime.parse(time.toString());
+        return LocalDateTime.of(dateFrom, timeFrom);
     }
 
 }

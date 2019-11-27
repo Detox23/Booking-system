@@ -1,6 +1,6 @@
 package API.Controllers;
 
-import API.Services.ServiceProviderService.IServiceProviderAbsence;
+import API.Services.ServiceProviderService.IServiceProviderAbsenceService;
 import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ import java.sql.Date;
 import java.sql.Time;
 
 @RestController
-@RequestMapping("/api/serviceProviderAbsence")
+@RequestMapping("/api/serviceProviderAbsences")
 public class ServiceProviderAbsenceController {
 
-    private IServiceProviderAbsence serviceProviderAbsence;
+    private IServiceProviderAbsenceService serviceProviderAbsence;
 
     @Autowired
-    public void setServiceProviderAbsence(IServiceProviderAbsence serviceProviderAbsence) {
+    public void setServiceProviderAbsence(IServiceProviderAbsenceService serviceProviderAbsence) {
         this.serviceProviderAbsence = serviceProviderAbsence;
     }
 

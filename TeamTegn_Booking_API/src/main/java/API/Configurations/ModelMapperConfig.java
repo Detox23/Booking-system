@@ -1,13 +1,7 @@
 package API.Configurations;
 
-import API.Database_Entities.AccountEntity;
-import API.Database_Entities.AssignmentEntity;
-import API.Database_Entities.ServiceProviderAbsenceEntity;
-import API.Database_Entities.ServiceProviderEntity;
-import Shared.ForCreation.AccountForCreationDto;
-import Shared.ForCreation.AssignmentForCreationDto;
-import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
-import Shared.ForCreation.ServiceProviderForCreationDto;
+import API.Database_Entities.*;
+import Shared.ForCreation.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +35,14 @@ public class ModelMapperConfig {
                 skip().setId(0);
             }
         };
+
+        PropertyMap<ServiceProviderEveningWorkForCreationDto, ServiceProviderEveningWorkEntity> addingEveningWorkMap = new PropertyMap<ServiceProviderEveningWorkForCreationDto, ServiceProviderEveningWorkEntity>() {
+            protected void configure() {
+                skip().setId(0);
+            }
+        };
+
+        mapper.addMappings(addingEveningWorkMap);
         mapper.addMappings(addingServiceProviderAbsenceMap);
         mapper.addMappings(addingServiceProviderMap);
         mapper.addMappings(addingAccountMap);

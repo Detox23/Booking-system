@@ -3,7 +3,6 @@ package API.Services.ServiceProviderService;
 import API.Database_Entities.ServiceProviderAbsenceEntity;
 import API.Repository.ServiceProvider.ServiceProviderAbsenceDAO;
 import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
-import Shared.ForCreation.ServiceProviderAbsenceForUpdateDto;
 import Shared.ToReturn.ServiceProviderAbsenceDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.sql.Time;
 import java.util.List;
 
 @Service
-public class ServiceProviderAbsence implements IServiceProviderAbsence {
+public class ServiceProviderAbsenceService implements IServiceProviderAbsenceService {
 
     private ServiceProviderAbsenceDAO serviceProviderAbsenceDAO;
 
@@ -70,7 +69,7 @@ public class ServiceProviderAbsence implements IServiceProviderAbsence {
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time startTime, Time endTime,int serviceProviderID) {
-        return findServiceProviderAbsencesForServiceProviderInTime(startTime, endTime, serviceProviderID);
+        return serviceProviderAbsenceDAO.findServiceProviderAbsencesForServiceProviderInTime(startTime, endTime, serviceProviderID);
     }
 
 
