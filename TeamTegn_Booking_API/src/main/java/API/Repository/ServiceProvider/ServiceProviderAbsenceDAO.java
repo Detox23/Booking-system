@@ -1,7 +1,6 @@
 package API.Repository.ServiceProvider;
 
 import API.Database_Entities.ServiceProviderAbsenceEntity;
-import API.Services.ServiceProviderService.ServiceProviderAbsence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

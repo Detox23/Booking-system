@@ -1,6 +1,7 @@
 package API.Database_Entities;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -9,7 +10,7 @@ import java.sql.Timestamp;
 @Table(name = "ServiceProvider_Comment", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
 public class ServiceProviderCommentEntity {
     private int id;
-    private Integer userId;
+    private int userId;
     private Integer serviceProviderId;
     private Timestamp commentDate;
     private String commentText;
@@ -26,17 +27,18 @@ public class ServiceProviderCommentEntity {
     }
 
     @Basic
-    @Column(name = "UserID", nullable = true)
-    public Integer getUserId() {
+    @CreatedBy
+    @Column(name = "UserID")
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
     @Basic
-    @Column(name = "ServiceProviderID", nullable = true)
+    @Column(name = "ServiceProviderID")
     public Integer getServiceProviderId() {
         return serviceProviderId;
     }
@@ -47,7 +49,7 @@ public class ServiceProviderCommentEntity {
 
     @Basic
     @CreationTimestamp
-    @Column(name = "CommentDate", nullable = true)
+    @Column(name = "CommentDate")
     public Timestamp getCommentDate() {
         return commentDate;
     }
@@ -57,7 +59,7 @@ public class ServiceProviderCommentEntity {
     }
 
     @Basic
-    @Column(name = "CommentText", nullable = true, length = 2147483647)
+    @Column(name = "CommentText", length = 2147483647)
     public String getCommentText() {
         return commentText;
     }
@@ -74,7 +76,6 @@ public class ServiceProviderCommentEntity {
         ServiceProviderCommentEntity that = (ServiceProviderCommentEntity) o;
 
         if (id != that.id) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (serviceProviderId != null ? !serviceProviderId.equals(that.serviceProviderId) : that.serviceProviderId != null)
             return false;
         if (commentDate != null ? !commentDate.equals(that.commentDate) : that.commentDate != null) return false;
@@ -86,7 +87,6 @@ public class ServiceProviderCommentEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (serviceProviderId != null ? serviceProviderId.hashCode() : 0);
         result = 31 * result + (commentDate != null ? commentDate.hashCode() : 0);
         result = 31 * result + (commentText != null ? commentText.hashCode() : 0);

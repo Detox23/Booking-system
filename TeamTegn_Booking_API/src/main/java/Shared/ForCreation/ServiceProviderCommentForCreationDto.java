@@ -1,17 +1,13 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class ServiceProviderCommentForCreationDto {
-    private Integer userId;
+
+    @NotNull
     private Integer serviceProviderId;
+    @NotNull
     private String commentText;
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public Integer getServiceProviderId() {
         return serviceProviderId;

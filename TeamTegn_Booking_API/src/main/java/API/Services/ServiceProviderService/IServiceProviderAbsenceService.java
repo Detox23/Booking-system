@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-public interface IServiceProviderAbsence {
+public interface IServiceProviderAbsenceService {
     ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceForCreationDto serviceProviderAbsenceEntity);
 
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProvider(int serviceProviderID);

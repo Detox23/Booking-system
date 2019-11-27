@@ -1,10 +1,14 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class ServiceProviderCommentForUpdateDto {
 
+    @NotNull
     private int id;
-    private Integer userId;
+    @NotNull
     private Integer serviceProviderId;
+    @NotNull
     private String commentText;
 
     public void setId(int id) {
@@ -13,14 +17,6 @@ public class ServiceProviderCommentForUpdateDto {
 
     public int getId() {
         return id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public Integer getServiceProviderId() {
