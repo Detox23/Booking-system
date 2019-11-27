@@ -3,6 +3,8 @@ import API.Services.ServiceUserService.IServiceUserService;
 import Shared.ForCreation.ServiceUserForCreationDto;
 import Shared.ForCreation.ServiceUserForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,10 @@ public class ServiceUserController extends BaseController {
     }
 
     @RequestMapping(value="/", method = RequestMethod.GET)
-    public ResponseEntity<?> list() {
-        return new ResponseEntity<>(serviceUserService.listServiceUsers(), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> list(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "10") int pageSize,
+                                  @RequestParam(defaultValue = "id") String sortBy,
+                                  @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection)  {
+        return new ResponseEntity<>(serviceUserService.listServiceUsers(PageRequest.of(pageNumber, pageSize, sortDirection, sortBy)), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value="/{serviceUserId}", method=RequestMethod.DELETE)

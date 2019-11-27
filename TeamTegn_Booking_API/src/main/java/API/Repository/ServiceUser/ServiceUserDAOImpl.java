@@ -6,6 +6,8 @@ import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
@@ -15,7 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
-public class        ServiceUserDAOImpl implements ServiceUserDAOCustom {
+public class  ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
@@ -63,9 +65,9 @@ public class        ServiceUserDAOImpl implements ServiceUserDAOCustom {
     }
 
     @Override
-    public Iterable<ServiceUserEntity> list() {
+    public Page<ServiceUserEntity> list(Pageable pageable) {
 
-        return serviceUserDAO.findAllByDeletedFalse();
+        return serviceUserDAO.findAllByDeletedFalse(pageable);
     }
 
     @Override

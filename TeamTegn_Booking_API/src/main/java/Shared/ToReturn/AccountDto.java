@@ -57,6 +57,17 @@ public class AccountDto {
     private Timestamp lastModified;
 
     private int lastModifiedBy;
+    private List<ServiceUserDto> serviceUsers;
+
+
+    public List<ServiceUserDto> getServiceUsers() {
+        return serviceUsers;
+    }
+
+    public void setServiceUsers(List<ServiceUserDto> serviceUsers) {
+        this.serviceUsers = serviceUsers;
+    }
+
 
     public int getLastModifiedBy() {
         return lastModifiedBy;

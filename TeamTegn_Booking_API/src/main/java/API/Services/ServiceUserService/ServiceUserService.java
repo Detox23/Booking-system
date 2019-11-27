@@ -1,5 +1,6 @@
 package API.Services.ServiceUserService;
 
+import API.Database_Entities.AccountEntity;
 import API.Database_Entities.ServiceUserAccountEntity;
 import API.Database_Entities.ServiceUserEntity;
 import API.Repository.Account.AccountDAO;
@@ -14,10 +15,13 @@ import com.google.common.collect.Lists;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceUserService implements IServiceUserService {
@@ -65,26 +69,51 @@ public class ServiceUserService implements IServiceUserService {
 
     @Override
     public ServiceUserDto findServiceUser(int id) {
-        return mapper.map(serviceUserDAO.findByID(id), ServiceUserDto.class);
+        ServiceUserDto dto = mapper.map(serviceUserDAO.findByID(id), ServiceUserDto.class);
+       List<AccountDto> accountDtos = new ArrayList<>();
+       List<ServiceUserAccountEntity> accounts =serviceUserAccountsDAO.findAllByServiceUserId(id);
 
+        if(accounts != null)
+        {
+            accounts.forEach((accountServiceUser)->
+                    {
+                        Optional<AccountEntity> account = accountDAO.findById(accountServiceUser.getAccountId());
+                        if(account.isPresent())
+                        {
+                            accountDtos.add(mapper.map(account.get(), AccountDto.class));
+                        }
+                    });
+        }
+        dto.setAccounts(accountDtos);
+        return dto;
     }
 
     @Override
-    public List<ServiceUserDto> listServiceUsers() {
-        List<ServiceUserEntity> elements = Lists.newArrayList(serviceUserDAO.list());
-        List<ServiceUserDto> dtos =  mapper.map(elements, new TypeToken<List<ServiceUserDto>>() {
-        }.getType());
-        dtos.forEach((u)-> u.setAccounts(showServiceUserAccounts(u)) );
+    public Page<ServiceUserDto> listServiceUsers(Pageable pageable) {
+        Page<ServiceUserEntity> elements = serviceUserDAO.list(pageable);
+
+        Page<ServiceUserDto> dtos = elements.map(x->mapper.map(x, ServiceUserDto.class));
+        dtos.toList().forEach((u)-> u.setAccounts(showServiceUserAccounts(u)));
 
         return dtos;
 
     }
     private List<AccountDto> showServiceUserAccounts(ServiceUserDto user)
     {
-            List<AccountDto> accountsDtos = new ArrayList<>();
-            List<ServiceUserAccountEntity> useraccounts = serviceUserAccountsDAO.findAllByServiceUserId(user.getId());
-            useraccounts.forEach((accountServiceUser)->accountsDtos.add(mapper.map(accountDAO.findById(accountServiceUser.getAccountId()), AccountDto.class)));
-    return  accountsDtos;
+        List<ServiceUserAccountEntity> accounts =serviceUserAccountsDAO.findAllByServiceUserId(user.getId());
+        List<AccountDto> accountDtos = new ArrayList<>();
+        if(accounts != null)
+        {
+            accounts.forEach((accountServiceUser)->
+            {
+                Optional<AccountEntity> account = accountDAO.findById(accountServiceUser.getAccountId());
+                if(account.isPresent())
+                {
+                    accountDtos.add(mapper.map(account.get(), AccountDto.class));
+                }
+            });
+        }
+        return  accountDtos;
     }
 
     @Override

@@ -2,23 +2,33 @@ package API.Services.AccountService;
 
 import API.Database_Entities.AccountEanEntity;
 import API.Database_Entities.AccountEntity;
+import API.Database_Entities.ServiceUserAccountEntity;
+import API.Database_Entities.ServiceUserEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.Account.AccountEanDAO;
 import API.Repository.Account.AccountTypeDAO;
+import API.Repository.ServiceUser.ServiceUserAccountsDAO;
+import API.Repository.ServiceUser.ServiceUserDAO;
+import API.Services.ServiceUserService.ServiceUserService;
 import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AccountForUpdateDto;
 import Shared.ToReturn.AccountDto;
 import Shared.ToReturn.AccountEanDto;
+import Shared.ToReturn.ServiceUserDto;
+import io.swagger.models.auth.In;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @Service
@@ -36,12 +46,20 @@ public class AccountService implements IAccountService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ServiceUserAccountsDAO serviceUserAccountsDAO;
+    @Autowired
+    private ServiceUserDAO serviceUserDAO;
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public AccountDto addAccount(AccountForCreationDto account) {
 
         try {
             AccountDto addedAccount = accountDAO.addOneAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getAccountTypeId());
+           account.getServiceUsersIds().forEach((id)-> serviceUserAccountsDAO.save(new ServiceUserAccountEntity(addedAccount.getId(),id )) );
             return fillAccountWithListOfEans(addedAccount);
         }catch(Exception e){
             throw e;
@@ -65,9 +83,41 @@ public class AccountService implements IAccountService {
             IntStream.range(0, foundEANNumberForAccounts.size()).parallel().forEach(index ->
                     accountToReturn.getEan().add(foundEANNumberForAccounts.get(index).getEanNumber()));
         }
+
+            List<ServiceUserAccountEntity> ids =serviceUserAccountsDAO.findAllServiceUserIdByAccountId(id);
+            List<ServiceUserDto> suDtos = new ArrayList<ServiceUserDto>();
+            if(ids != null)
+            {
+                ids.forEach((su)->
+                {
+                    Optional<ServiceUserEntity> suEntity = serviceUserDAO.findById(su.getServiceUserId());
+                    if(suEntity.isPresent())
+                    {
+                        suDtos.add(mapper.map(suEntity.get(), ServiceUserDto.class));
+                    }
+                });
+            accountToReturn.setServiceUsers(suDtos);
+        }
+
         return accountToReturn;
     }
-
+    private List<ServiceUserDto> getServiceUserAccounts(AccountDto accountDto)
+    {
+        List<ServiceUserAccountEntity> ids =serviceUserAccountsDAO.findAllServiceUserIdByAccountId(accountDto.getId());
+        List<ServiceUserDto> suDtos = new ArrayList<ServiceUserDto>();
+        if(ids != null)
+        {
+            ids.forEach((su)->
+            {
+                Optional<ServiceUserEntity> suEntity = serviceUserDAO.findById(su.getServiceUserId());
+                if(suEntity.isPresent())
+                {
+                    suDtos.add(mapper.map(suEntity.get(), ServiceUserDto.class));
+                }
+            });
+        }
+        return  suDtos;
+    }
     @Override
     public List<AccountDto> list() {
         List<AccountDto> foundAccounts = accountDAO.listAllAccounts();
@@ -83,6 +133,7 @@ public class AccountService implements IAccountService {
             }
             finalListToReturn.add(accountToBeAdded);
         });
+        finalListToReturn.forEach((account) ->account.setServiceUsers(getServiceUserAccounts(account)));
         return finalListToReturn;
     }
 

@@ -26,6 +26,16 @@ public class AccountForCreationDto {
     private String contactName;
     private String contactEmail;
     private String contactTelephone;
+    private List<Integer> serviceUsersIds;
+
+    public List<Integer> getServiceUsersIds() {
+        return serviceUsersIds;
+    }
+
+    public void setServiceUsersIds(List<Integer> serviceUsersIds) {
+        this.serviceUsersIds = serviceUsersIds;
+    }
+
 
     public String getAccountName() {
         return accountName;

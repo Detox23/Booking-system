@@ -109,7 +109,7 @@ public class AssignmentService implements IAssignmentService {
     @Override
     public Page<AssignmentDto> getAll(Pageable pageable) {
         Page<AssignmentEntity> list = assignmentRepository.listAll(pageable);
-        return mapper.map(list, new TypeToken<Page<AssignmentDto>>() {}.getType());
+        return list.map(x->mapper.map(x, AssignmentDto.class));
 
     }
 
