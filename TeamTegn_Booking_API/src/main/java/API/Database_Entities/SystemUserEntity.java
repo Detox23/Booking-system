@@ -25,7 +25,6 @@ public class SystemUserEntity {
     private int createdBy;
     private Timestamp createdDate;
     private boolean isDeleted;
-    private String defaultSkinName;
     private Integer roleId;
 
     @Id
@@ -220,16 +219,6 @@ public class SystemUserEntity {
     }
 
     @Basic
-    @Column(name = "DefaultSkinName", nullable = true, length = 100)
-    public String getDefaultSkinName() {
-        return defaultSkinName;
-    }
-
-    public void setDefaultSkinName(String defaultSkinName) {
-        this.defaultSkinName = defaultSkinName;
-    }
-
-    @Basic
     @Column(name = "RoleID", nullable = true)
     public Integer getRoleId() {
         return roleId;
@@ -267,8 +256,6 @@ public class SystemUserEntity {
         if (stateRegion != null ? !stateRegion.equals(that.stateRegion) : that.stateRegion != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-        if (defaultSkinName != null ? !defaultSkinName.equals(that.defaultSkinName) : that.defaultSkinName != null)
-            return false;
         if (roleId != null ? !roleId.equals(that.roleId) : that.roleId != null) return false;
 
         return true;
@@ -295,7 +282,6 @@ public class SystemUserEntity {
         result = 31 * result + createdBy;
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (isDeleted ? 1 : 0);
-        result = 31 * result + (defaultSkinName != null ? defaultSkinName.hashCode() : 0);
         result = 31 * result + (roleId != null ? roleId.hashCode() : 0);
         return result;
     }
