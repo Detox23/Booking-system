@@ -6,13 +6,11 @@ import API.Database_Entities.AssignmentServiceProviderEntity;
 import API.Database_Entities.ServiceProviderEntity;
 import API.Repository.Assignment.*;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
-import API.Services.ServiceProviderService.ServiceProviderService;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
 import Shared.ToReturn.AssignmentDto;
 import Shared.ToReturn.ServiceProviderDto;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,66 +24,73 @@ import java.util.List;
 public class AssignmentService implements IAssignmentService {
 
     private AssignmentDAO assignmentRepository;
+
     private AssignmentServiceProviderDAO assignmentServiceProviderRepository;
 
-    private AAssignmentStatusTypeDAO assignmentStatusTypeRepository;
-    @Autowired
+    private Assignment_AssignmentStatusTypeDAO assignmentStatusTypeRepository;
+
     private ServiceProviderDAO serviceProviderRepository;
+
     private ModelMapper mapper;
 
-    @Autowired
-    public void setMapper(ModelMapper mapper) {
-        this.mapper = mapper;
-    }
     @Autowired
     public void
     setAssignmentRepository(AssignmentDAO assignmentRepository) {
         this.assignmentRepository = assignmentRepository;
     }
-    @Autowired
-    public void setAssignmentStatusTypeRepository(AAssignmentStatusTypeDAO assignmentStatusTypeRepository) {
-        this.assignmentStatusTypeRepository = assignmentStatusTypeRepository;
-    }
+
     @Autowired
     public void setAssignmentServiceProviderRepository(AssignmentServiceProviderDAO assignmentServiceProviderRepository) {
         this.assignmentServiceProviderRepository = assignmentServiceProviderRepository;
     }
 
+    @Autowired
+    public void setAssignmentStatusTypeRepository(Assignment_AssignmentStatusTypeDAO assignmentStatusTypeRepository) {
+        this.assignmentStatusTypeRepository = assignmentStatusTypeRepository;
+    }
 
+    @Autowired
+    public void setServiceProviderRepository(ServiceProviderDAO serviceProviderRepository) {
+        this.serviceProviderRepository = serviceProviderRepository;
+    }
+
+    @Autowired
+    public void setMapper(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
 
 
     @Override
     @Transactional
-    public AssignmentDto add(AssignmentForCreationDto assignmentEntity) {
-        List<Integer> providers = assignmentEntity.getServiceProviders();
+    public AssignmentDto add(AssignmentForCreationDto assignment) {
+        //Getting id of service providers.
+        List<Integer> providers = assignment.getServiceProviders();
 
-        AssignmentEntity dbEntity = mapper.map(assignmentEntity, AssignmentEntity.class);
+        AssignmentEntity dbEntity = mapper.map(assignment, AssignmentEntity.class);
         dbEntity.setDeleted(false);
-        AssignmentEntity assignment = assignmentRepository.addOne(dbEntity);
-       if(assignmentEntity.getAssignmentStatusTypeIds() != null )
-       {
-           assignmentEntity.getAssignmentStatusTypeIds()
-                   .forEach((id)->   assignmentStatusTypeRepository.save(new AssignmentAssignmentStatusTypeEntity(assignment.getId(), id)));
-       }
-            if(providers!= null)
-            {
-                providers.forEach((serviceProviderId) -> addAssignmentAssignmentStatusProvider(assignment, serviceProviderId));
-            }
-        return mapper.map(assignment, AssignmentDto.class);
+        AssignmentEntity assignmentSaved = assignmentRepository.addOne(dbEntity);
+        if (assignment.getAssignmentStatusTypeIds() != null) {
+            assignment.getAssignmentStatusTypeIds()
+                    .forEach((id) -> assignmentStatusTypeRepository.save(new AssignmentAssignmentStatusTypeEntity(assignmentSaved.getId(), id)));
+        }
+        if (providers != null) {
+            providers.forEach((serviceProviderId) -> addAssignmentAssignmentStatusProvider(assignmentSaved, serviceProviderId));
+        }
+        return mapper.map(assignmentSaved, AssignmentDto.class);
     }
 
     @Override
     public AssignmentDto get(int id) {
         AssignmentEntity assignment = assignmentRepository.getOne(id);
-        AssignmentDto dto =  mapper.map(assignment, AssignmentDto.class);
-        List<Integer> listOfAssignmentStatusTypeIds  = assignmentStatusTypeRepository.findAllByAssignmentId(id);
+        AssignmentDto dto = mapper.map(assignment, AssignmentDto.class);
+        List<Integer> listOfAssignmentStatusTypeIds = assignmentStatusTypeRepository.findAllByAssignmentId(id);
         dto.setAssignmentStatusTypeIds(listOfAssignmentStatusTypeIds);
-        List<AssignmentServiceProviderEntity> assignmentServiceProviderEntities  = assignmentServiceProviderRepository.findAllByAssignmentId(id);
+        List<AssignmentServiceProviderEntity> assignmentServiceProviderEntities = assignmentServiceProviderRepository.findAllByAssignmentId(id);
         List<ServiceProviderDto> serviceProviderDtos = new ArrayList<>();
 
         assignmentServiceProviderEntities.forEach((e) ->
-                                          serviceProviderDtos.add(
-                                                  serviceProviderRepository.findOne(e.getServiceProviderId())));
+                serviceProviderDtos.add(
+                        serviceProviderRepository.findOne(e.getServiceProviderId())));
         dto.setServiceProviders(serviceProviderDtos);
         return dto;
     }
@@ -109,13 +114,13 @@ public class AssignmentService implements IAssignmentService {
     @Override
     public Page<AssignmentDto> getAll(Pageable pageable) {
         Page<AssignmentEntity> list = assignmentRepository.listAll(pageable);
-        return list.map(x->mapper.map(x, AssignmentDto.class));
+        return list.map(x -> mapper.map(x, AssignmentDto.class));
 
     }
 
     @Override
     public boolean delete(int id) {
-       return assignmentRepository.deleteOne(id);
+        return assignmentRepository.deleteOne(id);
     }
 
     @Override
@@ -125,10 +130,9 @@ public class AssignmentService implements IAssignmentService {
         as.setId(id);
         List<Integer> oldList = assignmentStatusTypeRepository.findAllByAssignmentId(id);
         //nie wiem czy ma sens?
-        if(!oldList.equals(assignmentEntity.getAssignmentStatusTypeIds()))
-        {
+        if (!oldList.equals(assignmentEntity.getAssignmentStatusTypeIds())) {
             assignmentStatusTypeRepository.deleteAllByAssignmentId(id);
-            for (Integer idStatusType: assignmentEntity.getAssignmentStatusTypeIds()) {
+            for (Integer idStatusType : assignmentEntity.getAssignmentStatusTypeIds()) {
                 assignmentStatusTypeRepository.save(new AssignmentAssignmentStatusTypeEntity(id, idStatusType));
             }
         }
