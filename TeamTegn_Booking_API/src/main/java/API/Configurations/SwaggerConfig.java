@@ -21,12 +21,11 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Bean
     public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                //returns an instance of ApiSelectorBuilder (controlling endpoints exposed by Swagger
                 .select()
-                //choosing predicates for selection, using any() makes it do documentation for whole API
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .pathMapping("/");
 
     }
 

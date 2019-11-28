@@ -1,22 +1,16 @@
-package Shared.ToReturn;
+package Shared.ForCreation;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Timestamp;
 
-public class ServiceUserCommentDto {
-    private int id;
+public class ServiceUserCommentForUpdateDto {
+
     private Integer userId;
     private Integer serviceUserId;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp commentDate;
     private String commentText;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Integer getUserId() {
         return userId;
