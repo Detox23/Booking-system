@@ -36,8 +36,8 @@ public class ServiceProviderDto {
     private String serviceProviderInitials;
     private boolean status;
     private String externalId;
-    private List<Integer> competences;
-    private List<Integer> types;
+    private List<ServiceProviderCompetencyDto> competences;
+    private List<ServiceProviderTypeDto> types;
     private Integer preferredNotificationId;
     private Integer transportId;
 
@@ -57,19 +57,19 @@ public class ServiceProviderDto {
         this.transportId = transportId;
     }
 
-    public List<Integer> getTypes() {
+    public List<ServiceProviderTypeDto> getTypes() {
         return types;
     }
 
-    public void setTypes(List<Integer> types) {
+    public void setTypes(List<ServiceProviderTypeDto> types) {
         this.types = types;
     }
 
-    public void setCompetences(List<Integer> competences) {
+    public void setCompetences(List<ServiceProviderCompetencyDto> competences) {
         this.competences = competences;
     }
 
-    public List<Integer> getCompetences() {
+    public List<ServiceProviderCompetencyDto> getCompetences() {
         return competences;
     }
 

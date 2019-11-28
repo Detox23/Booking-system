@@ -1,5 +1,8 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -189,6 +192,7 @@ public class SystemUserEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
     public int getCreatedBy() {
         return createdBy;
@@ -200,6 +204,7 @@ public class SystemUserEntity {
 
     @Basic
     @Column(name = "CreatedDate", nullable = true)
+    @CreationTimestamp
     public Timestamp getCreatedDate() {
         return createdDate;
     }

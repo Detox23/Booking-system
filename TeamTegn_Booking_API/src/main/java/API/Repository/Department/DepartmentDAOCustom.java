@@ -17,5 +17,7 @@ public interface DepartmentDAOCustom {
 
     boolean deleteOneDepartment(int id);
 
+    DepartmentDto findDepartmentByID(int id);
+
 
 }

@@ -8,9 +8,9 @@ import Shared.ToReturn.SystemUserDto;
 import java.util.List;
 
 public interface SystemUserDAOCustom {
-    SystemUserDto addSystemUser(SystemUserEntity systemUser);
+    SystemUserDto addSystemUser(SystemUserEntity systemUser , List<Integer> departments);
 
-    SystemUserDto updateSystemUser(SystemUserEntity systemUser);
+    SystemUserDto updateSystemUser(SystemUserEntity systemUser, List<Integer> departments);
 
     boolean deleteSystemUser(int id);
 

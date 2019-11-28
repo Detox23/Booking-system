@@ -10,6 +10,7 @@ public class ServiceProviderForCreationDto {
     private String middleName;
     @NotNull
     private String lastName;
+    @NotNull
     private String cpr;
     @NotNull
     private Integer source;

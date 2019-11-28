@@ -1,22 +1,40 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 public class SystemUserForCreationDto {
+    @NotNull
     private String firstName;
     private String middleName;
+    @NotNull
     private String lastName;
     private String telephoneCode;
+    @NotNull
     private String telephoneNumber;
     private String faxCode;
     private String faxNumber;
     private String email;
+    @NotNull
     private String userName;
+    @NotNull
     private String password;
     private String street;
     private String postcode;
     private String city;
     private String stateRegion;
     private String country;
+    @NotNull
     private Integer roleId;
+    private List<Integer> departments;
+
+    public void setDepartments(List<Integer> departments) {
+        this.departments = departments;
+    }
+
+    public List<Integer> getDepartments() {
+        return departments;
+    }
 
     public String getFirstName() {
         return firstName;

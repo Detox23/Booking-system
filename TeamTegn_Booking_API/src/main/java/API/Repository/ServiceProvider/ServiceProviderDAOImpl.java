@@ -103,30 +103,14 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     public ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies,
                                                  List<Integer> types) {
         try {
-            List<ServiceProviderEntity> checkDuplicate =
-                    serviceProviderDAO.findAllByFirstNameAndMiddleNameAndLastName(
-                            serviceProvider.getFirstName(),
-                            serviceProvider.getMiddleName(),
-                            serviceProvider.getLastName()
-                    );
-            if (checkDuplicate.size() > 0) {
-                throw new DuplicateException(
-                        "The service provider with the exact first name, middle name and last name already exists."
-                );
-            }
-            Optional<DepartmentEntity> departmentCheck = departmentDAO.findById(serviceProvider.getDepartmentId());
-            if (!departmentCheck.isPresent()) {
+            checkDuplicate(serviceProvider);
+            if (!departmentDAO.findById(serviceProvider.getDepartmentId()).isPresent()) {
                 throw new NotFoundException("Department was not found");
             }
-            serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
-            serviceProvider.setDeleted(false);
+            encryptCpr(serviceProvider);
             ServiceProviderEntity saved = serviceProviderDAO.save(serviceProvider);
-            if (competencies != null) {
-                addCompetenciesOfServiceProvider(competencies, saved.getId());
-            }
-            if (types != null) {
-                addTypesOfServiceProvider(types, saved.getId());
-            }
+            addCompetenciesOfServiceProvider(competencies, saved.getId());
+            addTypesOfServiceProvider(types, saved.getId());
             return modelMapper.map(saved, ServiceProviderDto.class);
         } catch (NoSuchElementException noSuchElementException) {
             throw new NotEnoughDataException("Department does not exist.");
@@ -138,27 +122,20 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     @Override
     public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types) {
         try {
-            serviceProviderServiceProviderCompetencyDAO.deleteAllByServiceProviderId(serviceProvider.getId());
-            serviceProviderServiceProviderTypeDAO.deleteAllByServiceProviderId(serviceProvider.getId());
-            ServiceProviderEntity found = serviceProviderDAO.findById(serviceProvider.getId()).get();
+            Optional<ServiceProviderEntity> found = serviceProviderDAO.findById(serviceProvider.getId());
+            if (!found.isPresent() || found.get().isDeleted()) {
+                throw new NotFoundException(String.format("Service provider with id %d was not found", serviceProvider.getId()));
+            }
             if (serviceProvider.getCpr() != null) {
-                serviceProvider.setCpr(encryptionHandler.encrypt(serviceProvider.getCpr()));
+                encryptCpr(serviceProvider);
             }
-            patcherHandler.fillNotNullFields(found, serviceProvider);
-            if (competencies != null) {
-                addCompetenciesOfServiceProvider(competencies, found.getId());
+            patcherHandler.fillNotNullFields(found.get(), serviceProvider);
+            addCompetenciesOfServiceProvider(competencies, found.get().getId());
+            addTypesOfServiceProvider(types, found.get().getId());
+            if (!departmentDAO.findById(serviceProvider.getDepartmentId()).isPresent()) {
+                throw new NotFoundException(String.format("Department with %d was not found.", serviceProvider.getDepartmentId()));
             }
-            if (types != null) {
-                addTypesOfServiceProvider(types, found.getId());
-            }
-            Optional<DepartmentEntity> departmentCheck = departmentDAO.findById(serviceProvider.getDepartmentId());
-            if (!departmentCheck.isPresent()) {
-                throw new NotFoundException("Department was not found");
-            }
-            ServiceProviderEntity updated = serviceProviderDAO.save(found);
-            if (updated.getCpr() != null) {
-                updated.setCpr(encryptionHandler.decrypt(updated.getCpr()));
-            }
+            ServiceProviderEntity updated = serviceProviderDAO.save(found.get());
             return modelMapper.map(updated, ServiceProviderDto.class);
         } catch (IntrospectionException interspectionException) {
             throw new UpdatePatchException("There was an error while updating a service provider [PATCHING].");
@@ -189,42 +166,65 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     }
 
     private void addTypesOfServiceProvider(List<Integer> types, int id) {
-        if (types.size() > 0) {
-            for (Integer type : types) {
-                ServiceProviderServiceProviderTypeForCreationDto serviceProviderSPType = new ServiceProviderServiceProviderTypeForCreationDto();
-                serviceProviderSPType.setServiceProviderTypeId(type);
-                serviceProviderSPType.setServiceProviderId(id);
-                boolean resultOfAdding = serviceProviderServiceProviderTypeDAO.addServiceProviderServiceProviderType(
-                        modelMapper.map(
-                                serviceProviderSPType,
-                                ServiceProviderServiceProviderTypeEntity.class
-                        )
-                );
-                if (!resultOfAdding) {
-                    throw new UnknownAddingException("Provided type does not exists.");
-                }
+        try {
+            if (types != null) {
+                serviceProviderServiceProviderTypeDAO.deleteAllByServiceProviderId(id);
+                for (Integer type : types) {
+                    ServiceProviderServiceProviderTypeEntity spType = new ServiceProviderServiceProviderTypeEntity();
+                    spType.setServiceProviderTypeId(type);
+                    spType.setServiceProviderId(id);
+                    ServiceProviderServiceProviderTypeEntity resultOfAdding = serviceProviderServiceProviderTypeDAO.save(spType);
+                    if (resultOfAdding == null) {
+                        throw new UnknownAddingException("Provided type does not exists.");
+                    }
 
+                }
             }
+        } catch (Exception e) {
+            throw e;
         }
     }
 
     private void addCompetenciesOfServiceProvider(List<Integer> competencies, int id) {
-        if (competencies.size() > 0) {
-            for (Integer competency : competencies) {
-                ServiceProviderServiceProviderCompetencyForCreationDto serviceProviderSPCompetency = new ServiceProviderServiceProviderCompetencyForCreationDto();
-                serviceProviderSPCompetency.setCompetencyId(competency);
-                serviceProviderSPCompetency.setServiceProviderId(id);
-                boolean resultOfAdding = serviceProviderServiceProviderCompetencyDAO.addServiceProviderServiceProviderCompetency(
-                        modelMapper.map(
-                                serviceProviderSPCompetency,
-                                ServiceProviderServiceProviderCompetencyEntity.class
-                        )
-                );
-                if (!resultOfAdding) {
-                    throw new UnknownAddingException("Provided competency does not exists.");
+        try {
+            if (competencies != null) {
+                serviceProviderServiceProviderCompetencyDAO.deleteAllByServiceProviderId(id);
+                for (Integer competency : competencies) {
+                    ServiceProviderServiceProviderCompetencyEntity spCompetency = new ServiceProviderServiceProviderCompetencyEntity();
+                    spCompetency.setCompetencyId(competency);
+                    spCompetency.setServiceProviderId(id);
+                    ServiceProviderServiceProviderCompetencyEntity resultOfAdding = serviceProviderServiceProviderCompetencyDAO.save(spCompetency);
+                    if (resultOfAdding == null) {
+                        throw new UnknownAddingException("Provided competency does not exists.");
+                    }
                 }
             }
+        } catch (Exception e) {
+            throw e;
         }
+    }
+
+    private void encryptCpr(ServiceProviderEntity serviceProvider) {
+        String cpr = serviceProvider.getCpr();
+        String hashed = encryptionHandler.encrypt(cpr);
+        serviceProvider.setCpr(hashed);
+    }
+
+    private boolean checkDuplicate(ServiceProviderEntity serviceProvider) {
+        List<ServiceProviderEntity> checkDuplicate = serviceProviderDAO.findAllByFirstNameAndMiddleNameAndLastName(
+                serviceProvider.getFirstName(),
+                serviceProvider.getMiddleName(),
+                serviceProvider.getLastName()
+        );
+        if (checkDuplicate.size() > 0) {
+            throw new DuplicateException(String.format(
+                    "The service provider with name: %s, middle name: $s and last name: %s already exists.",
+                    serviceProvider.getFirstName(),
+                    serviceProvider.getMiddleName(),
+                    serviceProvider.getLastName()
+            ));
+        }
+        return true;
     }
 
 }

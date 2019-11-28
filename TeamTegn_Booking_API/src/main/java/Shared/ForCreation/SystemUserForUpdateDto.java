@@ -1,6 +1,10 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 public class SystemUserForUpdateDto {
+    @NotNull
     private int id;
     private String firstName;
     private String middleName;
@@ -18,6 +22,15 @@ public class SystemUserForUpdateDto {
     private String stateRegion;
     private String country;
     private Integer roleId;
+    private List<Integer> departments;
+
+    public List<Integer> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Integer> departments) {
+        this.departments = departments;
+    }
 
     public int getId(){return id;}
 

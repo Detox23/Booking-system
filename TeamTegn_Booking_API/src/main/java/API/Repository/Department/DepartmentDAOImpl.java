@@ -123,4 +123,14 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
         }
     }
 
+    @Override
+    public DepartmentDto findDepartmentByID(int id) {
+        Optional<DepartmentEntity> found = departmentDAO.findById(id);
+        if (found.isPresent() || !found.get().isDeleted()) {
+            return modelMapper.map(found.get(), DepartmentDto.class);
+        } else {
+            throw new NotFoundException("Department was not found");
+        }
+    }
+
 }
