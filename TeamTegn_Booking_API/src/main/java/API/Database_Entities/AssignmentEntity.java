@@ -1,5 +1,7 @@
 package API.Database_Entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -19,7 +21,7 @@ public class AssignmentEntity {
     private String destinationStateRegion;
     private String destinationCountry;
     private int serviceUserId;
-    private Timestamp assignmentDate;
+    private Date assignmentDate;
     private Date assignmentEndDate;
     private Timestamp startTime;
     private Timestamp endTime;
@@ -173,11 +175,11 @@ public class AssignmentEntity {
 
     @Basic
     @Column(name = "AssignmentDate", nullable = true)
-    public Timestamp getAssignmentDate() {
+    public Date getAssignmentDate() {
         return assignmentDate;
     }
 
-    public void setAssignmentDate(Timestamp assignmentDate) {
+    public void setAssignmentDate(Date assignmentDate) {
         this.assignmentDate = assignmentDate;
     }
 

@@ -4,6 +4,8 @@ import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.AssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentTypeEntity;
 import API.Exceptions.NotFoundException;
+import Shared.ToReturn.AssignmentStatusTypeDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -11,12 +13,18 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-
 public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCustom {
 
     private AssignmentStatusTypeDAO assignmentStatusTypeDAO;
 
     private PatcherHandler patcherHandler;
+
+    private ModelMapper modelMapper;
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
@@ -34,8 +42,8 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
     }
 
     @Override
-    public AssignmentStatusTypeEntity findOne(int id) {
-        return assignmentStatusTypeDAO.findById(id).get();
+    public AssignmentStatusTypeDto findOne(int id) {
+        return modelMapper.map(assignmentStatusTypeDAO.findById(id).get(), AssignmentStatusTypeDto.class);
     }
 
     @Override

@@ -19,14 +19,14 @@ import java.util.Optional;
 
 @Service
 public class ServiceUserCommentService implements IServiceUserCommentService {
-
     private ModelMapper mapper;
     private ServiceUserCommentDAO serviceUserCommentDAO;
-@Autowired
+
+    @Autowired
     public void setMapper(ModelMapper mapper) {
         this.mapper = mapper;
     }
-@Autowired
+    @Autowired
     public void setServiceUserCommentDAO(ServiceUserCommentDAO serviceUserCommentDAO) {
         this.serviceUserCommentDAO = serviceUserCommentDAO;
     }

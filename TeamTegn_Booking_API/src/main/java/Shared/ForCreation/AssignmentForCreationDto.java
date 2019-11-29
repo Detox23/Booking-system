@@ -1,13 +1,9 @@
 package Shared.ForCreation;
 
-import API.Database_Entities.*;
-import Shared.ToReturn.ServiceProviderDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.List;
 
 public class AssignmentForCreationDto {
@@ -17,18 +13,16 @@ public class AssignmentForCreationDto {
     private String destinationPostCode;
     private String destinationStateRegion;
     private String destinationCountry;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Timestamp assignmentDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date assignmentDate;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date assignmentEndDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @NotNull
     private Timestamp startTime;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @NotNull
     private Timestamp endTime;
-    @NotNull
-    private Integer totalTime;
     @NotNull
     private Boolean assignedStatus;
     private String bookingNumber;
@@ -46,15 +40,22 @@ public class AssignmentForCreationDto {
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
+    @NotNull
     private Integer assignmentTypeId;
+    @NotNull
     private Integer assignmentImportanceId;
+    @NotNull
     private Integer assignmentInterpretationTypeId;
+    @NotNull
     private String assignmentTitle;
     @NotNull
     private Integer serviceUserId;
+    @NotNull
     private Integer accountId;
+    @NotNull
     private Integer assignmentStatusId;
-    private Integer vocalLanguageseId;
+    @NotNull
+    private Integer vocalLanguageId;
     private List<Integer> serviceProviders;
     private List<Integer> assignmentStatusTypeIds;
 
@@ -124,10 +125,11 @@ public class AssignmentForCreationDto {
         this.destinationCountry = destinationCountry;
     }
 
-    public Timestamp getAssignmentDate() {
+    public Date getAssignmentDate() {
         return assignmentDate;
     }
-    public void setAssignmentDate(Timestamp assignmentDate) {
+
+    public void setAssignmentDate(Date assignmentDate) {
         this.assignmentDate = assignmentDate;
     }
 
@@ -154,15 +156,6 @@ public class AssignmentForCreationDto {
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
-
-    public Integer getTotalTime() {
-        return totalTime;
-    }
-
-    public void setTotalTime(Integer totalTime) {
-        this.totalTime = totalTime;
-    }
-
 
     public Boolean getAssignedStatus() {
         return assignedStatus;
@@ -348,11 +341,11 @@ public class AssignmentForCreationDto {
         this.assignmentStatusId = assignmentStatusId;
     }
 
-    public Integer getVocalLanguageseId() {
-        return vocalLanguageseId;
+    public Integer getVocalLanguageId() {
+        return vocalLanguageId;
     }
 
-    public void setVocalLanguageseId(Integer vocalLanguageseId) {
-        this.vocalLanguageseId = vocalLanguageseId;
+    public void setVocalLanguageId(Integer vocalLanguageId) {
+        this.vocalLanguageId = vocalLanguageId;
     }
 }

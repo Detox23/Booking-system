@@ -11,8 +11,8 @@ public class AssignmentStatusTypeEntity {
     private boolean isDeleted;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

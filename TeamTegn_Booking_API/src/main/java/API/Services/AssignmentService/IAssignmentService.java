@@ -3,20 +3,25 @@ package API.Services.AssignmentService;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
 import Shared.ToReturn.AssignmentDto;
+import Shared.ToReturn.AssignmentViewDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.util.List;
 
 
 public interface IAssignmentService {
-    AssignmentDto add(AssignmentForCreationDto assignmentEntity);
+    AssignmentDto addAssignment(AssignmentForCreationDto assignmentEntity);
 
-    AssignmentDto get(int id);
+    AssignmentDto findAssignment(int id);
 
-    Page<AssignmentDto> getAll(Pageable pageable);
+    Page<AssignmentDto> listAssignmentsPage(Pageable pageable);
 
-    boolean delete(int id);
+    List<AssignmentViewDto> listAssignmentsDate(Date date);
 
-    AssignmentDto update(int id, AssignmentForUpdateDto assignmentEntity);
+    boolean deleteAssignment(int id);
+
+    AssignmentDto updateAssignment(AssignmentForUpdateDto assignment);
 
 }

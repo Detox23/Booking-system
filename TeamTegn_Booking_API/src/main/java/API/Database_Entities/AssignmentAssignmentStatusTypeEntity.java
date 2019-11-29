@@ -1,5 +1,7 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -11,15 +13,15 @@ public class AssignmentAssignmentStatusTypeEntity {
     private int assignmentStatusTypeId;
     private Timestamp dateCreated;
 
-    public AssignmentAssignmentStatusTypeEntity(int assignmentId, int assignmentStatusTypeId) {
-        this.assignmentId = assignmentId;
-        this.assignmentStatusTypeId = assignmentStatusTypeId;
-        dateCreated = new Timestamp(System.currentTimeMillis());
-    }
-
-    public AssignmentAssignmentStatusTypeEntity() {
-
-    }
+//    public AssignmentAssignmentStatusTypeEntity(int assignmentId, int assignmentStatusTypeId) {
+//        this.assignmentId = assignmentId;
+//        this.assignmentStatusTypeId = assignmentStatusTypeId;
+//        dateCreated = new Timestamp(System.currentTimeMillis());
+//    }
+//
+//    public AssignmentAssignmentStatusTypeEntity() {
+//
+//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +55,7 @@ public class AssignmentAssignmentStatusTypeEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "DateCreated", nullable = true)
     public Timestamp getDateCreated() {
         return dateCreated;

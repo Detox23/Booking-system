@@ -1,11 +1,12 @@
 package API.Repository.Assignment;
 
 import API.Database_Entities.AssignmentStatusTypeEntity;
+import Shared.ToReturn.AssignmentStatusTypeDto;
 
 public interface AssignmentStatusTypeDAOCustom {
     Iterable<AssignmentStatusTypeEntity> listAll();
 
-    AssignmentStatusTypeEntity findOne(int id);
+    AssignmentStatusTypeDto findOne(int id);
 
     AssignmentStatusTypeEntity addOne(AssignmentStatusTypeEntity assignmentStatusTypeEntity);
 

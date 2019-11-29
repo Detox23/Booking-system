@@ -6,9 +6,9 @@ import Shared.ToReturn.ServiceProviderDto;
 import java.util.List;
 
 public interface ServiceProviderDAOCustom {
-    List<ServiceProviderDto> listAll();
+    List<ServiceProviderDto> listAllServiceProvider();
 
-    ServiceProviderDto findOne(int id);
+    ServiceProviderDto findServiceProvider(int id);
 
     ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types);
 

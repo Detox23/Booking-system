@@ -1,48 +1,121 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentEntity;
-import API.Exceptions.NotEnoughDataException;
+import API.Database_Entities.AssignmentServiceProviderEntity;
+import API.Database_Entities.ServiceProviderEntity;
 import API.Exceptions.NotFoundException;
+import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
+import API.Repository.ServiceProvider.ServiceProviderDAO;
+import Shared.ToReturn.AssignmentDto;
+
+import java.lang.reflect.Type;
+
+import Shared.ToReturn.AssignmentViewDto;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.NotNull;
 import java.beans.IntrospectionException;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
 public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
-
-    @Autowired
     private AssignmentDAO assignmentDAO;
-  
-    @Autowired
+
     private PatcherHandler patcherHandler;
 
-    @Transactional
-    @Override
-    public AssignmentEntity updateOne(@NotNull AssignmentEntity assignmentEntity) {
+    private Assignment_ServiceProviderDAO assignmentServiceProviderDAO;
 
+    private Assignment_AssignmentStatusTypeDAO assignmentAssignmentStatusTypeDAO;
+
+    private ServiceProviderDAO serviceProviderRepository;
+
+    private ModelMapper modelMapper;
+
+    @Autowired
+    public void setAssignmentAssignmentStatusTypeDAO(Assignment_AssignmentStatusTypeDAO assignmentAssignmentStatusTypeDAO) {
+        this.assignmentAssignmentStatusTypeDAO = assignmentAssignmentStatusTypeDAO;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setServiceProviderRepository(ServiceProviderDAO serviceProviderRepository) {
+        this.serviceProviderRepository = serviceProviderRepository;
+    }
+
+    @Autowired
+    public void setAssignmentDAO(AssignmentDAO assignmentDAO) {
+        this.assignmentDAO = assignmentDAO;
+    }
+
+    @Autowired
+    public void setPatcherHandler(PatcherHandler patcherHandler) {
+        this.patcherHandler = patcherHandler;
+    }
+
+    @Autowired
+    public void setAssignmentServiceProviderDAO(Assignment_ServiceProviderDAO assignmentServiceProviderDAO) {
+        this.assignmentServiceProviderDAO = assignmentServiceProviderDAO;
+    }
+
+    @Override
+    public List<AssignmentViewDto> listAllAssignments(Date date) {
+        Type listType = new TypeToken<List<AssignmentViewDto>>() {}.getType();
+        List<AssignmentEntity> found = assignmentDAO.findAllByAssignmentDateEquals(date);
+        return modelMapper.map(found, listType);
+
+    }
+
+    @Override
+    public Page<AssignmentDto> listAssignmentsPage(Pageable pageable) {
+        Page<AssignmentEntity> list = assignmentDAO.findAll(pageable);
+        return list.map(x -> modelMapper.map(x, AssignmentDto.class));
+    }
+
+    @Override
+    public AssignmentDto findAssignment(int id) {
+        AssignmentEntity found = findIfExistsAndReturn(id);
+        return modelMapper.map(found, AssignmentDto.class);
+    }
+
+    @Override
+    public AssignmentDto addAssignment(AssignmentEntity assignmentEntity, List<Integer> serviceProviders, List<Integer> assignmentStatusTypes) {
         try {
-            AssignmentEntity found = assignmentDAO.findFirstByIdAndDeletedIsFalse(assignmentEntity.getId());
-            if(found != null)
-            {
-                patcherHandler.fillNotNullFields(found, assignmentEntity);
-                AssignmentEntity result = assignmentDAO.save(found);
-                return result;
-            }
-            return null;
-        } catch (NoSuchElementException e) {
-            throw new NotFoundException("Assignment was not found while an attempt of making update.");
+            assignmentEntity.setTotalTime((int) calculateHoursFromDates(assignmentEntity.getEndTime(), assignmentEntity.getStartTime()));
+            AssignmentEntity saved = assignmentDAO.save(assignmentEntity);
+            addServiceProviders(serviceProviders, saved.getId());
+            addStatusTypes(assignmentStatusTypes, saved.getId());
+            return modelMapper.map(saved, AssignmentDto.class);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public AssignmentDto updateAssignment(AssignmentEntity assignmentEntity, List<Integer> serviceProviders, List<Integer> assignmentStatusTypes) {
+        try {
+            AssignmentEntity found = findIfExistsAndReturn(assignmentEntity.getId());
+            patcherHandler.fillNotNullFields(found, assignmentEntity);
+            addServiceProviders(serviceProviders, found.getId());
+            addStatusTypes(assignmentStatusTypes, found.getId());
+            found.setTotalTime((int) calculateHoursFromDates(assignmentEntity.getEndTime(), assignmentEntity.getStartTime()));
+            AssignmentEntity updated = assignmentDAO.save(found);
+            return modelMapper.map(updated, AssignmentDto.class);
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
         } catch (Exception e) {
@@ -51,58 +124,72 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     }
 
     @Override
-    public List<AssignmentEntity> listAll() {
-        return assignmentDAO.findAllByDeletedFalse();
-    }
-    @Override
-    public Page<AssignmentEntity> listAll(Pageable pageable) {
-        return assignmentDAO.findAll(pageable);
-    }
-
-    @Override
-    public AssignmentEntity addOne(AssignmentEntity assignmentEntity) {
-        try{
-            return  assignmentDAO.save(assignmentEntity);
-        }catch (NotEnoughDataException notEnoughDataException) {
-            throw new NotEnoughDataException("You provided to little information");
-        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
-            throw new NotEnoughDataException("You provided to little information");
-        } catch (NoSuchElementException noSuchElementException) {
-            throw new NotFoundException(noSuchElementException.getMessage());
-        } catch (Exception e) {
-            throw e;
-        }
-
-    }
-
-    @Override
-    public boolean deleteOne(int id) {
+    public boolean deleteAssignment(int id) {
         try {
-            Optional<AssignmentEntity> found = assignmentDAO.findById(id);
-            if (!found.isPresent()) {
-                throw new NotFoundException("The assigment status type was not found.");
-            }
-
-            AssignmentEntity toDelete = found.get();
-            toDelete.setDeleted(true);
-            AssignmentEntity deletionResult = assignmentDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (NotFoundException notFoundException) {
-            throw notFoundException;
+            AssignmentEntity found = findIfExistsAndReturn(id);
+            found.setDeleted(true);
+            AssignmentEntity deletionResult = assignmentDAO.save(found);
+            return deletionResult.isDeleted();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unknown error");
         }
     }
 
-    @Override
-    public AssignmentEntity getOne(int id) {
-        return assignmentDAO.findFirstByIdAndDeletedIsFalse(id);
+    private float calculateHoursFromDates(Timestamp toTime, Timestamp fromTime) {
+        return (toTime.getTime() - fromTime.getTime())/ 3600000;
     }
 
+    private AssignmentEntity findIfExistsAndReturn(int id) {
+        Optional<AssignmentEntity> found = assignmentDAO.findFirstByIdAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Assignment with id: %d was not found.", id));
+        }
+        return found.get();
+    }
 
+    private void addServiceProviders(List<Integer> serviceProviders, int id) {
+        try {
+            if (serviceProviders != null) {
+                assignmentServiceProviderDAO.deleteAllByAssignmentIdIs(id);
+                for (Integer serviceProvider : serviceProviders) {
+                    ServiceProviderEntity found = serviceProviderRepository.findMiddleNameAndFirstNameAndLastNameAndServiceProviderInitialsById(serviceProvider);
+                    AssignmentServiceProviderEntity serviceProviderEntity = new AssignmentServiceProviderEntity();
+                    serviceProviderEntity.setAssignmentId(id);
+                    serviceProviderEntity.setServiceProviderId(serviceProvider);
+                    serviceProviderEntity.setServiceProviderFirstName(found.getFirstName());
+                    serviceProviderEntity.setServiceProviderMiddleName(found.getMiddleName());
+                    serviceProviderEntity.setServiceProviderLastName(found.getLastName());
+                    serviceProviderEntity.setServiceProviderInitials(found.getServiceProviderInitials());
+                    AssignmentServiceProviderEntity saveResult = assignmentServiceProviderDAO.save(serviceProviderEntity);
+                    if (saveResult == null) {
+                        throw new UnknownAddingException(String.format("There was a problem with assigning service provider to" +
+                                "assignment. [%s, %s, %s. ID: %d]", found.getFirstName(), found.getMiddleName(), found.getLastName(), serviceProvider));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private void addStatusTypes(List<Integer> statusTypes, int id) {
+        try {
+            if (statusTypes != null) {
+                assignmentAssignmentStatusTypeDAO.deleteAllByAssignmentIdIs(id);
+                for (Integer statusType : statusTypes) {
+                    AssignmentAssignmentStatusTypeEntity statusTypeEntity = new AssignmentAssignmentStatusTypeEntity();
+                    statusTypeEntity.setAssignmentId(id);
+                    statusTypeEntity.setAssignmentStatusTypeId(statusType);
+                    AssignmentAssignmentStatusTypeEntity savedResult = assignmentAssignmentStatusTypeDAO.save(statusTypeEntity);
+                    if (savedResult == null) {
+                        throw new UnknownAddingException(String.format("There was a problem with assigning status type to assignment."));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
 }

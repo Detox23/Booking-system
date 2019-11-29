@@ -1,22 +1,23 @@
 package API.Repository.Assignment;
 
 import API.Database_Entities.AssignmentEntity;
+import Shared.ToReturn.AssignmentDto;
+import Shared.ToReturn.AssignmentViewDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import javax.validation.constraints.NotNull;
+import java.sql.Date;
 import java.util.List;
 
 public interface AssignmentDAOCustom {
-    List<AssignmentEntity> listAll();
+    List<AssignmentViewDto> listAllAssignments(Date date);
 
-    AssignmentEntity addOne(AssignmentEntity assignmentEntity);
+    AssignmentDto addAssignment(AssignmentEntity assignmentEntity, List<Integer> serviceProviders, List<Integer> assignmentStatusTypeIds);
 
-    boolean deleteOne(int id);
+    boolean deleteAssignment(int id);
 
-    AssignmentEntity getOne(int id);
+    AssignmentDto findAssignment(int id);
 
-    AssignmentEntity updateOne(@NotNull AssignmentEntity assignmentEntity);
+    AssignmentDto updateAssignment(AssignmentEntity assignmentEntity, List<Integer> serviceProviders, List<Integer> assignmentStatusTypes);
 
-    Page<AssignmentEntity> listAll(Pageable pageable);
+    Page<AssignmentDto> listAssignmentsPage(Pageable pageable);
 }

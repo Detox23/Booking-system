@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface ServiceProviderDAO extends JpaRepository<ServiceProviderEntity, Integer>, ServiceProviderDAOCustom {
     List<ServiceProviderEntity> findAllByFirstNameAndMiddleNameAndLastName(String firstName, String middleName, String lastName);
+
     ServiceProviderEntity findMiddleNameAndFirstNameAndLastNameAndServiceProviderInitialsById(int id);
 
     List<ServiceProviderEntity> findAllByDeletedIsFalse();

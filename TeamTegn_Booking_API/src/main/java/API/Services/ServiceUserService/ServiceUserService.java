@@ -25,23 +25,22 @@ import java.util.Optional;
 
 @Service
 public class ServiceUserService implements IServiceUserService {
-
     private ServiceUserDAO serviceUserDAO;
     private AccountDAO accountDAO;
     private ServiceUserAccountsDAO serviceUserAccountsDAO;
-
     private ModelMapper mapper;
-
 
 
     @Autowired
     public void setServiceUserDAO(ServiceUserDAO serviceUserDAO) {
         this.serviceUserDAO = serviceUserDAO;
     }
+
     @Autowired
     public void setAccountDAO(AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
     }
+
     @Autowired
     public void setServiceUserAccountsDAO(ServiceUserAccountsDAO serviceUserAccountsDAO) {
         this.serviceUserAccountsDAO = serviceUserAccountsDAO;
@@ -58,10 +57,9 @@ public class ServiceUserService implements IServiceUserService {
 
         ServiceUserEntity entity = mapper.map(userForCreationDto, ServiceUserEntity.class);
         ServiceUserEntity result = serviceUserDAO.add(entity);
-        if(userForCreationDto.getAccountsIds() != null)
-        {
+        if (userForCreationDto.getAccountsIds() != null) {
             userForCreationDto.getAccountsIds()
-                    .forEach((id)->   serviceUserAccountsDAO.save(new ServiceUserAccountEntity(result.getId(), id)));
+                    .forEach((id) -> serviceUserAccountsDAO.save(new ServiceUserAccountEntity(result.getId(), id)));
 
         }
         return mapper.map(result, ServiceUserDto.class);
@@ -70,19 +68,17 @@ public class ServiceUserService implements IServiceUserService {
     @Override
     public ServiceUserDto findServiceUser(int id) {
         ServiceUserDto dto = mapper.map(serviceUserDAO.findByID(id), ServiceUserDto.class);
-       List<AccountDto> accountDtos = new ArrayList<>();
-       List<ServiceUserAccountEntity> accounts =serviceUserAccountsDAO.findAllByServiceUserId(id);
+        List<AccountDto> accountDtos = new ArrayList<>();
+        List<ServiceUserAccountEntity> accounts = serviceUserAccountsDAO.findAllByServiceUserId(id);
 
-        if(accounts != null)
-        {
-            accounts.forEach((accountServiceUser)->
-                    {
-                        Optional<AccountEntity> account = accountDAO.findById(accountServiceUser.getAccountId());
-                        if(account.isPresent())
-                        {
-                            accountDtos.add(mapper.map(account.get(), AccountDto.class));
-                        }
-                    });
+        if (accounts != null) {
+            accounts.forEach((accountServiceUser) ->
+            {
+                Optional<AccountEntity> account = accountDAO.findById(accountServiceUser.getAccountId());
+                if (account.isPresent()) {
+                    accountDtos.add(mapper.map(account.get(), AccountDto.class));
+                }
+            });
         }
         dto.setAccounts(accountDtos);
         return dto;
@@ -92,28 +88,26 @@ public class ServiceUserService implements IServiceUserService {
     public Page<ServiceUserDto> listServiceUsers(Pageable pageable) {
         Page<ServiceUserEntity> elements = serviceUserDAO.list(pageable);
 
-        Page<ServiceUserDto> dtos = elements.map(x->mapper.map(x, ServiceUserDto.class));
-        dtos.toList().forEach((u)-> u.setAccounts(showServiceUserAccounts(u)));
+        Page<ServiceUserDto> dtos = elements.map(x -> mapper.map(x, ServiceUserDto.class));
+        dtos.toList().forEach((u) -> u.setAccounts(showServiceUserAccounts(u)));
 
         return dtos;
 
     }
-    private List<AccountDto> showServiceUserAccounts(ServiceUserDto user)
-    {
-        List<ServiceUserAccountEntity> accounts =serviceUserAccountsDAO.findAllByServiceUserId(user.getId());
+
+    private List<AccountDto> showServiceUserAccounts(ServiceUserDto user) {
+        List<ServiceUserAccountEntity> accounts = serviceUserAccountsDAO.findAllByServiceUserId(user.getId());
         List<AccountDto> accountDtos = new ArrayList<>();
-        if(accounts != null)
-        {
-            accounts.forEach((accountServiceUser)->
+        if (accounts != null) {
+            accounts.forEach((accountServiceUser) ->
             {
                 Optional<AccountEntity> account = accountDAO.findById(accountServiceUser.getAccountId());
-                if(account.isPresent())
-                {
+                if (account.isPresent()) {
                     accountDtos.add(mapper.map(account.get(), AccountDto.class));
                 }
             });
         }
-        return  accountDtos;
+        return accountDtos;
     }
 
     @Override

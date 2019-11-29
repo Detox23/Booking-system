@@ -70,7 +70,7 @@ public class ServiceProviderService implements IServiceProviderService {
     public List<ServiceProviderDto> list() {
         Map<Integer, ServiceProviderTypeDto> helperTypeMap = new HashMap<>();
         Map<Integer, ServiceProviderCompetencyDto> helperCompetencyMap = new HashMap<>();
-        List<ServiceProviderDto> foundList = serviceProviderDAO.listAll();
+        List<ServiceProviderDto> foundList = serviceProviderDAO.listAllServiceProvider();
         for(ServiceProviderDto serviceProvider: foundList){
             decryptCpr(serviceProvider);
             fillCompetencyListToReturn(serviceProvider, helperCompetencyMap);
@@ -86,7 +86,7 @@ public class ServiceProviderService implements IServiceProviderService {
         Map<Integer, ServiceProviderTypeDto> helperTypeMap = new HashMap<>();
         Map<Integer, ServiceProviderCompetencyDto> helperCompetencyMap = new HashMap<>();
         try {
-            ServiceProviderDto found = serviceProviderDAO.findOne(id);
+            ServiceProviderDto found = serviceProviderDAO.findServiceProvider(id);
             decryptCpr(found);
             fillCompetencyListToReturn(found, helperCompetencyMap);
             fillTypeListToReturn(found, helperTypeMap);

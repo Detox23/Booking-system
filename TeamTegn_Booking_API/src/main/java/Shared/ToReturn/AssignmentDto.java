@@ -1,11 +1,10 @@
 package Shared.ToReturn;
 
-import API.Database_Entities.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.sql.Date;
+import java.sql.Time;
+import java.util.Date;
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.List;
 
 public class AssignmentDto {
@@ -21,14 +20,14 @@ public class AssignmentDto {
     private String destinationStateRegion;
     private String destinationCountry;
     private int serviceUserId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Timestamp assignmentDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date assignmentDate;
+    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date assignmentEndDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    private Timestamp startTime;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    private Timestamp endTime;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    private Time startTime;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    private Time endTime;
     private int totalTime;
     private Integer createdBy;
     private Timestamp createdDate;
@@ -56,7 +55,7 @@ public class AssignmentDto {
     private Integer resaleParentId;
     private Integer vocalLanguageId;
     private List<ServiceProviderDto> serviceProviders;
-    private List<Integer> assignmentStatusTypeIds;
+    private List<AssignmentStatusTypeDto> assignmentStatusTypeIds;
 
     public int getId() {
         return id;
@@ -154,11 +153,11 @@ public class AssignmentDto {
         this.serviceUserId = serviceUserId;
     }
 
-    public Timestamp getAssignmentDate() {
+    public Date getAssignmentDate() {
         return assignmentDate;
     }
 
-    public void setAssignmentDate(Timestamp assignmentDate) {
+    public void setAssignmentDate(Date assignmentDate) {
         this.assignmentDate = assignmentDate;
     }
 
@@ -170,19 +169,19 @@ public class AssignmentDto {
         this.assignmentEndDate = assignmentEndDate;
     }
 
-    public Timestamp getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 
@@ -402,11 +401,11 @@ public class AssignmentDto {
         this.serviceProviders = serviceProviders;
     }
 
-    public List<Integer> getAssignmentStatusTypeIds() {
+    public List<AssignmentStatusTypeDto> getAssignmentStatusTypeIds() {
         return assignmentStatusTypeIds;
     }
 
-    public void setAssignmentStatusTypeIds(List<Integer> assignmentStatusTypeIds) {
+    public void setAssignmentStatusTypeIds(List<AssignmentStatusTypeDto> assignmentStatusTypeIds) {
         this.assignmentStatusTypeIds = assignmentStatusTypeIds;
     }
 }
