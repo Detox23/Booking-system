@@ -7,7 +7,9 @@ import java.util.List;
 
 
 public interface Assignment_AssignmentStatusTypeDAO extends JpaRepository<AssignmentAssignmentStatusTypeEntity, Integer> {
-    List<AssignmentAssignmentStatusTypeEntity> findAllByAssignmentId(int assignmentId);
+
+    List<AssignmentAssignmentStatusTypeEntity> findAllByAssignmentIdIs(int assignmentId);
+
     void deleteAllByAssignmentIdIs(int assignmentId);
 
 

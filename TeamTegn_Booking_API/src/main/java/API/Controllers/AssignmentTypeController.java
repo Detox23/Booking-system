@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("api/assignmentTypes")
 public class AssignmentTypeController {
@@ -22,26 +24,26 @@ public class AssignmentTypeController {
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> getForAssignment(@PathVariable int id) {
-        return new ResponseEntity<>(assignmentTypeService.get(id), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(assignmentTypeService.findAssignmentType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ResponseEntity<?> get() {
-        return new ResponseEntity<>(assignmentTypeService.getAll(), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(assignmentTypeService.listAssignmentType(), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.POST})
-    public ResponseEntity<?> add(@RequestBody AssignmentTypeForCreationDto forCreation) {
-        return new ResponseEntity<>(assignmentTypeService.add(forCreation), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> add(@RequestBody @Valid AssignmentTypeForCreationDto assignmentType) {
+        return new ResponseEntity<>(assignmentTypeService.addAssignmentType(assignmentType), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
     public ResponseEntity<?> delete(@PathVariable int id) {
-        return new ResponseEntity<>(assignmentTypeService.delete(id), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(assignmentTypeService.deleteAssignmentType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT})
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody AssignmentTypeForUpdateDto assignmentTypeForUpdateDto) {
-        return new ResponseEntity<>(assignmentTypeService.update(id, assignmentTypeForUpdateDto), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/", method = {RequestMethod.PUT})
+    public ResponseEntity<?> update(@RequestBody @Valid AssignmentTypeForUpdateDto assignmentType) {
+        return new ResponseEntity<>(assignmentTypeService.updateAssignmentType(assignmentType), new HttpHeaders(), HttpStatus.OK);
     }
 }

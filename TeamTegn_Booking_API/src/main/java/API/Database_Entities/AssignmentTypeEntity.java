@@ -10,8 +10,8 @@ public class AssignmentTypeEntity {
     private boolean isDeleted;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -21,7 +21,7 @@ public class AssignmentTypeEntity {
     }
 
     @Basic
-    @Column(name = "AssignmentTypeName", nullable = true, length = 50)
+    @Column(name = "AssignmentTypeName", length = 50)
     public String getAssignmentTypeName() {
         return assignmentTypeName;
     }

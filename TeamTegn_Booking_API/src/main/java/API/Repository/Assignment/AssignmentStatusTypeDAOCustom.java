@@ -3,14 +3,16 @@ package API.Repository.Assignment;
 import API.Database_Entities.AssignmentStatusTypeEntity;
 import Shared.ToReturn.AssignmentStatusTypeDto;
 
+import java.util.List;
+
 public interface AssignmentStatusTypeDAOCustom {
-    Iterable<AssignmentStatusTypeEntity> listAll();
+    List<AssignmentStatusTypeDto> listAssignmentStatusTypes();
 
-    AssignmentStatusTypeDto findOne(int id);
+    AssignmentStatusTypeDto findAssignmentStatusType(int id);
 
-    AssignmentStatusTypeEntity addOne(AssignmentStatusTypeEntity assignmentStatusTypeEntity);
+    AssignmentStatusTypeDto addAssignmentStatusType(AssignmentStatusTypeEntity assignmentStatusTypeEntity);
 
-    AssignmentStatusTypeEntity updateOne(AssignmentStatusTypeEntity assignmentStatusTypeEntity);
+    AssignmentStatusTypeDto updateAssignmentStatusType(AssignmentStatusTypeEntity assignmentStatusTypeEntity);
 
-    boolean deleteOne(int id);
+    boolean deleteAssignmentStatusType(int id);
 }

@@ -1,78 +1,104 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Database_Entities.AssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentTypeEntity;
+import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import Shared.ToReturn.AssignmentStatusTypeDto;
+import Shared.ToReturn.AssignmentTypeDto;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
 public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {
 
-    @Autowired
-    private AssignmentTypeDAO assignmentTypeDAO;
-    @Autowired
-    private PatcherHandler patcherHandler;
 
-    @Override
-    public AssignmentTypeEntity add(AssignmentTypeEntity a) {
-        return assignmentTypeDAO.save(a);
+    private AssignmentTypeDAO assignmentTypeDAO;
+    private PatcherHandler patcherHandler;
+    private ModelMapper modelMapper;
+
+    @Autowired
+    public void setAssignmentTypeDAO(AssignmentTypeDAO assignmentTypeDAO) {
+        this.assignmentTypeDAO = assignmentTypeDAO;
+    }
+
+    @Autowired
+    public void setPatcherHandler(PatcherHandler patcherHandler) {
+        this.patcherHandler = patcherHandler;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public AssignmentTypeDto addAssignmentType(AssignmentTypeEntity assignmentType) {
+
         try {
-            Optional<AssignmentTypeEntity> found = assignmentTypeDAO.findById(id);
-            if (!found.isPresent()) {
-                throw new NotFoundException("The assigment type was not found.");
+            int count = assignmentTypeDAO.countAllByAssignmentTypeNameIs(assignmentType.getAssignmentTypeName());
+            if (count > 0) {
+                throw new DuplicateException(String.format("The status with name: %s already exists", assignmentType.getAssignmentTypeName()));
             }
-            AssignmentTypeEntity toDelete = found.get();
-            toDelete.setDeleted(true);
-            AssignmentTypeEntity deletionResult = assignmentTypeDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
+            AssignmentTypeEntity saved = assignmentTypeDAO.save(assignmentType);
+            return modelMapper.map(saved, AssignmentTypeDto.class);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            throw e;
         }
     }
 
     @Override
-    public Iterable<AssignmentTypeEntity> list() {
-        return assignmentTypeDAO.findAll();
-    }
-
-    @Override
-    public AssignmentTypeEntity findByID(int id) {
-        return assignmentTypeDAO.findById(id).get();
-    }
-
-    @Override
-    public AssignmentTypeEntity update(AssignmentTypeEntity a) {
-
+    public boolean deleteAssignmentType(int id) {
         try {
-            AssignmentTypeEntity found = assignmentTypeDAO.findById(a.getId()).get();
-            if(found != null)
-            {
-                patcherHandler.fillNotNullFields(found, a);
-                AssignmentTypeEntity result = assignmentTypeDAO.save(found);
-                return result;
-            }
-            return null;
-        } catch (NoSuchElementException e) {
-            throw new NotFoundException("Account was not found while an attempt of making update.");
+            AssignmentTypeEntity toDelete = findIfExistsAndReturn(id);
+            toDelete.setDeleted(true);
+            AssignmentTypeEntity deletionResult = assignmentTypeDAO.save(toDelete);
+            return deletionResult.isDeleted();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public List<AssignmentTypeDto> listAssignmentType() {
+        return modelMapper.map(assignmentTypeDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentTypeDto>>() {
+        }.getType());
+    }
+
+    @Override
+    public AssignmentTypeDto findAssignmentType(int id) {
+        AssignmentTypeEntity found = findIfExistsAndReturn(id);
+        return modelMapper.map(found, AssignmentTypeDto.class);
+    }
+
+    @Override
+    public AssignmentTypeDto updateAssignmentType(AssignmentTypeEntity assignmentType) {
+        try {
+            AssignmentTypeEntity found = findIfExistsAndReturn(assignmentType.getId());
+            patcherHandler.fillNotNullFields(found, assignmentType);
+            AssignmentTypeEntity result = assignmentTypeDAO.save(found);
+            return modelMapper.map(result, AssignmentTypeDto.class);
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    private AssignmentTypeEntity findIfExistsAndReturn(int id) {
+        Optional<AssignmentTypeEntity> found = assignmentTypeDAO.findByIdAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Assignment type with id: %d was not found.", id));
+        }
+        return found.get();
     }
 }

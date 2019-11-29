@@ -10,10 +10,10 @@ import java.util.List;
 
 
 public interface IAssignmentStatusService {
-    AssignmentStatusDto add(AssignmentStatusForCreationDto assignmentEntity);
-    AssignmentStatusDto get(int id);
-    List<AssignmentStatusDto> list();
-    boolean delete(int id);
-    AssignmentStatusDto update(int id, AssignmentStatusForUpdateDto assignmentEntity);
+    AssignmentStatusDto addAssignmentStatus(AssignmentStatusForCreationDto assignmentEntity);
+    AssignmentStatusDto findAssignmentStatus(int id);
+    List<AssignmentStatusDto> listAssignmentStatuses();
+    boolean deleteAssignmentStatus(int id);
+    AssignmentStatusDto updateAssignmentStatus(AssignmentStatusForUpdateDto assignmentEntity);
 
 }

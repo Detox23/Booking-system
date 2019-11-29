@@ -1,15 +1,18 @@
 package API.Repository.Assignment;
 
 import API.Database_Entities.AssignmentTypeEntity;
+import Shared.ToReturn.AssignmentTypeDto;
+
+import java.util.List;
 
 public interface AssignmentTypeDAOCustom {
-    AssignmentTypeEntity add(AssignmentTypeEntity a);
+    AssignmentTypeDto addAssignmentType(AssignmentTypeEntity a);
 
-    boolean deleteById(int Id);
+    boolean deleteAssignmentType(int Id);
 
-    Iterable<AssignmentTypeEntity> list();
+    List<AssignmentTypeDto> listAssignmentType();
 
-    AssignmentTypeEntity findByID(int id);
+    AssignmentTypeDto findAssignmentType(int id);
 
-    AssignmentTypeEntity update(AssignmentTypeEntity a);
+    AssignmentTypeDto updateAssignmentType(AssignmentTypeEntity a);
 }

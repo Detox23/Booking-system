@@ -12,9 +12,7 @@ import java.util.Optional;
 @Repository
 public interface AssignmentDAO extends PagingAndSortingRepository<AssignmentEntity, Integer>, JpaRepository<AssignmentEntity, Integer>,AssignmentDAOCustom {
 
-    Optional<AssignmentEntity> findFirstByIdAndDeletedIsFalse(int id);
-
-    List<AssignmentEntity> findAllByDeletedFalse();
+    Optional<AssignmentEntity> findByIdAndDeletedIsFalse(int id);
 
     List<AssignmentEntity> findAllByAssignmentDateEquals(Date date);
 }

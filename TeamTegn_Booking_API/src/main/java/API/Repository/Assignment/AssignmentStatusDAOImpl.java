@@ -2,52 +2,84 @@ package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.AssignmentStatusEntity;
+import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import Shared.ToReturn.AssignmentStatusDto;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
-import java.util.NoSuchElementException;
+import java.util.List;
 import java.util.Optional;
 
 @Component
+public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom {
 
-public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom{
-
-    @Autowired
     private AssignmentStatusDAO assignmentStatusDAO;
-    @Autowired
+
     private PatcherHandler patcherHandler;
 
-    @Override
-    public Iterable<AssignmentStatusEntity> listAll() {
-        return assignmentStatusDAO.findAll();
+    private ModelMapper modelMapper;
+
+    @Autowired
+    public void setAssignmentStatusDAO(AssignmentStatusDAO assignmentStatusDAO) {
+        this.assignmentStatusDAO = assignmentStatusDAO;
+    }
+
+    @Autowired
+    public void setPatcherHandler(PatcherHandler patcherHandler) {
+        this.patcherHandler = patcherHandler;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public AssignmentStatusEntity findOne(int id) {
-        return assignmentStatusDAO.findById(id).get();
-    }
-
-    @Override
-    public AssignmentStatusEntity addOnce(AssignmentStatusEntity assignmentStatusEntity) {
-        return assignmentStatusDAO.save(assignmentStatusEntity);
-    }
-
-    @Override
-    public AssignmentStatusEntity updateOne(AssignmentStatusEntity assignmentStatusEntity) {
+    public List<AssignmentStatusDto> listAssignmentStatuses() {
         try {
-            AssignmentStatusEntity found = assignmentStatusDAO.findById(assignmentStatusEntity.getId()).get();
-            if(found != null)
-            {
-                patcherHandler.fillNotNullFields(found, assignmentStatusEntity);
-                AssignmentStatusEntity result = assignmentStatusDAO.save(found);
-                return result;
+            return modelMapper.map(assignmentStatusDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentStatusDto>>() {
+            }.getType());
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public AssignmentStatusDto findAssignmentStatus(int id) {
+        try {
+            AssignmentStatusEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, AssignmentStatusDto.class);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public AssignmentStatusDto addAssignmentStatus(AssignmentStatusEntity assignmentStatusEntity) {
+        try {
+            int count = assignmentStatusDAO.countAllByAssignmentStatusName(assignmentStatusEntity.getAssignmentStatusName());
+            if (count > 0) {
+                throw new DuplicateException(String.format("The status with name: %s already exists", assignmentStatusEntity.getAssignmentStatusName()));
             }
-            return null;
-        } catch (NoSuchElementException e) {
-            throw new NotFoundException("Account was not found while an attempt of making update.");
+            AssignmentStatusEntity saved = assignmentStatusDAO.save(assignmentStatusEntity);
+            return modelMapper.map(saved, AssignmentStatusDto.class);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public AssignmentStatusDto updateAssignmentStatus(AssignmentStatusEntity assignmentStatusEntity) {
+        try {
+            AssignmentStatusEntity found = findIfExistsAndReturn(assignmentStatusEntity.getId());
+            patcherHandler.fillNotNullFields(found, assignmentStatusEntity);
+            AssignmentStatusEntity result = assignmentStatusDAO.save(found);
+            return modelMapper.map(result, AssignmentStatusDto.class);
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
         } catch (Exception e) {
@@ -56,25 +88,23 @@ public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom{
     }
 
     @Override
-    public boolean deleteOne(int id) {
+    public boolean deleteAssignmentStatus(int id) {
         try {
-            Optional<AssignmentStatusEntity> found = assignmentStatusDAO.findById(id);
-            if (!found.isPresent()) {
-                throw new NotFoundException("The assigment status type was not found.");
-            }
-            AssignmentStatusEntity toDelete = found.get();
-            toDelete.setDeleted(true);
-            AssignmentStatusEntity deletionResult = assignmentStatusDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
-        }catch (NotFoundException notFoundException){
-            throw notFoundException;
-        }catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            AssignmentStatusEntity found = findIfExistsAndReturn(id);
+            found.setDeleted(true);
+            AssignmentStatusEntity deletionResult = assignmentStatusDAO.save(found);
+            return deletionResult.isDeleted();
+        } catch (Exception e) {
+            throw e;
         }
     }
+
+    private AssignmentStatusEntity findIfExistsAndReturn(int id) {
+        Optional<AssignmentStatusEntity> found = assignmentStatusDAO.findByIdAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Assignment status with id: %d was not found.", id));
+        }
+        return found.get();
+    }
+
 }

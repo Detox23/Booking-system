@@ -1,16 +1,22 @@
 package API.Repository.Assignment;
 
+import API.Database_Entities.AssignmentEntity;
 import API.Database_Entities.AssignmentStatusEntity;
+import Shared.ForCreation.AssignmentStatusForCreationDto;
+import Shared.ForCreation.AssignmentStatusForUpdateDto;
+import Shared.ToReturn.AssignmentStatusDto;
+
+import java.util.List;
 
 public interface AssignmentStatusDAOCustom {
-    Iterable<AssignmentStatusEntity> listAll();
+    List<AssignmentStatusDto> listAssignmentStatuses();
 
-    AssignmentStatusEntity findOne(int id);
+    AssignmentStatusDto findAssignmentStatus(int id);
 
-    AssignmentStatusEntity addOnce(AssignmentStatusEntity serviceProvider);
+    AssignmentStatusDto addAssignmentStatus(AssignmentStatusEntity serviceProvider);
 
-    AssignmentStatusEntity updateOne(AssignmentStatusEntity serviceProvider);
+    AssignmentStatusDto updateAssignmentStatus(AssignmentStatusEntity serviceProvider);
 
-    boolean deleteOne(int id);
+    boolean deleteAssignmentStatus(int id);
 
 }

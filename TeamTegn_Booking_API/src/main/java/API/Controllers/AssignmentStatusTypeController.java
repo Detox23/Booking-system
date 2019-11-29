@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping("/api/assignmentStatusType")
+@RequestMapping("/api/assignmentStatusTypes")
 public class AssignmentStatusTypeController extends Serializers.Base {
 
     private IAssignmentStatusTypeService assignmentService;
@@ -23,27 +25,27 @@ public class AssignmentStatusTypeController extends Serializers.Base {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(assignmentService.list(), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(assignmentService.listAssignmentStatusTypes(), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> get(@PathVariable int id) {
-        return new ResponseEntity<>(assignmentService.get(id), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(assignmentService.findAssignmentStatusType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> create(@RequestBody AssignmentStatusTypeForCreationDto assignment) {
-        return new ResponseEntity<>(assignmentService.add(assignment), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> create(@RequestBody @Valid AssignmentStatusTypeForCreationDto assignmentStatusType) {
+        return new ResponseEntity<>(assignmentService.addAssignmentStatusType(assignmentStatusType), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
     public ResponseEntity<?> delete(@PathVariable int id) {
-        return new ResponseEntity<>(assignmentService.delete(id), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(assignmentService.deleteAssignmentStatusType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH})
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody AssignmentStatusTypeForUpdateDto forUpdate) {
-        return new ResponseEntity<>(assignmentService.update(id, forUpdate), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/", method = {RequestMethod.PATCH})
+    public ResponseEntity<?> update(@RequestBody @Valid AssignmentStatusTypeForUpdateDto assignmentStatusType) {
+        return new ResponseEntity<>(assignmentService.updateAssignmentStatusType(assignmentStatusType), new HttpHeaders(), HttpStatus.OK);
     }
 }

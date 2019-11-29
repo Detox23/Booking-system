@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping("/api/assignmentsStatus")
+@RequestMapping("/api/assignmentsStatuses")
 public class AssignmentStatusController {
 
     private IAssignmentStatusService assignmentService;
@@ -22,29 +24,29 @@ public class AssignmentStatusController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(assignmentService.list(), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> listAssignmentStatuses() {
+        return new ResponseEntity<>(assignmentService.listAssignmentStatuses(), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> get(@PathVariable int id) {
-        return new ResponseEntity<>(assignmentService.get(id), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findAssignmentStatus(@PathVariable int id) {
+        return new ResponseEntity<>(assignmentService.findAssignmentStatus(id), new HttpHeaders(), HttpStatus.OK);
     }
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> create(@RequestBody AssignmentStatusForCreationDto assignment) {
-        return new ResponseEntity<>(assignmentService.add(assignment), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> addAssignmentStatus(@RequestBody @Valid AssignmentStatusForCreationDto assignmentStatus) {
+        return new ResponseEntity<>(assignmentService.addAssignmentStatus(assignmentStatus), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
-    public ResponseEntity<?> delete(@PathVariable int id) {
-        return new ResponseEntity<>(assignmentService.delete(id), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteAssignmentStatus(@PathVariable int id) {
+        return new ResponseEntity<>(assignmentService.deleteAssignmentStatus(id), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH})
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody AssignmentStatusForUpdateDto forUpdate) {
-        return new ResponseEntity<>(assignmentService.update(id, forUpdate), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/", method = RequestMethod.PATCH)
+    public ResponseEntity<?> updateAssignmentStatus(@RequestBody @Valid AssignmentStatusForUpdateDto assignmentStatus) {
+        return new ResponseEntity<>(assignmentService.updateAssignmentStatus(assignmentStatus), new HttpHeaders(), HttpStatus.OK);
     }
 }
 

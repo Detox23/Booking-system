@@ -1,6 +1,9 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class AssignmentTypeForCreationDto {
+    @NotNull
     private String assignmentTypeName;
 
 

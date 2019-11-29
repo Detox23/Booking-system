@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,50 +18,48 @@ import java.util.List;
 public class AssignmentStatusTypeService implements IAssignmentStatusTypeService{
 
 
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
-    private AssignmentStatusTypeDAO repository;
-
-    @Autowired
-    public void setRepository(AssignmentStatusTypeDAO repository) {
-        this.repository = repository;
-    }
+    private AssignmentStatusTypeDAO assignmentStatusTypeDAO;
 
     @Autowired
-    public void setMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+    public void setAssignmentStatusTypeDAO(AssignmentStatusTypeDAO assignmentStatusTypeDAO) {
+        this.assignmentStatusTypeDAO = assignmentStatusTypeDAO;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public AssignmentStatusTypeDto add(AssignmentStatusTypeForCreationDto assignment) {
-        AssignmentStatusTypeEntity assignmentStatusTypeEntity = mapper.map(assignment, AssignmentStatusTypeEntity.class);
-        return  mapper.map(repository.addOne(assignmentStatusTypeEntity), AssignmentStatusTypeDto.class);
+    @Transactional(rollbackFor = Throwable.class)
+    public AssignmentStatusTypeDto addAssignmentStatusType(AssignmentStatusTypeForCreationDto assignment) {
+        return  assignmentStatusTypeDAO.addAssignmentStatusType(modelMapper.map(assignment, AssignmentStatusTypeEntity.class));
+    }
+
+    @Override
+    public AssignmentStatusTypeDto findAssignmentStatusType(int id) {
+        return  modelMapper.map(assignmentStatusTypeDAO.findAssignmentStatusType(id), AssignmentStatusTypeDto.class);
 
     }
 
     @Override
-    public AssignmentStatusTypeDto get(int id) {
-        return  mapper.map(repository.getOne(id), AssignmentStatusTypeDto.class);
+    public List<AssignmentStatusTypeDto> listAssignmentStatusTypes() {
+        return assignmentStatusTypeDAO.listAssignmentStatusTypes();
 
     }
 
     @Override
-    public List<AssignmentStatusTypeDto> list() {
-        List<AssignmentStatusTypeEntity> elements = Lists.newArrayList(repository.listAll());
-
-        return mapper.map(elements, new TypeToken<List<AssignmentStatusTypeDto>>() {
-        }.getType());
+    @Transactional(rollbackFor = Throwable.class)
+    public boolean deleteAssignmentStatusType(int id) {
+        return assignmentStatusTypeDAO.deleteAssignmentStatusType(id);
     }
 
-    @Override
-    public boolean delete(int id) {
-        return repository.deleteOne(id);
-    }
 
     @Override
-    public AssignmentStatusTypeDto update(int id, AssignmentStatusTypeForUpdateDto assignment) {
-        AssignmentStatusTypeEntity assignmentStatusTypeEntity = mapper.map(assignment, AssignmentStatusTypeEntity.class);
-        assignmentStatusTypeEntity.setId(id);
-        return  mapper.map(repository.updateOne(assignmentStatusTypeEntity), AssignmentStatusTypeDto.class);
+    @Transactional(rollbackFor = Throwable.class)
+    public AssignmentStatusTypeDto updateAssignmentStatusType(AssignmentStatusTypeForUpdateDto assignment) {
+        return assignmentStatusTypeDAO.updateAssignmentStatusType(modelMapper.map(assignment, AssignmentStatusTypeEntity.class));
     }
 }

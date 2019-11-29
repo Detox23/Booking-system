@@ -20,10 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-
 import java.beans.IntrospectionException;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +73,8 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
     @Override
     public List<AssignmentViewDto> listAllAssignments(Date date) {
-        Type listType = new TypeToken<List<AssignmentViewDto>>() {}.getType();
+        Type listType = new TypeToken<List<AssignmentViewDto>>() {
+        }.getType();
         List<AssignmentEntity> found = assignmentDAO.findAllByAssignmentDateEquals(date);
         return modelMapper.map(found, listType);
 
@@ -83,14 +82,22 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
     @Override
     public Page<AssignmentDto> listAssignmentsPage(Pageable pageable) {
-        Page<AssignmentEntity> list = assignmentDAO.findAll(pageable);
-        return list.map(x -> modelMapper.map(x, AssignmentDto.class));
+        try {
+            Page<AssignmentEntity> list = assignmentDAO.findAll(pageable);
+            return list.map(x -> modelMapper.map(x, AssignmentDto.class));
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
     public AssignmentDto findAssignment(int id) {
-        AssignmentEntity found = findIfExistsAndReturn(id);
-        return modelMapper.map(found, AssignmentDto.class);
+        try {
+            AssignmentEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, AssignmentDto.class);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
@@ -137,11 +144,11 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     }
 
     private float calculateHoursFromDates(Timestamp toTime, Timestamp fromTime) {
-        return (toTime.getTime() - fromTime.getTime())/ 3600000;
+        return (toTime.getTime() - fromTime.getTime()) / 3600000;
     }
 
     private AssignmentEntity findIfExistsAndReturn(int id) {
-        Optional<AssignmentEntity> found = assignmentDAO.findFirstByIdAndDeletedIsFalse(id);
+        Optional<AssignmentEntity> found = assignmentDAO.findByIdAndDeletedIsFalse(id);
         if (!found.isPresent()) {
             throw new NotFoundException(String.format("Assignment with id: %d was not found.", id));
         }

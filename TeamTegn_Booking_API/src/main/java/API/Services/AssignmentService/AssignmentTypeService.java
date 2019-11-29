@@ -17,48 +17,42 @@ import java.util.List;
 public class AssignmentTypeService implements IAssignmentTypeService {
 
 
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
-    private AssignmentTypeDAO repository;
-
-    @Autowired
-    public void setMapper(ModelMapper mapper) {
-        this.mapper = mapper;
-    }
+    private AssignmentTypeDAO assignmentTypeDAO;
 
     @Autowired
-    public void setRepository(AssignmentTypeDAO repository) {
-        this.repository = repository;
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setAssignmentTypeDAO(AssignmentTypeDAO assignmentTypeDAO) {
+        this.assignmentTypeDAO = assignmentTypeDAO;
     }
 
     @Override
-    public AssignmentTypeDto add(AssignmentTypeForCreationDto assignmentEntity) {
-        AssignmentTypeEntity a = mapper.map(assignmentEntity, AssignmentTypeEntity.class);
-        return mapper.map(repository.add(a), AssignmentTypeDto.class);
+    public AssignmentTypeDto addAssignmentType(AssignmentTypeForCreationDto assignmentType) {
+        return assignmentTypeDAO.addAssignmentType(modelMapper.map(assignmentType, AssignmentTypeEntity.class));
     }
 
     @Override
-    public AssignmentTypeDto get(int id) {
-        return mapper.map(repository.findByID(id), AssignmentTypeDto.class);
+    public AssignmentTypeDto findAssignmentType(int id) {
+        return assignmentTypeDAO.findAssignmentType(id);
     }
 
     @Override
-    public List<AssignmentTypeDto> getAll() {
-
-        List<AssignmentTypeEntity> elements = Lists.newArrayList(repository.list());
-        return mapper.map(elements, new TypeToken<List<AssignmentTypeDto>>() {
-        }.getType());
+    public List<AssignmentTypeDto> listAssignmentType() {
+        return assignmentTypeDAO.listAssignmentType();
     }
 
     @Override
-    public boolean delete(int id) {
-        return repository.deleteById(id);
+    public boolean deleteAssignmentType(int id) {
+        return assignmentTypeDAO.deleteAssignmentType(id);
     }
 
     @Override
-    public AssignmentTypeDto update(int id, AssignmentTypeForUpdateDto assignmentEntity) {
-        AssignmentTypeEntity a = mapper.map(assignmentEntity, AssignmentTypeEntity.class);
-
-        return mapper.map(repository.update(a), AssignmentTypeDto.class);
+    public AssignmentTypeDto updateAssignmentType(AssignmentTypeForUpdateDto assignmentType) {
+        return assignmentTypeDAO.updateAssignmentType(modelMapper.map(assignmentType, AssignmentTypeEntity.class));
     }
 }

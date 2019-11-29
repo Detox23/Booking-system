@@ -155,11 +155,11 @@ public class AssignmentService implements IAssignmentService {
 
     private void fillAssignmentStatusTypeListToReturn(AssignmentDto addedAssignment, Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap) {
         addedAssignment.setAssignmentStatusTypeIds(new ArrayList<>());
-        List<AssignmentAssignmentStatusTypeEntity> foundList = assignmentAssignmentStatusTypeDAO.findAllByAssignmentId(addedAssignment.getId());
+        List<AssignmentAssignmentStatusTypeEntity> foundList = assignmentAssignmentStatusTypeDAO.findAllByAssignmentIdIs(addedAssignment.getId());
         List<AssignmentAssignmentStatusTypeDto> listOfStatusTypes = modelMapper.map(foundList,new TypeToken<List<AssignmentAssignmentStatusTypeDto>>() {}.getType());
         for (AssignmentAssignmentStatusTypeDto statusType : listOfStatusTypes) {
             if (helperAssignmentStatusTypeMap.get(statusType.getAssignmentStatusTypeId()) == null) {
-                AssignmentStatusTypeDto found = assignmentStatusTypeDAO.findOne(statusType.getAssignmentStatusTypeId());
+                AssignmentStatusTypeDto found = assignmentStatusTypeDAO.findAssignmentStatusType(statusType.getAssignmentStatusTypeId());
                 helperAssignmentStatusTypeMap.put(found.getId(), found);
                 addedAssignment.getAssignmentStatusTypeIds().add(found);
             } else {
