@@ -1,14 +1,18 @@
-package Shared.ToReturn;
+package Shared.ForCreation;
 
-public class AssignmentInterpretationTypeDto {
-    private Integer id;
+import javax.validation.constraints.NotNull;
+
+public class AssignmentInterpretationTypeForUpdateDto {
+    @NotNull
+    private int id;
+    @NotNull
     private String interpretationTypeName;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -19,4 +23,5 @@ public class AssignmentInterpretationTypeDto {
     public void setInterpretationTypeName(String interpretationTypeName) {
         this.interpretationTypeName = interpretationTypeName;
     }
+
 }

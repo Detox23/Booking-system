@@ -1,7 +1,11 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class AssignmentImportanceForUpdateDto {
+    @NotNull
     private int id;
+    @NotNull
     private String importanceName;
 
     public int getId() {

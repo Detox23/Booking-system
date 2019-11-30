@@ -1,6 +1,9 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class AssignmentImportanceForCreationDto {
+    @NotNull
     private String importanceName;
 
     public String getImportanceName() {
