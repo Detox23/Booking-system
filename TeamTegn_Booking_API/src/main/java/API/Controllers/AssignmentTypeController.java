@@ -42,7 +42,7 @@ public class AssignmentTypeController {
         return new ResponseEntity<>(assignmentTypeService.deleteAssignmentType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/", method = {RequestMethod.PATCH})
     public ResponseEntity<?> update(@RequestBody @Valid AssignmentTypeForUpdateDto assignmentType) {
         return new ResponseEntity<>(assignmentTypeService.updateAssignmentType(assignmentType), new HttpHeaders(), HttpStatus.OK);
     }
