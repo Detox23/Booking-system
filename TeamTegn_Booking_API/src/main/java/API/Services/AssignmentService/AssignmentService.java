@@ -3,10 +3,8 @@ package API.Services.AssignmentService;
 import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentEntity;
 import API.Database_Entities.AssignmentServiceProviderEntity;
-import API.Repository.Assignment.AssignmentDAO;
-import API.Repository.Assignment.AssignmentStatusTypeDAO;
-import API.Repository.Assignment.Assignment_AssignmentStatusTypeDAO;
-import API.Repository.Assignment.Assignment_ServiceProviderDAO;
+import API.Database_Entities.Assignment_StukYearCodeEntity;
+import API.Repository.Assignment.*;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
@@ -30,24 +28,35 @@ public class AssignmentService implements IAssignmentService {
 
     private AssignmentDAO assignmentDAO;
 
+    private Assignment_STUKYearCodeDAO assignment_stukYearCodeDAO;
+
     private Assignment_ServiceProviderDAO assignmentServiceProviderDAO;
 
     private Assignment_AssignmentStatusTypeDAO assignmentAssignmentStatusTypeDAO;
 
     private ServiceProviderDAO serviceProviderDAO;
 
-    @Autowired
-    public void setAssignmentStatusTypeDAO(AssignmentStatusTypeDAO assignmentStatusTypeDAO) {
-        this.assignmentStatusTypeDAO = assignmentStatusTypeDAO;
-    }
-
     private AssignmentStatusTypeDAO assignmentStatusTypeDAO;
 
     private ModelMapper modelMapper;
 
+    private AssignmentSTUKYearCodeDAO assignmentSTUKYearCodeDAO;
+
     @Autowired
     public void setAssignmentDAO(AssignmentDAO assignmentDAO) {
         this.assignmentDAO = assignmentDAO;
+    }
+    @Autowired
+    public void setAssignment_stukYearCodeDAO(Assignment_STUKYearCodeDAO assignment_stukYearCodeDAO) {
+        this.assignment_stukYearCodeDAO = assignment_stukYearCodeDAO;
+    }
+    @Autowired
+    public void setAssignmentStatusTypeDAO(AssignmentStatusTypeDAO assignmentStatusTypeDAO) {
+        this.assignmentStatusTypeDAO = assignmentStatusTypeDAO;
+    }
+    @Autowired
+    public void setAssignmentSTUKYearCodeDAO(AssignmentSTUKYearCodeDAO assignmentSTUKYearCodeDAO) {
+        this.assignmentSTUKYearCodeDAO = assignmentSTUKYearCodeDAO;
     }
 
     @Autowired
@@ -76,10 +85,15 @@ public class AssignmentService implements IAssignmentService {
     public AssignmentDto addAssignment(AssignmentForCreationDto assignment) {
         Map<Integer, ServiceProviderDto> helperServiceProviderMap = new HashMap<>();
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
+        Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
         try {
-            AssignmentDto addedAssignment = assignmentDAO.addAssignment(modelMapper.map(assignment, AssignmentEntity.class), assignment.getServiceProviders(), assignment.getAssignmentStatusTypeIds());
+            AssignmentDto addedAssignment = assignmentDAO.addAssignment(modelMapper.map(assignment, AssignmentEntity.class),
+                    assignment.getServiceProviders(),
+                    assignment.getAssignmentStatusTypeIds(),
+                    assignment.getStukYearCodes());
             fillServiceProviderListToReturn(addedAssignment, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(addedAssignment, helperAssignmentStatusTypeMap);
+            fillStukYearCodesToReturn(addedAssignment, helperStukYearCode);
             return addedAssignment;
         }catch(Exception e){
             throw e;
@@ -90,10 +104,12 @@ public class AssignmentService implements IAssignmentService {
     public AssignmentDto findAssignment(int id) {
         Map<Integer, ServiceProviderDto> helperServiceProviderMap = new HashMap<>();
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
+        Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
         try{
             AssignmentDto found = assignmentDAO.findAssignment(id);
             fillServiceProviderListToReturn(found, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(found, helperAssignmentStatusTypeMap);
+            fillStukYearCodesToReturn(found, helperStukYearCode);
             return found;
         }catch (Exception e){
             throw e;
@@ -104,11 +120,13 @@ public class AssignmentService implements IAssignmentService {
     public Page<AssignmentDto> listAssignmentsPage(Pageable pageable) {
         Map<Integer, ServiceProviderDto> helperServiceProviderMap = new HashMap<>();
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
+        Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
         try{
             Page<AssignmentDto> foundList = assignmentDAO.listAssignmentsPage(pageable);
             for(AssignmentDto assignment: foundList){
                 fillServiceProviderListToReturn(assignment, helperServiceProviderMap);
                 fillAssignmentStatusTypeListToReturn(assignment, helperAssignmentStatusTypeMap);
+                fillStukYearCodesToReturn(assignment, helperStukYearCode);
             }
             return foundList;
 
@@ -134,42 +152,62 @@ public class AssignmentService implements IAssignmentService {
     public AssignmentDto updateAssignment(AssignmentForUpdateDto assignment) {
         Map<Integer, ServiceProviderDto> helperServiceProviderMap = new HashMap<>();
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
+        Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
         try{
-            AssignmentDto updated = assignmentDAO.updateAssignment(modelMapper.map(assignment, AssignmentEntity.class), assignment.getServiceProviders(), assignment.getAssignmentStatusTypeIds());
+            AssignmentDto updated = assignmentDAO.updateAssignment(modelMapper.map(assignment, AssignmentEntity.class),
+                    assignment.getServiceProviders(),
+                    assignment.getAssignmentStatusTypeIds(),
+                    assignment.getStukYearCodes());
             fillServiceProviderListToReturn(updated, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(updated, helperAssignmentStatusTypeMap);
+            fillStukYearCodesToReturn(updated, helperStukYearCode);
             return updated;
         }catch (Exception e){
             throw e;
         }
     }
 
-    private void fillServiceProviderListToReturn(AssignmentDto addedAssignment, Map<Integer, ServiceProviderDto> helperServiceProviderMap) {
-        addedAssignment.setServiceProviders(new ArrayList<>());
-        List<AssignmentServiceProviderEntity> foundList = assignmentServiceProviderDAO.findAllByAssignmentIdIs(addedAssignment.getId());
+    private void fillServiceProviderListToReturn(AssignmentDto assignment, Map<Integer, ServiceProviderDto> map) {
+        assignment.setServiceProviders(new ArrayList<>());
+        List<AssignmentServiceProviderEntity> foundList = assignmentServiceProviderDAO.findAllByAssignmentIdIs(assignment.getId());
         List<AssignmentServiceProviderDto> listOfServiceUsers = modelMapper.map(foundList,new TypeToken<List<AssignmentServiceProviderDto>>() {}.getType());
         for (AssignmentServiceProviderDto serviceProvider : listOfServiceUsers) {
-            if (helperServiceProviderMap.get(serviceProvider.getServiceProviderId()) == null) {
+            if (map.get(serviceProvider.getServiceProviderId()) == null) {
                 ServiceProviderDto found = modelMapper.map(serviceProviderDAO.findById(serviceProvider.getServiceProviderId()).get(), ServiceProviderDto.class);
-                helperServiceProviderMap.put(serviceProvider.getId(), found);
-                addedAssignment.getServiceProviders().add(found);
+                map.put(serviceProvider.getId(), found);
+                assignment.getServiceProviders().add(found);
             } else {
-                addedAssignment.getServiceProviders().add(helperServiceProviderMap.get(serviceProvider.getServiceProviderId()));
+                assignment.getServiceProviders().add(map.get(serviceProvider.getServiceProviderId()));
             }
         }
     }
 
-    private void fillAssignmentStatusTypeListToReturn(AssignmentDto addedAssignment, Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap) {
-        addedAssignment.setAssignmentStatusTypeIds(new ArrayList<>());
-        List<AssignmentAssignmentStatusTypeEntity> foundList = assignmentAssignmentStatusTypeDAO.findAllByAssignmentIdIs(addedAssignment.getId());
+    private void fillAssignmentStatusTypeListToReturn(AssignmentDto assignment, Map<Integer, AssignmentStatusTypeDto> map) {
+        assignment.setAssignmentStatusTypeIds(new ArrayList<>());
+        List<AssignmentAssignmentStatusTypeEntity> foundList = assignmentAssignmentStatusTypeDAO.findAllByAssignmentIdIs(assignment.getId());
         List<AssignmentAssignmentStatusTypeDto> listOfStatusTypes = modelMapper.map(foundList,new TypeToken<List<AssignmentAssignmentStatusTypeDto>>() {}.getType());
         for (AssignmentAssignmentStatusTypeDto statusType : listOfStatusTypes) {
-            if (helperAssignmentStatusTypeMap.get(statusType.getAssignmentStatusTypeId()) == null) {
+            if (map.get(statusType.getAssignmentStatusTypeId()) == null) {
                 AssignmentStatusTypeDto found = assignmentStatusTypeDAO.findAssignmentStatusType(statusType.getAssignmentStatusTypeId());
-                helperAssignmentStatusTypeMap.put(found.getId(), found);
-                addedAssignment.getAssignmentStatusTypeIds().add(found);
+                map.put(found.getId(), found);
+                assignment.getAssignmentStatusTypeIds().add(found);
             } else {
-                addedAssignment.getAssignmentStatusTypeIds().add(helperAssignmentStatusTypeMap.get(statusType.getAssignmentStatusTypeId()));
+                assignment.getAssignmentStatusTypeIds().add(map.get(statusType.getAssignmentStatusTypeId()));
+            }
+        }
+    }
+
+    private void fillStukYearCodesToReturn(AssignmentDto assignment, Map<Integer, AssignmentStukYearCodeDto> map){
+        assignment.setStukYearCodes(new ArrayList<>());
+        List<Assignment_StukYearCodeEntity> foundList = assignment_stukYearCodeDAO.findAllByAssignmentIdIs(assignment.getId());
+        List<Assignment_StukYearCodeDto> listOfStukYearCodes = modelMapper.map(foundList, new TypeToken<List<Assignment_StukYearCodeDto>>() {}.getType());
+        for (Assignment_StukYearCodeDto yearCode: listOfStukYearCodes){
+            if(map.get(yearCode.getStukYearCodeId()) == null){
+                AssignmentStukYearCodeDto found = assignmentSTUKYearCodeDAO.findAssignmentStukYearCode(yearCode.getStukYearCodeId());
+                map.put(found.getId(), found);
+                assignment.getStukYearCodes().add(found);
+            }else{
+                assignment.getStukYearCodes().add(map.get(yearCode.getStukYearCodeId()));
             }
         }
     }

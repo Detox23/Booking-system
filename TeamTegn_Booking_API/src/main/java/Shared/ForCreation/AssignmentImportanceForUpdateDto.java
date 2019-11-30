@@ -1,14 +1,14 @@
-package Shared.ToReturn;
+package Shared.ForCreation;
 
-public class AssignmentImportanceDto {
-    private Integer id;
+public class AssignmentImportanceForUpdateDto {
+    private int id;
     private String importanceName;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -56,6 +56,15 @@ public class AssignmentDto {
     private Integer vocalLanguageId;
     private List<ServiceProviderDto> serviceProviders;
     private List<AssignmentStatusTypeDto> assignmentStatusTypeIds;
+    private List<AssignmentStukYearCodeDto> stukYearCodes;
+
+    public void setStukYearCodes(List<AssignmentStukYearCodeDto> stukYearCodes) {
+        this.stukYearCodes = stukYearCodes;
+    }
+
+    public List<AssignmentStukYearCodeDto> getStukYearCodes() {
+        return stukYearCodes;
+    }
 
     public int getId() {
         return id;

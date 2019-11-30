@@ -1,15 +1,14 @@
 package Shared.ToReturn;
 
 public class AssignmentStukYearCodeDto {
-    private Integer id;
+    private int id;
     private String stukYearCodeName;
-    private Boolean isDeleted;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -21,11 +20,4 @@ public class AssignmentStukYearCodeDto {
         this.stukYearCodeName = stukYearCodeName;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 }

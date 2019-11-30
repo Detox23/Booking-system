@@ -49,6 +49,15 @@ public class AssignmentForUpdateDto {
     private Integer vocalLanguageId;
     private List<Integer> serviceProviders;
     private List<Integer> assignmentStatusTypeIds;
+    private List<Integer> stukYearCodes;
+
+    public List<Integer> getStukYearCodes() {
+        return stukYearCodes;
+    }
+
+    public void setStukYearCodes(List<Integer> stukYearCodes) {
+        this.stukYearCodes = stukYearCodes;
+    }
 
     public Integer getVocalLanguageId() {
         return vocalLanguageId;

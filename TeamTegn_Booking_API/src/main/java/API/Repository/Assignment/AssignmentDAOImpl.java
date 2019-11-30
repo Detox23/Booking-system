@@ -1,10 +1,7 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
-import API.Database_Entities.AssignmentEntity;
-import API.Database_Entities.AssignmentServiceProviderEntity;
-import API.Database_Entities.ServiceProviderEntity;
+import API.Database_Entities.*;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
@@ -28,17 +25,24 @@ import java.util.Optional;
 @Component
 public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
-    private AssignmentDAO assignmentDAO;
+    private ModelMapper modelMapper;
 
     private PatcherHandler patcherHandler;
 
     private Assignment_ServiceProviderDAO assignmentServiceProviderDAO;
 
+    private Assignment_STUKYearCodeDAO assignmentStukYearCodeDAO;
+
     private Assignment_AssignmentStatusTypeDAO assignmentAssignmentStatusTypeDAO;
 
     private ServiceProviderDAO serviceProviderRepository;
 
-    private ModelMapper modelMapper;
+    private AssignmentDAO assignmentDAO;
+
+    @Autowired
+    public void setAssignmentStukYearCodeDAO(Assignment_STUKYearCodeDAO assignmentStukYearCodeDAO) {
+        this.assignmentStukYearCodeDAO = assignmentStukYearCodeDAO;
+    }
 
     @Autowired
     public void setAssignmentAssignmentStatusTypeDAO(Assignment_AssignmentStatusTypeDAO assignmentAssignmentStatusTypeDAO) {
@@ -100,12 +104,18 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     }
 
     @Override
-    public AssignmentDto addAssignment(AssignmentEntity assignmentEntity, List<Integer> serviceProviders, List<Integer> assignmentStatusTypes) {
+    public AssignmentDto addAssignment(
+            AssignmentEntity assignmentEntity,
+            List<Integer> serviceProviders,
+            List<Integer> assignmentStatusTypes,
+            List<Integer> stukYearCodes
+    ) {
         try {
             assignmentEntity.setTotalTime((int) calculateHoursFromDates(assignmentEntity.getEndTime(), assignmentEntity.getStartTime()));
             AssignmentEntity saved = assignmentDAO.save(assignmentEntity);
             addServiceProviders(serviceProviders, saved.getId());
             addStatusTypes(assignmentStatusTypes, saved.getId());
+            addAssignmentSTUKYearCodes(stukYearCodes, saved.getId());
             return modelMapper.map(saved, AssignmentDto.class);
         } catch (Exception e) {
             throw e;
@@ -113,12 +123,18 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     }
 
     @Override
-    public AssignmentDto updateAssignment(AssignmentEntity assignmentEntity, List<Integer> serviceProviders, List<Integer> assignmentStatusTypes) {
+    public AssignmentDto updateAssignment(
+            AssignmentEntity assignmentEntity,
+            List<Integer> serviceProviders,
+            List<Integer> assignmentStatusTypes,
+            List<Integer> stukYearCodes
+    ) {
         try {
             AssignmentEntity found = findIfExistsAndReturn(assignmentEntity.getId());
             patcherHandler.fillNotNullFields(found, assignmentEntity);
             addServiceProviders(serviceProviders, found.getId());
             addStatusTypes(assignmentStatusTypes, found.getId());
+            addAssignmentSTUKYearCodes(stukYearCodes, found.getId());
             found.setTotalTime((int) calculateHoursFromDates(assignmentEntity.getEndTime(), assignmentEntity.getStartTime()));
             AssignmentEntity updated = assignmentDAO.save(found);
             return modelMapper.map(updated, AssignmentDto.class);
@@ -154,6 +170,25 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
         return found.get();
     }
 
+    private void addAssignmentSTUKYearCodes(List<Integer> stukYearCodes, int id) {
+        try {
+            if (stukYearCodes != null) {
+                assignmentStukYearCodeDAO.deleteAllByAssignmentIdIs(id);
+                for (Integer stukYearCode : stukYearCodes) {
+                    Assignment_StukYearCodeEntity stukYear = new Assignment_StukYearCodeEntity();
+                    stukYear.setAssignmentId(id);
+                    stukYear.setStukYearCodeId(stukYearCode);
+                    Assignment_StukYearCodeEntity savedResult = assignmentStukYearCodeDAO.save(stukYear);
+                    if (savedResult == null) {
+                        throw new UnknownAddingException(String.format("There was a problem with assigning status codes to assignment."));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     private void addServiceProviders(List<Integer> serviceProviders, int id) {
         try {
             if (serviceProviders != null) {
@@ -167,8 +202,8 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
                     serviceProviderEntity.setServiceProviderMiddleName(found.getMiddleName());
                     serviceProviderEntity.setServiceProviderLastName(found.getLastName());
                     serviceProviderEntity.setServiceProviderInitials(found.getServiceProviderInitials());
-                    AssignmentServiceProviderEntity saveResult = assignmentServiceProviderDAO.save(serviceProviderEntity);
-                    if (saveResult == null) {
+                    AssignmentServiceProviderEntity savedResult = assignmentServiceProviderDAO.save(serviceProviderEntity);
+                    if (savedResult == null) {
                         throw new UnknownAddingException(String.format("There was a problem with assigning service provider to" +
                                 "assignment. [%s, %s, %s. ID: %d]", found.getFirstName(), found.getMiddleName(), found.getLastName(), serviceProvider));
                     }
