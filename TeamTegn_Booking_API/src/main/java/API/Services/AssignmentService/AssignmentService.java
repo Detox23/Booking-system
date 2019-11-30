@@ -3,7 +3,10 @@ package API.Services.AssignmentService;
 import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentEntity;
 import API.Database_Entities.AssignmentServiceProviderEntity;
-import API.Repository.Assignment.*;
+import API.Repository.Assignment.AssignmentDAO;
+import API.Repository.Assignment.AssignmentStatusTypeDAO;
+import API.Repository.Assignment.Assignment_AssignmentStatusTypeDAO;
+import API.Repository.Assignment.Assignment_ServiceProviderDAO;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
@@ -17,7 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AssignmentService implements IAssignmentService {

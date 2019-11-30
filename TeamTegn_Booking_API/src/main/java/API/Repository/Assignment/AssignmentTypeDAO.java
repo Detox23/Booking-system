@@ -1,6 +1,5 @@
 package API.Repository.Assignment;
 
-import API.Database_Entities.AssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

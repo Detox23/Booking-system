@@ -3,7 +3,6 @@ package API.Services.ServiceProviderService;
 import Shared.ForCreation.ServiceProviderSourceForCreationDto;
 import Shared.ForCreation.ServiceProviderSourceForUpdateDto;
 import Shared.ToReturn.ServiceProviderSourceDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

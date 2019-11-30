@@ -3,8 +3,6 @@ package API.Repository.Department;
 
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.DepartmentEntity;
-import API.Database_Entities.ServiceProviderEntity;
-import API.Exceptions.DeletionException;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component

@@ -1,7 +1,6 @@
 package API.Services.ServiceProviderService;
 
 import API.Database_Entities.ServiceProviderCommentEntity;
-import API.Database_Entities.ServiceProviderEntity;
 import API.Repository.ServiceProvider.ServiceProviderCommentDAO;
 import Shared.ForCreation.ServiceProviderCommentForCreationDto;
 import Shared.ForCreation.ServiceProviderCommentForUpdateDto;

@@ -1,7 +1,5 @@
 package Shared.ForCreation;
 
-import Shared.ToReturn.*;
-
 import java.util.List;
 
 public class ServiceUserForCreationDto {

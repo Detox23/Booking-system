@@ -7,13 +7,12 @@ import API.Exceptions.UpdatePatchException;
 import API.Repository.EveningWorkPrioritisation.EveningWorkPrioritisationDAO;
 import Shared.ToReturn.ServiceProviderEveningWorkDto;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
-import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ServiceProvider_EveningWorkDAOImpl implements ServiceProvider_EveningWorkDAOCustom {

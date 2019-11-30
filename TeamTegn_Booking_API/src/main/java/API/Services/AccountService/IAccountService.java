@@ -6,9 +6,6 @@ import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AccountForUpdateDto;
 import Shared.ToReturn.AccountDto;
 import Shared.ToReturn.AccountEanDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

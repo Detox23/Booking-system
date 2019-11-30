@@ -2,7 +2,6 @@ package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.AssignmentStatusTypeEntity;
-import API.Database_Entities.AssignmentTypeEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;

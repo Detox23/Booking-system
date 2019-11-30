@@ -1,13 +1,10 @@
 package API.Services.ServiceUserService;
 
 import API.Database_Entities.ServiceUserCommentEntity;
-import API.Database_Entities.ServiceUserEntity;
-import API.Exceptions.NotFoundException;
 import API.Repository.ServiceUser.ServiceUserCommentDAO;
 import Shared.ForCreation.ServiceUserCommentForCreationDto;
 import Shared.ForCreation.ServiceUserCommentForUpdateDto;
 import Shared.ToReturn.ServiceUserCommentDto;
-import Shared.ToReturn.ServiceUserDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;

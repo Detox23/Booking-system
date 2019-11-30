@@ -3,7 +3,6 @@ package API.Repository.ServiceProvider;
 import API.Database_Entities.ServiceProviderCommentEntity;
 import Shared.ToReturn.ServiceProviderCommentDto;
 
-import java.beans.IntrospectionException;
 import java.util.List;
 
 public interface ServiceProviderCommentDAOCustom {

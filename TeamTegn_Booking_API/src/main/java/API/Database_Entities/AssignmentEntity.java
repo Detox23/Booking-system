@@ -1,7 +1,5 @@
 package API.Database_Entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;

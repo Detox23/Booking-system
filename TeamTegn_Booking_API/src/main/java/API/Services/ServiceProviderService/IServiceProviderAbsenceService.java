@@ -1,7 +1,6 @@
 package API.Services.ServiceProviderService;
 
 import Shared.ForCreation.ServiceProviderAbsenceForCreationDto;
-import Shared.ForCreation.ServiceProviderAbsenceForUpdateDto;
 import Shared.ToReturn.ServiceProviderAbsenceDto;
 
 import java.sql.Date;

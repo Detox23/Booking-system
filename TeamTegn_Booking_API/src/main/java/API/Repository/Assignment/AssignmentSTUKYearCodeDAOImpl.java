@@ -5,7 +5,6 @@ import API.Database_Entities.AssignmentStukYearCodeEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
-import Shared.ToReturn.AssignmentStatusTypeDto;
 import Shared.ToReturn.AssignmentStukYearCodeDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

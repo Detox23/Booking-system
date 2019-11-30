@@ -6,7 +6,6 @@ import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import Shared.ToReturn.ServiceProviderPreferredNotificationDto;
-import Shared.ToReturn.ServiceProviderSourceDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;

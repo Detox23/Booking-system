@@ -2,8 +2,6 @@ package API.Repository.Account;
 
 import API.Database_Entities.AccountEntity;
 import Shared.ToReturn.AccountDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

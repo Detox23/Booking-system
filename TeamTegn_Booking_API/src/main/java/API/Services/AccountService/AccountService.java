@@ -10,18 +10,14 @@ import API.Repository.Account.AccountEanDAO;
 import API.Repository.Account.AccountTypeDAO;
 import API.Repository.ServiceUser.ServiceUserAccountsDAO;
 import API.Repository.ServiceUser.ServiceUserDAO;
-import API.Services.ServiceUserService.ServiceUserService;
 import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AccountForUpdateDto;
 import Shared.ToReturn.AccountDto;
 import Shared.ToReturn.AccountEanDto;
 import Shared.ToReturn.ServiceUserDto;
-import io.swagger.models.auth.In;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,5 +1,7 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,8 +14,8 @@ public class Assignment_StukYearCodeEntity {
     private Timestamp dateCreated;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -43,6 +45,7 @@ public class Assignment_StukYearCodeEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "DateCreated", nullable = true)
     public Timestamp getDateCreated() {
         return dateCreated;

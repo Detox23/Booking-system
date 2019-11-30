@@ -1,13 +1,11 @@
 package Shared.ToReturn;
 
-import API.Database_Entities.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.List;
 
 public class ServiceUserDto {

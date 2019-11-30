@@ -3,7 +3,6 @@ package API.Repository.SystemUser;
 import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.CityPostcodesEntity;
-import API.Database_Entities.ServiceUserEntity;
 import API.Database_Entities.SystemUserDepartmentEntity;
 import API.Database_Entities.SystemUserEntity;
 import API.Exceptions.NotFoundException;

@@ -1,12 +1,5 @@
 package Shared.ForCreation;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.sql.Timestamp;
-
 public class ServiceUserForUpdateDto {
     private Integer gender;
     private String firstName;

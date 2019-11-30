@@ -5,7 +5,6 @@ import API.Database_Entities.ServiceProviderCommentEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import Shared.ToReturn.ServiceProviderCommentDto;
-import Shared.ToReturn.ServiceProviderDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;

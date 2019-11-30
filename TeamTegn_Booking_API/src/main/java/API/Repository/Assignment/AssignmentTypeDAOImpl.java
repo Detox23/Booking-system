@@ -1,12 +1,10 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AssignmentStatusTypeEntity;
 import API.Database_Entities.AssignmentTypeEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
-import Shared.ToReturn.AssignmentStatusTypeDto;
 import Shared.ToReturn.AssignmentTypeDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
