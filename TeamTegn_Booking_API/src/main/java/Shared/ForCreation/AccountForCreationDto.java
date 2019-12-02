@@ -1,13 +1,20 @@
 package Shared.ForCreation;
 
+
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class AccountForCreationDto {
 
+    @NotNull
     private String accountName;
-    private int accountTypeId;
-    private int parentId;
-    private int primaryContactId;
+    @NotNull
+    private Integer accountTypeId;
+    @NotNull
+    private Integer parentId;
+    private Integer primaryContactId;
+    @NotNull
     private int departmentId;
     private List<String> ean;
     private String telephoneCode;
@@ -15,6 +22,7 @@ public class AccountForCreationDto {
     private String faxCode;
     private String faxNumber;
     private String website;
+    @NotNull
     private String cvrNumber;
     private String street;
     private String postcode;
@@ -26,14 +34,14 @@ public class AccountForCreationDto {
     private String contactName;
     private String contactEmail;
     private String contactTelephone;
-    private List<Integer> serviceUsersIds;
+    private List<Integer> serviceUsers;
 
     public List<Integer> getServiceUsersIds() {
-        return serviceUsersIds;
+        return serviceUsers;
     }
 
-    public void setServiceUsersIds(List<Integer> serviceUsersIds) {
-        this.serviceUsersIds = serviceUsersIds;
+    public void setServiceUsersIds(List<Integer> serviceUsers) {
+        this.serviceUsers = serviceUsers;
     }
 
 

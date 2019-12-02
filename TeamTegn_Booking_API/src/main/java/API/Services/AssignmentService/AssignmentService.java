@@ -170,7 +170,7 @@ public class AssignmentService implements IAssignmentService {
     private void fillServiceProviderListToReturn(AssignmentDto assignment, Map<Integer, ServiceProviderDto> map) {
         assignment.setServiceProviders(new ArrayList<>());
         List<AssignmentServiceProviderEntity> foundList = assignmentServiceProviderDAO.findAllByAssignmentIdIs(assignment.getId());
-        List<AssignmentServiceProviderDto> listOfServiceUsers = modelMapper.map(foundList,new TypeToken<List<AssignmentServiceProviderDto>>() {}.getType());
+        List<AssignmentServiceProviderDto> listOfServiceUsers = modelMapper.map(foundList, new TypeToken<List<AssignmentServiceProviderDto>>() {}.getType());
         for (AssignmentServiceProviderDto serviceProvider : listOfServiceUsers) {
             if (map.get(serviceProvider.getServiceProviderId()) == null) {
                 ServiceProviderDto found = modelMapper.map(serviceProviderDAO.findById(serviceProvider.getServiceProviderId()).get(), ServiceProviderDto.class);

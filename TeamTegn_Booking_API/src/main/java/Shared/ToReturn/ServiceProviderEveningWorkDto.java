@@ -4,7 +4,6 @@ public class ServiceProviderEveningWorkDto {
     private int id;
     private int serviceProviderId;
     private String weekDay;
-//    private int eveningWorkPrioritisationId;
     private String eveningWorkPrioritisation;
 
     public int getId() {

@@ -9,7 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ServiceUserAccountsDAO extends JpaRepository<ServiceUserAccountEntity, Integer> {
-
-    List<ServiceUserAccountEntity> findAllByServiceUserId(int id);
-    List<ServiceUserAccountEntity> findAllServiceUserIdByAccountId(int id);
+    void deleteAllByAccountIdIs(int id);
+    void deleteAllByServiceUserIdIs(int id);
+    List<ServiceUserAccountEntity> findAllByServiceUserIdIs(int id);
+    List<ServiceUserAccountEntity> findAllByAccountIdIs(int id);
 }

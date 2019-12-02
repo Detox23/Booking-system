@@ -1,5 +1,7 @@
 package Shared.ToReturn;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -51,12 +53,13 @@ public class AccountDto {
     private String contactTelephone;
 
     private boolean deleted;
-
+    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp createdDate;
-
+    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp lastModified;
 
     private int lastModifiedBy;
+
     private List<ServiceUserDto> serviceUsers;
 
 

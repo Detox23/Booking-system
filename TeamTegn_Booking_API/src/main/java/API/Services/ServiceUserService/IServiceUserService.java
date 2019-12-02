@@ -12,6 +12,6 @@ public interface IServiceUserService {
     ServiceUserDto findServiceUser(int id);
     Page<ServiceUserDto> listServiceUsers(Pageable pageable);
     boolean deleteServiceUser(int id);
-    ServiceUserDto updateServiceUser(int id, ServiceUserForUpdateDto assignmentEntity);
+    ServiceUserDto updateServiceUser(ServiceUserForUpdateDto assignmentEntity);
 
 }

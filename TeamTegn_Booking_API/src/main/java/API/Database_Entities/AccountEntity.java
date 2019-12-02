@@ -12,8 +12,8 @@ import java.sql.Timestamp;
 public class AccountEntity {
     private int id;
     private String accountName;
-    private int accountTypeId;
-    private int parentId;
+    private Integer accountTypeId;
+    private Integer parentId;
     private Integer primaryContactId;
     private Integer departmentId;
     private String telephoneCode;

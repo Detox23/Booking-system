@@ -1,74 +1,87 @@
 package API.Controllers;
 
+import API.Services.AccountService.IAccountCommentService;
 import API.Services.AccountService.IAccountService;
-import Shared.ForCreation.AccountEanForCreationDto;
-import Shared.ForCreation.AccountForCreationDto;
-import Shared.ForCreation.AccountForUpdateDto;
+import Shared.ForCreation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api/accounts")
 public class AccountController extends BaseController {
 
-
     private IAccountService accountService;
+
+    private IAccountCommentService accountCommentService;
+
+    @Autowired
+    public void setAccountCommentService(IAccountCommentService accountCommentService) {
+        this.accountCommentService = accountCommentService;
+    }
 
     @Autowired
     public void setAccountService(IAccountService accountService) {
         this.accountService = accountService;
     }
 
-    //Account
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<?>  getAll(){
 
-        return new ResponseEntity<>(accountService.list(), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(accountService.listAccounts(), new HttpHeaders(), HttpStatus.OK);
     }
 
-    //Retrieves one account
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> seeAccount(@PathVariable int id) {
         return new ResponseEntity<>(accountService.findAccount(id), new HttpHeaders(), HttpStatus.OK);
     }
 
-    //Creates an account [Requires sending a json file send]
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> createAccount(@RequestBody AccountForCreationDto account) {
+    public ResponseEntity<?> createAccount(@RequestBody @Valid AccountForCreationDto account) {
         return new ResponseEntity<>(accountService.addAccount(account), new HttpHeaders(), HttpStatus.OK);
     }
 
-    //Deletes an account
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAccount(@PathVariable int id) {
         return new ResponseEntity<>(accountService.deleteAccount(id), new HttpHeaders(), HttpStatus.ACCEPTED);
     }
 
-    //Updates an account
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccount(@RequestBody AccountForUpdateDto account) {
-        return new ResponseEntity<>(accountService.update(account), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> updateAccount(@RequestBody @Valid AccountForUpdateDto account) {
+        return new ResponseEntity<>(accountService.updateAccount(account), new HttpHeaders(), HttpStatus.OK);
     }
 
-    //EAN
-    @RequestMapping(value = "/eanNumber/{accountID}/{eanNumber}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteEanNumber(@PathVariable int accountID, @PathVariable String eanNumber) {
-        return new ResponseEntity<>(accountService.deleteEAN(accountID, eanNumber), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
+    public ResponseEntity<?> listAccountComments(@PathVariable int id){
+        return new ResponseEntity<>(accountCommentService.listAccountComments(id), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/eanNumber/{accountID}", method = RequestMethod.GET)
-    public ResponseEntity<?> findEansForAccount(@PathVariable int accountID) {
-        return new ResponseEntity<>(accountService.findListOfEANNumbersForAccount(accountID), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.GET)
+    public ResponseEntity<?> findAccountComment(@PathVariable int id, @PathVariable int commentID){
+        return new ResponseEntity<>(accountCommentService.findAccountComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
-    //Adds ean number to existing account.
-    @RequestMapping(value = "/eanNumber", method = RequestMethod.POST)
-    public ResponseEntity<?> addEanNumber(@RequestBody AccountEanForCreationDto accountEan) {
-        return new ResponseEntity<>(accountService.addEAN(accountEan), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteAccountComment(@PathVariable int id, @PathVariable int commentID){
+        return new ResponseEntity<>(accountCommentService.deleteAccountComment(id, commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
+    public ResponseEntity<?> addAccountComment(@PathVariable int id, @RequestBody AccountCommentForCreationDto comment){
+        comment.setAccountId(id);
+        return new ResponseEntity<>(accountCommentService.addAccountComment(comment), new HttpHeaders(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
+    public ResponseEntity<?> updateAccountComment(@PathVariable int id, @RequestBody AccountCommentForUpdateDto comment){
+        comment.setAccountId(id);
+        return new ResponseEntity<>(accountCommentService.updateAccountComment(comment), new HttpHeaders(), HttpStatus.OK);
+
+    }
 }
 

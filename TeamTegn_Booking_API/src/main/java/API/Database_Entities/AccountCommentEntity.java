@@ -1,5 +1,8 @@
 package API.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -24,6 +27,7 @@ public class AccountCommentEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "UserID", nullable = true)
     public Integer getUserId() {
         return userId;
@@ -44,6 +48,7 @@ public class AccountCommentEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CommentDate", nullable = true)
     public Timestamp getCommentDate() {
         return commentDate;

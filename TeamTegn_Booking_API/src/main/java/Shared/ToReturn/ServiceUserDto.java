@@ -1,5 +1,6 @@
 package Shared.ToReturn;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -9,7 +10,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class ServiceUserDto {
-    private  Integer id;
+    private Integer id;
     private Integer gender;
     private String firstName;
     private String middleName;
@@ -29,13 +30,11 @@ public class ServiceUserDto {
     private String city;
     private String stateRegion;
     private String country;
-    @CreatedBy
     private Integer createdBy;
-    @CreationTimestamp
+    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp createdDate;
-    @LastModifiedBy
     private Integer lastModifiedBy;
-    @LastModifiedDate
+    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp lastModified;
     private Boolean isDeleted;
     private String username;
@@ -52,9 +51,6 @@ public class ServiceUserDto {
     public void setAccounts(List<AccountDto> accounts) {
         this.accounts = accounts;
     }
-
-
-
 
     public Integer getGender() {
         return gender;

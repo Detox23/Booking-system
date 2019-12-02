@@ -15,4 +15,6 @@ public interface SystemUserDAOCustom {
     List<SystemUserDto> listSystemUsers();
 
     SystemUserDto findSystemUser(int id);
+
+    boolean logIn(String login, String password);
 }

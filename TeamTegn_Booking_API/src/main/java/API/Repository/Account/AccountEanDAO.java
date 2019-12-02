@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AccountEanDAO extends JpaRepository<AccountEanEntity, Integer>, AccountEanCustom {
+public interface AccountEanDAO extends JpaRepository<AccountEanEntity, Integer> {
     List<AccountEanEntity> findAllByAccountId(int id);
+
+    void deleteAllByAccountIdIs(int id);
 
     List<AccountEanEntity> findAllByAccountIdAndEanNumber(int id, String eanNumber);
 
-    AccountEanEntity findDistinctByAccountIdAndEanNumber(int id, String eanNumber);
-
-}
+    AccountEanEntity findDistinctByAccountIdAndEanNumber(int id, String eanNumber);}

@@ -3,29 +3,32 @@ package API.Services.ServiceUserService;
 import API.Database_Entities.AccountEntity;
 import API.Database_Entities.ServiceUserAccountEntity;
 import API.Database_Entities.ServiceUserEntity;
+import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.ServiceUser.ServiceUserAccountsDAO;
 import API.Repository.ServiceUser.ServiceUserDAO;
 import Shared.ForCreation.ServiceUserForCreationDto;
 import Shared.ForCreation.ServiceUserForUpdateDto;
 import Shared.ToReturn.AccountDto;
+import Shared.ToReturn.ServiceUserAccountDto;
 import Shared.ToReturn.ServiceUserDto;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ServiceUserService implements IServiceUserService {
     private ServiceUserDAO serviceUserDAO;
     private AccountDAO accountDAO;
     private ServiceUserAccountsDAO serviceUserAccountsDAO;
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
+
 
 
     @Autowired
@@ -44,80 +47,84 @@ public class ServiceUserService implements IServiceUserService {
     }
 
     @Autowired
-    public void setMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 
 
     @Override
-    public ServiceUserDto addServiceUser(ServiceUserForCreationDto userForCreationDto) {
-
-        ServiceUserEntity entity = mapper.map(userForCreationDto, ServiceUserEntity.class);
-        ServiceUserEntity result = serviceUserDAO.add(entity);
-        if (userForCreationDto.getAccountsIds() != null) {
-            userForCreationDto.getAccountsIds()
-                    .forEach((id) -> serviceUserAccountsDAO.save(new ServiceUserAccountEntity(result.getId(), id)));
-
+    @Transactional(rollbackFor = Throwable.class)
+    public ServiceUserDto addServiceUser(ServiceUserForCreationDto serviceUser) {
+        Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
+        try{
+            ServiceUserDto addedServiceUser = serviceUserDAO.addServiceUser(modelMapper.map(serviceUser, ServiceUserEntity.class), serviceUser.getAccounts());
+            fillServiceUserWithAccounts(addedServiceUser, helperAccountMap);
+            return addedServiceUser;
+        }catch (Exception e){
+            throw e;
         }
-        return mapper.map(result, ServiceUserDto.class);
     }
 
     @Override
     public ServiceUserDto findServiceUser(int id) {
-        ServiceUserDto dto = mapper.map(serviceUserDAO.findByID(id), ServiceUserDto.class);
-        List<AccountDto> accountDtos = new ArrayList<>();
-        List<ServiceUserAccountEntity> accounts = serviceUserAccountsDAO.findAllByServiceUserId(id);
-
-        if (accounts != null) {
-            accounts.forEach((accountServiceUser) ->
-            {
-                Optional<AccountEntity> account = accountDAO.findById(accountServiceUser.getAccountId());
-                if (account.isPresent()) {
-                    accountDtos.add(mapper.map(account.get(), AccountDto.class));
-                }
-            });
+        try {
+            Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
+            ServiceUserDto found = serviceUserDAO.findServiceUser(id);
+            fillServiceUserWithAccounts(found, helperAccountMap);
+            return found;
+        } catch (Exception e) {
+            throw e;
         }
-        dto.setAccounts(accountDtos);
-        return dto;
     }
 
     @Override
     public Page<ServiceUserDto> listServiceUsers(Pageable pageable) {
-        Page<ServiceUserEntity> elements = serviceUserDAO.list(pageable);
-
-        Page<ServiceUserDto> dtos = elements.map(x -> mapper.map(x, ServiceUserDto.class));
-        dtos.toList().forEach((u) -> u.setAccounts(showServiceUserAccounts(u)));
-
-        return dtos;
-
-    }
-
-    private List<AccountDto> showServiceUserAccounts(ServiceUserDto user) {
-        List<ServiceUserAccountEntity> accounts = serviceUserAccountsDAO.findAllByServiceUserId(user.getId());
-        List<AccountDto> accountDtos = new ArrayList<>();
-        if (accounts != null) {
-            accounts.forEach((accountServiceUser) ->
-            {
-                Optional<AccountEntity> account = accountDAO.findById(accountServiceUser.getAccountId());
-                if (account.isPresent()) {
-                    accountDtos.add(mapper.map(account.get(), AccountDto.class));
-                }
-            });
+        try {
+            Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
+            Page<ServiceUserDto> found = serviceUserDAO.listServiceUsers(pageable);
+            found.toList().forEach(serviceUser -> fillServiceUserWithAccounts(serviceUser, helperAccountMap));
+            return found;
+        }catch(Exception e){
+            throw e;
         }
-        return accountDtos;
     }
 
+
+
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteServiceUser(int id) {
-        return serviceUserDAO.deleteById(id);
+        return serviceUserDAO.deleteServiceUser(id);
     }
 
 
     @Override
-    public ServiceUserDto updateServiceUser(int id, ServiceUserForUpdateDto forUpdateDto) {
-        ServiceUserEntity entity = mapper.map(forUpdateDto, ServiceUserEntity.class);
-        entity.setId(id);
-        ServiceUserEntity result = serviceUserDAO.update(entity);
-        return mapper.map(result, ServiceUserDto.class);
+    @Transactional(rollbackFor = Throwable.class)
+    public ServiceUserDto updateServiceUser(ServiceUserForUpdateDto serviceUser) {
+        try {
+            Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
+            ServiceUserDto updated = serviceUserDAO.updateServiceUser(modelMapper.map(serviceUser, ServiceUserEntity.class), serviceUser.getAccounts());
+            fillServiceUserWithAccounts(updated, helperAccountMap);
+            return updated;
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new NotFoundException("Account type is not found. Update cancelled.");
+        }
+    }
+
+
+    private void fillServiceUserWithAccounts(ServiceUserDto serviceUser, Map<Integer, AccountDto> helperAccountMap) {
+        serviceUser.setAccounts(new ArrayList<>());
+        List<ServiceUserAccountEntity> foundList = serviceUserAccountsDAO.findAllByServiceUserIdIs(serviceUser.getId());
+        List<ServiceUserAccountDto> listOfServiceUserAccounts = modelMapper.map(foundList, new TypeToken<List<ServiceUserAccountDto>>() {
+        }.getType());
+        for (ServiceUserAccountDto account : listOfServiceUserAccounts) {
+            if (helperAccountMap.get(account.getAccountId()) == null) {
+                AccountDto found = accountDAO.findAccount(account.getAccountId());
+                helperAccountMap.put(found.getId(), found);
+                serviceUser.getAccounts().add(found);
+            } else {
+                serviceUser.getAccounts().add(helperAccountMap.get(account.getAccountId()));
+            }
+        }
     }
 }

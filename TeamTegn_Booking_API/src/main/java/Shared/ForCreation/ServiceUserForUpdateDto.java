@@ -1,6 +1,11 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 public class ServiceUserForUpdateDto {
+    @NotNull
+    private int id;
     private Integer gender;
     private String firstName;
     private String middleName;
@@ -26,8 +31,23 @@ public class ServiceUserForUpdateDto {
     private Integer roleId;
     private Integer departmentId;
     private Integer serviceUserStatusId;
+    private List<Integer> accounts;
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Integer> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Integer> accounts) {
+        this.accounts = accounts;
+    }
 
     public Integer getGender() {
         return gender;

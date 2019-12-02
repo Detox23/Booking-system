@@ -3,21 +3,28 @@ package Shared.ForCreation;
 import Shared.ToReturn.AccountComment;
 import Shared.ToReturn.AccountTypeDto;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.List;
 
 public class AccountForUpdateDto {
 
+    @NotNull
     private int id;
 
+    @NotNull
     private String accountName;
 
-    private int accountTypeId;
+    @NotNull
+    private Integer accountTypeId;
 
+    @NotNull
     private Integer parentId;
 
+    @NotNull
     private Integer primaryContactId;
 
+    @NotNull
     private Integer departmentId;
 
     private List<String> ean;
@@ -59,6 +66,16 @@ public class AccountForUpdateDto {
     private Timestamp lastModified;
 
     private int lastModifiedBy;
+
+    private List<Integer> serviceUsersIds;
+
+    public List<Integer> getServiceUsersIds() {
+        return serviceUsersIds;
+    }
+
+    public void setServiceUsersIds(List<Integer> serviceUsersIds) {
+        this.serviceUsersIds = serviceUsersIds;
+    }
 
     public int getLastModifiedBy() {
         return lastModifiedBy;

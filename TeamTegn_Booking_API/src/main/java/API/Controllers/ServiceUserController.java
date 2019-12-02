@@ -29,9 +29,9 @@ public class ServiceUserController extends BaseController {
         return new ResponseEntity<>(serviceUserService.listServiceUsers(PageRequest.of(pageNumber, pageSize, sortDirection, sortBy)), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{serviceUserId}", method=RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable int serviceUserId){
-        return new ResponseEntity<>(serviceUserService.deleteServiceUser(serviceUserId), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    public ResponseEntity<?> delete(@PathVariable int id){
+        return new ResponseEntity<>(serviceUserService.deleteServiceUser(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Retrieves one account
@@ -42,15 +42,15 @@ public class ServiceUserController extends BaseController {
 
     //Creates an account
     @RequestMapping(value="/", method=RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestBody ServiceUserForCreationDto account) {
-        return new ResponseEntity<>(serviceUserService.addServiceUser(account), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> add(@RequestBody ServiceUserForCreationDto serviceUser) {
+        return new ResponseEntity<>(serviceUserService.addServiceUser(serviceUser), new HttpHeaders(), HttpStatus.OK);
     }
 
 
     //Updates an account
-    @RequestMapping(value="/{id}", method= RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccount(@PathVariable int id,@RequestBody ServiceUserForUpdateDto su) {
-        return new ResponseEntity<>(serviceUserService.updateServiceUser(id, su), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value="/", method= RequestMethod.PATCH)
+    public ResponseEntity<?> updateAccount(@RequestBody ServiceUserForUpdateDto serviceUser) {
+        return new ResponseEntity<>(serviceUserService.updateServiceUser(serviceUser), new HttpHeaders(), HttpStatus.OK);
     }
 
 

@@ -6,13 +6,13 @@ import Shared.ToReturn.AccountDto;
 import java.util.List;
 
 public interface AccountDAOCustom {
-    List<AccountDto> listAllAccounts();
+    List<AccountDto> listAccounts();
 
-    AccountDto addOneAccount(AccountEntity account, List<String> eans, int accountTypeId);
+    AccountDto addAccount(AccountEntity account, List<String> eans,  List<Integer> accountServiceUser);
 
-    boolean deleteOneAccount(int Id);
+    boolean deleteAccount(int Id);
 
-    AccountDto getOneAccount(int id);
+    AccountDto findAccount(int id);
 
-    AccountDto updateOneAccount(AccountEntity accountEntity);
+    AccountDto updateAccount(AccountEntity account, List<String> eans,  List<Integer> accountServiceUser);
 }

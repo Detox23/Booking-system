@@ -23,6 +23,7 @@ public class ServiceUserCommentService implements IServiceUserCommentService {
     public void setMapper(ModelMapper mapper) {
         this.mapper = mapper;
     }
+
     @Autowired
     public void setServiceUserCommentDAO(ServiceUserCommentDAO serviceUserCommentDAO) {
         this.serviceUserCommentDAO = serviceUserCommentDAO;
@@ -30,29 +31,28 @@ public class ServiceUserCommentService implements IServiceUserCommentService {
 
     @Override
     public ServiceUserCommentDto add(int serviceUserId, ServiceUserCommentForCreationDto serviceProviderComment) {
-        ServiceUserCommentEntity userComentEntity = mapper.map(serviceProviderComment, ServiceUserCommentEntity.class );
-        userComentEntity.setServiceUserId(serviceUserId);
-        ServiceUserCommentEntity added =serviceUserCommentDAO.addOnce(userComentEntity);
+        ServiceUserCommentEntity userCommentEntity = mapper.map(serviceProviderComment, ServiceUserCommentEntity.class);
+        userCommentEntity.setServiceUserId(serviceUserId);
+        ServiceUserCommentEntity added = serviceUserCommentDAO.addOnce(userCommentEntity);
         ServiceUserCommentDto mapped = mapper.map(added, ServiceUserCommentDto.class);
         return mapped;
     }
 
     @Override
     public ServiceUserCommentDto update(int id, ServiceUserCommentForUpdateDto serviceProviderComment) {
-        ServiceUserCommentEntity userComentEntity = mapper.map(serviceProviderComment, ServiceUserCommentEntity.class );
-        userComentEntity.setId(id);
-        ServiceUserCommentEntity updated =serviceUserCommentDAO.update(userComentEntity);
+        ServiceUserCommentEntity userCommentEntity = mapper.map(serviceProviderComment, ServiceUserCommentEntity.class);
+        userCommentEntity.setId(id);
+        ServiceUserCommentEntity updated = serviceUserCommentDAO.update(userCommentEntity);
         ServiceUserCommentDto mapped = mapper.map(updated, ServiceUserCommentDto.class);
         return mapped;
     }
 
     @Override
     public ServiceUserCommentDto find(int id, int commentID) {
-        Optional<ServiceUserCommentEntity> userComentEntity = serviceUserCommentDAO.findByServiceUserIdIsAndIdIs(id, commentID);
-        if(userComentEntity.isPresent())
-        {
-            ServiceUserCommentDto mapped = mapper.map(userComentEntity, ServiceUserCommentDto.class);
-            return  mapped;
+        Optional<ServiceUserCommentEntity> userCommentEntity = serviceUserCommentDAO.findByServiceUserIdIsAndIdIs(id, commentID);
+        if (userCommentEntity.isPresent()) {
+            ServiceUserCommentDto mapped = mapper.map(userCommentEntity, ServiceUserCommentDto.class);
+            return mapped;
         }
         return null;
     }
@@ -64,11 +64,12 @@ public class ServiceUserCommentService implements IServiceUserCommentService {
 
     @Override
     public List<ServiceUserCommentDto> findServiceUserComments(int id) {
-        try{
-            Type listType = new TypeToken<List<ServiceUserCommentDto>>() {}.getType();
+        try {
+            Type listType = new TypeToken<List<ServiceUserCommentDto>>() {
+            }.getType();
             Iterable<ServiceUserCommentEntity> entities = serviceUserCommentDAO.findAllByServiceUserId(id);
             return mapper.map(entities, listType);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }

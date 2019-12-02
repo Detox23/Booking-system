@@ -45,6 +45,7 @@ public class ServiceProviderCommentDAOImpl implements ServiceProviderCommentDAOC
     public void setPatcherHandler(PatcherHandler patcherHandler) {
         this.patcherHandler = patcherHandler;
     }
+
     @Override
     public ServiceProviderCommentDto addServiceProviderComment(ServiceProviderCommentEntity serviceProviderComment) {
         return modelMapper.map(serviceProviderCommentDAO.save(serviceProviderComment), ServiceProviderCommentDto.class);

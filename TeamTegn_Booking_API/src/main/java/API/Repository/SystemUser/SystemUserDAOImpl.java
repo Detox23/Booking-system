@@ -5,6 +5,7 @@ import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.CityPostcodesEntity;
 import API.Database_Entities.SystemUserDepartmentEntity;
 import API.Database_Entities.SystemUserEntity;
+import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
@@ -69,6 +70,14 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     @Override
     public SystemUserDto addSystemUser(SystemUserEntity systemUser, List<Integer> departments) {
         try {
+            if(systemUserDAO.countAllByFirstNameIsAndLastNameIsAndUserNameIs(systemUser.getFirstName(), systemUser.getLastName(), systemUser.getUserName())> 0){
+                throw new DuplicateException(String.format(
+                        "There is already a system user with name: %s %s, and username: %s",
+                        systemUser.getFirstName(),
+                        systemUser.getLastName(),
+                        systemUser.getUserName()
+                ));
+            }
             checkAndFillPostcodeAndCity(systemUser);
             encryptPassword(systemUser);
             SystemUserEntity saved = systemUserDAO.save(systemUser);
@@ -139,6 +148,20 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
             throw new NotFoundException("The system user was not found.");
         }
         return modelMapper.map(found.get(), SystemUserDto.class);
+    }
+
+    @Override
+    public boolean logIn(String login, String password) {
+        Optional<SystemUserEntity> systemUserEntity = systemUserDAO.findDistinctByUserNameIs(login);
+        if(!systemUserEntity.isPresent()|| systemUserEntity.get().isDeleted()){
+            throw new NotFoundException(String.format("The system user with login %s does not exist.", login));
+        }
+        String passwordFound = encryptionHandler.decrypt(systemUserEntity.get().getPassword());
+        if(passwordFound.equals(password)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private void checkAndFillPostcodeAndCity(SystemUserEntity systemUser) {

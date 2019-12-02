@@ -1,17 +1,20 @@
 package API.Repository.ServiceUser;
 
 import API.Database_Entities.ServiceUserEntity;
+import Shared.ToReturn.ServiceUserDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ServiceUserDAOCustom {
-    ServiceUserEntity add(ServiceUserEntity a);
+    ServiceUserDto addServiceUser(ServiceUserEntity serviceUser, List<Integer> accounts);
 
-    boolean deleteById(int Id);
+    boolean deleteServiceUser(int Id);
 
-    Page<ServiceUserEntity> list(Pageable pageable);
+    Page<ServiceUserDto> listServiceUsers(Pageable pageable);
 
-    ServiceUserEntity findByID(int id);
+    ServiceUserDto findServiceUser(int id);
 
-    ServiceUserEntity update(ServiceUserEntity a);
+    ServiceUserDto updateServiceUser(ServiceUserEntity serviceUser, List<Integer> accounts);
 }

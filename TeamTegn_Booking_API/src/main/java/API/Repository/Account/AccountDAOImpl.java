@@ -1,22 +1,17 @@
 package API.Repository.Account;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AccountEanEntity;
-import API.Database_Entities.AccountEntity;
-import API.Database_Entities.AccountTypeEntity;
+import API.Database_Entities.*;
 import API.Exceptions.*;
+import API.Repository.ServiceUser.ServiceUserAccountsDAO;
 import Shared.ToReturn.AccountDto;
-import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
-import java.lang.reflect.Type;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -25,14 +20,40 @@ public class AccountDAOImpl implements AccountDAOCustom {
 
     private PatcherHandler patcherHandler;
 
-    @Autowired
     private ModelMapper modelMapper;
-    @Autowired
+
     private AccountDAO accountDAO;
-    @Autowired
+
     private AccountTypeDAO accountTypeDAO;
-    @Autowired
+
     private AccountEanDAO accountEanNumberCrudDAO;
+
+    private ServiceUserAccountsDAO serviceUserAccountsDAO;
+
+    @Autowired
+    public void setServiceUserAccountsDAO(ServiceUserAccountsDAO serviceUserAccountsDAO) {
+        this.serviceUserAccountsDAO = serviceUserAccountsDAO;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setAccountDAO(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
+
+    @Autowired
+    public void setAccountTypeDAO(AccountTypeDAO accountTypeDAO) {
+        this.accountTypeDAO = accountTypeDAO;
+    }
+
+    @Autowired
+    public void setAccountEanNumberCrudDAO(AccountEanDAO accountEanNumberCrudDAO) {
+        this.accountEanNumberCrudDAO = accountEanNumberCrudDAO;
+    }
 
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
@@ -40,104 +61,114 @@ public class AccountDAOImpl implements AccountDAOCustom {
     }
 
     @Override
-    public List<AccountDto> listAllAccounts() {
+    public List<AccountDto> listAccounts() {
         try {
-            Type listType = new TypeToken<List<AccountDto>>() {
-            }.getType();
-            return modelMapper.map(accountDAO.findAllByDeletedIsFalse(), listType);
+            return modelMapper.map(accountDAO.findAllByDeletedIsFalse(), new TypeToken<List<AccountDto>>() {
+            }.getType());
         } catch (Exception e) {
             throw e;
         }
     }
 
 
-    public AccountDto getOneAccount(int id) {
+    @Override
+    public AccountDto findAccount(int id) {
         try {
-            Optional<AccountEntity> found = accountDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("Account does not exist.");
-            }
-            return modelMapper.map(found.get(), AccountDto.class);
+            AccountEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, AccountDto.class);
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public AccountDto addOneAccount(AccountEntity account, List<String> eans, int accountTypeId) {
+    @Override
+    public AccountDto addAccount(AccountEntity account, List<String> eans, List<Integer> accountServiceUser) {
         try {
             if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0) {
                 throw new DuplicateException("Account with exact name and CVR number already exists.");
             }
-            Optional<AccountTypeEntity> entity = accountTypeDAO.findById(accountTypeId);
-            if (!entity.isPresent()) {
-                throw new NotFoundException("Account type was not found while adding account.");
-            }
-            account.setAccountTypeId(entity.get().getId());
-            account.setDeleted(false);
-            AccountEntity accountEntity = accountDAO.save(account);
-            if (accountEntity.getId() > 0) {
-                if (eans != null) {
-                    for (int index = 0; index < eans.size(); index++) {
-                        AccountEanEntity accountEanEntity = new AccountEanEntity();
-                        accountEanEntity.setAccountId(accountEntity.getId());
-                        accountEanEntity.setEanNumber(eans.get(index));
-                        accountEanNumberCrudDAO.addOneEanNumber(accountEanEntity);
-                    }
-                }
-                return modelMapper.map(account, AccountDto.class);
-            } else {
-                throw new UnknownAddingException("There was a problem with adding an account.");
-            }
-        } catch (NotEnoughDataException notEnoughDataException) {
-            throw new NotEnoughDataException("You provided to little information to create the account.");
-        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
-            throw new NotEnoughDataException("You provided to little information to create the account.");
-        } catch (NoSuchElementException noSuchElementException) {
-            throw new NotFoundException("Account type was not found. Adding cancelled.");
+            AccountEntity saved = accountDAO.save(account);
+            addEanNumbers(eans, saved.getId());
+            addAccountsServiceUsers(accountServiceUser, saved.getId());
+            return modelMapper.map(saved, AccountDto.class);
         } catch (Exception e) {
             throw e;
         }
     }
 
-    //checked
-    public AccountDto updateOneAccount(@NotNull AccountEntity accountDto) {
+    @Override
+    public AccountDto updateAccount(AccountEntity account, List<String> eans,  List<Integer> accountServiceUser) {
         try {
-            Optional<AccountEntity> found = accountDAO.findById(accountDto.getId());
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The account you want to update was deleted or does not exist.");
-            }
-            patcherHandler.fillNotNullFields(found.get(), accountDto);
-            AccountEntity result = accountDAO.save(found.get());
-            AccountDto toReturn = modelMapper.map(result, AccountDto.class);
-            return toReturn;
+            AccountEntity found = findIfExistsAndReturn(account.getId());
+            patcherHandler.fillNotNullFields(found, account);
+            addEanNumbers(eans, account.getId());
+            addAccountsServiceUsers(accountServiceUser, account.getId());
+            AccountEntity result = accountDAO.save(found);
+            return modelMapper.map(result, AccountDto.class);
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
         } catch (Exception e) {
             throw e;
         }
-
     }
 
-    //checked
-    public boolean deleteOneAccount(int id) {
+    @Override
+    public boolean deleteAccount(int id) {
         try {
-            Optional<AccountEntity> found = accountDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("Account does not exist.");
-            }
-            AccountEntity toDelete = found.get();
+            AccountEntity toDelete = findIfExistsAndReturn(id);
             toDelete.setDeleted(true);
             AccountEntity deletionResult = accountDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (NotFoundException notFoundException) {
-            throw notFoundException;
+            return deletionResult.isDeleted();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unknown error");
+        }
+    }
+
+    private AccountEntity findIfExistsAndReturn(int id) {
+        Optional<AccountEntity> found = accountDAO.findByIdIsAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Account with id: %d was not found.", id));
+        }
+        return found.get();
+    }
+
+
+    private void addEanNumbers(List<String> eans, int id){
+        try{
+            if(eans != null){
+                accountEanNumberCrudDAO.deleteAllByAccountIdIs(id);
+                for(String ean: eans){
+                    AccountEanEntity accountEanEntity = new AccountEanEntity();
+                    accountEanEntity.setEanNumber(ean);
+                    accountEanEntity.setAccountId(id);
+                    AccountEanEntity saved = accountEanNumberCrudDAO.save(accountEanEntity);
+                    if(saved == null){
+                        throw new UnknownAddingException(String.format("There was a problem with adding ean number."));
+                    }
+                }
+            }
+        }catch(Exception e){
+            throw e;
+        }
+    }
+
+    private void addAccountsServiceUsers(List<Integer> serviceUsers, int id){
+        try{
+            if(serviceUsers != null){
+                serviceUserAccountsDAO.deleteAllByAccountIdIs(id);
+                for(Integer serviceUser: serviceUsers){
+                    ServiceUserAccountEntity serviceUserAccount = new ServiceUserAccountEntity();
+                    serviceUserAccount.setAccountId(id);
+                    serviceUserAccount.setServiceUserId(serviceUser);
+                    ServiceUserAccountEntity saved = serviceUserAccountsDAO.save(serviceUserAccount);
+                    if(saved == null){
+                        throw new UnknownAddingException(String.format("There was a problem with adding service user."));
+                    }
+                }
+            }
+        }catch (Exception e){
+            throw e;
         }
     }
 

@@ -16,4 +16,6 @@ public interface ISystemUserService {
     List<SystemUserDto> listSystemUsers();
 
     SystemUserDto findSystemUser(int id);
+
+    boolean logIn(String username, String password);
 }

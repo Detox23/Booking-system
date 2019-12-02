@@ -105,6 +105,10 @@ public class SystemUserService implements ISystemUserService {
         return found;
     }
 
+    @Override
+    public boolean logIn(String username, String password) {
+        return systemUserDAO.logIn(username, password);
+    }
 
     private void decryptPassword(SystemUserDto systemUser){
         try {

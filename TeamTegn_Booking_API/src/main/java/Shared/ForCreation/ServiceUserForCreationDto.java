@@ -28,14 +28,14 @@ public class ServiceUserForCreationDto {
     private Integer roleId;
     private Integer departmentId;
     private Integer serviceUserStatusId;
-    private List<Integer> accountsIds;
+    private List<Integer> accounts;
 
-    public List<Integer> getAccountsIds() {
-        return accountsIds;
+    public List<Integer> getAccounts() {
+        return accounts;
     }
 
-    public void setAccountsIds(List<Integer> accountsIds) {
-        this.accountsIds = accountsIds;
+    public void setAccounts(List<Integer> accounts) {
+        this.accounts = accounts;
     }
 
     public Integer getGender() {
