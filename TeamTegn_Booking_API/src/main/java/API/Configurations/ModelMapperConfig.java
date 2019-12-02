@@ -1,6 +1,6 @@
 package API.Configurations;
 
-import API.Database_Entities.*;
+import API.Models.Database_Entities.*;
 import Shared.ForCreation.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;

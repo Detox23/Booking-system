@@ -1,6 +1,6 @@
 package API.Repository.EveningWorkPrioritisation;
 
-import API.Database_Entities.EveningWorkPrioritisationEntity;
+import API.Models.Database_Entities.EveningWorkPrioritisationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -23,7 +23,7 @@ public class SystemUserController {
     }
 
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ResponseEntity<?> addSystemUser(@RequestBody @Valid SystemUserForCreationDto systemUser) {
         return new ResponseEntity<>(systemUserService.addSystemUser(systemUser), new HttpHeaders(), HttpStatus.CREATED);
     }
@@ -48,9 +48,5 @@ public class SystemUserController {
         return new ResponseEntity<>(systemUserService.updateSystemUser(systemUser), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity<?> updateSystemUser(@RequestBody @Valid SystemUserForLoggingDto systemUser) {
-        return new ResponseEntity<>(systemUserService.logIn(systemUser.getUserName(), systemUser.getPassword()), new HttpHeaders(), HttpStatus.OK);
-    }
 
 }

@@ -1,8 +1,8 @@
 package API.Repository.ServiceProvider;
 
 
-import API.Database_Entities.ServiceProviderServiceProviderTypeEntity;
-import API.Database_Entities.ServiceProviderTypeEntity;
+import API.Models.Database_Entities.ServiceProviderServiceProviderTypeEntity;
+import API.Models.Database_Entities.ServiceProviderTypeEntity;
 import Shared.ToReturn.ServiceProviderServiceProviderTypeDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

@@ -17,12 +17,11 @@ import javax.sql.DataSource;
 public class TestDataSourceConfig {
 
     @Bean
-    @Primary
     public DataSource dataSourceTest() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         dataSource.setUsername("sa");
-        dataSource.setPassword("asdasd");
+        dataSource.setPassword("90809988Qwe");
         dataSource.setUrl("jdbc:sqlserver://localhost\\SQLP:1433;database=Test");
         return dataSource;
     }

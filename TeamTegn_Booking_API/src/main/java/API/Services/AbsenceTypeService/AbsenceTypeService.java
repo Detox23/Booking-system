@@ -1,6 +1,6 @@
 package API.Services.AbsenceTypeService;
 
-import API.Database_Entities.AbsenceTypeEntity;
+import API.Models.Database_Entities.AbsenceTypeEntity;
 import API.Repository.AbsenceType.AbsenceTypeDAO;
 import Shared.ForCreation.AbsenceTypeForCreationDto;
 import Shared.ForCreation.AbsenceTypeForUpdateDto;

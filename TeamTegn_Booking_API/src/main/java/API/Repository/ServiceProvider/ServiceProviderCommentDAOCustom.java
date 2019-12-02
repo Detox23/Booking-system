@@ -1,6 +1,6 @@
 package API.Repository.ServiceProvider;
 
-import API.Database_Entities.ServiceProviderCommentEntity;
+import API.Models.Database_Entities.ServiceProviderCommentEntity;
 import Shared.ToReturn.ServiceProviderCommentDto;
 
 import java.util.List;

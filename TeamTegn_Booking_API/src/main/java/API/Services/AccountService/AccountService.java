@@ -1,8 +1,8 @@
 package API.Services.AccountService;
 
-import API.Database_Entities.AccountEanEntity;
-import API.Database_Entities.AccountEntity;
-import API.Database_Entities.ServiceUserAccountEntity;
+import API.Models.Database_Entities.AccountEanEntity;
+import API.Models.Database_Entities.AccountEntity;
+import API.Models.Database_Entities.ServiceUserAccountEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.Account.AccountEanDAO;

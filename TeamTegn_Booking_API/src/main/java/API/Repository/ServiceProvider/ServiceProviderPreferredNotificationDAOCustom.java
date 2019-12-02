@@ -1,6 +1,6 @@
 package API.Repository.ServiceProvider;
 
-import API.Database_Entities.ServiceProviderPreferredNotificationEntity;
+import API.Models.Database_Entities.ServiceProviderPreferredNotificationEntity;
 import Shared.ToReturn.ServiceProviderPreferredNotificationDto;
 
 import java.util.List;

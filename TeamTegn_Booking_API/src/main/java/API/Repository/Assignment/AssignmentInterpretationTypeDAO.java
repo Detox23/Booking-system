@@ -1,6 +1,6 @@
 package API.Repository.Assignment;
 
-import API.Database_Entities.AssignmentInterpretationTypeEntity;
+import API.Models.Database_Entities.AssignmentInterpretationTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

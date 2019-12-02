@@ -1,6 +1,6 @@
 package API.Repository.Account;
 
-import API.Database_Entities.AccountEanEntity;
+import API.Models.Database_Entities.AccountEanEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

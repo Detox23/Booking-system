@@ -1,6 +1,6 @@
 package API.Repository.Assignment;
 
-import API.Database_Entities.AssignmentStukYearCodeEntity;
+import API.Models.Database_Entities.AssignmentStukYearCodeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

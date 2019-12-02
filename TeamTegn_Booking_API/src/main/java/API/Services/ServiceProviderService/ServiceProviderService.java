@@ -1,7 +1,7 @@
 package API.Services.ServiceProviderService;
 
 import API.Configurations.Encryption.EncryptionHandler;
-import API.Database_Entities.ServiceProviderEntity;
+import API.Models.Database_Entities.ServiceProviderEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.ServiceProvider.*;
 import Shared.ForCreation.ServiceProviderForCreationDto;

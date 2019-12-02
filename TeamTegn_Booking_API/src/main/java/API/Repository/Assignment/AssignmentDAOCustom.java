@@ -1,6 +1,6 @@
 package API.Repository.Assignment;
 
-import API.Database_Entities.AssignmentEntity;
+import API.Models.Database_Entities.AssignmentEntity;
 import Shared.ToReturn.AssignmentDto;
 import Shared.ToReturn.AssignmentViewDto;
 import org.springframework.data.domain.Page;

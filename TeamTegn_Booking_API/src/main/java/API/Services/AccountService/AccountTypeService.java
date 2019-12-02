@@ -1,6 +1,6 @@
 package API.Services.AccountService;
 
-import API.Database_Entities.AccountTypeEntity;
+import API.Models.Database_Entities.AccountTypeEntity;
 import API.Repository.Account.AccountTypeDAO;
 import Shared.ForCreation.AccountTypeForCreationDto;
 import Shared.ForCreation.AccountTypeForUpdateDto;

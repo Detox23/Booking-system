@@ -1,6 +1,6 @@
 package API.Services.AssignmentService;
 
-import API.Database_Entities.AssignmentTitleEntity;
+import API.Models.Database_Entities.AssignmentTitleEntity;
 import API.Repository.Assignment.AssignmentTitleDAO;
 import Shared.ForCreation.AssignmentTitleForCreationDto;
 import Shared.ForCreation.AssignmentTitleForUpdateDto;

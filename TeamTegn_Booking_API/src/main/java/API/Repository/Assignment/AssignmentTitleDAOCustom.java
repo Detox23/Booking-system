@@ -1,6 +1,6 @@
 package API.Repository.Assignment;
 
-import API.Database_Entities.AssignmentTitleEntity;
+import API.Models.Database_Entities.AssignmentTitleEntity;
 import Shared.ToReturn.AssignmentTitleDto;
 
 import java.util.List;

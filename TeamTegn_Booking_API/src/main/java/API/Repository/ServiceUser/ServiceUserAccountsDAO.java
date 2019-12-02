@@ -1,7 +1,7 @@
 package API.Repository.ServiceUser;
 
 
-import API.Database_Entities.ServiceUserAccountEntity;
+import API.Models.Database_Entities.ServiceUserAccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

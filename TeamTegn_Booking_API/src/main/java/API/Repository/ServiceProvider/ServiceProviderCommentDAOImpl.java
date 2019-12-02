@@ -1,7 +1,7 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.ServiceProviderCommentEntity;
+import API.Models.Database_Entities.ServiceProviderCommentEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import Shared.ToReturn.ServiceProviderCommentDto;

@@ -2,9 +2,9 @@ package API.Repository.ServiceProvider;
 
 import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.ServiceProviderEntity;
-import API.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
-import API.Database_Entities.ServiceProviderServiceProviderTypeEntity;
+import API.Models.Database_Entities.ServiceProviderEntity;
+import API.Models.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
+import API.Models.Database_Entities.ServiceProviderServiceProviderTypeEntity;
 import API.Exceptions.*;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ToReturn.ServiceProviderDto;

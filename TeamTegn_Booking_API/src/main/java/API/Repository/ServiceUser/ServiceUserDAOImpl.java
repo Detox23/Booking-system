@@ -1,8 +1,8 @@
 package API.Repository.ServiceUser;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.ServiceUserAccountEntity;
-import API.Database_Entities.ServiceUserEntity;
+import API.Models.Database_Entities.ServiceUserAccountEntity;
+import API.Models.Database_Entities.ServiceUserEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
@@ -90,6 +91,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
     }
 
     @Override
+    @PostFilter("hasRole('ADMIN')")
     public ServiceUserDto findServiceUser(int id) {
         try {
             ServiceUserEntity found = findIfExistsAndReturn(id);

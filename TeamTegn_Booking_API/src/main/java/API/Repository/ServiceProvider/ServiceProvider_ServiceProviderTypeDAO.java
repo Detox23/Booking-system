@@ -1,7 +1,7 @@
 package API.Repository.ServiceProvider;
 
 
-import API.Database_Entities.ServiceProviderServiceProviderTypeEntity;
+import API.Models.Database_Entities.ServiceProviderServiceProviderTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

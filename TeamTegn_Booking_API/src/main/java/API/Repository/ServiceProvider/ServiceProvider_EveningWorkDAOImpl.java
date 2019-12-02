@@ -1,7 +1,7 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.ServiceProviderEveningWorkEntity;
+import API.Models.Database_Entities.ServiceProviderEveningWorkEntity;
 import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
 import API.Repository.EveningWorkPrioritisation.EveningWorkPrioritisationDAO;

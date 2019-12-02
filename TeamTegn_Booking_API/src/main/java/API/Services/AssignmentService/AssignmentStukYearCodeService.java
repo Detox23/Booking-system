@@ -1,6 +1,6 @@
 package API.Services.AssignmentService;
 
-import API.Database_Entities.AssignmentStukYearCodeEntity;
+import API.Models.Database_Entities.AssignmentStukYearCodeEntity;
 import API.Repository.Assignment.AssignmentSTUKYearCodeDAO;
 import Shared.ForCreation.AssignmentStukYearCodeForCreationDto;
 import Shared.ForCreation.AssignmentStukYearCodeForUpdateDto;

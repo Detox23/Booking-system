@@ -1,6 +1,6 @@
 package API.Repository.ServiceProvider;
 
-import API.Database_Entities.ServiceProviderEveningWorkEntity;
+import API.Models.Database_Entities.ServiceProviderEveningWorkEntity;
 import Shared.ToReturn.ServiceProviderEveningWorkDto;
 
 import java.util.List;

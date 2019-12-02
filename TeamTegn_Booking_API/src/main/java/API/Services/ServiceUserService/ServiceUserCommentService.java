@@ -1,7 +1,6 @@
 package API.Services.ServiceUserService;
 
-import API.Database_Entities.ServiceProviderCommentEntity;
-import API.Database_Entities.ServiceUserCommentEntity;
+import API.Models.Database_Entities.ServiceUserCommentEntity;
 import API.Repository.ServiceUser.ServiceUserCommentDAO;
 import Shared.ForCreation.ServiceUserCommentForCreationDto;
 import Shared.ForCreation.ServiceUserCommentForUpdateDto;

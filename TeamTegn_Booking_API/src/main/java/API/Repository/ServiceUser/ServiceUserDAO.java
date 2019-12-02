@@ -1,6 +1,6 @@
 package API.Repository.ServiceUser;
 
-import API.Database_Entities.ServiceUserEntity;
+import API.Models.Database_Entities.ServiceUserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -13,9 +13,10 @@ public interface ISystemUserService {
 
     boolean deleteSystemUser(int id);
 
+    SystemUserDto findSystemUserByUsername(String userName);
+
     List<SystemUserDto> listSystemUsers();
 
     SystemUserDto findSystemUser(int id);
 
-    boolean logIn(String username, String password);
 }

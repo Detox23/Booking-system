@@ -1,6 +1,6 @@
 package API.Repository.Assignment;
 
-import API.Database_Entities.AssignmentStatusEntity;
+import API.Models.Database_Entities.AssignmentStatusEntity;
 import Shared.ToReturn.AssignmentStatusDto;
 
 import java.util.List;

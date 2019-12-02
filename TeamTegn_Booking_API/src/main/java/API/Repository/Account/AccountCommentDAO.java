@@ -1,6 +1,6 @@
 package API.Repository.Account;
 
-import API.Database_Entities.AccountCommentEntity;
+import API.Models.Database_Entities.AccountCommentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

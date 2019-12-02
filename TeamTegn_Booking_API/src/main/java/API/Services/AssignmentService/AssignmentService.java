@@ -1,9 +1,9 @@
 package API.Services.AssignmentService;
 
-import API.Database_Entities.AssignmentAssignmentStatusTypeEntity;
-import API.Database_Entities.AssignmentEntity;
-import API.Database_Entities.AssignmentServiceProviderEntity;
-import API.Database_Entities.Assignment_StukYearCodeEntity;
+import API.Models.Database_Entities.AssignmentAssignmentStatusTypeEntity;
+import API.Models.Database_Entities.AssignmentEntity;
+import API.Models.Database_Entities.AssignmentServiceProviderEntity;
+import API.Models.Database_Entities.Assignment_StukYearCodeEntity;
 import API.Repository.Assignment.*;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ForCreation.AssignmentForCreationDto;

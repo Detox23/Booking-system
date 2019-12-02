@@ -1,6 +1,6 @@
 package API.Repository.ServiceProvider;
 
-import API.Database_Entities.ServiceProviderServiceProviderTypeEntity;
+import API.Models.Database_Entities.ServiceProviderServiceProviderTypeEntity;
 import Shared.ToReturn.ServiceProviderServiceProviderTypeDto;
 
 import java.util.List;

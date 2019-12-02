@@ -1,6 +1,6 @@
 package API.Services.ServiceProviderService;
 
-import API.Database_Entities.ServiceProviderEveningWorkEntity;
+import API.Models.Database_Entities.ServiceProviderEveningWorkEntity;
 import API.Repository.ServiceProvider.ServiceProvider_EveningWorkDAO;
 import Shared.ForCreation.ServiceProviderEveningWorkForUpdateDto;
 import Shared.ToReturn.ServiceProviderEveningWorkDto;

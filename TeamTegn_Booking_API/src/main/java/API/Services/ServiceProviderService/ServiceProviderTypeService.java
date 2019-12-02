@@ -1,6 +1,6 @@
 package API.Services.ServiceProviderService;
 
-import API.Database_Entities.ServiceProviderTypeEntity;
+import API.Models.Database_Entities.ServiceProviderTypeEntity;
 import API.Repository.ServiceProvider.ServiceProviderTypeDAO;
 import Shared.ForCreation.ServiceProviderTypeForCreationDto;
 import Shared.ForCreation.ServiceProviderTypeForUpdateDto;

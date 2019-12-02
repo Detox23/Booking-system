@@ -1,7 +1,7 @@
 package API.Repository.Account;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AccountCommentEntity;
+import API.Models.Database_Entities.AccountCommentEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import Shared.ToReturn.AccountCommentDto;

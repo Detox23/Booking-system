@@ -2,9 +2,9 @@ package API.Repository.SystemUser;
 
 import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.CityPostcodesEntity;
-import API.Database_Entities.SystemUserDepartmentEntity;
-import API.Database_Entities.SystemUserEntity;
+import API.Models.Database_Entities.CityPostcodesEntity;
+import API.Models.Database_Entities.SystemUserDepartmentEntity;
+import API.Models.Database_Entities.SystemUserEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
@@ -15,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
@@ -35,6 +37,20 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     private EncryptionHandler encryptionHandler;
 
     private SystemUser_DepartmentDAO systemUserDepartmentDAO;
+
+    private PasswordEncoder bcryptEncoder;
+
+    private RoleDAO roleDAO;
+
+    @Autowired
+    public void setBcryptEncoder(PasswordEncoder bcryptEncoder) {
+        this.bcryptEncoder = bcryptEncoder;
+    }
+
+    @Autowired
+    public void setRoleDAO(RoleDAO roleDAO) {
+        this.roleDAO = roleDAO;
+    }
 
     @Autowired
     public void setSystemUserDepartmentDAO(SystemUser_DepartmentDAO systemUserDepartmentDAO) {
@@ -151,6 +167,15 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     }
 
     @Override
+    public SystemUserDto findSystemUser(String userName){
+        Optional<SystemUserEntity> found = systemUserDAO.findDistinctByUserNameIs(userName);
+        if (!found.isPresent() || found.get().isDeleted()) {
+            throw new NotFoundException("The system user was not found.");
+        }
+        return modelMapper.map(found.get(), SystemUserDto.class);
+    }
+
+    @Override
     public boolean logIn(String login, String password) {
         Optional<SystemUserEntity> systemUserEntity = systemUserDAO.findDistinctByUserNameIs(login);
         if(!systemUserEntity.isPresent()|| systemUserEntity.get().isDeleted()){
@@ -181,7 +206,7 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
 
     private void encryptPassword(SystemUserEntity systemUser) {
         String password = systemUser.getPassword();
-        String hashed = encryptionHandler.encrypt(password);
+        String hashed = bcryptEncoder.encode(password);
         systemUser.setPassword(hashed);
     }
 
@@ -197,5 +222,7 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
             });
         }
     }
+
+
 
 }

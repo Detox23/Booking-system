@@ -1,6 +1,6 @@
 package API.Repository.Department;
 
-import API.Database_Entities.DepartmentEntity;
+import API.Models.Database_Entities.DepartmentEntity;
 import Shared.ToReturn.DepartmentDto;
 
 import java.util.List;

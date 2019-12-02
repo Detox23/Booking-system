@@ -2,7 +2,7 @@ package API.Repository.Department;
 
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.DepartmentEntity;
+import API.Models.Database_Entities.DepartmentEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;

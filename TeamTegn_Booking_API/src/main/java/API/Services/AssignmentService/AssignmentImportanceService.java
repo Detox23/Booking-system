@@ -1,6 +1,6 @@
 package API.Services.AssignmentService;
 
-import API.Database_Entities.AssignmentImportanceEntity;
+import API.Models.Database_Entities.AssignmentImportanceEntity;
 import API.Repository.Assignment.AssignmentImportanceDAO;
 import Shared.ForCreation.AssignmentImportanceForCreationDto;
 import Shared.ForCreation.AssignmentImportanceForUpdateDto;

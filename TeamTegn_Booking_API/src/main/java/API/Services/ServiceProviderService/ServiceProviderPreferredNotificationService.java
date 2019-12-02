@@ -1,6 +1,6 @@
 package API.Services.ServiceProviderService;
 
-import API.Database_Entities.ServiceProviderPreferredNotificationEntity;
+import API.Models.Database_Entities.ServiceProviderPreferredNotificationEntity;
 import API.Repository.ServiceProvider.ServiceProviderPreferredNotificationDAO;
 import Shared.ForCreation.ServiceProviderPreferredNotificationForCreationDto;
 import Shared.ForCreation.ServiceProviderPreferredNotificationForUpdateDto;

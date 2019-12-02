@@ -1,7 +1,7 @@
 package API.Repository.Account;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AccountTypeEntity;
+import API.Models.Database_Entities.AccountTypeEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;

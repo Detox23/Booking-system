@@ -1,6 +1,6 @@
 package API.Repository.SystemUser;
 
-import API.Database_Entities.SystemUserDepartmentEntity;
+import API.Models.Database_Entities.SystemUserDepartmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

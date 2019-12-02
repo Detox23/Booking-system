@@ -1,7 +1,7 @@
 package API.Services.ServiceUserService;
 
-import API.Database_Entities.ServiceUserAccountEntity;
-import API.Database_Entities.ServiceUserEntity;
+import API.Models.Database_Entities.ServiceUserAccountEntity;
+import API.Models.Database_Entities.ServiceUserEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.ServiceUser.ServiceUserAccountsDAO;

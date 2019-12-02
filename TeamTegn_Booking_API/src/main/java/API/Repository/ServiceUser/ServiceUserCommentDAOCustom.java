@@ -1,6 +1,6 @@
 package API.Repository.ServiceUser;
 
-import API.Database_Entities.ServiceUserCommentEntity;
+import API.Models.Database_Entities.ServiceUserCommentEntity;
 import Shared.ToReturn.ServiceUserCommentDto;
 import java.util.List;
 

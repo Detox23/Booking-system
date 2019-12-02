@@ -1,10 +1,9 @@
 package API.Repository.ServiceUser;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.ServiceUserCommentEntity;
+import API.Models.Database_Entities.ServiceUserCommentEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
-import Shared.ToReturn.AccountCommentDto;
 import Shared.ToReturn.ServiceUserCommentDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

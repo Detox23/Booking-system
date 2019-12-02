@@ -1,6 +1,6 @@
 package API.Repository.CityPostcodes;
 
-import API.Database_Entities.CityPostcodesEntity;
+import API.Models.Database_Entities.CityPostcodesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package API.Services.AccountService;
 
-import API.Database_Entities.AccountCommentEntity;
+import API.Models.Database_Entities.AccountCommentEntity;
 import API.Repository.Account.AccountCommentDAO;
 import Shared.ForCreation.AccountCommentForCreationDto;
 import Shared.ForCreation.AccountCommentForUpdateDto;
