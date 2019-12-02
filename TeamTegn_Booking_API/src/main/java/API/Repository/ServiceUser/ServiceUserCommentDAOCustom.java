@@ -1,12 +1,13 @@
 package API.Repository.ServiceUser;
 
 import API.Database_Entities.ServiceUserCommentEntity;
+import Shared.ToReturn.ServiceUserCommentDto;
+import java.util.List;
 
 public interface ServiceUserCommentDAOCustom  {
-    Iterable<ServiceUserCommentEntity> listAll();
-    Iterable<ServiceUserCommentEntity> findAllByServiceUserId(int serviceUserId);
-    ServiceUserCommentEntity findOne(int id);
-    ServiceUserCommentEntity addOnce(ServiceUserCommentEntity serviceProvider);
-    ServiceUserCommentEntity update(ServiceUserCommentEntity serviceProviderComment);
-    boolean deleteOne(int id, int commentID);
+    List<ServiceUserCommentDto> listServiceUserComments(int serviceUserId);
+    ServiceUserCommentDto findServiceUserComment(int id);
+    ServiceUserCommentDto addServiceUserComment(ServiceUserCommentEntity serviceProvider);
+    ServiceUserCommentDto updateServiceUserComment(ServiceUserCommentEntity serviceProviderComment);
+    boolean deleteServiceUserComment(int id, int commentID);
 }

@@ -1,6 +1,5 @@
 package Shared.ForCreation;
 
-import Shared.ToReturn.AccountComment;
 import Shared.ToReturn.AccountTypeDto;
 
 import javax.validation.constraints.NotNull;
@@ -61,53 +60,14 @@ public class AccountForUpdateDto {
 
     private AccountTypeDto accountType;
 
-    private List<AccountComment> accountComments;
+    private List<Integer> accountComments;
 
     private Timestamp lastModified;
 
     private int lastModifiedBy;
 
-    private List<Integer> serviceUsersIds;
+    private List<Integer> serviceUsers;
 
-    public List<Integer> getServiceUsersIds() {
-        return serviceUsersIds;
-    }
-
-    public void setServiceUsersIds(List<Integer> serviceUsersIds) {
-        this.serviceUsersIds = serviceUsersIds;
-    }
-
-    public int getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(int lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Timestamp getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Timestamp lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public Integer getPrimaryContactId() {
-        return primaryContactId;
-    }
-
-    public void setPrimaryContactId(Integer primaryContactId) {
-        this.primaryContactId = primaryContactId;
-    }
-
-    public Integer getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
-    }
 
     public int getId() {
         return id;
@@ -125,11 +85,11 @@ public class AccountForUpdateDto {
         this.accountName = accountName;
     }
 
-    public int getAccountTypeId() {
+    public Integer getAccountTypeId() {
         return accountTypeId;
     }
 
-    public void setAccountTypeId(int accountTypeId) {
+    public void setAccountTypeId(Integer accountTypeId) {
         this.accountTypeId = accountTypeId;
     }
 
@@ -139,6 +99,22 @@ public class AccountForUpdateDto {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public Integer getPrimaryContactId() {
+        return primaryContactId;
+    }
+
+    public void setPrimaryContactId(Integer primaryContactId) {
+        this.primaryContactId = primaryContactId;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public List<String> getEan() {
@@ -161,8 +137,8 @@ public class AccountForUpdateDto {
         return telephoneNumber;
     }
 
-    public void setTelephoneNumber(String telephonenumber) {
-        this.telephoneNumber = telephonenumber;
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
     public String getFaxCode() {
@@ -269,7 +245,7 @@ public class AccountForUpdateDto {
         this.contactTelephone = contactTelephone;
     }
 
-    public AccountTypeDto getAccountTypeInformation() {
+    public AccountTypeDto getAccountType() {
         return accountType;
     }
 
@@ -277,4 +253,35 @@ public class AccountForUpdateDto {
         this.accountType = accountType;
     }
 
+    public List<Integer> getAccountComments() {
+        return accountComments;
+    }
+
+    public void setAccountComments(List<Integer> accountComments) {
+        this.accountComments = accountComments;
+    }
+
+    public Timestamp getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Timestamp lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public int getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(int lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public List<Integer> getServiceUsers() {
+        return serviceUsers;
+    }
+
+    public void setServiceUsers(List<Integer> serviceUsers) {
+        this.serviceUsers = serviceUsers;
+    }
 }

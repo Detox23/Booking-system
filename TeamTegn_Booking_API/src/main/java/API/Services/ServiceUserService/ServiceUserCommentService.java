@@ -1,27 +1,25 @@
 package API.Services.ServiceUserService;
 
+import API.Database_Entities.ServiceProviderCommentEntity;
 import API.Database_Entities.ServiceUserCommentEntity;
 import API.Repository.ServiceUser.ServiceUserCommentDAO;
 import Shared.ForCreation.ServiceUserCommentForCreationDto;
 import Shared.ForCreation.ServiceUserCommentForUpdateDto;
 import Shared.ToReturn.ServiceUserCommentDto;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceUserCommentService implements IServiceUserCommentService {
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
     private ServiceUserCommentDAO serviceUserCommentDAO;
 
     @Autowired
-    public void setMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 
     @Autowired
@@ -30,45 +28,29 @@ public class ServiceUserCommentService implements IServiceUserCommentService {
     }
 
     @Override
-    public ServiceUserCommentDto add(int serviceUserId, ServiceUserCommentForCreationDto serviceProviderComment) {
-        ServiceUserCommentEntity userCommentEntity = mapper.map(serviceProviderComment, ServiceUserCommentEntity.class);
-        userCommentEntity.setServiceUserId(serviceUserId);
-        ServiceUserCommentEntity added = serviceUserCommentDAO.addOnce(userCommentEntity);
-        ServiceUserCommentDto mapped = mapper.map(added, ServiceUserCommentDto.class);
-        return mapped;
+    public ServiceUserCommentDto addServiceUserComment(ServiceUserCommentForCreationDto serviceProviderComment) {
+        return serviceUserCommentDAO.addServiceUserComment(modelMapper.map(serviceProviderComment, ServiceUserCommentEntity.class));
     }
 
     @Override
-    public ServiceUserCommentDto update(int id, ServiceUserCommentForUpdateDto serviceProviderComment) {
-        ServiceUserCommentEntity userCommentEntity = mapper.map(serviceProviderComment, ServiceUserCommentEntity.class);
-        userCommentEntity.setId(id);
-        ServiceUserCommentEntity updated = serviceUserCommentDAO.update(userCommentEntity);
-        ServiceUserCommentDto mapped = mapper.map(updated, ServiceUserCommentDto.class);
-        return mapped;
+    public ServiceUserCommentDto updateServiceUserComment(ServiceUserCommentForUpdateDto serviceProviderComment) {
+        return serviceUserCommentDAO.updateServiceUserComment(modelMapper.map(serviceProviderComment, ServiceUserCommentEntity.class));
     }
 
     @Override
-    public ServiceUserCommentDto find(int id, int commentID) {
-        Optional<ServiceUserCommentEntity> userCommentEntity = serviceUserCommentDAO.findByServiceUserIdIsAndIdIs(id, commentID);
-        if (userCommentEntity.isPresent()) {
-            ServiceUserCommentDto mapped = mapper.map(userCommentEntity, ServiceUserCommentDto.class);
-            return mapped;
-        }
-        return null;
+    public ServiceUserCommentDto findServiceUserComment(int commentID) {
+        return serviceUserCommentDAO.findServiceUserComment(commentID);
     }
 
     @Override
-    public boolean delete(int id, int commentID) {
-        return serviceUserCommentDAO.deleteOne(id, commentID);
+    public boolean deleteServiceUserComment(int id, int commentID) {
+        return serviceUserCommentDAO.deleteServiceUserComment(id, commentID);
     }
 
     @Override
-    public List<ServiceUserCommentDto> findServiceUserComments(int id) {
+    public List<ServiceUserCommentDto> listServiceUserComments(int id) {
         try {
-            Type listType = new TypeToken<List<ServiceUserCommentDto>>() {
-            }.getType();
-            Iterable<ServiceUserCommentEntity> entities = serviceUserCommentDAO.findAllByServiceUserId(id);
-            return mapper.map(entities, listType);
+            return serviceUserCommentDAO.listServiceUserComments(id);
         } catch (Exception e) {
             throw e;
         }

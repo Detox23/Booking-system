@@ -1,7 +1,8 @@
 package API.Repository.Account;
 
 import API.Database_Entities.AccountCommentEntity;
-import Shared.ForCreation.AccountCommentDto;
+import Shared.ToReturn.AccountCommentDto;
+
 import java.util.List;
 
 public interface AccountCommentDAOCustom {

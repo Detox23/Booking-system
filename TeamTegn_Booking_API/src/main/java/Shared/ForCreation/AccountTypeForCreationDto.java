@@ -1,6 +1,9 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class AccountTypeForCreationDto {
+    @NotNull
     private String accountType;
 
     public String getAccountType() {

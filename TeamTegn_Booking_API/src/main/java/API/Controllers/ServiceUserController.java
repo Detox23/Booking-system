@@ -1,7 +1,7 @@
 package API.Controllers;
+import API.Services.ServiceUserService.IServiceUserCommentService;
 import API.Services.ServiceUserService.IServiceUserService;
-import Shared.ForCreation.ServiceUserForCreationDto;
-import Shared.ForCreation.ServiceUserForUpdateDto;
+import Shared.ForCreation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class ServiceUserController extends BaseController {
 
     private IServiceUserService serviceUserService;
+
+    private IServiceUserCommentService serviceUserCommentService;
+
+    @Autowired
+    public void setServiceUserCommentService(IServiceUserCommentService serviceUserCommentService) {
+        this.serviceUserCommentService = serviceUserCommentService;
+    }
 
     @Autowired
     public void setService(IServiceUserService serviceUserService) {
@@ -51,6 +58,35 @@ public class ServiceUserController extends BaseController {
     @RequestMapping(value="/", method= RequestMethod.PATCH)
     public ResponseEntity<?> updateAccount(@RequestBody ServiceUserForUpdateDto serviceUser) {
         return new ResponseEntity<>(serviceUserService.updateServiceUser(serviceUser), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
+    public ResponseEntity<?> listServiceUserComments(@PathVariable int id){
+        return new ResponseEntity<>(serviceUserCommentService.listServiceUserComments(id), new HttpHeaders(),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceUserComment(@PathVariable int id, @PathVariable int commentID){
+        return new ResponseEntity<>(serviceUserCommentService.findServiceUserComment(commentID), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteServiceUserComment(@PathVariable int id, @PathVariable int commentID){
+        return new ResponseEntity<>(serviceUserCommentService.deleteServiceUserComment(id, commentID), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
+    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody ServiceUserCommentForCreationDto comment){
+        comment.setServiceUserId(id);
+        return new ResponseEntity<>(serviceUserCommentService.addServiceUserComment(comment), new HttpHeaders(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
+    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody ServiceUserCommentForUpdateDto comment){
+        comment.setServiceUserId(id);
+        return new ResponseEntity<>(serviceUserCommentService.updateServiceUserComment(comment), new HttpHeaders(), HttpStatus.OK);
+
     }
 
 

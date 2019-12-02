@@ -1,6 +1,5 @@
 package API.Services.ServiceUserService;
 
-import API.Database_Entities.AccountEntity;
 import API.Database_Entities.ServiceUserAccountEntity;
 import API.Database_Entities.ServiceUserEntity;
 import API.Exceptions.NotFoundException;

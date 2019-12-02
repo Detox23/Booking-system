@@ -1,8 +1,8 @@
 package API.Services.AccountService;
 
-import Shared.ForCreation.AccountCommentDto;
 import Shared.ForCreation.AccountCommentForCreationDto;
 import Shared.ForCreation.AccountCommentForUpdateDto;
+import Shared.ToReturn.AccountCommentDto;
 
 import java.util.List;
 

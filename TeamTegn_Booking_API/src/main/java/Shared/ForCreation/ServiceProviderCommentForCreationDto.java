@@ -3,7 +3,6 @@ package Shared.ForCreation;
 import javax.validation.constraints.NotNull;
 
 public class ServiceProviderCommentForCreationDto {
-
     @NotNull
     private Integer serviceProviderId;
     @NotNull

@@ -4,7 +4,7 @@ import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.AccountCommentEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
-import Shared.ForCreation.AccountCommentDto;
+import Shared.ToReturn.AccountCommentDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,7 @@ public class AccountCommentDAOImpl implements AccountCommentDAOCustom {
     @Override
     public boolean deleteAccountComment(int accountID, int id) {
         try {
-            Optional<AccountCommentEntity> found = accountCommentDAO.findByServiceProviderIdIsAndIdIs(accountID, id);
+            Optional<AccountCommentEntity> found = accountCommentDAO.findByAccountIdIsAndIdIs(accountID, id);
             if(!found.isPresent()){
                 throw new NotFoundException("There was no comment found.");
             }
@@ -94,7 +94,6 @@ public class AccountCommentDAOImpl implements AccountCommentDAOCustom {
             throw e;
         }
     }
-
 
     private AccountCommentEntity findIfExistsAndReturn(int id) {
         Optional<AccountCommentEntity> found = accountCommentDAO.findByIdIs(id);

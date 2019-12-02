@@ -2,7 +2,6 @@ package API.Repository.Account;
 
 import API.Configurations.Patcher.PatcherHandler;
 import API.Database_Entities.AccountTypeEntity;
-import API.Database_Entities.AssignmentImportanceEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.beans.IntrospectionException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class AccountTypeDAOImpl implements AccountTypeCustom {

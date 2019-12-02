@@ -1,7 +1,11 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class AccountTypeForUpdateDto {
+    @NotNull
     private int id;
+    @NotNull
     private String accountType;
 
     public int getId() {

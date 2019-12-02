@@ -1,7 +1,11 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class AccountCommentForCreationDto {
+    @NotNull
     private Integer accountId;
+    @NotNull
     private String commentText;
 
     public Integer getAccountId() {

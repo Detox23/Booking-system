@@ -1,13 +1,12 @@
-package Shared.ForCreation;
+package Shared.ToReturn;
 
-import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 
-public class AccountCommentForUpdateDto {
-    @NotNull
+public class AccountCommentDto {
     private int id;
-    @NotNull
+    private Integer userId;
     private Integer accountId;
-    @NotNull
+    private Timestamp commentDate;
     private String commentText;
 
     public int getId() {
@@ -18,12 +17,28 @@ public class AccountCommentForUpdateDto {
         this.id = id;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public Integer getAccountId() {
         return accountId;
     }
 
     public void setAccountId(Integer accountId) {
         this.accountId = accountId;
+    }
+
+    public Timestamp getCommentDate() {
+        return commentDate;
+    }
+
+    public void setCommentDate(Timestamp commentDate) {
+        this.commentDate = commentDate;
     }
 
     public String getCommentText() {

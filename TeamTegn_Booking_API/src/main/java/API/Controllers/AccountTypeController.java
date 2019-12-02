@@ -3,8 +3,6 @@ package API.Controllers;
 import API.Services.AccountService.IAccountTypeService;
 import Shared.ForCreation.AccountTypeForCreationDto;
 import Shared.ForCreation.AccountTypeForUpdateDto;
-import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;
-import Shared.ForCreation.ServiceProviderCompetencyForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

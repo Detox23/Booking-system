@@ -1,7 +1,6 @@
 package API.Repository.ServiceUser;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Database_Entities.AssignmentTitleEntity;
 import API.Database_Entities.ServiceUserAccountEntity;
 import API.Database_Entities.ServiceUserEntity;
 import API.Exceptions.DuplicateException;
@@ -16,10 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component

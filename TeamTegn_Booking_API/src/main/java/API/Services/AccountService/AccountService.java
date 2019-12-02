@@ -3,17 +3,18 @@ package API.Services.AccountService;
 import API.Database_Entities.AccountEanEntity;
 import API.Database_Entities.AccountEntity;
 import API.Database_Entities.ServiceUserAccountEntity;
-import API.Database_Entities.ServiceUserEntity;
 import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.Account.AccountEanDAO;
 import API.Repository.Account.AccountTypeDAO;
 import API.Repository.ServiceUser.ServiceUserAccountsDAO;
 import API.Repository.ServiceUser.ServiceUserDAO;
-import Shared.ForCreation.AccountEanForCreationDto;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AccountForUpdateDto;
-import Shared.ToReturn.*;
+import Shared.ToReturn.AccountDto;
+import Shared.ToReturn.AccountEanDto;
+import Shared.ToReturn.ServiceUserAccountDto;
+import Shared.ToReturn.ServiceUserDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Service
 public class AccountService implements IAccountService {
@@ -100,7 +100,7 @@ public class AccountService implements IAccountService {
     public AccountDto updateAccount(AccountForUpdateDto account) {
         try {
             Map<Integer, ServiceUserDto> helperServiceUserMap = new HashMap<>();
-            AccountDto updated = accountDAO.updateAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getServiceUsersIds());
+            AccountDto updated = accountDAO.updateAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getServiceUsers());
             fillAccountWithListOfEans(updated);
             fillAccountWithServiceUsers(updated, helperServiceUserMap);
             return updated;

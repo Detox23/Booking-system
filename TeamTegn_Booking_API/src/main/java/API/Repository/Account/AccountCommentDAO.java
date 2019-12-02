@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface AccountCommentDAO extends JpaRepository<AccountCommentEntity, Integer>, AccountCommentDAOCustom {
-    Optional<AccountCommentEntity> findByServiceProviderIdIsAndIdIs(int accountID, int id);
+    Optional<AccountCommentEntity> findByAccountIdIsAndIdIs(int accountID, int id);
     Optional<AccountCommentEntity> findByIdIs(int id);
     List<AccountCommentEntity> findAllByAccountIdIs(int id);
 }

@@ -5,26 +5,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Timestamp;
 
 public class ServiceUserCommentForCreationDto {
-    private Integer userId;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Timestamp commentDate;
+    private Integer serviceUserId;
     private String commentText;
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getServiceUserId() {
+        return serviceUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-
-    public Timestamp getCommentDate() {
-        return commentDate;
-    }
-
-    public void setCommentDate(Timestamp commentDate) {
-        this.commentDate = commentDate;
+    public void setServiceUserId(Integer serviceUserId) {
+        this.serviceUserId = serviceUserId;
     }
 
     public String getCommentText() {

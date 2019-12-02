@@ -2,10 +2,9 @@ package API.Services.AccountService;
 
 import API.Database_Entities.AccountCommentEntity;
 import API.Repository.Account.AccountCommentDAO;
-import Shared.ForCreation.AccountCommentDto;
 import Shared.ForCreation.AccountCommentForCreationDto;
 import Shared.ForCreation.AccountCommentForUpdateDto;
-import Shared.ToReturn.AccountComment;
+import Shared.ToReturn.AccountCommentDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
