@@ -13,16 +13,6 @@ public class AssignmentAssignmentStatusTypeEntity {
     private int assignmentStatusTypeId;
     private Timestamp dateCreated;
 
-//    public AssignmentAssignmentStatusTypeEntity(int assignmentId, int assignmentStatusTypeId) {
-//        this.assignmentId = assignmentId;
-//        this.assignmentStatusTypeId = assignmentStatusTypeId;
-//        dateCreated = new Timestamp(System.currentTimeMillis());
-//    }
-//
-//    public AssignmentAssignmentStatusTypeEntity() {
-//
-//    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)

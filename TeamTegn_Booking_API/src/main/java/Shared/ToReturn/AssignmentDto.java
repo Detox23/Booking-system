@@ -54,9 +54,18 @@ public class AssignmentDto {
     private Boolean isResale;
     private Integer resaleParentId;
     private Integer vocalLanguageId;
+    private String vocalLanguage;
     private List<ServiceProviderDto> serviceProviders;
     private List<AssignmentStatusTypeDto> assignmentStatusTypeIds;
     private List<AssignmentStukYearCodeDto> stukYearCodes;
+
+    public void setVocalLanguage(String vocalLanguage) {
+        this.vocalLanguage = vocalLanguage;
+    }
+
+    public String getVocalLanguage() {
+        return vocalLanguage;
+    }
 
     public void setStukYearCodes(List<AssignmentStukYearCodeDto> stukYearCodes) {
         this.stukYearCodes = stukYearCodes;

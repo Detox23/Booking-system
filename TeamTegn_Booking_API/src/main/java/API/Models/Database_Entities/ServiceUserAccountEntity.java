@@ -9,16 +9,6 @@ public class ServiceUserAccountEntity {
     private int serviceUserId;
     private int accountId;
 
-    public ServiceUserAccountEntity(int serviceUserId, int accountId)
-    {
-        this.serviceUserId = serviceUserId;
-        this.accountId = accountId;
-    }
-
-    public ServiceUserAccountEntity() {
-
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)

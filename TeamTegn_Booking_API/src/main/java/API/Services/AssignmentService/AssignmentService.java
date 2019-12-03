@@ -1,9 +1,6 @@
 package API.Services.AssignmentService;
 
-import API.Models.Database_Entities.AssignmentAssignmentStatusTypeEntity;
-import API.Models.Database_Entities.AssignmentEntity;
-import API.Models.Database_Entities.AssignmentServiceProviderEntity;
-import API.Models.Database_Entities.Assignment_StukYearCodeEntity;
+import API.Models.Database_Entities.*;
 import API.Repository.Assignment.*;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ForCreation.AssignmentForCreationDto;
@@ -18,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AssignmentService implements IAssignmentService {
@@ -41,6 +35,13 @@ public class AssignmentService implements IAssignmentService {
     private ModelMapper modelMapper;
 
     private AssignmentSTUKYearCodeDAO assignmentSTUKYearCodeDAO;
+
+    private VocalLanguagesDAO vocalLanguagesDAO;
+
+    @Autowired
+    public void setVocalLanguagesDAO(VocalLanguagesDAO vocalLanguagesDAO) {
+        this.vocalLanguagesDAO = vocalLanguagesDAO;
+    }
 
     @Autowired
     public void setAssignmentDAO(AssignmentDAO assignmentDAO) {
@@ -94,6 +95,7 @@ public class AssignmentService implements IAssignmentService {
             fillServiceProviderListToReturn(addedAssignment, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(addedAssignment, helperAssignmentStatusTypeMap);
             fillStukYearCodesToReturn(addedAssignment, helperStukYearCode);
+            getVocalLanguage(addedAssignment);
             return addedAssignment;
         }catch(Exception e){
             throw e;
@@ -110,6 +112,7 @@ public class AssignmentService implements IAssignmentService {
             fillServiceProviderListToReturn(found, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(found, helperAssignmentStatusTypeMap);
             fillStukYearCodesToReturn(found, helperStukYearCode);
+            getVocalLanguage(found);
             return found;
         }catch (Exception e){
             throw e;
@@ -127,6 +130,7 @@ public class AssignmentService implements IAssignmentService {
                 fillServiceProviderListToReturn(assignment, helperServiceProviderMap);
                 fillAssignmentStatusTypeListToReturn(assignment, helperAssignmentStatusTypeMap);
                 fillStukYearCodesToReturn(assignment, helperStukYearCode);
+                getVocalLanguage(assignment);
             }
             return foundList;
 
@@ -161,9 +165,17 @@ public class AssignmentService implements IAssignmentService {
             fillServiceProviderListToReturn(updated, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(updated, helperAssignmentStatusTypeMap);
             fillStukYearCodesToReturn(updated, helperStukYearCode);
+            getVocalLanguage(updated);
             return updated;
         }catch (Exception e){
             throw e;
+        }
+    }
+
+    private void getVocalLanguage(AssignmentDto assignment){
+        Optional<VocalLanguagesEntity> found = vocalLanguagesDAO.findById(assignment.getVocalLanguageId());
+        if(found.isPresent()){
+            assignment.setVocalLanguage(found.get().getLanguageName());
         }
     }
 

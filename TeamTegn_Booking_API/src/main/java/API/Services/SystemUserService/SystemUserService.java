@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -147,6 +148,7 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
 
     private void addRole(SystemUserDto systemUser){
         systemUser.setRole(roleDAO.getByIdIs(systemUser.getRoleId()).getRoleName());
+
     }
 
     @Override
@@ -155,6 +157,8 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
         org.springframework.security.core.userdetails.User toReturn = new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), getAuthority(user));
         return toReturn;
     }
+
+
 
     private Set<SimpleGrantedAuthority> getAuthority(SystemUserDto user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
