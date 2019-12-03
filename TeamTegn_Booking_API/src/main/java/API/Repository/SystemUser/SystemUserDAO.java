@@ -13,6 +13,10 @@ public interface SystemUserDAO extends JpaRepository<SystemUserEntity, Integer>,
 
     int countAllByFirstNameIsAndLastNameIsAndUserNameIs(String firstName, String lastName, String userName);
 
+    int countAllByUserNameIs(String userName);
+
+    Optional<SystemUserEntity> findByIdAndDeletedIsFalse(int id);
+
     Optional<SystemUserEntity> findDistinctByUserNameIs(String userName);
 
 }

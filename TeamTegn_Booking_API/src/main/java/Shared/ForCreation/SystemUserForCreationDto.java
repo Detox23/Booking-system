@@ -26,6 +26,7 @@ public class SystemUserForCreationDto {
     private String country;
     @NotNull
     private Integer roleId;
+    @NotNull
     private List<Integer> departments;
 
     public void setDepartments(List<Integer> departments) {

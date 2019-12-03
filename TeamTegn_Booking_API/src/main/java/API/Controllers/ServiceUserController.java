@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -65,14 +66,14 @@ public class ServiceUserController extends BaseController {
         return new ResponseEntity<>(serviceUserCommentService.listServiceUserComments(id), new HttpHeaders(),HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.GET)
-    public ResponseEntity<?> findServiceUserComment(@PathVariable int id, @PathVariable int commentID){
+    @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceUserComment(@PathVariable int commentID){
         return new ResponseEntity<>(serviceUserCommentService.findServiceUserComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteServiceUserComment(@PathVariable int id, @PathVariable int commentID){
-        return new ResponseEntity<>(serviceUserCommentService.deleteServiceUserComment(id, commentID), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteServiceUserComment(@PathVariable int commentID){
+        return new ResponseEntity<>(serviceUserCommentService.deleteServiceUserComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
@@ -86,7 +87,6 @@ public class ServiceUserController extends BaseController {
     public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody ServiceUserCommentForUpdateDto comment){
         comment.setServiceUserId(id);
         return new ResponseEntity<>(serviceUserCommentService.updateServiceUserComment(comment), new HttpHeaders(), HttpStatus.OK);
-
     }
 
 

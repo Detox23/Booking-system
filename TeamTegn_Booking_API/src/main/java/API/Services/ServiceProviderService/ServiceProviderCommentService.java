@@ -39,13 +39,13 @@ public class ServiceProviderCommentService implements  IServiceProviderCommentSe
     }
 
     @Override
-    public ServiceProviderCommentDto findServiceProviderComment(int id, int commentID) {
-        return serviceProviderCommentDAO.findServiceProviderComment(id, commentID);
+    public ServiceProviderCommentDto findServiceProviderComment(int commentID) {
+        return serviceProviderCommentDAO.findServiceProviderComment(commentID);
     }
 
     @Override
-    public boolean deleteServiceProviderComment(int id, int commentID) {
-        return serviceProviderCommentDAO.deleteServiceProviderComment(id, commentID);
+    public boolean deleteServiceProviderComment(int commentID) {
+        return serviceProviderCommentDAO.deleteServiceProviderComment(commentID);
     }
 
     @Override

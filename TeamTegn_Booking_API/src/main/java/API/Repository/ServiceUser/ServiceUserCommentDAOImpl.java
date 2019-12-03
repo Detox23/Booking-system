@@ -83,14 +83,11 @@ public class ServiceUserCommentDAOImpl implements ServiceUserCommentDAOCustom {
     }
 
     @Override
-    public boolean deleteServiceUserComment(int id, int commentID) {
+    public boolean deleteServiceUserComment(int commentID) {
         try {
-            Optional<ServiceUserCommentEntity> found = serviceUserCommentDAO.findByServiceUserIdIsAndIdIs(id, commentID);
-            if (!found.isPresent()) {
-                throw new NotFoundException("Service user comment was not found");
-            }
-            serviceUserCommentDAO.deleteById(found.get().getId());
-            Optional<ServiceUserCommentEntity> assure = serviceUserCommentDAO.findById(id);
+            ServiceUserCommentEntity found = findIfExistsAndReturn(commentID);
+            serviceUserCommentDAO.deleteById(found.getId());
+            Optional<ServiceUserCommentEntity> assure = serviceUserCommentDAO.findById(commentID);
             return assure.isPresent();
         } catch (Exception e) {
             throw e;
@@ -98,7 +95,7 @@ public class ServiceUserCommentDAOImpl implements ServiceUserCommentDAOCustom {
     }
 
     private ServiceUserCommentEntity findIfExistsAndReturn(int id) {
-        Optional<ServiceUserCommentEntity> found = serviceUserCommentDAO.findByIdIs(id);
+        Optional<ServiceUserCommentEntity> found = serviceUserCommentDAO.findById(id);
         if (!found.isPresent()) {
             throw new NotFoundException(String.format("Service user comment with id: %d was not found.", id));
         }

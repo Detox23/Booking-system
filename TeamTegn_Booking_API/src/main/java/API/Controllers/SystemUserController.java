@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ public class SystemUserController {
     }
 
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> addSystemUser(@RequestBody @Valid SystemUserForCreationDto systemUser) {
         return new ResponseEntity<>(systemUserService.addSystemUser(systemUser), new HttpHeaders(), HttpStatus.CREATED);
     }
@@ -34,6 +35,7 @@ public class SystemUserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_Planner')")
     public ResponseEntity<?> findSystemUser(@PathVariable int id) {
         return new ResponseEntity<>(systemUserService.findSystemUser(id), new HttpHeaders(), HttpStatus.FOUND);
     }
@@ -47,6 +49,8 @@ public class SystemUserController {
     public ResponseEntity<?> updateSystemUser(@RequestBody @Valid SystemUserForUpdateDto systemUser) {
         return new ResponseEntity<>(systemUserService.updateSystemUser(systemUser), new HttpHeaders(), HttpStatus.OK);
     }
+
+
 
 
 }

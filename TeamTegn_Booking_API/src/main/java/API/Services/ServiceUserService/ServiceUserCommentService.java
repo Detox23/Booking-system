@@ -42,8 +42,8 @@ public class ServiceUserCommentService implements IServiceUserCommentService {
     }
 
     @Override
-    public boolean deleteServiceUserComment(int id, int commentID) {
-        return serviceUserCommentDAO.deleteServiceUserComment(id, commentID);
+    public boolean deleteServiceUserComment(int commentID) {
+        return serviceUserCommentDAO.deleteServiceUserComment(commentID);
     }
 
     @Override

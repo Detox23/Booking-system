@@ -18,5 +18,4 @@ public interface SystemUserDAOCustom {
 
     SystemUserDto findSystemUser(int id);
 
-    boolean logIn(String login, String password);
 }

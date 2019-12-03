@@ -5,9 +5,9 @@ import Shared.ToReturn.ServiceUserCommentDto;
 import java.util.List;
 
 public interface ServiceUserCommentDAOCustom  {
-    List<ServiceUserCommentDto> listServiceUserComments(int serviceUserId);
-    ServiceUserCommentDto findServiceUserComment(int id);
+    List<ServiceUserCommentDto> listServiceUserComments(int serviceUserID);
+    ServiceUserCommentDto findServiceUserComment(int commentID);
     ServiceUserCommentDto addServiceUserComment(ServiceUserCommentEntity serviceProvider);
     ServiceUserCommentDto updateServiceUserComment(ServiceUserCommentEntity serviceProviderComment);
-    boolean deleteServiceUserComment(int id, int commentID);
+    boolean deleteServiceUserComment(int commentID);
 }

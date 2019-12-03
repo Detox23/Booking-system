@@ -62,14 +62,14 @@ public class ServiceProviderController extends BaseController {
         return new ResponseEntity<>(serviceProviderCommentService.findServiceProviderComments(id), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.GET)
-    public ResponseEntity<?> findServiceProviderComment(@PathVariable int id, @PathVariable int commentID){
-        return new ResponseEntity<>(serviceProviderCommentService.findServiceProviderComment(id, commentID), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceProviderComment(@PathVariable int commentID){
+        return new ResponseEntity<>(serviceProviderCommentService.findServiceProviderComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteServiceProviderComment(@PathVariable int id, @PathVariable int commentID){
-        return new ResponseEntity<>(serviceProviderCommentService.deleteServiceProviderComment(id, commentID), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteServiceProviderComment(@PathVariable int commentID){
+        return new ResponseEntity<>(serviceProviderCommentService.deleteServiceProviderComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)

@@ -1,6 +1,9 @@
 package API.Controllers;
 
+import API.Services.AssignmentService.IAssignmentCommentService;
 import API.Services.AssignmentService.IAssignmentService;
+import Shared.ForCreation.AssignmentCommentForCreationDto;
+import Shared.ForCreation.AssignmentCommentForUpdateDto;
 import Shared.ForCreation.AssignmentForCreationDto;
 import Shared.ForCreation.AssignmentForUpdateDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -20,6 +23,13 @@ import java.sql.Date;
 public class AssignmentController extends BaseController {
 
     private IAssignmentService assignmentService;
+
+    private IAssignmentCommentService assignmentCommentService;
+
+    @Autowired
+    public void setAssignmentCommentService(IAssignmentCommentService assignmentCommentService) {
+        this.assignmentCommentService = assignmentCommentService;
+    }
 
     @Autowired
     public void setAssignmentService(IAssignmentService assignmentService) {
@@ -56,5 +66,33 @@ public class AssignmentController extends BaseController {
     @RequestMapping(value = "/", method = {RequestMethod.PATCH})
     public ResponseEntity<?> updateAssignment(@RequestBody AssignmentForUpdateDto forUpdate) {
         return new ResponseEntity<>(assignmentService.updateAssignment(forUpdate), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
+    public ResponseEntity<?> listServiceUserComments(@PathVariable int id){
+        return new ResponseEntity<>(assignmentCommentService.listAssignmentComments(id), new HttpHeaders(),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.GET)
+    public ResponseEntity<?> findServiceUserComment(@PathVariable int commentID){
+        return new ResponseEntity<>(assignmentCommentService.findAssignmentComment(commentID), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteServiceUserComment(@PathVariable int commentID){
+        return new ResponseEntity<>(assignmentCommentService.deleteAssignmentComment(commentID), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
+    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody AssignmentCommentForCreationDto comment){
+        comment.setAssignmentId(id);
+        return new ResponseEntity<>(assignmentCommentService.addAssignmentComment(comment), new HttpHeaders(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
+    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody AssignmentCommentForUpdateDto comment){
+        comment.setAssignmentId(id);
+        return new ResponseEntity<>(assignmentCommentService.updateAssignmentComment(comment), new HttpHeaders(), HttpStatus.OK);
     }
 }

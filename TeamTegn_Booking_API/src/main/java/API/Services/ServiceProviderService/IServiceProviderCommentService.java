@@ -11,9 +11,9 @@ public interface IServiceProviderCommentService {
 
     ServiceProviderCommentDto updateServiceProviderComment(ServiceProviderCommentForUpdateDto serviceProviderComment);
 
-    ServiceProviderCommentDto findServiceProviderComment(int id, int commentID);
+    ServiceProviderCommentDto findServiceProviderComment(int commentID);
 
-    boolean deleteServiceProviderComment(int id, int commentID);
+    boolean deleteServiceProviderComment(int commentID);
 
     List<ServiceProviderCommentDto> findServiceProviderComments(int id);
 }

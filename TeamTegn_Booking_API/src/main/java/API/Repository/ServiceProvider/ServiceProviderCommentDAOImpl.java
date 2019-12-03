@@ -24,12 +24,6 @@ public class ServiceProviderCommentDAOImpl implements ServiceProviderCommentDAOC
 
     private PatcherHandler patcherHandler;
 
-    private ServiceProviderDAO serviceProviderDAO;
-
-    @Autowired
-    public void setServiceProviderDAO(ServiceProviderDAO serviceProviderDAO) {
-        this.serviceProviderDAO = serviceProviderDAO;
-    }
 
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
@@ -54,12 +48,9 @@ public class ServiceProviderCommentDAOImpl implements ServiceProviderCommentDAOC
     @Override
     public ServiceProviderCommentDto updateServiceProviderComment(ServiceProviderCommentEntity serviceProviderComment)  {
         try {
-            Optional<ServiceProviderCommentEntity> found = serviceProviderCommentDAO.findById(serviceProviderComment.getId());
-            if (!found.isPresent()) {
-                throw new NotFoundException("The comment was not found");
-            }
-            patcherHandler.fillNotNullFields(found.get(), serviceProviderComment);
-            ServiceProviderCommentEntity updated = serviceProviderCommentDAO.save(found.get());
+            ServiceProviderCommentEntity found = findIfExistsAndReturn(serviceProviderComment.getId());
+            patcherHandler.fillNotNullFields(found, serviceProviderComment);
+            ServiceProviderCommentEntity updated = serviceProviderCommentDAO.save(found);
             return modelMapper.map(updated, ServiceProviderCommentDto.class);
         }catch(IntrospectionException introspectionException){
             throw new UpdatePatchException("There was a problem with updating a comment.[PATCHING]");
@@ -69,13 +60,10 @@ public class ServiceProviderCommentDAOImpl implements ServiceProviderCommentDAOC
     }
 
     @Override
-    public ServiceProviderCommentDto findServiceProviderComment(int id, int commentID) {
+    public ServiceProviderCommentDto findServiceProviderComment(int commentID) {
         try{
-            Optional<ServiceProviderCommentEntity> found = serviceProviderCommentDAO.findByServiceProviderIdIsAndIdIs(id, commentID);
-            if(!found.isPresent() ){
-                throw new NotFoundException("The comment was not found");
-            }
-            return modelMapper.map(found.get(), ServiceProviderCommentDto.class);
+            ServiceProviderCommentEntity found = findIfExistsAndReturn(commentID);
+            return modelMapper.map(found, ServiceProviderCommentDto.class);
         }catch (Exception e){
             throw e;
         }
@@ -93,20 +81,22 @@ public class ServiceProviderCommentDAOImpl implements ServiceProviderCommentDAOC
     }
 
     @Override
-    public boolean deleteServiceProviderComment(int id, int commentID) {
+    public boolean deleteServiceProviderComment(int commentID) {
         try{
-            Optional<ServiceProviderCommentEntity> found = serviceProviderCommentDAO.findByServiceProviderIdIsAndIdIs(id, commentID);
-            if(!found.isPresent() ){
-                throw new NotFoundException("The comment was not found");
-            }
-            serviceProviderCommentDAO.deleteById(found.get().getId());
-            Optional<ServiceProviderCommentEntity> assure = serviceProviderCommentDAO.findById(id);
-            if(!assure.isPresent()){
-                return true;
-            }
-            return false;
+            ServiceProviderCommentEntity found = findIfExistsAndReturn(commentID);
+            serviceProviderCommentDAO.deleteById(found.getId());
+            Optional<ServiceProviderCommentEntity> assure = serviceProviderCommentDAO.findById(commentID);
+            return assure.isPresent();
         }catch(Exception e){
             throw e;
         }
+    }
+
+    private ServiceProviderCommentEntity findIfExistsAndReturn(int id) {
+        Optional<ServiceProviderCommentEntity> found = serviceProviderCommentDAO.findById(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Service provider comment with id: %d was not found.", id));
+        }
+        return found.get();
     }
 }

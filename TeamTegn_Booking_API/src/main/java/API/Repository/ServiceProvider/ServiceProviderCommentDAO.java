@@ -10,5 +10,4 @@ import java.util.Optional;
 @Repository
 public interface ServiceProviderCommentDAO extends JpaRepository<ServiceProviderCommentEntity, Integer>, ServiceProviderCommentDAOCustom {
     List<ServiceProviderCommentEntity> findAllByServiceProviderIdIs(int serviceProviderID);
-    Optional<ServiceProviderCommentEntity> findByServiceProviderIdIsAndIdIs(int serviceProviderID, int id);
 }

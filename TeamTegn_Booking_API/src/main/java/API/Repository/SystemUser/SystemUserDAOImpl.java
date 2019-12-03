@@ -94,18 +94,14 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
                         systemUser.getUserName()
                 ));
             }
+            if (systemUserDAO.countAllByUserNameIs(systemUser.getUserName())> 0){
+                throw new DuplicateException(String.format("There is already a system user with the username: %s", systemUser.getUserName()));
+            }
             checkAndFillPostcodeAndCity(systemUser);
             encryptPassword(systemUser);
             SystemUserEntity saved = systemUserDAO.save(systemUser);
-            if (saved.getId() > 0) {
-                if (departments.size() == 0 || departments == null) {
-                    return modelMapper.map(saved, SystemUserDto.class);
-                } else {
-                    addDepartments(departments, saved);
-                    return modelMapper.map(saved, SystemUserDto.class);
-                }
-            }
-            throw new UnknownAddingException("The user was not added.");
+            addDepartments(departments, saved);
+            return modelMapper.map(saved, SystemUserDto.class);
         } catch (UnknownAddingException unknownAddingException) {
             throw unknownAddingException;
         } catch (DataIntegrityViolationException e) {
@@ -119,14 +115,11 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     @Override
     public SystemUserDto updateSystemUser(SystemUserEntity systemUser, List<Integer> departments) {
         try {
-            Optional<SystemUserEntity> found = systemUserDAO.findById(systemUser.getId());
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The system user was not found.");
-            }
+            SystemUserEntity found = findIfExistsAndReturn(systemUser.getId());
             checkAndFillPostcodeAndCity(systemUser);
             encryptPassword(systemUser);
-            patcherHandler.fillNotNullFields(found.get(), systemUser);
-            SystemUserEntity updated = systemUserDAO.save(found.get());
+            patcherHandler.fillNotNullFields(found, systemUser);
+            SystemUserEntity updated = systemUserDAO.save(found);
             addDepartments(departments, updated);
             return modelMapper.map(updated, SystemUserDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -138,13 +131,14 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
 
     @Override
     public boolean deleteSystemUser(int id) {
-        Optional<SystemUserEntity> foundToDelete = systemUserDAO.findById(id);
-        if (!foundToDelete.isPresent() || foundToDelete.get().isDeleted()) {
-            throw new NotFoundException("The system user was not found.");
+        try {
+            SystemUserEntity found = findIfExistsAndReturn(id);
+            found.setDeleted(true);
+            SystemUserEntity deleted = systemUserDAO.save(found);
+            return deleted.isDeleted();
+        } catch (Exception e) {
+            throw e;
         }
-        foundToDelete.get().setDeleted(true);
-        SystemUserEntity deleted = systemUserDAO.save(foundToDelete.get());
-        return deleted.isDeleted();
     }
 
     @Override
@@ -159,11 +153,8 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
 
     @Override
     public SystemUserDto findSystemUser(int id) {
-        Optional<SystemUserEntity> found = systemUserDAO.findById(id);
-        if (!found.isPresent() || found.get().isDeleted()) {
-            throw new NotFoundException("The system user was not found.");
-        }
-        return modelMapper.map(found.get(), SystemUserDto.class);
+        SystemUserEntity found = findIfExistsAndReturn(id);
+        return modelMapper.map(found, SystemUserDto.class);
     }
 
     @Override
@@ -175,18 +166,12 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
         return modelMapper.map(found.get(), SystemUserDto.class);
     }
 
-    @Override
-    public boolean logIn(String login, String password) {
-        Optional<SystemUserEntity> systemUserEntity = systemUserDAO.findDistinctByUserNameIs(login);
-        if(!systemUserEntity.isPresent()|| systemUserEntity.get().isDeleted()){
-            throw new NotFoundException(String.format("The system user with login %s does not exist.", login));
+    private SystemUserEntity findIfExistsAndReturn(int id) {
+        Optional<SystemUserEntity> found = systemUserDAO.findByIdAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("System user with id: %d was not found.", id));
         }
-        String passwordFound = encryptionHandler.decrypt(systemUserEntity.get().getPassword());
-        if(passwordFound.equals(password)){
-            return true;
-        }else{
-            return false;
-        }
+        return found.get();
     }
 
     private void checkAndFillPostcodeAndCity(SystemUserEntity systemUser) {
@@ -222,7 +207,4 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
             });
         }
     }
-
-
-
 }

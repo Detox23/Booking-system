@@ -10,8 +10,4 @@ import java.util.Optional;
 @Repository
 public interface ServiceUserCommentDAO extends JpaRepository<ServiceUserCommentEntity, Integer>, ServiceUserCommentDAOCustom {
     List<ServiceUserCommentEntity> findAllByServiceUserIdIs(int serviceUserId);
-    Optional<ServiceUserCommentEntity> findByServiceUserIdIsAndIdIs(int serviceUserId, int id);
-    Optional<ServiceUserCommentEntity> findByIdIs(int id);
-
-
 }

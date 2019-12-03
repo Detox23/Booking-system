@@ -108,7 +108,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_1')")
     public List<SystemUserDto> listSystemUsers() {
         List<SystemUserDto> foundUsers = systemUserDAO.listSystemUsers();
         List<SystemUserDto> returnList = new ArrayList<>();
@@ -137,15 +136,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     }
 
 
-    private void decryptPassword(SystemUserDto systemUser){
-        try {
-            String passwordDecrypted = encryptionHandler.decrypt(systemUser.getPassword());
-            systemUser.setPassword(passwordDecrypted);
-        }catch(IllegalArgumentException illegalArgumentException){
-            systemUser.setPassword(systemUser.getPassword());
-        }
-    }
-
     private void fillWithListOfDepartments(SystemUserDto systemUser){
         systemUser.setDepartments(new ArrayList<>());
         List<SystemUserDepartmentDto> list = modelMapper.map(systemUserDepartmentDAO.findBySystemUserIdIs(systemUser.getId()),new TypeToken<List<SystemUserDepartmentDto>>() {}.getType());
@@ -156,14 +146,12 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     }
 
     private void addRole(SystemUserDto systemUser){
-        systemUser.setRole(roleDAO.getByIdIs(systemUser.getRoleId()).getRoleDescription());
+        systemUser.setRole(roleDAO.getByIdIs(systemUser.getRoleId()).getRoleName());
     }
-
-
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        SystemUserDto user = systemUserDAO.findSystemUser(s);
+        SystemUserDto user = findSystemUserByUsername(s);
         org.springframework.security.core.userdetails.User toReturn = new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), getAuthority(user));
         return toReturn;
     }

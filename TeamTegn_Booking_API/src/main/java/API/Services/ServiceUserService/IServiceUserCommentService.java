@@ -13,7 +13,7 @@ public interface IServiceUserCommentService {
 
     ServiceUserCommentDto findServiceUserComment(int commentID);
 
-    boolean deleteServiceUserComment(int id, int commentID);
+    boolean deleteServiceUserComment(int commentID);
 
     List<ServiceUserCommentDto> listServiceUserComments(int id);
 }

@@ -4,6 +4,7 @@ import API.Exceptions.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,6 +32,11 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
 //        String bodyOfResponse = "The record was not found.";
 //        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 //    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException exception){
+        return new ResponseEntity<>("You have no access for that operation.", HttpStatus.FORBIDDEN);
+    }
 
     @ExceptionHandler(value = UnknownException.class)
     protected ResponseEntity<Object> handleUnknownException(UnknownException exception) {
