@@ -41,7 +41,13 @@ public class ModelMapperConfig {
                 skip().setId(0);
             }
         };
+        PropertyMap<EventLogDto, EventLogEntity> addingEventLogMap = new PropertyMap<EventLogDto, EventLogEntity>() {
+            protected void configure() {
+                skip().setId(0);
+            }
+        };
 
+        mapper.addMappings(addingEventLogMap);
         mapper.addMappings(addingEveningWorkMap);
         mapper.addMappings(addingServiceProviderAbsenceMap);
         mapper.addMappings(addingServiceProviderMap);

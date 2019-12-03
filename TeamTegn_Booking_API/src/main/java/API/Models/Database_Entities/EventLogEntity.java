@@ -1,5 +1,8 @@
 package API.Models.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -24,11 +27,11 @@ public class EventLogEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "SystemUserID", nullable = true)
     public Integer getSystemUserId() {
         return systemUserId;
     }
-
     public void setSystemUserId(Integer systemUserId) {
         this.systemUserId = systemUserId;
     }
@@ -54,6 +57,7 @@ public class EventLogEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "DateCreated", nullable = true)
     public Timestamp getDateCreated() {
         return dateCreated;
