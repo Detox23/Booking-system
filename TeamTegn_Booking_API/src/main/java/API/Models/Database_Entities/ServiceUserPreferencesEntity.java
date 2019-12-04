@@ -6,8 +6,8 @@ import javax.persistence.*;
 @Table(name = "ServiceUserPreferences", schema = "dbo")
 public class ServiceUserPreferencesEntity {
     private int id;
-    private int serviceUserId;
-    private int serviceProviderId;
+    private Integer serviceUserId;
+    private Integer serviceProviderId;
     private int rating;
 
     @Id
@@ -23,21 +23,21 @@ public class ServiceUserPreferencesEntity {
 
     @Basic
     @Column(name = "ServiceUserID", nullable = false)
-    public int getServiceUserId() {
+    public Integer getServiceUserId() {
         return serviceUserId;
     }
 
-    public void setServiceUserId(int serviceUserId) {
+    public void setServiceUserId(Integer serviceUserId) {
         this.serviceUserId = serviceUserId;
     }
 
     @Basic
     @Column(name = "ServiceProviderID", nullable = false)
-    public int getServiceProviderId() {
+    public Integer getServiceProviderId() {
         return serviceProviderId;
     }
 
-    public void setServiceProviderId(int serviceProviderId) {
+    public void setServiceProviderId(Integer serviceProviderId) {
         this.serviceProviderId = serviceProviderId;
     }
 

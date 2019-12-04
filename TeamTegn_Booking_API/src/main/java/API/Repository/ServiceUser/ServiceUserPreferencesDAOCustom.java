@@ -6,10 +6,10 @@ import Shared.ToReturn.ServiceUserPreferencesDto;
 import java.util.List;
 
 public interface ServiceUserPreferencesDAOCustom {
-    ServiceUserPreferencesDto addServiceUserPreference(ServiceUserPreferencesEntity a);
+    ServiceUserPreferencesDto addServiceUserPreference(int serviceUserId, ServiceUserPreferencesEntity a);
     boolean deleteServiceUserPreference(int Id);
     List<ServiceUserPreferencesDto> listServiceUserPreferences(int id);
-    ServiceUserPreferencesDto findServiceProviderAndUser(int serviceProviderId, int serviceUserId);
+    ServiceUserPreferencesDto findServiceProviderAndUser(int serviceUserId, int serviceProviderId);
     ServiceUserPreferencesDto updateServiceUserPreference(ServiceUserPreferencesEntity a);
 
 }

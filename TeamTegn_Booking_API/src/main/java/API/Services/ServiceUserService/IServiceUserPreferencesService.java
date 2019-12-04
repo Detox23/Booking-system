@@ -7,11 +7,11 @@ import Shared.ToReturn.ServiceUserPreferencesDto;
 import java.util.List;
 
 public interface IServiceUserPreferencesService {
-    ServiceUserPreferencesDto addServiceUserPreference(ServiceUserPreferencesForCreationDto serviceUserPreferences);
+    ServiceUserPreferencesDto addServiceUserPreference(int serviceUserId, ServiceUserPreferencesForCreationDto serviceUserPreferences);
 
-    ServiceUserPreferencesDto updateServiceUserPreference(int id, ServiceUserPreferencesForUpdateDto serviceUserPreferences);
+    ServiceUserPreferencesDto updateServiceUserPreference(ServiceUserPreferencesForUpdateDto serviceUserPreferences);
 
-    ServiceUserPreferencesDto findServiceProviderAndUser(int serviceProvider, int serviceUser);
+    ServiceUserPreferencesDto findServiceProviderAndUser(int serviceUser, int serviceProvider);
 
     boolean deleteServiceUserPreference(int id);
 

@@ -41,12 +41,21 @@ public class ModelMapperConfig {
                 skip().setId(0);
             }
         };
+
         PropertyMap<EventLogDto, EventLogEntity> addingEventLogMap = new PropertyMap<EventLogDto, EventLogEntity>() {
             protected void configure() {
                 skip().setId(0);
             }
         };
 
+        PropertyMap<ServiceUserPreferencesForCreationDto, ServiceUserPreferencesEntity> addingServiceUserPreferencesMap = new PropertyMap<ServiceUserPreferencesForCreationDto, ServiceUserPreferencesEntity>() {
+            protected void configure() {
+                skip().setId(0);
+                skip().setServiceUserId(0);
+            }
+        };
+
+        mapper.addMappings(addingServiceUserPreferencesMap);
         mapper.addMappings(addingEventLogMap);
         mapper.addMappings(addingEveningWorkMap);
         mapper.addMappings(addingServiceProviderAbsenceMap);

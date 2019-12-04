@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping("api/ServiceUsers/{serviceUser}/preferences")
+@RequestMapping("api/serviceUsers/{serviceUser}/preferences")
 public class ServiceUserPreferencesController {
 
     private IServiceUserPreferencesService serviceUserPreferencesService;
@@ -26,27 +28,27 @@ public class ServiceUserPreferencesController {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable int serviceUser, @PathVariable int id ){
+    public ResponseEntity<?> delete(@PathVariable int id){
         return new ResponseEntity<>(serviceUserPreferencesService.deleteServiceUserPreference(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Retrieves one
-    @RequestMapping(value= "/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> get(@PathVariable int serviceUser, @PathVariable int id){
-        return new ResponseEntity<>(serviceUserPreferencesService.findServiceProviderAndUser(serviceUser, id), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value= "/{serviceProvider}", method = {RequestMethod.GET})
+    public ResponseEntity<?> get(@PathVariable int serviceUser, @PathVariable int serviceProvider){
+        return new ResponseEntity<>(serviceUserPreferencesService.findServiceProviderAndUser(serviceUser, serviceProvider), new HttpHeaders(), HttpStatus.OK);
     }
 
-    //Creates an account
+    //Creates an account //W
     @RequestMapping(value="/", method=RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestBody ServiceUserPreferencesForCreationDto serviceUserPreferences) {
-        return new ResponseEntity<>(serviceUserPreferencesService.addServiceUserPreference(serviceUserPreferences), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<?> add(@PathVariable int serviceUser, @RequestBody @Valid ServiceUserPreferencesForCreationDto serviceUserPreferences) {
+        return new ResponseEntity<>(serviceUserPreferencesService.addServiceUserPreference(serviceUser, serviceUserPreferences), new HttpHeaders(), HttpStatus.OK);
     }
 
 
     //Updates
-    @RequestMapping(value="/{id}", method= RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccount(@PathVariable int id, @RequestBody ServiceUserPreferencesForUpdateDto serviceUserPreferences) {
-        return new ResponseEntity<>(serviceUserPreferencesService.updateServiceUserPreference(id, serviceUserPreferences), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value="/", method= RequestMethod.PATCH)
+    public ResponseEntity<?> updateAccount(@RequestBody @Valid ServiceUserPreferencesForUpdateDto serviceUserPreferences) {
+        return new ResponseEntity<>(serviceUserPreferencesService.updateServiceUserPreference(serviceUserPreferences), new HttpHeaders(), HttpStatus.OK);
     }
 
 }

@@ -154,8 +154,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
         return toReturn;
     }
 
-
-
     private Set<SimpleGrantedAuthority> getAuthority(SystemUserDto user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));

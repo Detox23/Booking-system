@@ -39,11 +39,12 @@ public class ServiceUserPreferencesDAOImpl implements ServiceUserPreferencesDAOC
     }
 
     @Override
-    public ServiceUserPreferencesDto addServiceUserPreference(ServiceUserPreferencesEntity serviceUserPreferences) {
+    public ServiceUserPreferencesDto addServiceUserPreference(int serviceUserId, ServiceUserPreferencesEntity serviceUserPreferences) {
         try {
-            if (serviceUserPreferencesDAO.countAllByServiceUserIdIsAndServiceProviderId(serviceUserPreferences.getServiceUserId(), serviceUserPreferences.getServiceProviderId()) > 0) {
+            if (serviceUserPreferencesDAO.countAllByServiceUserIdIsAndServiceProviderId(serviceUserId, serviceUserPreferences.getServiceProviderId()) > 0) {
                 throw new DuplicateException("There is already preference between the service provider and service user.");
             }
+            serviceUserPreferences.setServiceUserId(serviceUserId);
             ServiceUserPreferencesEntity saved = serviceUserPreferencesDAO.save(serviceUserPreferences);
             return modelMapper.map(saved, ServiceUserPreferencesDto.class);
 
@@ -58,7 +59,7 @@ public class ServiceUserPreferencesDAOImpl implements ServiceUserPreferencesDAOC
             ServiceUserPreferencesEntity found = findIfExistsAndReturn(id);
             serviceUserPreferencesDAO.deleteById(found.getId());
             Optional<ServiceUserPreferencesEntity> assure = serviceUserPreferencesDAO.findById(id);
-            return assure.isPresent();
+            return !assure.isPresent();
         } catch (Exception e) {
             throw e;
         }
@@ -75,13 +76,13 @@ public class ServiceUserPreferencesDAOImpl implements ServiceUserPreferencesDAOC
     }
 
     @Override
-    public ServiceUserPreferencesDto findServiceProviderAndUser(int serviceProviderId, int serviceUserId) {
+    public ServiceUserPreferencesDto findServiceProviderAndUser(int serviceUserId, int serviceProviderId) {
         try {
             Optional<ServiceUserPreferencesEntity> found = serviceUserPreferencesDAO.findByServiceUserIdAndServiceProviderId(serviceUserId, serviceProviderId);
             if (!found.isPresent()) {
                 throw new NotFoundException("The preference between service provider and service user was not found");
             }
-            return modelMapper.map(found, ServiceUserPreferencesDto.class);
+            return modelMapper.map(found.get(), ServiceUserPreferencesDto.class);
         } catch (Exception e) {
             throw e;
         }
@@ -91,6 +92,7 @@ public class ServiceUserPreferencesDAOImpl implements ServiceUserPreferencesDAOC
     @Override
     public ServiceUserPreferencesDto updateServiceUserPreference(ServiceUserPreferencesEntity serviceUserPreference) {
         try {
+            serviceUserPreference.setServiceUserId(null);
             ServiceUserPreferencesEntity found = findIfExistsAndReturn(serviceUserPreference.getId());
             patcherHandler.fillNotNullFields(found, serviceUserPreference);
             ServiceUserPreferencesEntity updated = serviceUserPreferencesDAO.save(found);

@@ -1,7 +1,11 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class ServiceUserPreferencesForUpdateDto {
+    @NotNull
     private int id;
+    @NotNull
     private int rating;
 
     public int getId() {

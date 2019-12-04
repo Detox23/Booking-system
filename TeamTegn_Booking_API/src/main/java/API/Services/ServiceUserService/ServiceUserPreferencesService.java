@@ -35,20 +35,21 @@ public class ServiceUserPreferencesService implements IServiceUserPreferencesSer
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public ServiceUserPreferencesDto addServiceUserPreference(ServiceUserPreferencesForCreationDto serviceUserPreferences) {
-        return userPreferencesDAO.addServiceUserPreference(modelMapper.map(serviceUserPreferences, ServiceUserPreferencesEntity.class));
+    public ServiceUserPreferencesDto addServiceUserPreference(int serviceUserId, ServiceUserPreferencesForCreationDto serviceUserPreferences) {
+        return userPreferencesDAO.addServiceUserPreference(serviceUserId, modelMapper.map(serviceUserPreferences, ServiceUserPreferencesEntity.class));
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public ServiceUserPreferencesDto updateServiceUserPreference(int id, ServiceUserPreferencesForUpdateDto serviceUserPreferences) {
-        serviceUserPreferences.setId(id);
+    public ServiceUserPreferencesDto updateServiceUserPreference(ServiceUserPreferencesForUpdateDto serviceUserPreferences) {
         return userPreferencesDAO.updateServiceUserPreference(modelMapper.map(serviceUserPreferences, ServiceUserPreferencesEntity.class));
     }
 
     @Override
-    public ServiceUserPreferencesDto findServiceProviderAndUser(int serviceProvider, int serviceUser) {
-        return userPreferencesDAO.findServiceProviderAndUser(serviceProvider, serviceUser);
+    public ServiceUserPreferencesDto findServiceProviderAndUser(int serviceUser, int serviceProvider) {
+        ServiceUserPreferencesDto found = userPreferencesDAO.findServiceProviderAndUser(serviceUser, serviceProvider);
+        found.setServiceProvider(serviceProviderService.findServiceProvider(found.getServiceProviderId()));
+        return found;
     }
 
     @Override
