@@ -70,7 +70,6 @@ public class AssignmentEntity {
     public Integer getAssignmentTypeId() {
         return assignmentTypeId;
     }
-
     public void setAssignmentTypeId(Integer assignmentTypeId) {
         this.assignmentTypeId = assignmentTypeId;
     }
@@ -380,23 +379,13 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @Column(name = "KTSTParentID", nullable = true, length = 50)
+    @Column(name = "KTSTParentID", length = 50)
     public String getKtstParentId() {
         return ktstParentId;
     }
 
     public void setKtstParentId(String ktstParentId) {
         this.ktstParentId = ktstParentId;
-    }
-
-   @Basic
-    @Column(name = "AssignmentStatusTypeID", nullable = true)
-    public Integer getAssignmentStatusTypeId() {
-        return assignmentStatusTypeId;
-    }
-
-    public void setAssignmentStatusTypeId(Integer assignmentStatusTypeId) {
-        this.assignmentStatusTypeId = assignmentStatusTypeId;
     }
 
     @Basic
