@@ -30,14 +30,8 @@ public class ServiceUserForUpdateDto {
     private String city;
     private String stateRegion;
     private String country;
-    //to delete
-    private String username;
-    //to delete
-    private String password;
-    //to delete
     private String externalId;
-    //to delete
-    private Integer roleId;
+    @NotNull
     private Integer departmentId;
     @NotNull
     private Integer serviceUserStatusId;
@@ -211,36 +205,12 @@ public class ServiceUserForUpdateDto {
         this.country = country;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getExternalId() {
         return externalId;
     }
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 
     public Integer getDepartmentId() {

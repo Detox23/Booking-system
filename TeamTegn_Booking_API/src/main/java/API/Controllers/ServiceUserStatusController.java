@@ -21,9 +21,9 @@ public class ServiceUserStatusController {
         this.serviceUserStatusService = serviceUserStatusService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return new ResponseEntity<>(serviceUserStatusService.listServiceUserStatuses(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listServiceUserStatuses(@PathVariable boolean showDeleted) {
+        return new ResponseEntity<>(serviceUserStatusService.listServiceUserStatuses(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

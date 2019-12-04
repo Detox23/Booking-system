@@ -43,9 +43,7 @@ public class ServiceUserStatusDAOImpl implements ServiceUserStatusDAOCustom {
     @Override
     public ServiceUserStatusDto addServiceUserStatus(ServiceUserStatusEntity serviceUserStatus) {
         try {
-            if (serviceUserStatusDAO.countAllByStatusIs(serviceUserStatus.getStatus()) > 0) {
-                throw new DuplicateException(String.format("There is already service user's status with name %s.", serviceUserStatus.getStatus()));
-            }
+            checkIfExistsByStatusName(serviceUserStatus);
             ServiceUserStatusEntity saved = serviceUserStatusDAO.save(serviceUserStatus);
             return modelMapper.map(saved, ServiceUserStatusDto.class);
         } catch (Exception e) {
@@ -58,6 +56,7 @@ public class ServiceUserStatusDAOImpl implements ServiceUserStatusDAOCustom {
         try{
             ServiceUserStatusEntity found = findIfExistsAndReturn(serviceUserStatus.getId());
             patcherHandler.fillNotNullFields(found, serviceUserStatus);
+            checkIfExistsByStatusName(found);
             ServiceUserStatusEntity updated  = serviceUserStatusDAO.save(found);
             return modelMapper.map(updated, ServiceUserStatusDto.class);
         }catch(IntrospectionException introspectionException){
@@ -90,12 +89,21 @@ public class ServiceUserStatusDAOImpl implements ServiceUserStatusDAOCustom {
     }
 
     @Override
-    public List<ServiceUserStatusDto> listServiceUserStatuses() {
-        try{
-            Type listType = new TypeToken<List<ServiceUserStatusDto>>() {}.getType();
-            return modelMapper.map(serviceUserStatusDAO.findAllByDeletedIsFalse(), listType);
-        }catch(Exception e){
-            throw e;
+    public List<ServiceUserStatusDto> listServiceUserStatuses(boolean showDeleted) {
+        if(showDeleted){
+            try{
+                Type listType = new TypeToken<List<ServiceUserStatusDto>>() {}.getType();
+                return modelMapper.map(serviceUserStatusDAO.findAll(), listType);
+            }catch(Exception e){
+                throw e;
+            }
+        }else{
+            try{
+                Type listType = new TypeToken<List<ServiceUserStatusDto>>() {}.getType();
+                return modelMapper.map(serviceUserStatusDAO.findAllByDeletedIsFalse(), listType);
+            }catch(Exception e){
+                throw e;
+            }
         }
     }
 
@@ -105,5 +113,11 @@ public class ServiceUserStatusDAOImpl implements ServiceUserStatusDAOCustom {
             throw new NotFoundException(String.format("Assignment status with id: %d was not found.", id));
         }
         return found.get();
+    }
+
+    private void checkIfExistsByStatusName(ServiceUserStatusEntity serviceUserStatus){
+        if (serviceUserStatusDAO.countAllByStatusIs(serviceUserStatus.getStatus()) > 0) {
+            throw new DuplicateException(String.format("There is already service user's status with name %s.", serviceUserStatus.getStatus()));
+        }
     }
 }

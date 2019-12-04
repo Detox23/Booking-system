@@ -14,7 +14,7 @@ public interface SystemUserDAOCustom {
 
     boolean deleteSystemUser(int id);
 
-    List<SystemUserDto> listSystemUsers();
+    List<SystemUserDto> listSystemUsers(boolean showDeleted);
 
     SystemUserDto findSystemUser(int id);
 

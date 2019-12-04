@@ -53,7 +53,7 @@ public class ServiceUserStatusService implements IServiceUserStatusService{
     }
 
     @Override
-    public List<ServiceUserStatusDto> listServiceUserStatuses() {
-        return serviceUserStatusDAO.listServiceUserStatuses();
+    public List<ServiceUserStatusDto> listServiceUserStatuses(boolean showDeleted) {
+        return serviceUserStatusDAO.listServiceUserStatuses(showDeleted);
     }
 }

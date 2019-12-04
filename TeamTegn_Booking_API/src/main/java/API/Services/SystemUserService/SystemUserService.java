@@ -32,8 +32,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
 
     private SystemUserDAO systemUserDAO;
 
-    private EncryptionHandler encryptionHandler;
-
     private ModelMapper modelMapper;
 
     private DepartmentDAO departmentDAO;
@@ -41,13 +39,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     private SystemUser_DepartmentDAO systemUserDepartmentDAO;
 
     private RoleDAO roleDAO;
-
-    private PasswordEncoder bcryptEncoder;
-
-    @Autowired
-    public void setBcryptEncoder(PasswordEncoder bcryptEncoder) {
-        this.bcryptEncoder = bcryptEncoder;
-    }
 
     @Autowired
     public void setRoleDAO(RoleDAO roleDAO) {
@@ -62,11 +53,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     @Autowired
     public void setSystemUserDepartmentDAO(SystemUser_DepartmentDAO systemUserDepartmentDAO) {
         this.systemUserDepartmentDAO = systemUserDepartmentDAO;
-    }
-
-    @Autowired
-    public void setEncryptionHandler(EncryptionHandler encryptionHandler) {
-        this.encryptionHandler = encryptionHandler;
     }
 
     @Autowired
@@ -105,15 +91,13 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     }
 
     @Override
-    public List<SystemUserDto> listSystemUsers() {
-        List<SystemUserDto> foundUsers = systemUserDAO.listSystemUsers();
-        List<SystemUserDto> returnList = new ArrayList<>();
+    public List<SystemUserDto> listSystemUsers(boolean showDeleted) {
+        List<SystemUserDto> foundUsers = systemUserDAO.listSystemUsers(showDeleted);
         for(SystemUserDto user: foundUsers){
             fillWithListOfDepartments(user);
-            returnList.add(user);
             addRole(user);
         }
-        return returnList;
+        return foundUsers;
     }
 
     @Override

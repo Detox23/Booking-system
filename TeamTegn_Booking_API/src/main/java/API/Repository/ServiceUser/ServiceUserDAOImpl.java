@@ -1,12 +1,17 @@
 package API.Repository.ServiceUser;
 
+import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.CityPostcodesEntity;
 import API.Models.Database_Entities.ServiceUserAccountEntity;
 import API.Models.Database_Entities.ServiceUserEntity;
+import API.Models.Database_Entities.WiPostcodeEntity;
+import API.Repository.CityPostcodes.CityPostcodesDAO;
+import API.Repository.CityPostcodes.WI_PostcodeDAO;
 import Shared.ToReturn.ServiceUserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,9 @@ import java.util.Optional;
 @Component
 public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
+    private final int update = 1;
+    private final int insert = 0;
+
     private ServiceUserAccountsDAO serviceUserAccountsDAO;
 
     private ServiceUserDAO serviceUserDAO;
@@ -29,6 +37,26 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
     private ModelMapper modelMapper;
 
+    private EncryptionHandler encryptionHandler;
+
+    private CityPostcodesDAO cityPostcodesDAO;
+
+    private WI_PostcodeDAO wiPostcodeDAO;
+
+    @Autowired
+    public void setWiPostcodeDAO(WI_PostcodeDAO wiPostcodeDAO) {
+        this.wiPostcodeDAO = wiPostcodeDAO;
+    }
+
+    @Autowired
+    public void setCityPostcodesDAO(CityPostcodesDAO cityPostcodesDAO) {
+        this.cityPostcodesDAO = cityPostcodesDAO;
+    }
+
+    @Autowired
+    public void setEncryptionHandler(EncryptionHandler encryptionHandler) {
+        this.encryptionHandler = encryptionHandler;
+    }
 
     @Autowired
     public void setServiceUserAccountsDAO(ServiceUserAccountsDAO serviceUserAccountsDAO) {
@@ -54,13 +82,10 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
     @Override
     public ServiceUserDto addServiceUser(ServiceUserEntity serviceUser, List<Integer> accounts) {
         try {
-            int count = serviceUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(serviceUser.getFirstName(), serviceUser.getLastName(), serviceUser.getLastName());
-            if (count > 0) {
-                throw new DuplicateException(String.format("The is already service user with name: %s %s %s.", serviceUser.getFirstName(),
-                        serviceUser.getMiddleName(), serviceUser.getLastName()));
-            }
+            checkIfExistsByName(serviceUser, insert);
+            encryptCpr(serviceUser);
             ServiceUserEntity saved = serviceUserDAO.save(serviceUser);
-            addServiceProvidersAccounts(accounts, saved.getId());
+            addServiceUsersAccounts(accounts, saved.getId());
             return modelMapper.map(saved, ServiceUserDto.class);
         } catch (Exception e) {
             throw e;
@@ -102,9 +127,11 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
     @Override
     public ServiceUserDto updateServiceUser(ServiceUserEntity serviceUser, List<Integer> accounts) {
         try {
+            encryptCpr(serviceUser);
             ServiceUserEntity found = findIfExistsAndReturn(serviceUser.getId());
             patcherHandler.fillNotNullFields(found, serviceUser);
-            addServiceProvidersAccounts(accounts, serviceUser.getId());
+            checkIfExistsByName(found, update);
+            addServiceUsersAccounts(accounts, serviceUser.getId());
             ServiceUserEntity result = serviceUserDAO.save(found);
             return modelMapper.map(result, ServiceUserDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -123,7 +150,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         return found.get();
     }
 
-    private void addServiceProvidersAccounts(List<Integer> accounts, int id){
+    private void addServiceUsersAccounts(List<Integer> accounts, int id){
         try{
             if(accounts != null){
                 serviceUserAccountsDAO.deleteAllByServiceUserIdIs(id);
@@ -141,5 +168,58 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
             throw e;
         }
     }
+
+    private void checkIfExistsByName(ServiceUserEntity serviceUser, int allowedFound){
+        int count = serviceUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(serviceUser.getFirstName(), serviceUser.getMiddleName(), serviceUser.getLastName());
+        if (count > allowedFound) {
+            if(serviceUser.getFirstName() == null){
+                serviceUser.setFirstName("");
+            }else if(serviceUser.getMiddleName() == null){
+                serviceUser.setMiddleName("");
+            }else if(serviceUser.getLastName() == null){
+                serviceUser.setLastName("");
+            }
+            throw new DuplicateException(String.format("The is already service user with name: %s %s %s.", serviceUser.getFirstName(),
+                    serviceUser.getMiddleName(), serviceUser.getLastName()));
+        }
+    }
+
+    private void checkAndFillPostcodeAndCity(ServiceUserEntity serviceUser) {
+        if (serviceUser.getCity() == null && serviceUser.getPostcode() != null) {
+            Optional<CityPostcodesEntity> found = cityPostcodesDAO.findFirstByPostcodeIs(serviceUser.getPostcode());
+            if (found.isPresent()) {
+                serviceUser.setCity(found.get().getCity());
+            }
+        }
+        if (serviceUser.getPostcode() == null && serviceUser.getCity() != null) {
+            Optional<CityPostcodesEntity> found = cityPostcodesDAO.findFirstByCityIs(serviceUser.getCity());
+            if (found.isPresent()) {
+                serviceUser.setPostcode(found.get().getPostcode());
+            }
+        }
+    }
+
+    private void addStateRegion(ServiceUserEntity serviceUser){
+        if(serviceUser.getStateRegion() == null && serviceUser.getPostcode() != null){
+            Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(serviceUser.getPostcode());
+            if(wiPostcode.isPresent()){
+                if(wiPostcode.get().getArhus()){
+                    serviceUser.setStateRegion("Aarhus");
+                }else if(wiPostcode.get().getCopenhagen()){
+                    serviceUser.setStateRegion("Copenhagen");
+                }else if(wiPostcode.get().getFredericia()){
+                    serviceUser.setStateRegion("Fredericia");
+                }
+            }
+        }
+    }
+
+
+    private void encryptCpr(ServiceUserEntity serviceProvider) {
+        String cpr = serviceProvider.getCpr();
+        String hashed = encryptionHandler.encrypt(cpr);
+        serviceProvider.setCpr(hashed);
+    }
+
 }
 

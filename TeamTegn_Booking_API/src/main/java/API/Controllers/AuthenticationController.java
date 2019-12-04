@@ -29,8 +29,6 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/systemUsers/login", method = RequestMethod.POST)
     public ResponseEntity register(@RequestBody LoginUser loginUser) throws AuthenticationException {
-        System.out.println(loginUser.getPassword());
-        System.out.println(loginUser.getUserName());
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUser.getUserName(),

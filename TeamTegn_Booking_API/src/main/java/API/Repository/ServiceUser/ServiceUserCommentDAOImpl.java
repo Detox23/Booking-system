@@ -71,6 +71,7 @@ public class ServiceUserCommentDAOImpl implements ServiceUserCommentDAOCustom {
     @Override
     public ServiceUserCommentDto updateServiceUserComment(ServiceUserCommentEntity serviceProviderComment) {
         try {
+            serviceProviderComment.setUserId(null);
             ServiceUserCommentEntity found = findIfExistsAndReturn(serviceProviderComment.getId());
             patcherHandler.fillNotNullFields(found, serviceProviderComment);
             ServiceUserCommentEntity updated = serviceUserCommentDAO.save(found);

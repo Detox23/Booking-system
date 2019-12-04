@@ -15,7 +15,7 @@ public interface ISystemUserService {
 
     SystemUserDto findSystemUserByUsername(String userName);
 
-    List<SystemUserDto> listSystemUsers();
+    List<SystemUserDto> listSystemUsers(boolean showDeleted);
 
     SystemUserDto findSystemUser(int id);
 

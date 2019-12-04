@@ -37,9 +37,9 @@ public class SystemUserController {
         return new ResponseEntity<>(systemUserService.findSystemUser(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listSystemUsers() {
-        return new ResponseEntity<>(systemUserService.listSystemUsers(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listSystemUsers(@PathVariable boolean showDeleted) {
+        return new ResponseEntity<>(systemUserService.listSystemUsers(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)

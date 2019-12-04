@@ -11,5 +11,5 @@ public interface IServiceUserStatusService {
     ServiceUserStatusDto updateServiceUserStatus(ServiceUserStatusForUpdateDto serviceUserStatus);
     boolean deleteServiceUserStatus(int id);
     ServiceUserStatusDto findServiceUserStatus(int id);
-    List<ServiceUserStatusDto> listServiceUserStatuses();
+    List<ServiceUserStatusDto> listServiceUserStatuses(boolean showDeleted);
 }

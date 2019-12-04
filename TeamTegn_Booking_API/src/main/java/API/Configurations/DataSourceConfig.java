@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
     @Bean
-    @Primary
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

@@ -4,12 +4,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "ServiceUser", schema = "dbo")
 public class ServiceUserEntity {
     private int id;
@@ -39,11 +41,8 @@ public class ServiceUserEntity {
     private boolean isDeleted;
     private byte[] serviceUserImage;
     private Integer departmentId;
-    private String username;
-    private String password;
     private int statusId;
     private String externalId;
-    private Integer roleId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,7 +56,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "Gender", nullable = true)
+    @Column(name = "Gender")
     public Integer getGender() {
         return gender;
     }
@@ -67,7 +66,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "FirstName", nullable = true, length = 50)
+    @Column(name = "FirstName", length = 50)
     public String getFirstName() {
         return firstName;
     }
@@ -77,7 +76,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "MiddleName", nullable = true, length = 50)
+    @Column(name = "MiddleName", length = 50)
     public String getMiddleName() {
         return middleName;
     }
@@ -87,7 +86,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "LastName", nullable = true, length = 50)
+    @Column(name = "LastName", length = 50)
     public String getLastName() {
         return lastName;
     }
@@ -97,7 +96,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "CPR", nullable = true, length = 250)
+    @Column(name = "CPR", length = 250)
     public String getCpr() {
         return cpr;
     }
@@ -107,7 +106,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneCode", nullable = true, length = 50)
+    @Column(name = "TelephoneCode", length = 50)
     public String getTelephoneCode() {
         return telephoneCode;
     }
@@ -117,7 +116,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "TelephoneNumber", nullable = true, length = 50)
+    @Column(name = "TelephoneNumber", length = 50)
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
@@ -127,7 +126,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "MobileCode", nullable = true, length = 50)
+    @Column(name = "MobileCode", length = 50)
     public String getMobileCode() {
         return mobileCode;
     }
@@ -137,7 +136,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "MobileNumber", nullable = true, length = 50)
+    @Column(name = "MobileNumber", length = 50)
     public String getMobileNumber() {
         return mobileNumber;
     }
@@ -147,7 +146,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "FaxCode", nullable = true, length = 50)
+    @Column(name = "FaxCode", length = 50)
     public String getFaxCode() {
         return faxCode;
     }
@@ -157,7 +156,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "FaxNumber", nullable = true, length = 50)
+    @Column(name = "FaxNumber", length = 50)
     public String getFaxNumber() {
         return faxNumber;
     }
@@ -167,7 +166,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "Email1", nullable = true, length = 2147483647)
+    @Column(name = "Email1", length = 2147483647)
     public String getEmail1() {
         return email1;
     }
@@ -177,7 +176,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "Email2", nullable = true, length = 50)
+    @Column(name = "Email2", length = 50)
     public String getEmail2() {
         return email2;
     }
@@ -187,7 +186,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "Skype", nullable = true, length = 50)
+    @Column(name = "Skype", length = 50)
     public String getSkype() {
         return skype;
     }
@@ -197,7 +196,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "Street", nullable = true, length = 150)
+    @Column(name = "Street", length = 150)
     public String getStreet() {
         return street;
     }
@@ -207,7 +206,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "Postcode", nullable = true, length = 50)
+    @Column(name = "Postcode", length = 50)
     public String getPostcode() {
         return postcode;
     }
@@ -217,7 +216,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "City", nullable = true, length = 50)
+    @Column(name = "City", length = 50)
     public String getCity() {
         return city;
     }
@@ -227,7 +226,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "StateRegion", nullable = true, length = 50)
+    @Column(name = "StateRegion", length = 50)
     public String getStateRegion() {
         return stateRegion;
     }
@@ -237,7 +236,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "Country", nullable = true, length = 100)
+    @Column(name = "Country", length = 100)
     public String getCountry() {
         return country;
     }
@@ -248,7 +247,7 @@ public class ServiceUserEntity {
 
     @Basic
     @CreatedBy
-    @Column(name = "CreatedBy", nullable = true)
+    @Column(name = "CreatedBy")
     public Integer getCreatedBy() {
         return createdBy;
     }
@@ -259,7 +258,7 @@ public class ServiceUserEntity {
 
     @Basic
     @CreationTimestamp
-    @Column(name = "CreatedDate", nullable = true)
+    @Column(name = "CreatedDate")
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -270,7 +269,7 @@ public class ServiceUserEntity {
 
     @Basic
     @LastModifiedBy
-    @Column(name = "LastModifiedBy", nullable = true)
+    @Column(name = "LastModifiedBy")
     public Integer getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -281,7 +280,7 @@ public class ServiceUserEntity {
 
     @Basic
     @UpdateTimestamp
-    @Column(name = "LastModified", nullable = true)
+    @Column(name = "LastModified")
     public Timestamp getLastModified() {
         return lastModified;
     }
@@ -301,7 +300,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "ServiceUserImage", nullable = true)
+    @Column(name = "ServiceUserImage")
     public byte[] getServiceUserImage() {
         return serviceUserImage;
     }
@@ -311,33 +310,13 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "DepartmentID", nullable = true)
+    @Column(name = "DepartmentID")
     public Integer getDepartmentId() {
         return departmentId;
     }
 
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
-    }
-
-    @Basic
-    @Column(name = "Username", nullable = true, length = 50)
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Basic
-    @Column(name = "Password", nullable = true, length = 50)
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Basic
@@ -351,7 +330,7 @@ public class ServiceUserEntity {
     }
 
     @Basic
-    @Column(name = "ExternalId", nullable = true, length = 50)
+    @Column(name = "ExternalId", length = 50)
     public String getExternalId() {
         return externalId;
     }
@@ -360,16 +339,7 @@ public class ServiceUserEntity {
         this.externalId = externalId;
     }
 
-    @Basic
-    @Column(name = "RoleID", nullable = true)
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
+    @SuppressWarnings("RedundantIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -408,10 +378,6 @@ public class ServiceUserEntity {
         if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null) return false;
         if (!Arrays.equals(serviceUserImage, that.serviceUserImage)) return false;
         if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (externalId != null ? !externalId.equals(that.externalId) : that.externalId != null) return false;
-        if (roleId != null ? !roleId.equals(that.roleId) : that.roleId != null) return false;
 
         return true;
     }
@@ -445,11 +411,8 @@ public class ServiceUserEntity {
         result = 31 * result + (isDeleted ? 1 : 0);
         result = 31 * result + Arrays.hashCode(serviceUserImage);
         result = 31 * result + (departmentId != null ? departmentId.hashCode() : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + statusId;
         result = 31 * result + (externalId != null ? externalId.hashCode() : 0);
-        result = 31 * result + (roleId != null ? roleId.hashCode() : 0);
         return result;
     }
 }
