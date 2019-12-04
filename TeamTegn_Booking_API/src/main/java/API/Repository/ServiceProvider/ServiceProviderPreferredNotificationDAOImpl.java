@@ -1,10 +1,10 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Models.Database_Entities.ServiceProviderPreferredNotificationEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.ServiceProviderPreferredNotificationEntity;
 import Shared.ToReturn.ServiceProviderPreferredNotificationDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -42,22 +42,24 @@ public class ServiceProviderPreferredNotificationDAOImpl implements ServiceProvi
 
     @Override
     public ServiceProviderPreferredNotificationDto addServiceProviderNotification(ServiceProviderPreferredNotificationEntity serviceProviderNotification) {
-        serviceProviderNotification.setDeleted(false);
-        if(serviceProviderPreferredNotificationDAO.findByNotificationTypeAndDeletedIsFalse(serviceProviderNotification.getNotificationType()).isPresent()){
-            throw new DuplicateException("There is already notification with exact notification type.");
+        try{
+            if(serviceProviderPreferredNotificationDAO.countAllByNotificationTypeIs(serviceProviderNotification.getNotificationType()) > 0){
+                throw new DuplicateException(String.format("There is already notification with notification type: %s.", serviceProviderNotification.getNotificationType()));
+            }
+            ServiceProviderPreferredNotificationEntity saved = serviceProviderPreferredNotificationDAO.save(serviceProviderNotification);
+            return modelMapper.map(saved, ServiceProviderPreferredNotificationDto.class);
+        }catch (Exception e){
+            throw e;
         }
-        return modelMapper.map(serviceProviderPreferredNotificationDAO.save(serviceProviderNotification), ServiceProviderPreferredNotificationDto.class);
+
     }
 
     @Override
     public ServiceProviderPreferredNotificationDto updateServiceProviderNotification(ServiceProviderPreferredNotificationEntity serviceProviderNotification) {
         try {
-            Optional<ServiceProviderPreferredNotificationEntity> found = serviceProviderPreferredNotificationDAO.findById(serviceProviderNotification.getId());
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The notification does not exist");
-            }
-            patcherHandler.fillNotNullFields(found.get(), serviceProviderNotification);
-            ServiceProviderPreferredNotificationEntity updated = serviceProviderPreferredNotificationDAO.save(found.get());
+            ServiceProviderPreferredNotificationEntity found = findIfExistsAndReturn(serviceProviderNotification.getId());
+            patcherHandler.fillNotNullFields(found, serviceProviderNotification);
+            ServiceProviderPreferredNotificationEntity updated = serviceProviderPreferredNotificationDAO.save(found);
             return modelMapper.map(updated, ServiceProviderPreferredNotificationDto.class);
         }catch(IntrospectionException introspectionExcpetion){
             throw new UpdatePatchException("There was an error while updating the notification. [PATCHING]");
@@ -69,41 +71,49 @@ public class ServiceProviderPreferredNotificationDAOImpl implements ServiceProvi
     @Override
     public boolean deleteServiceProviderNotification(int id) {
         try {
-            Optional<ServiceProviderPreferredNotificationEntity> found = serviceProviderPreferredNotificationDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The notification was not found.");
-            }
-            found.get().setDeleted(true);
-            ServiceProviderPreferredNotificationEntity updated = serviceProviderPreferredNotificationDAO.save(found.get());
-            if (updated.isDeleted()) {
-                return true;
-            }
-            return false;
+            ServiceProviderPreferredNotificationEntity found = findIfExistsAndReturn(id);
+            found.setDeleted(true);
+            ServiceProviderPreferredNotificationEntity deleted = serviceProviderPreferredNotificationDAO.save(found);
+            return deleted.isDeleted();
         } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
-    public List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications() {
-        try {
-            Type listType = new TypeToken<List<ServiceProviderPreferredNotificationDto>>() {}.getType();
-            return modelMapper.map(serviceProviderPreferredNotificationDAO.findAllByDeletedIsFalse(), listType);
-        } catch (Exception e) {
-            throw e;
+    public List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications(boolean showDeleted) {
+        if(showDeleted){
+            try {
+                Type listType = new TypeToken<List<ServiceProviderPreferredNotificationDto>>() {}.getType();
+                return modelMapper.map(serviceProviderPreferredNotificationDAO.findAll(), listType);
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            try {
+                Type listType = new TypeToken<List<ServiceProviderPreferredNotificationDto>>() {}.getType();
+                return modelMapper.map(serviceProviderPreferredNotificationDAO.findAllByDeletedIsFalse(), listType);
+            } catch (Exception e) {
+                throw e;
+            }
         }
     }
 
     @Override
     public ServiceProviderPreferredNotificationDto findServiceProviderNotification(int id) {
         try {
-            Optional<ServiceProviderPreferredNotificationEntity> found = serviceProviderPreferredNotificationDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The notification was not found.");
-            }
-            return modelMapper.map(found.get(), ServiceProviderPreferredNotificationDto.class);
+            ServiceProviderPreferredNotificationEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, ServiceProviderPreferredNotificationDto.class);
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    private ServiceProviderPreferredNotificationEntity findIfExistsAndReturn(int id) {
+        Optional<ServiceProviderPreferredNotificationEntity> found = serviceProviderPreferredNotificationDAO.findByIdIsAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Service provider preferred notification with id: %d was not found.", id));
+        }
+        return found.get();
     }
 }

@@ -1,20 +1,23 @@
 package API.Controllers;
+
 import API.Services.ServiceUserService.IServiceUserCommentService;
 import API.Services.ServiceUserService.IServiceUserService;
-import Shared.ForCreation.*;
+import Shared.ForCreation.ServiceUserCommentForCreationDto;
+import Shared.ForCreation.ServiceUserCommentForUpdateDto;
+import Shared.ForCreation.ServiceUserForCreationDto;
+import Shared.ForCreation.ServiceUserForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/api/serviceUsers")
-public class ServiceUserController extends BaseController {
+public class ServiceUserController {
 
     private IServiceUserService serviceUserService;
 

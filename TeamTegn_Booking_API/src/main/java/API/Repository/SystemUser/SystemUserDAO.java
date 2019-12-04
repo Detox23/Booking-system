@@ -3,7 +3,6 @@ package API.Repository.SystemUser;
 import API.Models.Database_Entities.SystemUserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 
 import javax.transaction.Transactional;
 import java.util.List;

@@ -1,9 +1,9 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Models.Database_Entities.ServiceProviderCommentEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.ServiceProviderCommentEntity;
 import Shared.ToReturn.ServiceProviderCommentDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -42,52 +42,57 @@ public class ServiceProviderCommentDAOImpl implements ServiceProviderCommentDAOC
 
     @Override
     public ServiceProviderCommentDto addServiceProviderComment(ServiceProviderCommentEntity serviceProviderComment) {
-        return modelMapper.map(serviceProviderCommentDAO.save(serviceProviderComment), ServiceProviderCommentDto.class);
+        try {
+            return modelMapper.map(serviceProviderCommentDAO.save(serviceProviderComment), ServiceProviderCommentDto.class);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
-    public ServiceProviderCommentDto updateServiceProviderComment(ServiceProviderCommentEntity serviceProviderComment)  {
+    public ServiceProviderCommentDto updateServiceProviderComment(ServiceProviderCommentEntity serviceProviderComment) {
         try {
             ServiceProviderCommentEntity found = findIfExistsAndReturn(serviceProviderComment.getId());
             patcherHandler.fillNotNullFields(found, serviceProviderComment);
             ServiceProviderCommentEntity updated = serviceProviderCommentDAO.save(found);
             return modelMapper.map(updated, ServiceProviderCommentDto.class);
-        }catch(IntrospectionException introspectionException){
+        } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was a problem with updating a comment.[PATCHING]");
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
     public ServiceProviderCommentDto findServiceProviderComment(int commentID) {
-        try{
+        try {
             ServiceProviderCommentEntity found = findIfExistsAndReturn(commentID);
             return modelMapper.map(found, ServiceProviderCommentDto.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
     public List<ServiceProviderCommentDto> findServiceProviderComments(int serviceProviderID) {
-        try{
-            Type listType = new TypeToken<List<ServiceProviderCommentDto>>() {}.getType();
+        try {
+            Type listType = new TypeToken<List<ServiceProviderCommentDto>>() {
+            }.getType();
             List<ServiceProviderCommentEntity> listOfComments = serviceProviderCommentDAO.findAllByServiceProviderIdIs(serviceProviderID);
             return modelMapper.map(listOfComments, listType);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
     public boolean deleteServiceProviderComment(int commentID) {
-        try{
+        try {
             ServiceProviderCommentEntity found = findIfExistsAndReturn(commentID);
             serviceProviderCommentDAO.deleteById(found.getId());
             Optional<ServiceProviderCommentEntity> assure = serviceProviderCommentDAO.findById(commentID);
             return assure.isPresent();
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }

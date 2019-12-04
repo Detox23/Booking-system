@@ -1,14 +1,15 @@
 package API.Repository.ServiceUser;
 
 import API.Models.Database_Entities.ServiceUserPreferencesEntity;
+import Shared.ToReturn.ServiceUserPreferencesDto;
 
 import java.util.List;
 
 public interface ServiceUserPreferencesDAOCustom {
-    ServiceUserPreferencesEntity add(ServiceUserPreferencesEntity a);
-    boolean deleteById(int Id);
-    List<ServiceUserPreferencesEntity> findAllByServiceUser(int id);
-    ServiceUserPreferencesEntity findByServiceProviderAndUser(int serviceProviderId, int serviceUserId);
-    ServiceUserPreferencesEntity update(ServiceUserPreferencesEntity a);
+    ServiceUserPreferencesDto addServiceUserPreference(ServiceUserPreferencesEntity a);
+    boolean deleteServiceUserPreference(int Id);
+    List<ServiceUserPreferencesDto> listServiceUserPreferences(int id);
+    ServiceUserPreferencesDto findServiceProviderAndUser(int serviceProviderId, int serviceUserId);
+    ServiceUserPreferencesDto updateServiceUserPreference(ServiceUserPreferencesEntity a);
 
 }

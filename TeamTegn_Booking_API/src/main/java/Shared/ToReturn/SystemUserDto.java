@@ -2,7 +2,6 @@ package Shared.ToReturn;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.List;
 

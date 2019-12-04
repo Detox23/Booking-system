@@ -1,13 +1,16 @@
 package API.Services.ServiceProviderService;
 
 import API.Configurations.Encryption.EncryptionHandler;
-import API.Models.Database_Entities.ServiceProviderEntity;
 import API.Exceptions.NotFoundException;
+import API.Models.Database_Entities.ServiceProviderEntity;
+import API.Models.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
+import API.Models.Database_Entities.ServiceProviderServiceProviderTypeEntity;
 import API.Repository.ServiceProvider.*;
 import Shared.ForCreation.ServiceProviderForCreationDto;
 import Shared.ForCreation.ServiceProviderForUpdateDto;
 import Shared.ToReturn.*;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,10 +70,10 @@ public class ServiceProviderService implements IServiceProviderService {
     }
 
     @Override
-    public List<ServiceProviderDto> list() {
+    public List<ServiceProviderDto> listAllServiceProviders(boolean showDeleted) {
         Map<Integer, ServiceProviderTypeDto> helperTypeMap = new HashMap<>();
         Map<Integer, ServiceProviderCompetencyDto> helperCompetencyMap = new HashMap<>();
-        List<ServiceProviderDto> foundList = serviceProviderDAO.listAllServiceProvider();
+        List<ServiceProviderDto> foundList = serviceProviderDAO.listAllServiceProvider(showDeleted);
         for(ServiceProviderDto serviceProvider: foundList){
             decryptCpr(serviceProvider);
             fillCompetencyListToReturn(serviceProvider, helperCompetencyMap);
@@ -125,6 +128,7 @@ public class ServiceProviderService implements IServiceProviderService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteServiceProvider(int id) {
         return serviceProviderDAO.deleteServiceProvider(id);
     }
@@ -137,7 +141,8 @@ public class ServiceProviderService implements IServiceProviderService {
 
     private void fillTypeListToReturn(ServiceProviderDto serviceProvider, Map<Integer, ServiceProviderTypeDto> helperTypeMap) {
         serviceProvider.setTypes(new ArrayList<>());
-        List<ServiceProviderServiceProviderTypeDto> listOfTypes = serviceProviderServiceProviderTypeDAO.listServiceProviderServiceProviderTypes(serviceProvider.getId());
+        List<ServiceProviderServiceProviderTypeEntity> listOfTypesEntity = serviceProviderServiceProviderTypeDAO.findAllByServiceProviderId(serviceProvider.getId());
+        List<ServiceProviderServiceProviderTypeDto> listOfTypes = modelMapper.map(listOfTypesEntity, new TypeToken<List<ServiceProviderServiceProviderTypeDto>>() {}.getType());
         for (ServiceProviderServiceProviderTypeDto type : listOfTypes) {
             if (helperTypeMap.get(type.getServiceProviderTypeId()) == null) {
                 ServiceProviderTypeDto found = serviceProviderTypeDAO.findServiceProviderType(type.getServiceProviderTypeId());
@@ -151,10 +156,11 @@ public class ServiceProviderService implements IServiceProviderService {
 
     private void fillCompetencyListToReturn(ServiceProviderDto serviceProvider, Map<Integer, ServiceProviderCompetencyDto> helperCompetencyMap) {
         serviceProvider.setCompetences(new ArrayList<>());
-        List<ServiceProviderServiceProviderCompetencyDto> listOfCompetency = serviceProviderServiceProviderCompetencyDAO.listAllCompetenciesOfServiceProvider(serviceProvider.getId());
+        List<ServiceProviderServiceProviderCompetencyEntity> listOfCompetencyEntity= serviceProviderServiceProviderCompetencyDAO.findAllByServiceProviderId(serviceProvider.getId());
+        List<ServiceProviderServiceProviderCompetencyDto> listOfCompetency = modelMapper.map(listOfCompetencyEntity, new TypeToken<List<ServiceProviderServiceProviderCompetencyDto>>() {}.getType());
         for (ServiceProviderServiceProviderCompetencyDto competency : listOfCompetency) {
             if (helperCompetencyMap.get(competency.getCompetencyId()) == null) {
-                ServiceProviderCompetencyDto found = serviceProviderCompetencyDAO.getOneCompetency(competency.getCompetencyId());
+                ServiceProviderCompetencyDto found = serviceProviderCompetencyDAO.findServiceProviderCompetency(competency.getCompetencyId());
                 helperCompetencyMap.put(competency.getCompetencyId(), found);
                 serviceProvider.getCompetences().add(found);
             } else {

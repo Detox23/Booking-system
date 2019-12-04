@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/serviceProviders")
-public class ServiceProviderController extends BaseController {
+public class ServiceProviderController {
 
     private IServiceProviderService serviceProviderService;
 
@@ -32,28 +32,28 @@ public class ServiceProviderController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return new ResponseEntity<>(serviceProviderService.list(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllServiceProviders(@PathVariable boolean showDeleted) {
+        return new ResponseEntity<>(serviceProviderService.listAllServiceProviders(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findOne(@PathVariable int id) {
+    public ResponseEntity<?> findServiceProvider(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderService.findServiceProvider(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> addOne(@RequestBody ServiceProviderForCreationDto serviceProvider) {
+    public ResponseEntity<?> addServiceProvider(@RequestBody ServiceProviderForCreationDto serviceProvider) {
         return new ResponseEntity<>(serviceProviderService.addServiceProvider(serviceProvider), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateOne(@RequestBody ServiceProviderForUpdateDto serviceProvider) {
+    public ResponseEntity<?> updateServiceProvider(@RequestBody ServiceProviderForUpdateDto serviceProvider) {
         return new ResponseEntity<>(serviceProviderService.updateServiceProvider(serviceProvider), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteOne(@PathVariable int id) {
+    public ResponseEntity<?> deleteServiceProvider(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderService.deleteServiceProvider(id), new HttpHeaders(), HttpStatus.OK);
     }
 

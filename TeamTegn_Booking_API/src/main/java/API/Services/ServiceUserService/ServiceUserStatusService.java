@@ -8,6 +8,7 @@ import Shared.ToReturn.ServiceUserStatusDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,16 +30,19 @@ public class ServiceUserStatusService implements IServiceUserStatusService{
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public ServiceUserStatusDto addServiceUserStatus(ServiceUserStatusForCreationDto serviceUserStatus) {
         return serviceUserStatusDAO.addServiceUserStatus(modelMapper.map(serviceUserStatus, ServiceUserStatusEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public ServiceUserStatusDto updateServiceUserStatus(ServiceUserStatusForUpdateDto serviceUserStatus) {
         return serviceUserStatusDAO.updateServiceUserStatus(modelMapper.map(serviceUserStatus, ServiceUserStatusEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteServiceUserStatus(int id) {
         return serviceUserStatusDAO.deleteServiceUserStatus(id);
     }

@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/department")
-public class DepartmentController extends BaseController {
+public class DepartmentController {
 
     private IDepartmentService departmentService;
 

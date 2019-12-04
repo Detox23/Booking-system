@@ -40,20 +40,20 @@ public class DepartmentService implements IDepartmentService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteDepartment(int id) {
         return departmentDAO.deleteOneDepartment(id);
     }
 
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public DepartmentDto addDepartment(DepartmentForCreationDto department) {
         return departmentDAO.addOneDepartment(modelMapper.map(department, DepartmentEntity.class));
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public DepartmentDto updateDepartment(DepartmentForUpdateDto department) {
         return departmentDAO.updateOneDepartment(modelMapper.map(department, DepartmentEntity.class));
     }

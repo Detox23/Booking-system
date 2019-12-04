@@ -2,20 +2,19 @@ package API.Repository.SystemUser;
 
 import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
-import API.Models.Database_Entities.CityPostcodesEntity;
-import API.Models.Database_Entities.SystemUserDepartmentEntity;
-import API.Models.Database_Entities.SystemUserEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.CityPostcodesEntity;
+import API.Models.Database_Entities.SystemUserDepartmentEntity;
+import API.Models.Database_Entities.SystemUserEntity;
 import API.Repository.CityPostcodes.CityPostcodesDAO;
 import Shared.ToReturn.SystemUserDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -115,9 +114,9 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     @Override
     public SystemUserDto updateSystemUser(SystemUserEntity systemUser, List<Integer> departments) {
         try {
-            SystemUserEntity found = findIfExistsAndReturn(systemUser.getId());
             checkAndFillPostcodeAndCity(systemUser);
             encryptPassword(systemUser);
+            SystemUserEntity found = findIfExistsAndReturn(systemUser.getId());
             patcherHandler.fillNotNullFields(found, systemUser);
             SystemUserEntity updated = systemUserDAO.save(found);
             addDepartments(departments, updated);

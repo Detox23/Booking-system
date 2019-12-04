@@ -4,76 +4,67 @@ import API.Models.Database_Entities.ServiceUserPreferencesEntity;
 import API.Repository.ServiceUser.ServiceUserPreferencesDAO;
 import API.Services.ServiceProviderService.ServiceProviderService;
 import Shared.ForCreation.ServiceUserPreferencesForCreationDto;
-import Shared.ForCreation.ServiceUserPreferenesForUpdateDto;
-import Shared.ToReturn.ServiceUserCommentDto;
+import Shared.ForCreation.ServiceUserPreferencesForUpdateDto;
 import Shared.ToReturn.ServiceUserPreferencesDto;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Type;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+
 @Service
-public class ServiceUserPreferencesService implements IServiceUserPreferenecesService {
+public class ServiceUserPreferencesService implements IServiceUserPreferencesService {
 
     private ServiceUserPreferencesDAO userPreferencesDAO;
-    private ModelMapper mapper;
-    private ServiceProviderService providerService;
+    private ModelMapper modelMapper;
+    private ServiceProviderService serviceProviderService;
 
     @Autowired
     public void setUserPreferencesDAO(ServiceUserPreferencesDAO userPreferencesDAO) {
         this.userPreferencesDAO = userPreferencesDAO;
     }
+
     @Autowired
-    public void setMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
     @Autowired
-    public void setProviderService(ServiceProviderService providerService) {
-        this.providerService = providerService;
+    public void setProviderService(ServiceProviderService serviceProviderService) {
+        this.serviceProviderService = serviceProviderService;
     }
 
     @Override
-    public ServiceUserPreferencesDto add(ServiceUserPreferencesForCreationDto preferencesForCreationDto) {
-        ServiceUserPreferencesEntity entity = mapper.map(preferencesForCreationDto, ServiceUserPreferencesEntity.class );
-        ServiceUserPreferencesEntity added =userPreferencesDAO.add(entity);
-        ServiceUserPreferencesDto mapped = mapper.map(added, ServiceUserPreferencesDto.class);
-        return mapped;
+    @Transactional(rollbackFor = Throwable.class)
+    public ServiceUserPreferencesDto addServiceUserPreference(ServiceUserPreferencesForCreationDto serviceUserPreferences) {
+        return userPreferencesDAO.addServiceUserPreference(modelMapper.map(serviceUserPreferences, ServiceUserPreferencesEntity.class));
     }
 
     @Override
-    public ServiceUserPreferencesDto update(int id, ServiceUserPreferenesForUpdateDto pereferencesForUpdate) {
-        ServiceUserPreferencesEntity entity = mapper.map(pereferencesForUpdate, ServiceUserPreferencesEntity.class );
-        entity.setId(id);
-        ServiceUserPreferencesEntity added =userPreferencesDAO.update(entity);
-        ServiceUserPreferencesDto mapped = mapper.map(added, ServiceUserPreferencesDto.class);
-        return mapped;
+    @Transactional(rollbackFor = Throwable.class)
+    public ServiceUserPreferencesDto updateServiceUserPreference(int id, ServiceUserPreferencesForUpdateDto serviceUserPreferences) {
+        serviceUserPreferences.setId(id);
+        return userPreferencesDAO.updateServiceUserPreference(modelMapper.map(serviceUserPreferences, ServiceUserPreferencesEntity.class));
     }
 
     @Override
-    public ServiceUserPreferencesDto findByServiceProviderAndUser(int serviceProvider, int serviceUser) {
-        ServiceUserPreferencesEntity entity =userPreferencesDAO.findByServiceProviderAndUser(serviceProvider, serviceUser);
-        ServiceUserPreferencesDto mapped = mapper.map(entity, ServiceUserPreferencesDto.class);
-        return mapped;
+    public ServiceUserPreferencesDto findServiceProviderAndUser(int serviceProvider, int serviceUser) {
+        return userPreferencesDAO.findServiceProviderAndUser(serviceProvider, serviceUser);
     }
 
     @Override
-    public boolean delete(int id) {
-        return userPreferencesDAO.deleteById(id);
+    @Transactional(rollbackFor = Throwable.class)
+    public boolean deleteServiceUserPreference(int id) {
+        return userPreferencesDAO.deleteServiceUserPreference(id);
     }
 
     @Override
-    public List<ServiceUserPreferencesDto> findAllByServiceUser(int serviceUserId)
+    public List<ServiceUserPreferencesDto> listServiceUserPreferences(int serviceUserId)
     {
-        Type listType = new TypeToken<List<ServiceUserCommentDto>>() {}.getType();
-
-        List<ServiceUserPreferencesEntity> foundList = userPreferencesDAO.findAllByServiceUser(serviceUserId);
-        List<ServiceUserPreferencesDto> foundListDtos = mapper.map(foundList, listType);
-        for(ServiceUserPreferencesDto preferencesDto: foundListDtos){
-                preferencesDto.setServiceProvider(providerService.findServiceProvider(preferencesDto.getServiceProviderId()));
+        List<ServiceUserPreferencesDto> foundList = userPreferencesDAO.listServiceUserPreferences(serviceUserId);
+        for(ServiceUserPreferencesDto preference: foundList){
+            preference.setServiceProvider(serviceProviderService.findServiceProvider(preference.getServiceProviderId()));
         }
-        return foundListDtos;
+        return foundList;
     }
 }
 

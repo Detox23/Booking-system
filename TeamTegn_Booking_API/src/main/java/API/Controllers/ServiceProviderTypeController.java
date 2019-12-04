@@ -21,31 +21,31 @@ public class ServiceProviderTypeController {
         this.serviceProviderTypeService = serviceProviderTypeService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return new ResponseEntity<>(serviceProviderTypeService.listServiceProviderTypes(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listServiceProviderTypes(@PathVariable boolean showDeleted) {
+        return new ResponseEntity<>(serviceProviderTypeService.listServiceProviderTypes(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findOne(@PathVariable int id) {
+    public ResponseEntity<?> findServiceProviderType(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderTypeService.findServiceProviderType(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_Administrator')")
-    public ResponseEntity<?> addOne(@RequestBody ServiceProviderTypeForCreationDto serviceProviderType) {
+    public ResponseEntity<?> addServiceProviderType(@RequestBody ServiceProviderTypeForCreationDto serviceProviderType) {
         return new ResponseEntity<>(serviceProviderTypeService.addServiceProviderType(serviceProviderType), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
     @PreAuthorize("hasRole('ROLE_Administrator')")
-    public ResponseEntity<?> updateOne(@RequestBody ServiceProviderTypeForUpdateDto serviceProviderType) {
+    public ResponseEntity<?> updateServiceProviderType(@RequestBody ServiceProviderTypeForUpdateDto serviceProviderType) {
         return new ResponseEntity<>(serviceProviderTypeService.updateServiceProviderType(serviceProviderType), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('ROLE_Administrator')")
-    public ResponseEntity<?> deleteOne(@PathVariable int id) {
+    public ResponseEntity<?> deleteServiceProviderType(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderTypeService.deleteServiceProviderType(id), new HttpHeaders(), HttpStatus.OK);
     }
 }

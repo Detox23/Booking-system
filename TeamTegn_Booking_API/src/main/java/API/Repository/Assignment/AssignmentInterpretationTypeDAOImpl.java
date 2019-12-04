@@ -1,10 +1,10 @@
 package API.Repository.Assignment;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Models.Database_Entities.AssignmentInterpretationTypeEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.AssignmentInterpretationTypeEntity;
 import Shared.ToReturn.AssignmentInterpretationTypeDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

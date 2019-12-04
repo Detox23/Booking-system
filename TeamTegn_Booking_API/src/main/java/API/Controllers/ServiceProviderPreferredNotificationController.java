@@ -39,9 +39,9 @@ public class ServiceProviderPreferredNotificationController {
         return new ResponseEntity<>(serviceProviderPreferredNotificationService.findServiceProviderNotification(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listServiceProviderNotification() {
-        return new ResponseEntity<>(serviceProviderPreferredNotificationService.listServiceProviderNotifications(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listServiceProviderNotification(@PathVariable boolean showDeleted) {
+        return new ResponseEntity<>(serviceProviderPreferredNotificationService.listServiceProviderNotifications(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)

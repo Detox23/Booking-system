@@ -8,6 +8,7 @@ import Shared.ToReturn.AssignmentInterpretationTypeDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class AssignmentInterpretationTypeService implements IAssignmentInterpret
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AssignmentInterpretationTypeDto addAssignmentInterpretationType(AssignmentInterpretationTypeForCreationDto assignmentEntity) {
         return assignmentInterpretationTypeDAO.addAssignmentInterpretationType(modelMapper.map(assignmentEntity, AssignmentInterpretationTypeEntity.class));
     }
@@ -46,11 +48,13 @@ public class AssignmentInterpretationTypeService implements IAssignmentInterpret
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteAssignmentInterpretationType(int id) {
         return assignmentInterpretationTypeDAO.deleteAssignmentInterpretationType(id);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AssignmentInterpretationTypeDto updateAssignmentInterpretationType(AssignmentInterpretationTypeForUpdateDto assignment) {
         return assignmentInterpretationTypeDAO.updateAssignmentInterpretationType(modelMapper.map(assignment, AssignmentInterpretationTypeEntity.class));
     }

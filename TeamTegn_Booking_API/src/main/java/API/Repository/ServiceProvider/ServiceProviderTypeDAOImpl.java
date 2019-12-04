@@ -1,8 +1,10 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Exceptions.DuplicateException;
+import API.Exceptions.NotFoundException;
+import API.Exceptions.UpdatePatchException;
 import API.Models.Database_Entities.ServiceProviderTypeEntity;
-import API.Exceptions.*;
 import Shared.ToReturn.ServiceProviderTypeDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -47,78 +49,78 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
 
     @Override
     public ServiceProviderTypeDto addServiceProviderType(ServiceProviderTypeEntity serviceProviderTypeEntity) {
-        if (serviceProviderTypeDAO.findAllByProviderType(serviceProviderTypeEntity.getProviderType()).size() > 0) {
-            throw new DuplicateException("There is already a provider type with exact name.");
-        }
-        if (serviceProviderTypeEntity.getProviderType() == null || serviceProviderTypeEntity.getProviderType().length() == 0) {
-            throw new NotEnoughDataException("You provided to little information to create the provider type.");
-        }
-        ServiceProviderTypeEntity saved = serviceProviderTypeDAO.save(serviceProviderTypeEntity);
-        if (saved.getId() > 0) {
+        try {
+            if (serviceProviderTypeDAO.countAllByProviderTypeIs(serviceProviderTypeEntity.getProviderType()) > 0) {
+                throw new DuplicateException(String.format("There is already a provider type with %s name.", serviceProviderTypeEntity.getProviderType()));
+            }
+            ServiceProviderTypeEntity saved = serviceProviderTypeDAO.save(serviceProviderTypeEntity);
             return modelMapper.map(saved, ServiceProviderTypeDto.class);
-        } else {
-            throw new UnknownAddingException("There was a problem with adding.");
+        }catch (Exception e) {
+            throw e;
         }
     }
 
     @Override
     public ServiceProviderTypeDto updateServiceProviderType(ServiceProviderTypeEntity serviceProviderTypeEntity) {
         try {
-            Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(serviceProviderTypeEntity.getId());
-            if (!found.isPresent()) {
-                throw new NotFoundException("Provider type was not found while an attempt of making update.");
-            }
-            patcherHandler.fillNotNullFields(found.get(), serviceProviderTypeEntity);
-            ServiceProviderTypeEntity updated = serviceProviderTypeDAO.save(found.get());
+            ServiceProviderTypeEntity found = findIfExistsAndReturn(serviceProviderTypeEntity.getId());
+            patcherHandler.fillNotNullFields(found, serviceProviderTypeEntity);
+            ServiceProviderTypeEntity updated = serviceProviderTypeDAO.save(found);
             return modelMapper.map(updated, ServiceProviderTypeDto.class);
         } catch (IntrospectionException e) {
             throw new UpdatePatchException("There was an error while updating a type. [PATCHING] ");
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw e;
         }
     }
 
     @Override
     public ServiceProviderTypeDto findServiceProviderType(int id) {
-        Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(id);
-        if (!found.isPresent()) {
-            throw new NotFoundException("Service provider type with the ID does not exist.");
+        try{
+            ServiceProviderTypeEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, ServiceProviderTypeDto.class);
+        }catch (Exception e){
+            throw e;
         }
-        return modelMapper.map(found.get(), ServiceProviderTypeDto.class);
     }
 
     @Override
-    public List<ServiceProviderTypeDto> listServiceProviderTypes() {
-        try {
-            Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {
-            }.getType();
-            return modelMapper.map(serviceProviderTypeDAO.findAll(), listType);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error.");
+    public List<ServiceProviderTypeDto> listServiceProviderTypes(boolean showDeleted) {
+        if(showDeleted){
+            try {
+                Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {}.getType();
+                return modelMapper.map(serviceProviderTypeDAO.findAll(), listType);
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            try {
+                Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {}.getType();
+                return modelMapper.map(serviceProviderTypeDAO.findAllByDeletedIsFalse(), listType);
+            } catch (Exception e) {
+                throw e;
+            }
         }
+
     }
 
     @Override
     public boolean deleteServiceProviderType(int id) {
         try {
-            Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The service provider type was not found.");
-            }
-            ServiceProviderTypeEntity toDelete = found.get();
+            ServiceProviderTypeEntity toDelete = findIfExistsAndReturn(id);
             toDelete.setDeleted(true);
             ServiceProviderTypeEntity deletionResult = serviceProviderTypeDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (NotFoundException notFoundException) {
-            throw notFoundException;
+            return deletionResult.isDeleted();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            throw e;
         }
+    }
+
+    private ServiceProviderTypeEntity findIfExistsAndReturn(int id) {
+        Optional<ServiceProviderTypeEntity> found = serviceProviderTypeDAO.findByIdIsAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Service provider source with id: %d was not found.", id));
+        }
+        return found.get();
     }
 }

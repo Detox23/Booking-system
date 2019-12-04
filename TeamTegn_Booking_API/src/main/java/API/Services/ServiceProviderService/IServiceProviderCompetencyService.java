@@ -8,13 +8,13 @@ import java.util.List;
 
 
 public interface IServiceProviderCompetencyService {
-    List<ServiceProviderCompetencyDto> listAllCompetencies();
+    List<ServiceProviderCompetencyDto> listServiceProviderCompetencies(boolean showDeleted);
 
-    ServiceProviderCompetencyDto getOneCompetency(int id);
+    ServiceProviderCompetencyDto findServiceProviderCompetency(int id);
 
-    ServiceProviderCompetencyDto addOneCompetency(ServiceProviderCompetencyForCreationDto serviceProviderCompetency);
+    ServiceProviderCompetencyDto addServiceProviderCompetency(ServiceProviderCompetencyForCreationDto serviceProviderCompetency);
 
-    ServiceProviderCompetencyDto updateOneCompetency(ServiceProviderCompetencyForUpdateDto serviceProviderCompetency);
+    ServiceProviderCompetencyDto updateServiceProviderCompetency(ServiceProviderCompetencyForUpdateDto serviceProviderCompetency);
 
-    boolean deleteOneCompetency(int id);
+    boolean deleteServiceProviderCompetency(int id);
 }

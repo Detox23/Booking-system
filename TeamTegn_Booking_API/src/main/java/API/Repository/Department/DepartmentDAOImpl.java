@@ -2,10 +2,10 @@ package API.Repository.Department;
 
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Models.Database_Entities.DepartmentEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.DepartmentEntity;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ToReturn.DepartmentDto;
 import org.modelmapper.ModelMapper;

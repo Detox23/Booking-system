@@ -12,7 +12,7 @@ public interface ServiceProviderSourceDAOCustom {
 
     ServiceProviderSourceDto findServiceProviderSource(int id);
 
-    List<ServiceProviderSourceDto>listServiceProviderSources();
+    List<ServiceProviderSourceDto>listServiceProviderSources(boolean showDeleted);
 
     boolean deleteServiceProviderSource(int id);
 }

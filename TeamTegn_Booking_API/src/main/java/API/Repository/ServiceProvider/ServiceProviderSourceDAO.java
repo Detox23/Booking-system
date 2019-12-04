@@ -5,8 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ServiceProviderSourceDAO extends JpaRepository<ServiceProviderSourceEntity, Integer>, ServiceProviderSourceDAOCustom {
-    List<ServiceProviderSourceEntity> findAllByProviderSource(String providerSource);
+    int countAllByProviderSourceIs(String providerSource);
+
+    Optional<ServiceProviderSourceEntity> findByIdAndDeletedIsFalse(int id);
+
+    List<ServiceProviderSourceEntity> findAllByDeletedIsFalse();
 }

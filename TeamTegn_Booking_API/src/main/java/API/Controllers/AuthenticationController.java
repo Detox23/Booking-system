@@ -4,7 +4,6 @@ import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.TokenProvider;
 import API.Models.Models.AuthToken;
 import API.Models.Models.LoginUser;
-import Shared.ToReturn.SystemUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -6,7 +6,7 @@ import Shared.ToReturn.ServiceProviderDto;
 import java.util.List;
 
 public interface ServiceProviderDAOCustom {
-    List<ServiceProviderDto> listAllServiceProvider();
+    List<ServiceProviderDto> listAllServiceProvider(boolean showDeleted);
 
     ServiceProviderDto findServiceProvider(int id);
 

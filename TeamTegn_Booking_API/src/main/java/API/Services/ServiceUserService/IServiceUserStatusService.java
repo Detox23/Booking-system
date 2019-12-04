@@ -3,6 +3,7 @@ package API.Services.ServiceUserService;
 import Shared.ForCreation.ServiceUserStatusForCreationDto;
 import Shared.ForCreation.ServiceUserStatusForUpdateDto;
 import Shared.ToReturn.ServiceUserStatusDto;
+
 import java.util.List;
 
 public interface IServiceUserStatusService {

@@ -6,13 +6,13 @@ import Shared.ToReturn.ServiceProviderCompetencyDto;
 import java.util.List;
 
 public interface ServiceProviderCompetencyDAOCustom {
-    List<ServiceProviderCompetencyDto> listAllCompetencies();
+    List<ServiceProviderCompetencyDto> listServiceProviderCompetencies(boolean showDeleted);
 
-    ServiceProviderCompetencyDto getOneCompetency(int id);
+    ServiceProviderCompetencyDto findServiceProviderCompetency(int id);
 
-    ServiceProviderCompetencyDto addOneCompetency(ServiceProviderCompetencyEntity serviceProviderCompetency);
+    ServiceProviderCompetencyDto addServiceProviderCompetency(ServiceProviderCompetencyEntity serviceProviderCompetency);
 
-    ServiceProviderCompetencyDto updateOneCompetency(ServiceProviderCompetencyEntity serviceProviderCompetency);
+    ServiceProviderCompetencyDto updateServiceProviderCompetency(ServiceProviderCompetencyEntity serviceProviderCompetency);
 
-    boolean deleteOneCompetency(int id);
+    boolean deleteServiceProviderCompetency(int id);
 }

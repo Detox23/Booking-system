@@ -8,6 +8,7 @@ import Shared.ToReturn.AssignmentTypeDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class AssignmentTypeService implements IAssignmentTypeService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AssignmentTypeDto addAssignmentType(AssignmentTypeForCreationDto assignmentType) {
         return assignmentTypeDAO.addAssignmentType(modelMapper.map(assignmentType, AssignmentTypeEntity.class));
     }
@@ -45,11 +47,13 @@ public class AssignmentTypeService implements IAssignmentTypeService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteAssignmentType(int id) {
         return assignmentTypeDAO.deleteAssignmentType(id);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AssignmentTypeDto updateAssignmentType(AssignmentTypeForUpdateDto assignmentType) {
         return assignmentTypeDAO.updateAssignmentType(modelMapper.map(assignmentType, AssignmentTypeEntity.class));
     }

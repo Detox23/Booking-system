@@ -1,6 +1,5 @@
 package API.Controllers;
 
-import API.Models.Database_Entities.ServiceUserStatusEntity;
 import API.Services.ServiceUserService.IServiceUserStatusService;
 import Shared.ForCreation.ServiceUserStatusForCreationDto;
 import Shared.ForCreation.ServiceUserStatusForUpdateDto;

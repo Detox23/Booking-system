@@ -7,6 +7,7 @@ import Shared.ToReturn.ServiceProviderEveningWorkDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ServiceProviderEveningWorkService implements IServiceProviderEvenin
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderEveningWorkDto addOrUpdateServiceProviderEveningWork(ServiceProviderEveningWorkForUpdateDto serviceProviderEveningWork) {
         return serviceProviderEveningWorkDAO.addOrUpdateServiceProviderEveningWork(modelMapper.map(serviceProviderEveningWork, ServiceProviderEveningWorkEntity.class));
     }
