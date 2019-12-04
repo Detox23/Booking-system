@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "EmailLog", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "EmailLog", schema = "dbo")
 public class EmailLogEntity {
     private int logId;
     private int systemUserId;

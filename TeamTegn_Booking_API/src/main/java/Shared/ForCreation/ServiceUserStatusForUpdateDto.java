@@ -1,6 +1,6 @@
-package Shared.ToReturn;
+package Shared.ForCreation;
 
-public class ServiceUserStatusDto {
+public class ServiceUserStatusForUpdateDto {
     private int id;
     private String status;
 

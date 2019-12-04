@@ -1,18 +1,32 @@
 package Shared.ForCreation;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Time;
 
 public class ServiceProviderAbsenceForUpdateDto {
+    @NotNull
     private int id;
+    @NotNull
     private int serviceProviderId;
+    @NotNull
     private Integer absenceTypeId;
+    @NotNull
     private String absenceReason;
+    @NotNull
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date fromDate;
+    @NotNull
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time fromTime;
+    @NotNull
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date toDate;
+    @NotNull
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time toTime;
-    private Integer absenceDays;
 
 
     public int getId() {
@@ -64,7 +78,6 @@ public class ServiceProviderAbsenceForUpdateDto {
         this.fromTime = fromTime;
     }
 
-
     public Date getToDate() {
         return toDate;
     }
@@ -79,15 +92,6 @@ public class ServiceProviderAbsenceForUpdateDto {
 
     public void setToTime(Time toTime) {
         this.toTime = toTime;
-    }
-
-
-    public Integer getAbsenceDays() {
-        return absenceDays;
-    }
-
-    public void setAbsenceDays(Integer absenceDays) {
-        this.absenceDays = absenceDays;
     }
 
 }

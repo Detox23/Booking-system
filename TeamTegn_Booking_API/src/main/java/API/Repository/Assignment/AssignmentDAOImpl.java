@@ -5,6 +5,7 @@ import API.Models.Database_Entities.*;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
+import API.Repository.CityPostcodes.WI_PostcodeDAO;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import Shared.ToReturn.AssignmentDto;
 import Shared.ToReturn.AssignmentViewDto;
@@ -27,6 +28,8 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
 
     private ModelMapper modelMapper;
 
+    private WI_PostcodeDAO wiPostcodeDAO;
+
     private PatcherHandler patcherHandler;
 
     private Assignment_ServiceProviderDAO assignmentServiceProviderDAO;
@@ -38,6 +41,11 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     private ServiceProviderDAO serviceProviderRepository;
 
     private AssignmentDAO assignmentDAO;
+
+    @Autowired
+    public void setWiPostcodeDAO(WI_PostcodeDAO wiPostcodeDAO) {
+        this.wiPostcodeDAO = wiPostcodeDAO;
+    }
 
     @Autowired
     public void setAssignmentStukYearCodeDAO(Assignment_STUKYearCodeDAO assignmentStukYearCodeDAO) {
@@ -112,6 +120,7 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     ) {
         try {
             assignmentEntity.setTotalTime((int) calculateHoursFromDates(assignmentEntity.getEndTime(), assignmentEntity.getStartTime()));
+            addStateRegion(assignmentEntity);
             AssignmentEntity saved = assignmentDAO.save(assignmentEntity);
             addServiceProviders(serviceProviders, saved.getId());
             addStatusTypes(assignmentStatusTypes, saved.getId());
@@ -132,11 +141,12 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
         try {
             AssignmentEntity found = findIfExistsAndReturn(assignmentEntity.getId());
             patcherHandler.fillNotNullFields(found, assignmentEntity);
+            found.setTotalTime((int) calculateHoursFromDates(assignmentEntity.getEndTime(), assignmentEntity.getStartTime()));
+            addStateRegion(found);
+            AssignmentEntity updated = assignmentDAO.save(found);
             addServiceProviders(serviceProviders, found.getId());
             addStatusTypes(assignmentStatusTypes, found.getId());
             addAssignmentSTUKYearCodes(stukYearCodes, found.getId());
-            found.setTotalTime((int) calculateHoursFromDates(assignmentEntity.getEndTime(), assignmentEntity.getStartTime()));
-            AssignmentEntity updated = assignmentDAO.save(found);
             return modelMapper.map(updated, AssignmentDto.class);
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating an account [PATCHING].");
@@ -186,6 +196,21 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
             }
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    private void addStateRegion(AssignmentEntity assignment){
+        if(assignment.getDestinationStateRegion() == null && assignment.getDestinationPostCode() != null){
+            Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(assignment.getDestinationPostCode());
+            if(wiPostcode.isPresent()){
+                if(wiPostcode.get().getArhus()){
+                    assignment.setDestinationStateRegion("Aarhus");
+                }else if(wiPostcode.get().getCopenhagen()){
+                    assignment.setDestinationStateRegion("Copenhagen");
+                }else if(wiPostcode.get().getFredericia()){
+                    assignment.setDestinationStateRegion("Fredericia");
+                }
+            }
         }
     }
 

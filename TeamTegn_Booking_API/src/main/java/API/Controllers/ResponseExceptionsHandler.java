@@ -93,14 +93,14 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = UnknownAddingException.class)
     protected ResponseEntity<Object> handleUnknownAddingException(UnknownAddingException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
-    @ExceptionHandler(value = Exception.class)
-    protected ResponseEntity<Object> handleException(Exception exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    protected ResponseEntity<Object> handleException(Exception exception) {
+//        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+//        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -108,9 +108,9 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
         StringBuilder builder = new StringBuilder();
         List<FieldError> errors = bindingResult.getFieldErrors();
         for (FieldError error : errors) {
-            builder.append(error.getField() + " : " + error.getDefaultMessage() + " \n");
+            builder.append(error.getField() + " : " + "can't be empty." + " \n");
         }
-        eventLogService.addLog(new EventLogDto(ex.getMessage().toString(), ex.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(ex.getMessage(), ex.getStackTrace().toString()));
 
         return new ResponseEntity<>(builder.toString(), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

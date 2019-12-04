@@ -1,12 +1,14 @@
 package Shared.ToReturn;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Timestamp;
 
 public class ServiceProviderCompetencyDto {
-
     private int id;
     private String competency;
     private int createdBy;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp createdDate;
 
 

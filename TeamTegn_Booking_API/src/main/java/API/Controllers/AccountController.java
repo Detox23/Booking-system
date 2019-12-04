@@ -74,14 +74,14 @@ public class AccountController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
-    public ResponseEntity<?> addAccountComment(@PathVariable int id, @RequestBody AccountCommentForCreationDto comment){
+    public ResponseEntity<?> addAccountComment(@PathVariable int id, @RequestBody @Valid AccountCommentForCreationDto comment){
         comment.setAccountId(id);
         return new ResponseEntity<>(accountCommentService.addAccountComment(comment), new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccountComment(@PathVariable int id, @RequestBody AccountCommentForUpdateDto comment){
+    public ResponseEntity<?> updateAccountComment(@PathVariable int id, @RequestBody @Valid AccountCommentForUpdateDto comment){
         comment.setAccountId(id);
         return new ResponseEntity<>(accountCommentService.updateAccountComment(comment), new HttpHeaders(), HttpStatus.OK);
 

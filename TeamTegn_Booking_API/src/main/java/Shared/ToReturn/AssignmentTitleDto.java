@@ -3,7 +3,6 @@ package Shared.ToReturn;
 public class AssignmentTitleDto {
     private Integer id;
     private String title;
-    private Boolean isDeleted;
 
     public Integer getId() {
         return id;
@@ -21,11 +20,4 @@ public class AssignmentTitleDto {
         this.title = title;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 }

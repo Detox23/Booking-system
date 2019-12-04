@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.Date;
 
 
@@ -84,14 +85,14 @@ public class AssignmentController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
-    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody AssignmentCommentForCreationDto comment){
+    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody @Valid AssignmentCommentForCreationDto comment){
         comment.setAssignmentId(id);
         return new ResponseEntity<>(assignmentCommentService.addAssignmentComment(comment), new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody AssignmentCommentForUpdateDto comment){
+    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody @Valid AssignmentCommentForUpdateDto comment){
         comment.setAssignmentId(id);
         return new ResponseEntity<>(assignmentCommentService.updateAssignmentComment(comment), new HttpHeaders(), HttpStatus.OK);
     }

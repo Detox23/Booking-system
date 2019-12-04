@@ -1,9 +1,7 @@
 package Shared.ToReturn;
 
 public class AbsenceTypeDto {
-
     private int id;
-
     private String absenceTypeName;
 
     public int getId() {

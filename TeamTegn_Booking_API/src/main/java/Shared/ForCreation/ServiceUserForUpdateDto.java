@@ -7,9 +7,12 @@ public class ServiceUserForUpdateDto {
     @NotNull
     private int id;
     private Integer gender;
+    @NotNull
     private String firstName;
     private String middleName;
+    @NotNull
     private String lastName;
+    @NotNull
     private String cpr;
     private String telephoneCode;
     private String telephoneNumber;
@@ -20,16 +23,23 @@ public class ServiceUserForUpdateDto {
     private String email1;
     private String email2;
     private String skype;
+    @NotNull
     private String street;
     private String postcode;
+    @NotNull
     private String city;
     private String stateRegion;
     private String country;
+    //to delete
     private String username;
+    //to delete
     private String password;
+    //to delete
     private String externalId;
+    //to delete
     private Integer roleId;
     private Integer departmentId;
+    @NotNull
     private Integer serviceUserStatusId;
     private List<Integer> accounts;
 

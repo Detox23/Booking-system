@@ -3,7 +3,6 @@ package Shared.ForCreation;
 import javax.validation.constraints.NotNull;
 
 public class AssignmentStatusTypeForCreationDto {
-
     @NotNull
     private String assignmentStatusTypeName;
     @NotNull

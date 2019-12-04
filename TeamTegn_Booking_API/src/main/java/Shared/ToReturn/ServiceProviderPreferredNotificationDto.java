@@ -3,7 +3,6 @@ package Shared.ToReturn;
 public class ServiceProviderPreferredNotificationDto {
     private int id;
     private String notificationType;
-    private boolean isDeleted;
 
     public int getId() {
         return id;
@@ -19,14 +18,6 @@ public class ServiceProviderPreferredNotificationDto {
 
     public void setNotificationType(String notificationType) {
         this.notificationType = notificationType;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 
 }

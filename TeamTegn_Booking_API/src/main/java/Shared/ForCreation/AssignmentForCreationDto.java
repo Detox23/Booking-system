@@ -9,14 +9,20 @@ import java.util.List;
 
 public class AssignmentForCreationDto {
     private String assignmentDescription;
+    @NotNull
     private String destinationStreet;
+    @NotNull
     private String destinationCity;
+    @NotNull
     private String destinationPostCode;
     private String destinationStateRegion;
+    @NotNull
     private String destinationCountry;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
     private Date assignmentDate;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
     private Date assignmentEndDate;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @NotNull
@@ -28,7 +34,9 @@ public class AssignmentForCreationDto {
     private Boolean assignedStatus;
     private String bookingNumber;
     private String serviceUserAccountEan;
+    //to delete
     private Integer recurrenceType;
+    //to delete
     private Integer recurrencyFrequency;
     private String otherContactEmail;
     private String dntmid;
@@ -36,6 +44,7 @@ public class AssignmentForCreationDto {
     private String moreInfo;
     private String ktstid;
     private String ktstParentId;
+    //to delete
     private String recurrenceKey;
     private String assignmentPlace;
     private String stukComment;
@@ -57,9 +66,19 @@ public class AssignmentForCreationDto {
     private Integer assignmentStatusId;
     @NotNull
     private Integer vocalLanguageId;
+    @NotNull
+    private Integer assignmentStatusTypeId;
     private List<Integer> serviceProviders;
     private List<Integer> assignmentStatusTypeIds;
     private List<Integer> stukYearCodes;
+
+    public Integer getAssignmentStatusTypeId() {
+        return assignmentStatusTypeId;
+    }
+
+    public void setAssignmentStatusTypeId(Integer assignmentStatusTypeId) {
+        this.assignmentStatusTypeId = assignmentStatusTypeId;
+    }
 
     public List<Integer> getStukYearCodes() {
         return stukYearCodes;

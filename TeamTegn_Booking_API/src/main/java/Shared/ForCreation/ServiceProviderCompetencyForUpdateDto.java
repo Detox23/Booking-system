@@ -1,8 +1,12 @@
 package Shared.ForCreation;
 
 
+import javax.validation.constraints.NotNull;
+
 public class ServiceProviderCompetencyForUpdateDto {
+    @NotNull
     private int id;
+    @NotNull
     private String competency;
 
     public int getId() {

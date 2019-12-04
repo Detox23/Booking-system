@@ -2,11 +2,14 @@ package Shared.ForCreation;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class ServiceUserCommentForUpdateDto {
+    @NotNull
     private int id;
     private Integer serviceUserId;
+    @NotNull
     private String commentText;
 
     public int getId() {

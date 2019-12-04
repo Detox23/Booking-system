@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "ServiceUser", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "ServiceUser", schema = "dbo")
 public class ServiceUserEntity {
     private int id;
     private Integer gender;

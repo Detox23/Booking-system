@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Assignment_Comment", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Assignment_Comment", schema = "dbo")
 public class AssignmentCommentEntity {
     private int id;
     private Integer userId;

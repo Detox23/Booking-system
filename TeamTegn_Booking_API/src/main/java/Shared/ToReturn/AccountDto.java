@@ -52,7 +52,6 @@ public class AccountDto {
 
     private String contactTelephone;
 
-    private boolean deleted;
     @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp createdDate;
     @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -95,15 +94,7 @@ public class AccountDto {
     public void setLastModified(Timestamp lastModified) {
         this.lastModified = lastModified;
     }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
+    
     public Integer getPrimaryContactId() {
         return primaryContactId;
     }

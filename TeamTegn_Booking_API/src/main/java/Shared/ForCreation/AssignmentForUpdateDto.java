@@ -2,31 +2,43 @@ package Shared.ForCreation;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
 public class AssignmentForUpdateDto {
-
+    @NotNull
     private Integer id;
     private String assignmentDescription;
+    @NotNull
     private String destinationStreet;
+    @NotNull
     private String destinationCity;
+    @NotNull
     private String destinationPostCode;
     private String destinationStateRegion;
+    @NotNull
     private String destinationCountry;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
     private Timestamp assignmentDate;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
     private Date assignmentEndDate;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @NotNull
     private Timestamp startTime;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @NotNull
     private Timestamp endTime;
+    @NotNull
     private Boolean assignedStatus;
     private String bookingNumber;
     private String serviceUserAccountEan;
+    //to delete
     private Integer recurrenceType;
+    //to delete
     private Integer recurrencyFrequency;
     private String otherContactEmail;
     private String dntmid;
@@ -34,22 +46,41 @@ public class AssignmentForUpdateDto {
     private String moreInfo;
     private String ktstid;
     private String ktstParentId;
+    //to delete
     private String recurrenceKey;
     private String assignmentPlace;
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
+    @NotNull
     private Integer assignmentTypeId;
+    @NotNull
     private Integer assignmentImportanceId;
+    @NotNull
     private Integer assignmentInterpretationTypeId;
+    @NotNull
     private String assignmentTitle;
+    @NotNull
     private Integer serviceUserId;
+    @NotNull
     private Integer accountId;
+    @NotNull
     private Integer assignmentStatusId;
+    @NotNull
     private Integer vocalLanguageId;
+    @NotNull
+    private Integer assignmentStatusTypeId;
     private List<Integer> serviceProviders;
     private List<Integer> assignmentStatusTypeIds;
     private List<Integer> stukYearCodes;
+
+    public Integer getAssignmentStatusTypeId() {
+        return assignmentStatusTypeId;
+    }
+
+    public void setAssignmentStatusTypeId(Integer assignmentStatusTypeId) {
+        this.assignmentStatusTypeId = assignmentStatusTypeId;
+    }
 
     public List<Integer> getStukYearCodes() {
         return stukYearCodes;

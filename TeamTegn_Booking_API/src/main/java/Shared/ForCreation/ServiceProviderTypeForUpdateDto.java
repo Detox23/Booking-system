@@ -1,7 +1,11 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class ServiceProviderTypeForUpdateDto {
+    @NotNull
     private int id;
+    @NotNull
     private String providerType;
 
     public int getId() {

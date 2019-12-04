@@ -91,7 +91,6 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
     }
 
     @Override
-    @PostFilter("hasRole('ADMIN')")
     public ServiceUserDto findServiceUser(int id) {
         try {
             ServiceUserEntity found = findIfExistsAndReturn(id);

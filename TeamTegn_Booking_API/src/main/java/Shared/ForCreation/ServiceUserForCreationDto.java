@@ -1,12 +1,16 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class ServiceUserForCreationDto {
     private Integer gender;
+    @NotNull
     private String firstName;
     private String middleName;
+    @NotNull
     private String lastName;
+    @NotNull
     private String cpr;
     private String telephoneCode;
     private String telephoneNumber;
@@ -17,8 +21,10 @@ public class ServiceUserForCreationDto {
     private String email1;
     private String email2;
     private String skype;
+    @NotNull
     private String street;
     private String postcode;
+    @NotNull
     private String city;
     private String stateRegion;
     private String country;
@@ -27,6 +33,7 @@ public class ServiceUserForCreationDto {
     private String externalId;
     private Integer roleId;
     private Integer departmentId;
+    @NotNull
     private Integer serviceUserStatusId;
     private List<Integer> accounts;
 

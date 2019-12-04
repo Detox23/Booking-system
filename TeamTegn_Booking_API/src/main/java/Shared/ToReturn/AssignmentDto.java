@@ -33,7 +33,6 @@ public class AssignmentDto {
     private Timestamp createdDate;
     private Timestamp lastModified;
     private Integer lastModifiedBy;
-    private boolean isDeleted;
     private boolean assignedStatus;
     private Integer assignmentStatusId;
     private String bookingNumber;
@@ -243,13 +242,6 @@ public class AssignmentDto {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public boolean isAssignedStatus() {
         return assignedStatus;

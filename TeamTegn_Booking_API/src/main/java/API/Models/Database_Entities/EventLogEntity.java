@@ -2,12 +2,14 @@ package API.Models.Database_Entities;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "EventLog", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "EventLog", schema = "dbo")
 public class EventLogEntity {
     private int id;
     private Integer systemUserId;

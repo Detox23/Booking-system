@@ -3,11 +3,9 @@ package Shared.ForCreation;
 
 
 public class EventLogDto {
-    public EventLogDto( String exceptionMessage, String stackTrace) {
+    public EventLogDto(String exceptionMessage, String stackTrace) {
         this.exceptionMessage = exceptionMessage;
         this.stackTrace = stackTrace;
-    }
-    public EventLogDto() {
     }
 
     private String exceptionMessage;

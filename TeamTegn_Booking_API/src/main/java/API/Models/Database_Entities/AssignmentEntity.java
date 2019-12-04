@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "Assignment", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "Assignment", schema = "dbo")
 public class AssignmentEntity {
     private int id;
     private Integer assignmentTypeId;
@@ -41,15 +41,12 @@ public class AssignmentEntity {
     private String bookingNumber;
     private Integer serviceUserAccountId;
     private String serviceUserAccountEan;
-    private Integer recurrenceType;
-    private Integer recurrencyFrequency;
     private String otherContactEmail;
     private String dntmid;
     private String zone;
     private String moreInfo;
     private String ktstid;
     private String ktstParentId;
-    private String recurrenceKey;
     private Integer assignmentStatusTypeId;
     private String assignmentPlace;
     private String stukComment;
@@ -333,26 +330,6 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @Column(name = "RecurrenceType", nullable = true)
-    public Integer getRecurrenceType() {
-        return recurrenceType;
-    }
-
-    public void setRecurrenceType(Integer recurrenceType) {
-        this.recurrenceType = recurrenceType;
-    }
-
-    @Basic
-    @Column(name = "RecurrencyFrequency", nullable = true)
-    public Integer getRecurrencyFrequency() {
-        return recurrencyFrequency;
-    }
-
-    public void setRecurrencyFrequency(Integer recurrencyFrequency) {
-        this.recurrencyFrequency = recurrencyFrequency;
-    }
-
-    @Basic
     @Column(name = "OtherContactEmail", nullable = true, length = 2147483647)
     public String getOtherContactEmail() {
         return otherContactEmail;
@@ -412,17 +389,7 @@ public class AssignmentEntity {
         this.ktstParentId = ktstParentId;
     }
 
-    @Basic
-    @Column(name = "RecurrenceKey", nullable = true, length = 50)
-    public String getRecurrenceKey() {
-        return recurrenceKey;
-    }
-
-    public void setRecurrenceKey(String recurrenceKey) {
-        this.recurrenceKey = recurrenceKey;
-    }
-
-    @Basic
+   @Basic
     @Column(name = "AssignmentStatusTypeID", nullable = true)
     public Integer getAssignmentStatusTypeId() {
         return assignmentStatusTypeId;
@@ -532,10 +499,6 @@ public class AssignmentEntity {
             return false;
         if (serviceUserAccountEan != null ? !serviceUserAccountEan.equals(that.serviceUserAccountEan) : that.serviceUserAccountEan != null)
             return false;
-        if (recurrenceType != null ? !recurrenceType.equals(that.recurrenceType) : that.recurrenceType != null)
-            return false;
-        if (recurrencyFrequency != null ? !recurrencyFrequency.equals(that.recurrencyFrequency) : that.recurrencyFrequency != null)
-            return false;
         if (otherContactEmail != null ? !otherContactEmail.equals(that.otherContactEmail) : that.otherContactEmail != null)
             return false;
         if (dntmid != null ? !dntmid.equals(that.dntmid) : that.dntmid != null) return false;
@@ -543,8 +506,6 @@ public class AssignmentEntity {
         if (moreInfo != null ? !moreInfo.equals(that.moreInfo) : that.moreInfo != null) return false;
         if (ktstid != null ? !ktstid.equals(that.ktstid) : that.ktstid != null) return false;
         if (ktstParentId != null ? !ktstParentId.equals(that.ktstParentId) : that.ktstParentId != null) return false;
-        if (recurrenceKey != null ? !recurrenceKey.equals(that.recurrenceKey) : that.recurrenceKey != null)
-            return false;
         if (assignmentStatusTypeId != null ? !assignmentStatusTypeId.equals(that.assignmentStatusTypeId) : that.assignmentStatusTypeId != null)
             return false;
         if (assignmentPlace != null ? !assignmentPlace.equals(that.assignmentPlace) : that.assignmentPlace != null)
@@ -588,15 +549,12 @@ public class AssignmentEntity {
         result = 31 * result + (bookingNumber != null ? bookingNumber.hashCode() : 0);
         result = 31 * result + (serviceUserAccountId != null ? serviceUserAccountId.hashCode() : 0);
         result = 31 * result + (serviceUserAccountEan != null ? serviceUserAccountEan.hashCode() : 0);
-        result = 31 * result + (recurrenceType != null ? recurrenceType.hashCode() : 0);
-        result = 31 * result + (recurrencyFrequency != null ? recurrencyFrequency.hashCode() : 0);
         result = 31 * result + (otherContactEmail != null ? otherContactEmail.hashCode() : 0);
         result = 31 * result + (dntmid != null ? dntmid.hashCode() : 0);
         result = 31 * result + (zone != null ? zone.hashCode() : 0);
         result = 31 * result + (moreInfo != null ? moreInfo.hashCode() : 0);
         result = 31 * result + (ktstid != null ? ktstid.hashCode() : 0);
         result = 31 * result + (ktstParentId != null ? ktstParentId.hashCode() : 0);
-        result = 31 * result + (recurrenceKey != null ? recurrenceKey.hashCode() : 0);
         result = 31 * result + (assignmentStatusTypeId != null ? assignmentStatusTypeId.hashCode() : 0);
         result = 31 * result + (assignmentPlace != null ? assignmentPlace.hashCode() : 0);
         result = 31 * result + (stukComment != null ? stukComment.hashCode() : 0);

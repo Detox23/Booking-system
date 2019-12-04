@@ -1,11 +1,14 @@
 package Shared.ToReturn;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Timestamp;
 
 public class AccountCommentDto {
     private int id;
     private Integer userId;
     private Integer accountId;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp commentDate;
     private String commentText;
 

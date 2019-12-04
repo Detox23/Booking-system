@@ -24,37 +24,12 @@ public class SystemUserDto {
     private String stateRegion;
     private String country;
     private int createdBy;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp createdDate;
     private boolean isDeleted;
     private Integer roleId;
     private String role;
-    @NotNull
     private List<DepartmentDto> departments;
-
-//    public SystemUserDto(SystemUserDto serviceUser) {
-//
-//        this.id = serviceUser.id;
-//        this.firstName = serviceUser.firstName;
-//        this.middleName = serviceUser.middleName;
-//        this.lastName = serviceUser.lastName;
-//        this.telephoneCode = serviceUser.telephoneCode;
-//        this.telephoneNumber = serviceUser.telephoneNumber;
-//        this.faxCode = serviceUser.faxCode;
-//        this.faxNumber = serviceUser.faxNumber;
-//        this.street = serviceUser.street;
-//        this.postcode = serviceUser.postcode;
-//        this.city = serviceUser.city;
-//        this.stateRegion = serviceUser.stateRegion;
-//        this.country = serviceUser.country;
-//        this.createdBy = serviceUser.createdBy;
-//        this.createdDate = serviceUser.createdDate;
-//        this.isDeleted = serviceUser.isDeleted;
-//        this.userName = serviceUser.userName;
-//        this.password = serviceUser.password;
-//        this.role = serviceUser.role;
-//        this.roleId = serviceUser.roleId;
-//    }
 
     public void setDepartments(List<DepartmentDto> departments) {
         this.departments = departments;

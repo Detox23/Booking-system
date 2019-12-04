@@ -8,7 +8,7 @@ public class ServiceProviderCommentDto {
     private int id;
     private Integer userId;
     private Integer serviceProviderId;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp commentDate;
     private String commentText;
 

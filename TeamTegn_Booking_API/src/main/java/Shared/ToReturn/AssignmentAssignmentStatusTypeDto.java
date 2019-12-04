@@ -1,11 +1,14 @@
 package Shared.ToReturn;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Timestamp;
 
 public class AssignmentAssignmentStatusTypeDto {
     private int id;
     private int assignmentId;
     private int assignmentStatusTypeId;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp dateCreated;
 
     public int getId() {

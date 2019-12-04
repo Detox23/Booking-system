@@ -1,5 +1,7 @@
 package Shared.ToReturn;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -26,7 +28,9 @@ public class ServiceProviderDto {
     private String stateRegion;
     private String country;
     private int createdBy;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp createdDate;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp lastModified;
     private Integer lastModifiedBy;
     private boolean isDeleted;

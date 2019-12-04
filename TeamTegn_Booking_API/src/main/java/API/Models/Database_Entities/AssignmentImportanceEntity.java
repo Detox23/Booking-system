@@ -3,7 +3,7 @@ package API.Models.Database_Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "AssignmentImportance", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "AssignmentImportance", schema = "dbo")
 public class AssignmentImportanceEntity {
     private int id;
     private String importanceName;

@@ -9,7 +9,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ServiceProviderAbsence", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "ServiceProviderAbsence", schema = "dbo")
 public class ServiceProviderAbsenceEntity {
     private int id;
     private int serviceProviderId;

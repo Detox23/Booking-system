@@ -1,7 +1,11 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class ServiceProviderPreferredNotificationForUpdateDto {
+    @NotNull
     private int id;
+    @NotNull
     private String notificationType;
 
     public int getId() {

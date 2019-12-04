@@ -1,7 +1,10 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
+
 public class ServiceProviderSourceForCreationDto {
 
+    @NotNull
     private String providerSource;
 
 

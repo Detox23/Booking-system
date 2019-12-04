@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "VocalLanguages", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "VocalLanguages", schema = "dbo")
 public class VocalLanguagesEntity {
     private int id;
     private String languageName;

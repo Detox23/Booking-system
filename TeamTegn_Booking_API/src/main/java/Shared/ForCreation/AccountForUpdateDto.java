@@ -38,6 +38,7 @@ public class AccountForUpdateDto {
 
     private String website;
 
+    @NotNull
     private String cvrNumber;
 
     private String street;

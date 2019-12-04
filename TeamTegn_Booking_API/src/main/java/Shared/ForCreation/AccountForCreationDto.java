@@ -13,6 +13,7 @@ public class AccountForCreationDto {
     private Integer accountTypeId;
     @NotNull
     private Integer parentId;
+    @NotNull
     private Integer primaryContactId;
     @NotNull
     private int departmentId;

@@ -11,14 +11,17 @@ public class ServiceProviderAbsenceDto {
     private int serviceProviderId;
     private Integer absenceTypeId;
     private String absenceReason;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fromDate;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time fromTime;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date toDate;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time toTime;
     private Integer absenceDays;
     private String createdBy;
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp createdDate;
 
     public int getId() {

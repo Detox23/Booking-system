@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "PDFSignature_Link", schema = "dbo", catalog = "TeamTegn_BookingSystem_Devleopment")
+@Table(name = "PDFSignature_Link", schema = "dbo")
 public class PdfSignatureLinkEntity {
     private int id;
     private String linkId;

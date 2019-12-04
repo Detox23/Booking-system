@@ -14,16 +14,16 @@ public class ServiceProviderAbsenceForCreationDto {
     @NotNull
     private String absenceReason;
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date fromDate;
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time fromTime;
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date toDate;
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time toTime;
 
 

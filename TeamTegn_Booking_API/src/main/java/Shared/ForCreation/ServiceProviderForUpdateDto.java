@@ -1,15 +1,21 @@
 package Shared.ForCreation;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.List;
 
 public class ServiceProviderForUpdateDto {
+    @NotNull
     private int id;
     private Integer gender;
+    @NotNull
     private String firstName;
     private String middleName;
+    @NotNull
     private String lastName;
+    @NotNull
     private String cpr;
+    @NotNull
     private Integer source;
     private String telephoneCode;
     private String telephoneNumber;
@@ -25,15 +31,16 @@ public class ServiceProviderForUpdateDto {
     private String city;
     private String stateRegion;
     private String country;
-    private Timestamp lastModified;
-    private Integer lastModifiedBy;
+    @NotNull
     private Integer departmentId;
     private byte[] serviceProviderImage;
     private Double weekHours;
     private String serviceProviderInitials;
     private boolean status;
     private String externalId;
+    @NotNull
     private Integer preferredNotificationId;
+    @NotNull
     private Integer transportId;
     private List<Integer> competences;
     private List<Integer> types;
@@ -237,22 +244,6 @@ public class ServiceProviderForUpdateDto {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public Timestamp getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Timestamp lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
     }
 
     public Integer getDepartmentId() {
