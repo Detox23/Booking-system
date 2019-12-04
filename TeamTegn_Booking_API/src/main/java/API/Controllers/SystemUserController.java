@@ -35,7 +35,6 @@ public class SystemUserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_Planner')")
     public ResponseEntity<?> findSystemUser(@PathVariable int id) {
         return new ResponseEntity<>(systemUserService.findSystemUser(id), new HttpHeaders(), HttpStatus.FOUND);
     }

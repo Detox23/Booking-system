@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class AssignmentStukYearCodeController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> addAssigmentStukYearCode(@RequestBody AssignmentStukYearCodeForCreationDto stukYearCode) {
         return new ResponseEntity<>(assignmentStukYearCodeService.addAssigmentStukYearCode(stukYearCode), new HttpHeaders(), HttpStatus.OK);
     }
@@ -33,6 +35,7 @@ public class AssignmentStukYearCodeController {
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> deleteAssignmentStukYearCode(@PathVariable int id) {
         return new ResponseEntity<>(assignmentStukYearCodeService.deleteAssignmentStukYearCode(id), new HttpHeaders(), HttpStatus.OK);
     }
@@ -43,6 +46,7 @@ public class AssignmentStukYearCodeController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> updateAssignmentStukYearCode(@RequestBody AssignmentStukYearCodeForUpdateDto stukYearCode) {
         return new ResponseEntity<>(assignmentStukYearCodeService.updateAssignmentStukYearCode(stukYearCode), new HttpHeaders(), HttpStatus.OK);
     }

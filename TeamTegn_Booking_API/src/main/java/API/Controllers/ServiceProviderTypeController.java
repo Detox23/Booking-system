@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,16 +32,19 @@ public class ServiceProviderTypeController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> addOne(@RequestBody ServiceProviderTypeForCreationDto serviceProviderType) {
         return new ResponseEntity<>(serviceProviderTypeService.addServiceProviderType(serviceProviderType), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> updateOne(@RequestBody ServiceProviderTypeForUpdateDto serviceProviderType) {
         return new ResponseEntity<>(serviceProviderTypeService.updateServiceProviderType(serviceProviderType), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> deleteOne(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderTypeService.deleteServiceProviderType(id), new HttpHeaders(), HttpStatus.OK);
     }
