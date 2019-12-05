@@ -29,14 +29,12 @@ public class AuthenticationController {
 
     @Autowired
     private TokenProvider jwtTokenUtil;
-    @Autowired
-    private EmailService emailService;
+
 
     @RequestMapping(value = "/systemUsers/login", method = RequestMethod.POST)
     public ResponseEntity register(@RequestBody LoginUser loginUser) throws AuthenticationException {
         System.out.println(loginUser.getPassword());
         System.out.println(loginUser.getUserName());
-       // emailService.sendSimpleMessage(new Mail("patrycja.suprun@gmail.com", new String[]{"loca.chili@gmail.com"}, "Subject", "Hello"));
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUser.getUserName(),
