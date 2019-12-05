@@ -2,13 +2,11 @@ package API.Controllers;
 
 import API.Services.SystemUserService.ISystemUserService;
 import Shared.ForCreation.SystemUserForCreationDto;
-import Shared.ForCreation.SystemUserForLoggingDto;
 import Shared.ForCreation.SystemUserForUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,14 +33,13 @@ public class SystemUserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_Planner')")
     public ResponseEntity<?> findSystemUser(@PathVariable int id) {
         return new ResponseEntity<>(systemUserService.findSystemUser(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listSystemUsers() {
-        return new ResponseEntity<>(systemUserService.listSystemUsers(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listSystemUsers(@PathVariable boolean showDeleted) {
+        return new ResponseEntity<>(systemUserService.listSystemUsers(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)

@@ -1,21 +1,21 @@
 package API.Repository.SystemUser;
 
-import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
-import API.Models.Database_Entities.CityPostcodesEntity;
-import API.Models.Database_Entities.SystemUserDepartmentEntity;
-import API.Models.Database_Entities.SystemUserEntity;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.CityPostcodesEntity;
+import API.Models.Database_Entities.SystemUserDepartmentEntity;
+import API.Models.Database_Entities.SystemUserEntity;
+import API.Models.Database_Entities.WiPostcodeEntity;
 import API.Repository.CityPostcodes.CityPostcodesDAO;
+import API.Repository.CityPostcodes.WI_PostcodeDAO;
 import Shared.ToReturn.SystemUserDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+//CHECKED
 public class SystemUserDAOImpl implements SystemUserDAOCustom {
 
     private SystemUserDAO systemUserDAO;
@@ -34,23 +35,25 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
 
     private CityPostcodesDAO cityPostcodesDAO;
 
-    private EncryptionHandler encryptionHandler;
-
     private SystemUser_DepartmentDAO systemUserDepartmentDAO;
 
     private PasswordEncoder bcryptEncoder;
 
-    private RoleDAO roleDAO;
+    private WI_PostcodeDAO wiPostcodeDAO;
+
+    private final int update = 1;
+    private final int insert = 0;
+
+    @Autowired
+    public void setWiPostcodeDAO(WI_PostcodeDAO wiPostcodeDAO) {
+        this.wiPostcodeDAO = wiPostcodeDAO;
+    }
 
     @Autowired
     public void setBcryptEncoder(PasswordEncoder bcryptEncoder) {
         this.bcryptEncoder = bcryptEncoder;
     }
 
-    @Autowired
-    public void setRoleDAO(RoleDAO roleDAO) {
-        this.roleDAO = roleDAO;
-    }
 
     @Autowired
     public void setSystemUserDepartmentDAO(SystemUser_DepartmentDAO systemUserDepartmentDAO) {
@@ -60,11 +63,6 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     @Autowired
     public void setCityPostcodesDAO(CityPostcodesDAO cityPostcodesDAO) {
         this.cityPostcodesDAO = cityPostcodesDAO;
-    }
-
-    @Autowired
-    public void setEncryptionHandler(EncryptionHandler encryptionHandler) {
-        this.encryptionHandler = encryptionHandler;
     }
 
     @Autowired
@@ -86,18 +84,10 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     @Override
     public SystemUserDto addSystemUser(SystemUserEntity systemUser, List<Integer> departments) {
         try {
-            if(systemUserDAO.countAllByFirstNameIsAndLastNameIsAndUserNameIs(systemUser.getFirstName(), systemUser.getLastName(), systemUser.getUserName())> 0){
-                throw new DuplicateException(String.format(
-                        "There is already a system user with name: %s %s, and username: %s",
-                        systemUser.getFirstName(),
-                        systemUser.getLastName(),
-                        systemUser.getUserName()
-                ));
-            }
-            if (systemUserDAO.countAllByUserNameIs(systemUser.getUserName())> 0){
-                throw new DuplicateException(String.format("There is already a system user with the username: %s", systemUser.getUserName()));
-            }
+            checkIfExistsByName(systemUser, insert);
+            checkIfExistsByLogin(systemUser, insert);
             checkAndFillPostcodeAndCity(systemUser);
+            addStateRegion(systemUser);
             encryptPassword(systemUser);
             SystemUserEntity saved = systemUserDAO.save(systemUser);
             addDepartments(departments, saved);
@@ -115,9 +105,12 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     @Override
     public SystemUserDto updateSystemUser(SystemUserEntity systemUser, List<Integer> departments) {
         try {
-            SystemUserEntity found = findIfExistsAndReturn(systemUser.getId());
+            checkIfExistsByName(systemUser, update);
+            checkIfExistsByLogin(systemUser, update);
             checkAndFillPostcodeAndCity(systemUser);
             encryptPassword(systemUser);
+            addStateRegion(systemUser);
+            SystemUserEntity found = findIfExistsAndReturn(systemUser.getId());
             patcherHandler.fillNotNullFields(found, systemUser);
             SystemUserEntity updated = systemUserDAO.save(found);
             addDepartments(departments, updated);
@@ -142,12 +135,21 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     }
 
     @Override
-    public List<SystemUserDto> listSystemUsers() {
-        try {
-            return modelMapper.map(systemUserDAO.findAllByDeletedIsFalse(), new TypeToken<List<SystemUserDto>>() {
-            }.getType());
-        } catch (Exception exception) {
-            throw exception;
+    public List<SystemUserDto> listSystemUsers(boolean showDeleted) {
+        if (showDeleted) {
+            try {
+                return modelMapper.map(systemUserDAO.findAll(), new TypeToken<List<SystemUserDto>>() {
+                }.getType());
+            } catch (Exception exception) {
+                throw exception;
+            }
+        } else {
+            try {
+                return modelMapper.map(systemUserDAO.findAllByDeletedIsFalse(), new TypeToken<List<SystemUserDto>>() {
+                }.getType());
+            } catch (Exception exception) {
+                throw exception;
+            }
         }
     }
 
@@ -195,6 +197,20 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
         systemUser.setPassword(hashed);
     }
 
+    private void addStateRegion(SystemUserEntity systemUser){
+        if(systemUser.getStateRegion() == null && systemUser.getPostcode() != null){
+            Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(systemUser.getPostcode());
+            if(wiPostcode.isPresent()){
+                if(wiPostcode.get().getArhus()){
+                    systemUser.setStateRegion("Aarhus");
+                }else if(wiPostcode.get().getCopenhagen()){
+                    systemUser.setStateRegion("Copenhagen");
+                }else if(wiPostcode.get().getFredericia()){
+                    systemUser.setStateRegion("Fredericia");
+                }
+            }
+        }
+    }
 
     private void addDepartments(List<Integer> departments, SystemUserEntity saved) {
         if (departments != null) {
@@ -205,6 +221,23 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
                 suDepartmentEntity.setSystemUserId(saved.getId());
                 systemUserDepartmentDAO.save(suDepartmentEntity);
             });
+        }
+    }
+
+    private void checkIfExistsByName(SystemUserEntity systemUser, int allowedFounds){
+        if(systemUserDAO.countAllByFirstNameIsAndLastNameIsAndUserNameIs(systemUser.getFirstName(), systemUser.getLastName(), systemUser.getUserName())> allowedFounds){
+            throw new DuplicateException(String.format(
+                    "There is already a system user with name: %s %s, and username: %s",
+                    systemUser.getFirstName(),
+                    systemUser.getLastName(),
+                    systemUser.getUserName()
+            ));
+        }
+    }
+
+    private void checkIfExistsByLogin(SystemUserEntity systemUser, int allowedFounds){
+        if (systemUserDAO.countAllByUserNameIs(systemUser.getUserName())> allowedFounds){
+            throw new DuplicateException(String.format("There is already a system user with the username: %s", systemUser.getUserName()));
         }
     }
 }

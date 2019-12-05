@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/department")
-public class DepartmentController extends BaseController {
+public class DepartmentController {
 
     private IDepartmentService departmentService;
 
@@ -34,16 +35,19 @@ public class DepartmentController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> deleteDepartment(@PathVariable int id) {
         return new ResponseEntity<>(departmentService.deleteDepartment(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> addDepartment(@RequestBody @Valid DepartmentForCreationDto department) {
         return new ResponseEntity<>(departmentService.addDepartment(department), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> updateDepartment(@RequestBody DepartmentForUpdateDto department) {
         return new ResponseEntity<>(departmentService.updateDepartment(department), new HttpHeaders(), HttpStatus.OK);
     }

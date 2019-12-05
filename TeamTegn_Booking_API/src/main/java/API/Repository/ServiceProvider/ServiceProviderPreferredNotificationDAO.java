@@ -8,10 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ServiceProviderPreferredNotificationDAO extends
-        JpaRepository<ServiceProviderPreferredNotificationEntity, Integer>,
-        ServiceProviderPreferredNotificationDAOCustom {
-
+public interface ServiceProviderPreferredNotificationDAO extends JpaRepository<ServiceProviderPreferredNotificationEntity, Integer>, ServiceProviderPreferredNotificationDAOCustom {
+    Optional<ServiceProviderPreferredNotificationEntity> findByIdIsAndDeletedIsFalse(int id);
     List<ServiceProviderPreferredNotificationEntity> findAllByDeletedIsFalse();
-    Optional<ServiceProviderPreferredNotificationEntity> findByNotificationTypeAndDeletedIsFalse(String notificationType);
+    int countAllByNotificationTypeIs(String notificationType);
 }

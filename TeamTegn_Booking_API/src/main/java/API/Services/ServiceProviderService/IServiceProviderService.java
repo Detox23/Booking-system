@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface IServiceProviderService {
-    List<ServiceProviderDto> list();
+    List<ServiceProviderDto> listAllServiceProviders(boolean showDeleted);
 
     ServiceProviderDto findServiceProvider(int id);
 

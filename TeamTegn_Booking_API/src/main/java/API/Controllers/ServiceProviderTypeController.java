@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,28 +21,31 @@ public class ServiceProviderTypeController {
         this.serviceProviderTypeService = serviceProviderTypeService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return new ResponseEntity<>(serviceProviderTypeService.listServiceProviderTypes(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listServiceProviderTypes(@PathVariable boolean showDeleted) {
+        return new ResponseEntity<>(serviceProviderTypeService.listServiceProviderTypes(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findOne(@PathVariable int id) {
+    public ResponseEntity<?> findServiceProviderType(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderTypeService.findServiceProviderType(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> addOne(@RequestBody ServiceProviderTypeForCreationDto serviceProviderType) {
+    @PreAuthorize("hasRole('ROLE_Administrator')")
+    public ResponseEntity<?> addServiceProviderType(@RequestBody ServiceProviderTypeForCreationDto serviceProviderType) {
         return new ResponseEntity<>(serviceProviderTypeService.addServiceProviderType(serviceProviderType), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateOne(@RequestBody ServiceProviderTypeForUpdateDto serviceProviderType) {
+    @PreAuthorize("hasRole('ROLE_Administrator')")
+    public ResponseEntity<?> updateServiceProviderType(@RequestBody ServiceProviderTypeForUpdateDto serviceProviderType) {
         return new ResponseEntity<>(serviceProviderTypeService.updateServiceProviderType(serviceProviderType), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteOne(@PathVariable int id) {
+    @PreAuthorize("hasRole('ROLE_Administrator')")
+    public ResponseEntity<?> deleteServiceProviderType(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderTypeService.deleteServiceProviderType(id), new HttpHeaders(), HttpStatus.OK);
     }
 }

@@ -12,7 +12,7 @@ public interface ServiceProviderPreferredNotificationDAOCustom {
 
     boolean deleteServiceProviderNotification(int id);
 
-    List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications();
+    List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications(boolean showDeleted);
 
     ServiceProviderPreferredNotificationDto findServiceProviderNotification(int id);
 }

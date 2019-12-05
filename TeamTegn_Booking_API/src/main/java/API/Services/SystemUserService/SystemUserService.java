@@ -14,11 +14,7 @@ import Shared.ToReturn.SystemUserDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,8 +32,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
 
     private SystemUserDAO systemUserDAO;
 
-    private EncryptionHandler encryptionHandler;
-
     private ModelMapper modelMapper;
 
     private DepartmentDAO departmentDAO;
@@ -45,13 +39,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     private SystemUser_DepartmentDAO systemUserDepartmentDAO;
 
     private RoleDAO roleDAO;
-
-    private PasswordEncoder bcryptEncoder;
-
-    @Autowired
-    public void setBcryptEncoder(PasswordEncoder bcryptEncoder) {
-        this.bcryptEncoder = bcryptEncoder;
-    }
 
     @Autowired
     public void setRoleDAO(RoleDAO roleDAO) {
@@ -66,11 +53,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     @Autowired
     public void setSystemUserDepartmentDAO(SystemUser_DepartmentDAO systemUserDepartmentDAO) {
         this.systemUserDepartmentDAO = systemUserDepartmentDAO;
-    }
-
-    @Autowired
-    public void setEncryptionHandler(EncryptionHandler encryptionHandler) {
-        this.encryptionHandler = encryptionHandler;
     }
 
     @Autowired
@@ -109,15 +91,13 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     }
 
     @Override
-    public List<SystemUserDto> listSystemUsers() {
-        List<SystemUserDto> foundUsers = systemUserDAO.listSystemUsers();
-        List<SystemUserDto> returnList = new ArrayList<>();
+    public List<SystemUserDto> listSystemUsers(boolean showDeleted) {
+        List<SystemUserDto> foundUsers = systemUserDAO.listSystemUsers(showDeleted);
         for(SystemUserDto user: foundUsers){
             fillWithListOfDepartments(user);
-            returnList.add(user);
             addRole(user);
         }
-        return returnList;
+        return foundUsers;
     }
 
     @Override
@@ -157,8 +137,6 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
         org.springframework.security.core.userdetails.User toReturn = new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), getAuthority(user));
         return toReturn;
     }
-
-
 
     private Set<SimpleGrantedAuthority> getAuthority(SystemUserDto user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();

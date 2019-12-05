@@ -11,6 +11,6 @@ public interface IServiceProviderPreferredNotificationService {
     ServiceProviderPreferredNotificationDto addServiceProviderNotification(ServiceProviderPreferredNotificationForCreationDto serviceProviderNotification);
     ServiceProviderPreferredNotificationDto updateServiceProviderNotification(ServiceProviderPreferredNotificationForUpdateDto serviceProviderNotification);
     boolean deleteServiceProviderNotification(int id);
-    List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications();
+    List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications(boolean showDelete);
     ServiceProviderPreferredNotificationDto findServiceProviderNotification(int id);
 }

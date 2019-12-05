@@ -1,9 +1,14 @@
 package API.Models.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "ServiceUser_Comment", schema = "dbo")
 public class ServiceUserCommentEntity {
     private int id;
@@ -24,7 +29,8 @@ public class ServiceUserCommentEntity {
     }
 
     @Basic
-    @Column(name = "UserID", nullable = true)
+    @CreatedBy
+    @Column(name = "UserID")
     public Integer getUserId() {
         return userId;
     }
@@ -34,7 +40,7 @@ public class ServiceUserCommentEntity {
     }
 
     @Basic
-    @Column(name = "ServiceUserID", nullable = true)
+    @Column(name = "ServiceUserID")
     public Integer getServiceUserId() {
         return serviceUserId;
     }
@@ -44,7 +50,8 @@ public class ServiceUserCommentEntity {
     }
 
     @Basic
-    @Column(name = "CommentDate", nullable = true)
+    @CreationTimestamp
+    @Column(name = "CommentDate")
     public Timestamp getCommentDate() {
         return commentDate;
     }
@@ -54,7 +61,7 @@ public class ServiceUserCommentEntity {
     }
 
     @Basic
-    @Column(name = "CommentText", nullable = true, length = 2147483647)
+    @Column(name = "CommentText", length = 2147483647)
     public String getCommentText() {
         return commentText;
     }
@@ -71,7 +78,6 @@ public class ServiceUserCommentEntity {
         ServiceUserCommentEntity that = (ServiceUserCommentEntity) o;
 
         if (id != that.id) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (serviceUserId != null ? !serviceUserId.equals(that.serviceUserId) : that.serviceUserId != null)
             return false;
         if (commentDate != null ? !commentDate.equals(that.commentDate) : that.commentDate != null) return false;
@@ -83,7 +89,6 @@ public class ServiceUserCommentEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (serviceUserId != null ? serviceUserId.hashCode() : 0);
         result = 31 * result + (commentDate != null ? commentDate.hashCode() : 0);
         result = 31 * result + (commentText != null ? commentText.hashCode() : 0);

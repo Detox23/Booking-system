@@ -10,5 +10,5 @@ public interface ServiceUserStatusDAOCustom {
     ServiceUserStatusDto updateServiceUserStatus(ServiceUserStatusEntity serviceUserStatus);
     boolean deleteServiceUserStatus(int id);
     ServiceUserStatusDto findServiceUserStatus(int id);
-    List<ServiceUserStatusDto> listServiceUserStatuses();
+    List<ServiceUserStatusDto> listServiceUserStatuses(boolean showDeleted);
 }

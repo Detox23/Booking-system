@@ -1,12 +1,11 @@
 package API.Services.AccountService;
 
+import API.Exceptions.NotFoundException;
 import API.Models.Database_Entities.AccountEanEntity;
 import API.Models.Database_Entities.AccountEntity;
 import API.Models.Database_Entities.ServiceUserAccountEntity;
-import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.Account.AccountEanDAO;
-import API.Repository.Account.AccountTypeDAO;
 import API.Repository.ServiceUser.ServiceUserAccountsDAO;
 import API.Repository.ServiceUser.ServiceUserDAO;
 import Shared.ForCreation.AccountForCreationDto;
@@ -25,25 +24,36 @@ import java.util.*;
 
 @Service
 public class AccountService implements IAccountService {
-
-    @Autowired
     private AccountDAO accountDAO;
-
-    @Autowired
-    private AccountTypeDAO accountTypeDAO;
-
-    @Autowired
     private AccountEanDAO accountEanDAO;
-
-    @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
     private ServiceUserAccountsDAO serviceUserAccountsDAO;
-
-    @Autowired
     private ServiceUserDAO serviceUserDAO;
 
+    @Autowired
+    public void setAccountDAO(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
+
+    @Autowired
+    public void setAccountEanDAO(AccountEanDAO accountEanDAO) {
+        this.accountEanDAO = accountEanDAO;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setServiceUserAccountsDAO(ServiceUserAccountsDAO serviceUserAccountsDAO) {
+        this.serviceUserAccountsDAO = serviceUserAccountsDAO;
+    }
+
+    @Autowired
+    public void setServiceUserDAO(ServiceUserDAO serviceUserDAO) {
+        this.serviceUserDAO = serviceUserDAO;
+    }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
@@ -59,7 +69,6 @@ public class AccountService implements IAccountService {
         }
     }
 
-
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public boolean deleteAccount(int id) {
@@ -69,11 +78,11 @@ public class AccountService implements IAccountService {
 
     @Override
     public AccountDto findAccount(int id) {
-        Map<Integer, ServiceUserDto> helperServiceUserMap = new HashMap<>();
+        Map<Integer, ServiceUserDto> helperAccountMap = new HashMap<>();
         try {
             AccountDto found = accountDAO.findAccount(id);
             fillAccountWithListOfEans(found);
-            fillAccountWithServiceUsers(found, helperServiceUserMap);
+            fillAccountWithServiceUsers(found, helperAccountMap);
             return found;
         } catch (Exception e) {
             throw new NotFoundException("Service provider not found");
@@ -85,7 +94,7 @@ public class AccountService implements IAccountService {
         Map<Integer, ServiceUserDto> helperCompetencyMap = new HashMap<>();
         try {
             List<AccountDto> found = accountDAO.listAccounts();
-            for(AccountDto account: found){
+            for (AccountDto account : found) {
                 fillAccountWithListOfEans(account);
                 fillAccountWithServiceUsers(account, helperCompetencyMap);
             }

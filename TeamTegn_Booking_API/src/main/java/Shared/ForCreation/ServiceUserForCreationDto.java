@@ -28,10 +28,8 @@ public class ServiceUserForCreationDto {
     private String city;
     private String stateRegion;
     private String country;
-    private String username;
-    private String password;
     private String externalId;
-    private Integer roleId;
+    @NotNull
     private Integer departmentId;
     @NotNull
     private Integer serviceUserStatusId;
@@ -197,37 +195,12 @@ public class ServiceUserForCreationDto {
         this.country = country;
     }
 
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getExternalId() {
         return externalId;
     }
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 
     public Integer getDepartmentId() {

@@ -1,16 +1,16 @@
 package API.Services.ServiceUserService;
 
+import API.Configurations.Encryption.EncryptionHandler;
+import API.Exceptions.NotFoundException;
 import API.Models.Database_Entities.ServiceUserAccountEntity;
 import API.Models.Database_Entities.ServiceUserEntity;
-import API.Exceptions.NotFoundException;
 import API.Repository.Account.AccountDAO;
 import API.Repository.ServiceUser.ServiceUserAccountsDAO;
 import API.Repository.ServiceUser.ServiceUserDAO;
+import API.Repository.ServiceUser.ServiceUserPreferencesDAO;
 import Shared.ForCreation.ServiceUserForCreationDto;
 import Shared.ForCreation.ServiceUserForUpdateDto;
-import Shared.ToReturn.AccountDto;
-import Shared.ToReturn.ServiceUserAccountDto;
-import Shared.ToReturn.ServiceUserDto;
+import Shared.ToReturn.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,18 @@ public class ServiceUserService implements IServiceUserService {
     private AccountDAO accountDAO;
     private ServiceUserAccountsDAO serviceUserAccountsDAO;
     private ModelMapper modelMapper;
+    private EncryptionHandler encryptionHandler;
+    private ServiceUserPreferencesService serviceUserPreferencesService;
 
+    @Autowired
+    public void setServiceUserPreferencesService(ServiceUserPreferencesService serviceUserPreferencesService) {
+        this.serviceUserPreferencesService = serviceUserPreferencesService;
+    }
 
+    @Autowired
+    public void setEncryptionHandler(EncryptionHandler encryptionHandler) {
+        this.encryptionHandler = encryptionHandler;
+    }
 
     @Autowired
     public void setServiceUserDAO(ServiceUserDAO serviceUserDAO) {
@@ -55,11 +65,13 @@ public class ServiceUserService implements IServiceUserService {
     @Transactional(rollbackFor = Throwable.class)
     public ServiceUserDto addServiceUser(ServiceUserForCreationDto serviceUser) {
         Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
-        try{
+        try {
             ServiceUserDto addedServiceUser = serviceUserDAO.addServiceUser(modelMapper.map(serviceUser, ServiceUserEntity.class), serviceUser.getAccounts());
+            decryptCpr(addedServiceUser);
             fillServiceUserWithAccounts(addedServiceUser, helperAccountMap);
+            fillServiceUserWithPreferences(addedServiceUser);
             return addedServiceUser;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -69,7 +81,9 @@ public class ServiceUserService implements IServiceUserService {
         try {
             Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
             ServiceUserDto found = serviceUserDAO.findServiceUser(id);
+            decryptCpr(found);
             fillServiceUserWithAccounts(found, helperAccountMap);
+            fillServiceUserWithPreferences(found);
             return found;
         } catch (Exception e) {
             throw e;
@@ -81,13 +95,16 @@ public class ServiceUserService implements IServiceUserService {
         try {
             Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
             Page<ServiceUserDto> found = serviceUserDAO.listServiceUsers(pageable);
-            found.toList().forEach(serviceUser -> fillServiceUserWithAccounts(serviceUser, helperAccountMap));
+            found.toList().forEach(serviceUser -> {
+                fillServiceUserWithAccounts(serviceUser, helperAccountMap);
+                fillServiceUserWithPreferences(serviceUser);
+                decryptCpr(serviceUser);
+            });
             return found;
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
-
 
 
     @Override
@@ -103,11 +120,18 @@ public class ServiceUserService implements IServiceUserService {
         try {
             Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
             ServiceUserDto updated = serviceUserDAO.updateServiceUser(modelMapper.map(serviceUser, ServiceUserEntity.class), serviceUser.getAccounts());
+            decryptCpr(updated);
             fillServiceUserWithAccounts(updated, helperAccountMap);
+            fillServiceUserWithPreferences(updated);
             return updated;
         } catch (NoSuchElementException noSuchElementException) {
             throw new NotFoundException("Account type is not found. Update cancelled.");
         }
+    }
+
+    private void decryptCpr(ServiceUserDto serviceProvider) {
+        String decrypted = encryptionHandler.decrypt(serviceProvider.getCpr());
+        serviceProvider.setCpr(decrypted);
     }
 
 
@@ -126,4 +150,13 @@ public class ServiceUserService implements IServiceUserService {
             }
         }
     }
+
+    private void fillServiceUserWithPreferences(ServiceUserDto serviceUser) {
+        serviceUser.setPreferences(new ArrayList<>());
+        List<ServiceUserPreferencesDto> listOfPreferences = serviceUserPreferencesService.listServiceUserPreferences(serviceUser.getId());
+        for (ServiceUserPreferencesDto preferences : listOfPreferences) {
+            serviceUser.getPreferences().add(preferences);
+        }
+    }
 }
+

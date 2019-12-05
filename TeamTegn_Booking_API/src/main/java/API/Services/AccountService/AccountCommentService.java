@@ -8,6 +8,7 @@ import Shared.ToReturn.AccountCommentDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,16 +30,19 @@ public class AccountCommentService implements IAccountCommentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AccountCommentDto addAccountComment(AccountCommentForCreationDto accountComment) {
         return accountCommentDAO.addAccountComment(modelMapper.map(accountComment, AccountCommentEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AccountCommentDto updateAccountComment(AccountCommentForUpdateDto accountComment) {
         return accountCommentDAO.updateAccountComment(modelMapper.map(accountComment, AccountCommentEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteAccountComment(int accountID, int id) {
         return accountCommentDAO.deleteAccountComment(accountID, id);
     }

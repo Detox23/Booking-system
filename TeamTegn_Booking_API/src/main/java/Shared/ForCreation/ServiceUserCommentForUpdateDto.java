@@ -1,9 +1,6 @@
 package Shared.ForCreation;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 
 public class ServiceUserCommentForUpdateDto {
     @NotNull

@@ -21,7 +21,7 @@ import java.sql.Date;
 
 @RestController
 @RequestMapping("/api/assignments")
-public class AssignmentController extends BaseController {
+public class AssignmentController {
 
     private IAssignmentService assignmentService;
 

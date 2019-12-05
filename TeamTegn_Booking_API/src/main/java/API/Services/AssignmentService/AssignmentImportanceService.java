@@ -8,6 +8,7 @@ import Shared.ToReturn.AssignmentImportanceDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,11 +30,13 @@ public class AssignmentImportanceService implements IAssignmentImportanceService
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AssignmentImportanceDto addAssignmentImportance(AssignmentImportanceForCreationDto assignmentImportance) {
         return assignmentImportanceDAO.addAssignmentImportance(modelMapper.map(assignmentImportance, AssignmentImportanceEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteAssignmentImportance(int id) {
         return assignmentImportanceDAO.deleteAssignmentImportance(id);
     }
@@ -49,6 +52,7 @@ public class AssignmentImportanceService implements IAssignmentImportanceService
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AssignmentImportanceDto updateAssignmentImportance(AssignmentImportanceForUpdateDto assignmentImportance) {
         return assignmentImportanceDAO.updateAssignmentImportance(modelMapper.map(assignmentImportance, AssignmentImportanceEntity.class));
     }

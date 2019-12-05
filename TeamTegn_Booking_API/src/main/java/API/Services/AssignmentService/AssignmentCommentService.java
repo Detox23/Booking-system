@@ -8,6 +8,7 @@ import Shared.ToReturn.AssignmentCommentDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,16 +30,19 @@ public class AssignmentCommentService implements IAssignmentCommentService{
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AssignmentCommentDto addAssignmentComment(AssignmentCommentForCreationDto assignmentComment) {
         return assignmentCommentDAO.addAssignmentComment(modelMapper.map(assignmentComment, AssignmentCommentEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AssignmentCommentDto updateAssignmentComment(AssignmentCommentForUpdateDto assignmentComment) {
         return assignmentCommentDAO.updateAssignmentComment(modelMapper.map(assignmentComment, AssignmentCommentEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteAssignmentComment(int commentId) {
         return assignmentCommentDAO.deleteAssignmentComment(commentId);
     }

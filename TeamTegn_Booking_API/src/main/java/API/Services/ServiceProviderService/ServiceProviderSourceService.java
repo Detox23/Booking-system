@@ -1,7 +1,6 @@
 package API.Services.ServiceProviderService;
 
 import API.Models.Database_Entities.ServiceProviderSourceEntity;
-import API.Exceptions.DeletionException;
 import API.Repository.ServiceProvider.ServiceProviderSourceDAO;
 import Shared.ForCreation.ServiceProviderSourceForCreationDto;
 import Shared.ForCreation.ServiceProviderSourceForUpdateDto;
@@ -44,13 +43,13 @@ public class ServiceProviderSourceService implements IServiceProviderSourceServi
     }
 
     @Override
-    public List<ServiceProviderSourceDto> listServiceProviderSources() {
-        return modelMapper.map(serviceProviderSourceDAO.listServiceProviderSources(),
+    public List<ServiceProviderSourceDto> listServiceProviderSources(boolean showDeleted) {
+        return modelMapper.map(serviceProviderSourceDAO.listServiceProviderSources(showDeleted),
                 new TypeToken<List<ServiceProviderSourceDto>>() {}.getType());
     }
 
     @Override
-    @Transactional(rollbackFor = DeletionException.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteServiceProviderSource(int id) {
         return serviceProviderSourceDAO.deleteServiceProviderSource(id);
     }

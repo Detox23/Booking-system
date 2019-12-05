@@ -8,6 +8,7 @@ import Shared.ToReturn.ServiceProviderPreferredNotificationDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,23 +30,26 @@ public class ServiceProviderPreferredNotificationService implements IServiceProv
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderPreferredNotificationDto addServiceProviderNotification(ServiceProviderPreferredNotificationForCreationDto serviceProviderNotification) {
         return serviceProviderPreferredNotificationDAO.addServiceProviderNotification(modelMapper.map(serviceProviderNotification, ServiceProviderPreferredNotificationEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public ServiceProviderPreferredNotificationDto updateServiceProviderNotification(ServiceProviderPreferredNotificationForUpdateDto serviceProviderNotification) {
         return serviceProviderPreferredNotificationDAO.updateServiceProviderNotification(modelMapper.map(serviceProviderNotification, ServiceProviderPreferredNotificationEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteServiceProviderNotification(int id) {
         return serviceProviderPreferredNotificationDAO.deleteServiceProviderNotification(id);
     }
 
     @Override
-    public List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications() {
-        return serviceProviderPreferredNotificationDAO.listServiceProviderNotifications();
+    public List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications(boolean showDeleted) {
+        return serviceProviderPreferredNotificationDAO.listServiceProviderNotifications(showDeleted);
     }
 
     @Override

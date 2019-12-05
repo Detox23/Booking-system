@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,16 +32,19 @@ public class AbsenceTypeController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> addAbsenceType(@RequestBody AbsenceTypeForCreationDto absenceType) {
         return new ResponseEntity<>(absenceTypeService.addAbsenceType(absenceType), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> deleteAbsenceType(@PathVariable int id) {
         return new ResponseEntity<>(absenceTypeService.deleteAbsenceType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> updateAbsenceType(@RequestBody AbsenceTypeForUpdateDto absenceType) {
         return new ResponseEntity<>(absenceTypeService.updateAbsenceType(absenceType), new HttpHeaders(), HttpStatus.OK);
     }

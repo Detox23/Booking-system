@@ -1,7 +1,6 @@
 package Shared.ForCreation;
 
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.util.List;
 
 public class ServiceProviderForUpdateDto {

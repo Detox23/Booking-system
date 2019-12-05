@@ -1,7 +1,6 @@
 package API.Configurations;
 
 import API.Repository.SystemUser.SystemUserDAO;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;

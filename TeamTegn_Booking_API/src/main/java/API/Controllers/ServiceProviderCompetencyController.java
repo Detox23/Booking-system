@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/competencies")
-public class ServiceProviderCompetencyController extends BaseController {
+public class ServiceProviderCompetencyController {
 
     private IServiceProviderCompetencyService serviceProviderCompetencyService;
 
@@ -20,29 +21,32 @@ public class ServiceProviderCompetencyController extends BaseController {
         this.serviceProviderCompetencyService = serviceProviderCompetencyService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllCompetencies() {
-        return new ResponseEntity<>(serviceProviderCompetencyService.listAllCompetencies(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listServiceProviderCompetencies(@PathVariable boolean showDeleted) {
+        return new ResponseEntity<>(serviceProviderCompetencyService.listServiceProviderCompetencies(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getOneCompetency(@PathVariable int id) {
-        return new ResponseEntity<>(serviceProviderCompetencyService.getOneCompetency(id), new HttpHeaders(), HttpStatus.FOUND);
+    public ResponseEntity<?> findServiceProviderCompetency(@PathVariable int id) {
+        return new ResponseEntity<>(serviceProviderCompetencyService.findServiceProviderCompetency(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> addOneCompetency(@RequestBody ServiceProviderCompetencyForCreationDto serviceProviderCompetency) {
-        return new ResponseEntity<>(serviceProviderCompetencyService.addOneCompetency(serviceProviderCompetency), new HttpHeaders(), HttpStatus.CREATED);
+    @PreAuthorize("hasRole('ROLE_Administrator')")
+    public ResponseEntity<?> addServiceProviderCompetency(@RequestBody ServiceProviderCompetencyForCreationDto serviceProviderCompetency) {
+        return new ResponseEntity<>(serviceProviderCompetencyService.addServiceProviderCompetency(serviceProviderCompetency), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateOneCompetency(@RequestBody ServiceProviderCompetencyForUpdateDto serviceProviderCompetency) {
-        return new ResponseEntity<>(serviceProviderCompetencyService.updateOneCompetency(serviceProviderCompetency), new HttpHeaders(), HttpStatus.OK);
+    @PreAuthorize("hasRole('ROLE_Administrator')")
+    public ResponseEntity<?> updateServiceProviderCompetency(@RequestBody ServiceProviderCompetencyForUpdateDto serviceProviderCompetency) {
+        return new ResponseEntity<>(serviceProviderCompetencyService.updateServiceProviderCompetency(serviceProviderCompetency), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteOneCompetency(@PathVariable int id) {
-        return new ResponseEntity<>(serviceProviderCompetencyService.deleteOneCompetency(id), new HttpHeaders(), HttpStatus.OK);
+    @PreAuthorize("hasRole('ROLE_Administrator')")
+    public ResponseEntity<?> deleteServiceProviderCompetency(@PathVariable int id) {
+        return new ResponseEntity<>(serviceProviderCompetencyService.deleteServiceProviderCompetency(id), new HttpHeaders(), HttpStatus.OK);
     }
 
 }

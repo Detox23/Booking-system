@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 public class TestDataSourceConfig {
 
     @Bean
+    @Primary
     public DataSource dataSourceTest() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

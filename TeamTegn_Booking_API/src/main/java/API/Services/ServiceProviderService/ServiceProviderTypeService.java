@@ -55,7 +55,7 @@ public class ServiceProviderTypeService implements IServiceProviderTypeService {
     }
 
     @Override
-    public List<ServiceProviderTypeDto> listServiceProviderTypes() {
-        return serviceProviderTypeDAO.listServiceProviderTypes();
+    public List<ServiceProviderTypeDto> listServiceProviderTypes(boolean showDeleted) {
+        return serviceProviderTypeDAO.listServiceProviderTypes(showDeleted);
     }
 }

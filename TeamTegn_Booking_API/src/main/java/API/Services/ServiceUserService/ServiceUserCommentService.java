@@ -8,6 +8,7 @@ import Shared.ToReturn.ServiceUserCommentDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,11 +28,13 @@ public class ServiceUserCommentService implements IServiceUserCommentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public ServiceUserCommentDto addServiceUserComment(ServiceUserCommentForCreationDto serviceProviderComment) {
         return serviceUserCommentDAO.addServiceUserComment(modelMapper.map(serviceProviderComment, ServiceUserCommentEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public ServiceUserCommentDto updateServiceUserComment(ServiceUserCommentForUpdateDto serviceProviderComment) {
         return serviceUserCommentDAO.updateServiceUserComment(modelMapper.map(serviceProviderComment, ServiceUserCommentEntity.class));
     }
@@ -42,6 +45,7 @@ public class ServiceUserCommentService implements IServiceUserCommentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteServiceUserComment(int commentID) {
         return serviceUserCommentDAO.deleteServiceUserComment(commentID);
     }

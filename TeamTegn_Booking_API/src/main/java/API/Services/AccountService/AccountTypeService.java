@@ -8,6 +8,7 @@ import Shared.ToReturn.AccountTypeDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,11 +30,13 @@ public class AccountTypeService implements IAccountTypeService{
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AccountTypeDto addAccountType(AccountTypeForCreationDto account) {
         return accountTypeDAO.addAccountType(modelMapper.map(account, AccountTypeEntity.class));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteAccountType(int id) {
         return accountTypeDAO.deleteAccountType(id);
     }
@@ -44,6 +47,7 @@ public class AccountTypeService implements IAccountTypeService{
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public AccountTypeDto updateAccountType(AccountTypeForUpdateDto account) {
         return accountTypeDAO.updateAccountType(modelMapper.map(account, AccountTypeEntity.class));
     }

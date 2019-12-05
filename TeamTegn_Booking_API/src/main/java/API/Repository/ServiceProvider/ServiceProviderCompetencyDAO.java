@@ -5,11 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ServiceProviderCompetencyDAO extends JpaRepository<ServiceProviderCompetencyEntity, Integer>, ServiceProviderCompetencyDAOCustom {
-    List<ServiceProviderCompetencyEntity> findAllByCompetencyIs(String name);
-    ServiceProviderCompetencyEntity findByCompetencyIs(String name);
+    int countAllByCompetencyIs(String name);
+    Optional<ServiceProviderCompetencyEntity> findByIdIsAndDeletedIsFalse(int id);
+    List<ServiceProviderCompetencyEntity> findAllByDeletedIsFalse();
 
 
 

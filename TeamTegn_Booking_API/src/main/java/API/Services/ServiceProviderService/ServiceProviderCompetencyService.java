@@ -1,7 +1,7 @@
 package API.Services.ServiceProviderService;
 
-import API.Models.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Exceptions.NotFoundException;
+import API.Models.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Repository.ServiceProvider.ServiceProviderCompetencyDAO;
 import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;
 import Shared.ForCreation.ServiceProviderCompetencyForUpdateDto;
@@ -32,14 +32,14 @@ public class ServiceProviderCompetencyService implements IServiceProviderCompete
     }
 
     @Override
-    public List<ServiceProviderCompetencyDto> listAllCompetencies() {
-        return serviceProviderCompetencyDAO.listAllCompetencies();
+    public List<ServiceProviderCompetencyDto> listServiceProviderCompetencies(boolean showDeleted ) {
+        return serviceProviderCompetencyDAO.listServiceProviderCompetencies(showDeleted);
     }
 
     @Override
-    public ServiceProviderCompetencyDto getOneCompetency(int id) {
+    public ServiceProviderCompetencyDto findServiceProviderCompetency(int id) {
         try {
-            return serviceProviderCompetencyDAO.getOneCompetency(id);
+            return serviceProviderCompetencyDAO.findServiceProviderCompetency(id);
         } catch (NoSuchElementException e) {
             throw new NotFoundException("Competency was not found");
         }
@@ -47,19 +47,19 @@ public class ServiceProviderCompetencyService implements IServiceProviderCompete
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public ServiceProviderCompetencyDto addOneCompetency(ServiceProviderCompetencyForCreationDto serviceProviderCompetency) {
-        return serviceProviderCompetencyDAO.addOneCompetency(modelMapper.map(serviceProviderCompetency, ServiceProviderCompetencyEntity.class));
+    public ServiceProviderCompetencyDto addServiceProviderCompetency(ServiceProviderCompetencyForCreationDto serviceProviderCompetency) {
+        return serviceProviderCompetencyDAO.addServiceProviderCompetency(modelMapper.map(serviceProviderCompetency, ServiceProviderCompetencyEntity.class));
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public ServiceProviderCompetencyDto updateOneCompetency(ServiceProviderCompetencyForUpdateDto serviceProviderCompetency) {
-        return serviceProviderCompetencyDAO.updateOneCompetency(modelMapper.map(serviceProviderCompetency, ServiceProviderCompetencyEntity.class));
+    public ServiceProviderCompetencyDto updateServiceProviderCompetency(ServiceProviderCompetencyForUpdateDto serviceProviderCompetency) {
+        return serviceProviderCompetencyDAO.updateServiceProviderCompetency(modelMapper.map(serviceProviderCompetency, ServiceProviderCompetencyEntity.class));
     }
 
     @Override
-    @Transactional(noRollbackFor = NoSuchElementException.class, rollbackFor = NotFoundException.class)
-    public boolean deleteOneCompetency(int id) {
-        return serviceProviderCompetencyDAO.deleteOneCompetency(id);
+    @Transactional(rollbackFor = Throwable.class)
+    public boolean deleteServiceProviderCompetency(int id) {
+        return serviceProviderCompetencyDAO.deleteServiceProviderCompetency(id);
     }
 }

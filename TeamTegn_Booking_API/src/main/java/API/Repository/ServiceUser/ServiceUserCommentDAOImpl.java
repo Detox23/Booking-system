@@ -1,9 +1,9 @@
 package API.Repository.ServiceUser;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Models.Database_Entities.ServiceUserCommentEntity;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.ServiceUserCommentEntity;
 import Shared.ToReturn.ServiceUserCommentDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -71,6 +71,7 @@ public class ServiceUserCommentDAOImpl implements ServiceUserCommentDAOCustom {
     @Override
     public ServiceUserCommentDto updateServiceUserComment(ServiceUserCommentEntity serviceProviderComment) {
         try {
+            serviceProviderComment.setUserId(null);
             ServiceUserCommentEntity found = findIfExistsAndReturn(serviceProviderComment.getId());
             patcherHandler.fillNotNullFields(found, serviceProviderComment);
             ServiceUserCommentEntity updated = serviceUserCommentDAO.save(found);

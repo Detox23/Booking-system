@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,16 +36,19 @@ public class AssignmentStatusTypeController extends Serializers.Base {
 
 
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> create(@RequestBody @Valid AssignmentStatusTypeForCreationDto assignmentStatusType) {
         return new ResponseEntity<>(assignmentService.addAssignmentStatusType(assignmentStatusType), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> delete(@PathVariable int id) {
         return new ResponseEntity<>(assignmentService.deleteAssignmentStatusType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.PATCH})
+    @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> update(@RequestBody @Valid AssignmentStatusTypeForUpdateDto assignmentStatusType) {
         return new ResponseEntity<>(assignmentService.updateAssignmentStatusType(assignmentStatusType), new HttpHeaders(), HttpStatus.OK);
     }

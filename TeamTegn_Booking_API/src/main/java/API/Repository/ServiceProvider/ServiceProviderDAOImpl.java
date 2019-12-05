@@ -2,10 +2,10 @@ package API.Repository.ServiceProvider;
 
 import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
+import API.Exceptions.*;
 import API.Models.Database_Entities.ServiceProviderEntity;
 import API.Models.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
 import API.Models.Database_Entities.ServiceProviderServiceProviderTypeEntity;
-import API.Exceptions.*;
 import API.Repository.Department.DepartmentDAO;
 import Shared.ToReturn.ServiceProviderDto;
 import org.modelmapper.ModelMapper;
@@ -75,37 +75,41 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     }
 
     @Override
-    public List<ServiceProviderDto> listAllServiceProvider() {
-        Type listType = new TypeToken<List<ServiceProviderDto>>() {
-        }.getType();
-        return modelMapper.map(serviceProviderDAO.findAllByDeletedIsFalse(), listType);
+    public List<ServiceProviderDto> listAllServiceProvider(boolean showDeleted) {
+        if(showDeleted){
+            try{
+                Type listType = new TypeToken<List<ServiceProviderDto>>() {}.getType();
+                return modelMapper.map(serviceProviderDAO.findAll(), listType);
+
+            }catch(Exception e){
+                throw e;
+            }
+        }else{
+            try{
+                Type listType = new TypeToken<List<ServiceProviderDto>>() {}.getType();
+                return modelMapper.map(serviceProviderDAO.findAllByDeletedIsFalse(), listType);
+
+            }catch(Exception e){
+                throw e;
+            }
+        }
+
     }
 
     @Override
     public ServiceProviderDto findServiceProvider(int id) {
         try {
-            Optional<ServiceProviderEntity> found = serviceProviderDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("Service provider does not exist.");
-            }
-            return modelMapper.map(found.get(), ServiceProviderDto.class);
-        } catch (NoSuchElementException noSuchElementException) {
-            throw new NotFoundException(noSuchElementException.getMessage());
+            ServiceProviderEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, ServiceProviderDto.class);
         } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
-    public ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies,
-                                                 List<Integer> types) {
+    public ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types) {
         try {
             checkDuplicate(serviceProvider);
-
-            //TODO sprawdzić czy można usunąć
-            if (!departmentDAO.findById(serviceProvider.getDepartmentId()).isPresent()) {
-                throw new NotFoundException("Department was not found");
-            }
             encryptCpr(serviceProvider);
             ServiceProviderEntity saved = serviceProviderDAO.save(serviceProvider);
             addCompetenciesOfServiceProvider(competencies, saved.getId());
@@ -121,20 +125,13 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     @Override
     public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types) {
         try {
-            Optional<ServiceProviderEntity> found = serviceProviderDAO.findById(serviceProvider.getId());
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException(String.format("Service provider with id %d was not found", serviceProvider.getId()));
-            }
-            if (serviceProvider.getCpr() != null) {
-                encryptCpr(serviceProvider);
-            }
-            patcherHandler.fillNotNullFields(found.get(), serviceProvider);
-            addCompetenciesOfServiceProvider(competencies, found.get().getId());
-            addTypesOfServiceProvider(types, found.get().getId());
-            if (!departmentDAO.findById(serviceProvider.getDepartmentId()).isPresent()) {
-                throw new NotFoundException(String.format("Department with %d was not found.", serviceProvider.getDepartmentId()));
-            }
-            ServiceProviderEntity updated = serviceProviderDAO.save(found.get());
+            checkDuplicate(serviceProvider);
+            encryptCpr(serviceProvider);
+            ServiceProviderEntity found = findIfExistsAndReturn(serviceProvider.getId());
+            patcherHandler.fillNotNullFields(found, serviceProvider);
+            addCompetenciesOfServiceProvider(competencies, found.getId());
+            addTypesOfServiceProvider(types, found.getId());
+            ServiceProviderEntity updated = serviceProviderDAO.save(found);
             return modelMapper.map(updated, ServiceProviderDto.class);
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating a service provider [PATCHING].");
@@ -144,23 +141,12 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     @Override
     public boolean deleteServiceProvider(int id) {
         try {
-            Optional<ServiceProviderEntity> found = serviceProviderDAO.findById(id);
-            if (!found.isPresent()) {
-                throw new NotFoundException("The service provider was not found.");
-            }
-            ServiceProviderEntity toDelete = found.get();
+            ServiceProviderEntity toDelete = findIfExistsAndReturn(id);
             toDelete.setDeleted(true);
             ServiceProviderEntity deletionResult = serviceProviderDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (NotFoundException notFoundException) {
-            throw notFoundException;
+            return deletionResult.isDeleted();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            throw e;
         }
     }
 
@@ -226,4 +212,13 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
         return true;
     }
 
+
+
+    private ServiceProviderEntity findIfExistsAndReturn(int id) {
+        Optional<ServiceProviderEntity> found = serviceProviderDAO.findByIdIsAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Service provider with id: %d was not found.", id));
+        }
+        return found.get();
+    }
 }

@@ -2,11 +2,11 @@ package Shared.ForCreation;
 
 import javax.validation.constraints.NotNull;
 
-public class ServiceUserStatusForUpdateDto {
+public class ServiceUserPreferencesForUpdateDto {
     @NotNull
     private int id;
     @NotNull
-    private String status;
+    private int rating;
 
     public int getId() {
         return id;
@@ -16,11 +16,11 @@ public class ServiceUserStatusForUpdateDto {
         this.id = id;
     }
 
-    public String getStatus() {
-        return status;
+    public int getRating() {
+        return rating;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

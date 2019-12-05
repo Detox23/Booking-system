@@ -32,13 +32,19 @@ public class ServiceUserDto {
     private Integer lastModifiedBy;
     @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp lastModified;
-    private Boolean isDeleted;
-    private String username;
     private String externalId;
-    private Integer roleId;
     private Integer departmentId;
     private Integer serviceUserStatusId;
     private List<AccountDto> accounts;
+    private List<ServiceUserPreferencesDto> preferences;
+
+    public List<ServiceUserPreferencesDto> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(List<ServiceUserPreferencesDto> preferences) {
+        this.preferences = preferences;
+    }
 
     public List<AccountDto> getAccounts() {
         return accounts;
@@ -232,39 +238,12 @@ public class ServiceUserDto {
         this.lastModified = lastModified;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
-
     public String getExternalId() {
         return externalId;
     }
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 
     public Integer getDepartmentId() {
@@ -291,4 +270,3 @@ public class ServiceUserDto {
         this.serviceUserStatusId = serviceUserStatusId;
     }
 }
-

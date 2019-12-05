@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/accounts")
-public class AccountController extends BaseController {
+public class AccountController {
 
     private IAccountService accountService;
 

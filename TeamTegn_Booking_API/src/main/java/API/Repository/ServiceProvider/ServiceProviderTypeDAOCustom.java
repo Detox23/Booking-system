@@ -14,5 +14,5 @@ public interface ServiceProviderTypeDAOCustom {
 
     ServiceProviderTypeDto findServiceProviderType(int id);
 
-    List<ServiceProviderTypeDto> listServiceProviderTypes();
+    List<ServiceProviderTypeDto> listServiceProviderTypes(boolean showDeleted);
 }
