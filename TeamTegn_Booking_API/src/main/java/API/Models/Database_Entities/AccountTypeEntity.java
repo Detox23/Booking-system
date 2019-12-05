@@ -31,7 +31,7 @@ public class AccountTypeEntity {
     }
 
     @Basic
-    @Column(name = "IsDeleted", nullable = true)
+    @Column(name = "IsDeleted")
     public Boolean getDeleted() {
         return isDeleted;
     }

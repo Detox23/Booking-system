@@ -21,9 +21,9 @@ public class AbsenceTypeController {
         this.absenceTypeService = absenceTypeService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> seeAllAbsenceTypes() {
-        return new ResponseEntity<>(absenceTypeService.listAbsenceTypes(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> seeAllAbsenceTypes(boolean showDeleted) {
+        return new ResponseEntity<>(absenceTypeService.listAbsenceTypes(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

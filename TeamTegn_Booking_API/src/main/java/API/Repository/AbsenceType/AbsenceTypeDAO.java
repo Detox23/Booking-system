@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface AbsenceTypeDAO extends JpaRepository<AbsenceTypeEntity, Integer>, AbsenceTypeDAOCustom {
     List<AbsenceTypeEntity> findAllByDeletedIsFalse();
 
+    Optional<AbsenceTypeEntity> findByIdAndDeletedIsFalse(int id);
     Optional<AbsenceTypeEntity> findByAbsenceTypeName(String absenceTypeName);
 }

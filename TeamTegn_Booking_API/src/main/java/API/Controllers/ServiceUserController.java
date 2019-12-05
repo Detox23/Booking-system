@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/serviceUsers")
@@ -53,14 +55,14 @@ public class ServiceUserController {
 
     //Creates an account
     @RequestMapping(value="/", method=RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestBody ServiceUserForCreationDto serviceUser) {
+    public ResponseEntity<?> add(@RequestBody @Valid ServiceUserForCreationDto serviceUser) {
         return new ResponseEntity<>(serviceUserService.addServiceUser(serviceUser), new HttpHeaders(), HttpStatus.OK);
     }
 
 
     //Updates an account
     @RequestMapping(value="/", method= RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccount(@RequestBody ServiceUserForUpdateDto serviceUser) {
+    public ResponseEntity<?> updateAccount(@RequestBody @Valid ServiceUserForUpdateDto serviceUser) {
         return new ResponseEntity<>(serviceUserService.updateServiceUser(serviceUser), new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -80,14 +82,14 @@ public class ServiceUserController {
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
-    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody ServiceUserCommentForCreationDto comment){
+    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody @Valid ServiceUserCommentForCreationDto comment){
         comment.setServiceUserId(id);
         return new ResponseEntity<>(serviceUserCommentService.addServiceUserComment(comment), new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody ServiceUserCommentForUpdateDto comment){
+    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody @Valid ServiceUserCommentForUpdateDto comment){
         comment.setServiceUserId(id);
         return new ResponseEntity<>(serviceUserCommentService.updateServiceUserComment(comment), new HttpHeaders(), HttpStatus.OK);
     }

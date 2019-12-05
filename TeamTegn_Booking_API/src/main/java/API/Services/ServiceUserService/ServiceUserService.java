@@ -29,6 +29,12 @@ public class ServiceUserService implements IServiceUserService {
     private ModelMapper modelMapper;
     private EncryptionHandler encryptionHandler;
     private ServiceUserPreferencesService serviceUserPreferencesService;
+    private ServiceUserCommentService serviceUserCommentService;
+
+    @Autowired
+    public void setServiceUserCommentService(ServiceUserCommentService serviceUserCommentService) {
+        this.serviceUserCommentService = serviceUserCommentService;
+    }
 
     @Autowired
     public void setServiceUserPreferencesService(ServiceUserPreferencesService serviceUserPreferencesService) {
@@ -70,6 +76,7 @@ public class ServiceUserService implements IServiceUserService {
             decryptCpr(addedServiceUser);
             fillServiceUserWithAccounts(addedServiceUser, helperAccountMap);
             fillServiceUserWithPreferences(addedServiceUser);
+            fillServiceUserWithComments(addedServiceUser);
             return addedServiceUser;
         } catch (Exception e) {
             throw e;
@@ -84,6 +91,7 @@ public class ServiceUserService implements IServiceUserService {
             decryptCpr(found);
             fillServiceUserWithAccounts(found, helperAccountMap);
             fillServiceUserWithPreferences(found);
+            fillServiceUserWithComments(found);
             return found;
         } catch (Exception e) {
             throw e;
@@ -96,8 +104,9 @@ public class ServiceUserService implements IServiceUserService {
             Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
             Page<ServiceUserDto> found = serviceUserDAO.listServiceUsers(pageable);
             found.toList().forEach(serviceUser -> {
-                fillServiceUserWithAccounts(serviceUser, helperAccountMap);
-                fillServiceUserWithPreferences(serviceUser);
+//                fillServiceUserWithAccounts(serviceUser, helperAccountMap);
+//                fillServiceUserWithPreferences(serviceUser);
+//                fillServiceUserWithComments(serviceUser);
                 decryptCpr(serviceUser);
             });
             return found;
@@ -123,6 +132,7 @@ public class ServiceUserService implements IServiceUserService {
             decryptCpr(updated);
             fillServiceUserWithAccounts(updated, helperAccountMap);
             fillServiceUserWithPreferences(updated);
+            fillServiceUserWithComments(updated);
             return updated;
         } catch (NoSuchElementException noSuchElementException) {
             throw new NotFoundException("Account type is not found. Update cancelled.");
@@ -156,6 +166,14 @@ public class ServiceUserService implements IServiceUserService {
         List<ServiceUserPreferencesDto> listOfPreferences = serviceUserPreferencesService.listServiceUserPreferences(serviceUser.getId());
         for (ServiceUserPreferencesDto preferences : listOfPreferences) {
             serviceUser.getPreferences().add(preferences);
+        }
+    }
+
+    private void fillServiceUserWithComments(ServiceUserDto serviceUser){
+        serviceUser.setComments(new ArrayList<>());
+        List<ServiceUserCommentDto> listOfComments = serviceUserCommentService.listServiceUserComments(serviceUser.getId());
+        for (ServiceUserCommentDto comment: listOfComments){
+            serviceUser.getComments().add(comment);
         }
     }
 }
