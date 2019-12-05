@@ -4,6 +4,8 @@ import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.TokenProvider;
 import API.Models.Models.AuthToken;
 import API.Models.Models.LoginUser;
+import API.Services.EmailService.EmailService;
+import Shared.ForCreation.Mail;
 import Shared.ToReturn.SystemUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +29,14 @@ public class AuthenticationController {
 
     @Autowired
     private TokenProvider jwtTokenUtil;
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = "/systemUsers/login", method = RequestMethod.POST)
     public ResponseEntity register(@RequestBody LoginUser loginUser) throws AuthenticationException {
         System.out.println(loginUser.getPassword());
         System.out.println(loginUser.getUserName());
+       // emailService.sendSimpleMessage(new Mail("patrycja.suprun@gmail.com", new String[]{"loca.chili@gmail.com"}, "Subject", "Hello"));
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUser.getUserName(),

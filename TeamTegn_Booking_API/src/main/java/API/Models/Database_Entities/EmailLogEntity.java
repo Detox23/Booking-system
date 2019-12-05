@@ -1,9 +1,14 @@
 package API.Models.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "EmailLog", schema = "dbo")
 public class EmailLogEntity {
     private int logId;
@@ -25,6 +30,7 @@ public class EmailLogEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "SystemUserID", nullable = false)
     public int getSystemUserId() {
         return systemUserId;
@@ -65,6 +71,7 @@ public class EmailLogEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "SentDate", nullable = true)
     public Timestamp getSentDate() {
         return sentDate;
