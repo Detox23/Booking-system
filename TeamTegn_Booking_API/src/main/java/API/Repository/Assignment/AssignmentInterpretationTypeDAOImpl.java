@@ -40,10 +40,7 @@ public class AssignmentInterpretationTypeDAOImpl implements AssignmentInterpreta
     @Override
     public AssignmentInterpretationTypeDto addAssignmentInterpretationType(AssignmentInterpretationTypeEntity assignmentInterpretationTypeService) {
         try {
-            int count = assignmentInterpretationTypeDAO.countAllByInterpretationTypeNameIs(assignmentInterpretationTypeService.getInterpretationTypeName());
-            if (count > 0) {
-                throw new DuplicateException(String.format("The status with name: %s already exists", assignmentInterpretationTypeService.getInterpretationTypeName()));
-            }
+            checkIfExistsByInterpretationType(assignmentInterpretationTypeService);
             AssignmentInterpretationTypeEntity saved = assignmentInterpretationTypeDAO.save(assignmentInterpretationTypeService);
             return modelMapper.map(saved, AssignmentInterpretationTypeDto.class);
         } catch (Exception e) {
@@ -64,13 +61,23 @@ public class AssignmentInterpretationTypeDAOImpl implements AssignmentInterpreta
     }
 
     @Override
-    public List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes() {
-        try {
-            return modelMapper.map(assignmentInterpretationTypeDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentInterpretationTypeDto>>() {
-            }.getType());
-        } catch (Exception e) {
-            throw e;
+    public List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes(boolean showDeleted) {
+        if(showDeleted){
+            try {
+                return modelMapper.map(assignmentInterpretationTypeDAO.findAll(), new TypeToken<List<AssignmentInterpretationTypeDto>>() {
+                }.getType());
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            try {
+                return modelMapper.map(assignmentInterpretationTypeDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentInterpretationTypeDto>>() {
+                }.getType());
+            } catch (Exception e) {
+                throw e;
+            }
         }
+
     }
 
     @Override
@@ -88,6 +95,7 @@ public class AssignmentInterpretationTypeDAOImpl implements AssignmentInterpreta
         try {
             AssignmentInterpretationTypeEntity found = findIfExistsAndReturn(assignmentInterpretationTypeService.getId());
             patcherHandler.fillNotNullFields(found, assignmentInterpretationTypeService);
+            checkIfExistsByInterpretationType(found);
             AssignmentInterpretationTypeEntity result = assignmentInterpretationTypeDAO.save(found);
             return modelMapper.map(result, AssignmentInterpretationTypeDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -104,4 +112,17 @@ public class AssignmentInterpretationTypeDAOImpl implements AssignmentInterpreta
         }
         return found.get();
     }
+
+    private void checkIfExistsByInterpretationType(AssignmentInterpretationTypeEntity interpretationType){
+        if(interpretationType.getId()==0){
+            if(assignmentInterpretationTypeDAO.countAllByInterpretationTypeNameIs(interpretationType.getInterpretationTypeName())> 0){
+                throw new DuplicateException(String.format("The interpretation type with name: %s already exists", interpretationType.getInterpretationTypeName()));
+            }
+        }else{
+            if(assignmentInterpretationTypeDAO.countAllByInterpretationTypeNameAndIdIsNot(interpretationType.getInterpretationTypeName(), interpretationType.getId())> 0){
+                throw new DuplicateException(String.format("The interpretation type with name: %s already exists", interpretationType.getInterpretationTypeName()));
+            }
+        }
+    }
+
 }

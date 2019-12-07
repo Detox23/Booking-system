@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface AccountTypeDAO extends JpaRepository<AccountTypeEntity, Integer>, AccountTypeCustom {
     Optional<AccountTypeEntity> findByIdAndDeletedIsFalse(int id);
 
+    int countAllByAccountTypeIsAndIdIsNot(String accountType, int id);
+
     int countAllByAccountTypeIs(String accountType);
 
     List<AccountTypeEntity> findAllByDeletedIsFalse();

@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface ServiceUserDAO extends JpaRepository<ServiceUserEntity, Integer>, QueryByExampleExecutor<ServiceUserEntity>, ServiceUserDAOCustom {
-    ServiceUserEntity findFirstByIdAndDeletedIsFalse(int id);
 
     Page<ServiceUserEntity> findAllByDeletedFalse(Pageable pageable);
 

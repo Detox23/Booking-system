@@ -23,9 +23,9 @@ public class AccountTypeController{
         this.accountTypeService = accountTypeService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAccounts() {
-        return new ResponseEntity<>(accountTypeService.listAccountTypes(), new HttpHeaders(), HttpStatus.FOUND);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAccounts(boolean showDeleted) {
+        return new ResponseEntity<>(accountTypeService.listAccountTypes(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

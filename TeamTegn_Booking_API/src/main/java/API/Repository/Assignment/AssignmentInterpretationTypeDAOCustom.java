@@ -11,7 +11,7 @@ public interface AssignmentInterpretationTypeDAOCustom {
 
     boolean deleteAssignmentInterpretationType(int id);
 
-    List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes();
+    List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes(boolean showDeleted);
 
     AssignmentInterpretationTypeDto findAssignmentInterpretationType(int id);
 

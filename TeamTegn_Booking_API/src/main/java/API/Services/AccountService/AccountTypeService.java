@@ -53,7 +53,7 @@ public class AccountTypeService implements IAccountTypeService{
     }
 
     @Override
-    public List<AccountTypeDto> listAccountTypes() {
-        return accountTypeDAO.listAccountTypes();
+    public List<AccountTypeDto> listAccountTypes(boolean showDeleted) {
+        return accountTypeDAO.listAccountTypes(showDeleted);
     }
 }

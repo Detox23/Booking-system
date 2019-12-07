@@ -31,7 +31,7 @@ public class AssignmentTitleEntity {
     }
 
     @Basic
-    @Column(name = "IsDeleted", nullable = true)
+    @Column(name = "IsDeleted", columnDefinition = "bit default 0")
     public Boolean getDeleted() {
         return isDeleted;
     }

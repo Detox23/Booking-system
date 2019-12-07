@@ -44,12 +44,7 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
     @Override
     public AbsenceTypeDto addAbsenceType(AbsenceTypeEntity absenceTypeEntity) {
         try {
-            if (absenceTypeDAO.findByAbsenceTypeName(absenceTypeEntity.getAbsenceTypeName()).isPresent()) {
-                throw new DuplicateException(String.format("There is already absence type with %s name.", absenceTypeEntity.getAbsenceTypeName()));
-            }
-            if (absenceTypeEntity.getAbsenceTypeName() == null || absenceTypeEntity.getAbsenceTypeName().length() == 0) {
-                throw new NotEnoughDataException("You provided too little information to create the absence type.");
-            }
+            checkIfExistsByAbsenceName(absenceTypeEntity);
             absenceTypeEntity.setDeleted(false);
             AbsenceTypeEntity saved = absenceTypeDAO.save(absenceTypeEntity);
             return modelMapper.map(saved, AbsenceTypeDto.class);
@@ -64,6 +59,7 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
         try {
             AbsenceTypeEntity found = findIfExistsAndReturn(absenceTypeEntity.getId());
             patcherHandler.fillNotNullFields(found, absenceTypeEntity);
+            checkIfExistsByAbsenceName(found);
             AbsenceTypeEntity updated = absenceTypeDAO.save(found);
             return modelMapper.map(updated, AbsenceTypeDto.class);
         } catch (IntrospectionException e) {
@@ -118,5 +114,17 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
             throw new NotFoundException(String.format("Absence type with id: %d was not found.", id));
         }
         return found.get();
+    }
+
+    private void checkIfExistsByAbsenceName(AbsenceTypeEntity absenceType){
+        if(absenceType.getId() == 0){
+            if (absenceTypeDAO.countAllByAbsenceTypeNameIs(absenceType.getAbsenceTypeName()) > 0){
+                throw new DuplicateException(String.format("The account type with name: %s already exists", absenceType.getAbsenceTypeName()));
+            }
+        }else{
+            if (absenceTypeDAO.countAllByAbsenceTypeNameIsAndIdIsNot(absenceType.getAbsenceTypeName(), absenceType.getId()) > 0) {
+                throw new DuplicateException(String.format("The account type with name: %s already exists", absenceType.getAbsenceTypeName()));
+            }
+        }
     }
 }

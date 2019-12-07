@@ -41,10 +41,7 @@ public class AssignmentImportanceDAOImpl implements AssignmentImportanceDAOCusto
     @Override
     public AssignmentImportanceDto addAssignmentImportance(AssignmentImportanceEntity assignmentImportance) {
         try {
-            int count = assignmentImportanceDAO.countAllByImportanceNameIs(assignmentImportance.getImportanceName());
-            if (count > 0) {
-                throw new DuplicateException(String.format("The status with name: %s already exists", assignmentImportance.getImportanceName()));
-            }
+            checkIfExistsByImportanceName(assignmentImportance);
             AssignmentImportanceEntity saved = assignmentImportanceDAO.save(assignmentImportance);
             return modelMapper.map(saved, AssignmentImportanceDto.class);
         } catch (Exception e) {
@@ -65,13 +62,23 @@ public class AssignmentImportanceDAOImpl implements AssignmentImportanceDAOCusto
     }
 
     @Override
-    public List<AssignmentImportanceDto> listAssignmentImportance() {
-        try {
-            return modelMapper.map(assignmentImportanceDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentImportanceDto>>() {
-            }.getType());
-        } catch (Exception e) {
-            throw e;
+    public List<AssignmentImportanceDto> listAssignmentImportance(boolean showDeleted) {
+        if (showDeleted) {
+            try {
+                return modelMapper.map(assignmentImportanceDAO.findAll(), new TypeToken<List<AssignmentImportanceDto>>() {
+                }.getType());
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            try {
+                return modelMapper.map(assignmentImportanceDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentImportanceDto>>() {
+                }.getType());
+            } catch (Exception e) {
+                throw e;
+            }
         }
+
     }
 
     @Override
@@ -89,6 +96,7 @@ public class AssignmentImportanceDAOImpl implements AssignmentImportanceDAOCusto
         try {
             AssignmentImportanceEntity found = findIfExistsAndReturn(assignmentImportance.getId());
             patcherHandler.fillNotNullFields(found, assignmentImportance);
+            checkIfExistsByImportanceName(found);
             AssignmentImportanceEntity result = assignmentImportanceDAO.save(found);
             return modelMapper.map(result, AssignmentImportanceDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -104,5 +112,17 @@ public class AssignmentImportanceDAOImpl implements AssignmentImportanceDAOCusto
             throw new NotFoundException(String.format("Importance with id: %d was not found.", id));
         }
         return found.get();
+    }
+
+    private void checkIfExistsByImportanceName(AssignmentImportanceEntity assignmentImportance){
+        if(assignmentImportance.getId() == 0){
+            if (assignmentImportanceDAO.countAllByImportanceNameIs(assignmentImportance.getImportanceName()) > 0){
+                throw new DuplicateException(String.format("The account type with name: %s already exists", assignmentImportance.getImportanceName()));
+            }
+        }else{
+            if (assignmentImportanceDAO.countAllByImportanceNameIsAndIdIsNot(assignmentImportance.getImportanceName(), assignmentImportance.getId()) > 0) {
+                throw new DuplicateException(String.format("The account type with name: %s already exists", assignmentImportance.getImportanceName()));
+            }
+        }
     }
 }

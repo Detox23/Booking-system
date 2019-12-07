@@ -11,7 +11,7 @@ public interface IAssignmentImportanceService {
 
     boolean deleteAssignmentImportance(int id);
 
-    List<AssignmentImportanceDto> listAssignmentImportance();
+    List<AssignmentImportanceDto> listAssignmentImportance(boolean showDeleted);
 
     AssignmentImportanceDto findAssignmentImportance(int id);
 

@@ -1,8 +1,6 @@
 package API.Repository.AbsenceType;
 
-import API.Exceptions.DuplicateException;
 import API.Exceptions.NotEnoughDataException;
-import API.Exceptions.NotFoundException;
 import API.MainApplicationClass;
 import API.Models.Database_Entities.AbsenceTypeEntity;
 import Shared.ToReturn.AbsenceTypeDto;
@@ -24,13 +22,18 @@ public class AbsenceTypeRepositoryTest {
     private AbsenceTypeDAO absenceTypeDAO;
 
     private AbsenceTypeEntity added;
-
+    private AbsenceTypeEntity added2;
 
 
     private void setUp(){
         AbsenceTypeEntity absenceType = new AbsenceTypeEntity();
         absenceType.setAbsenceTypeName("AbsenceTypeTest");
         added = absenceTypeDAO.save(absenceType);
+
+        AbsenceTypeEntity absenceType2 = new AbsenceTypeEntity();
+        absenceType2.setAbsenceTypeName("AbsenceTypeTest2");
+        added2 = absenceTypeDAO.save(absenceType2);
+
     }
 
 
@@ -40,64 +43,113 @@ public class AbsenceTypeRepositoryTest {
     }
 
     @Test
+    public void testUpdatingAbsenceTypeForNameThatExists(){
+        setUp();
+        try{
+            added2.setAbsenceTypeName("AbsenceTypeTest");
+            absenceTypeDAO.updateAbsenceType(added2);
+            Assert.fail();
+        }catch (Exception e){
+            Assert.assertTrue(true);
+        }finally {
+            tearDown();
+        }
+    }
+
+    @Test
     public void testOfAddingNameShouldBeAsExpected(){
         setUp();
-        AbsenceTypeEntity absenceTypeTest = new AbsenceTypeEntity();
-        absenceTypeTest.setAbsenceTypeName("TestName");
-        AbsenceTypeDto added = absenceTypeDAO.addAbsenceType(absenceTypeTest);
-        Assert.assertEquals("TestName", absenceTypeDAO.findById(added.getId()).get().getAbsenceTypeName());
-        tearDown();
+        try{
+            AbsenceTypeEntity absenceTypeTest = new AbsenceTypeEntity();
+            absenceTypeTest.setAbsenceTypeName("TestName");
+            AbsenceTypeDto added = absenceTypeDAO.addAbsenceType(absenceTypeTest);
+            Assert.assertEquals("TestName", absenceTypeDAO.findById(added.getId()).get().getAbsenceTypeName());
+        }catch (Exception e){
+            Assert.fail();
+        }finally {
+            tearDown();
+        }
     }
 
     @Test
     public void testOfSearchingNameShouldEquals(){
         setUp();
-        AbsenceTypeDto found = absenceTypeDAO.findAbsenceType(added.getId());
-        Assert.assertEquals("AbsenceTypeTest", found.getAbsenceTypeName());
-        tearDown();
+        try{
+            AbsenceTypeDto found = absenceTypeDAO.findAbsenceType(added.getId());
+            Assert.assertEquals("AbsenceTypeTest", found.getAbsenceTypeName());
+        }catch (Exception e){
+            Assert.fail();
+        }finally {
+            tearDown();
+        }
     }
 
     @Test
     public void testFindingAllSizeShouldBeOne(){
         setUp();
-        Assert.assertEquals(1, absenceTypeDAO.listAbsenceTypes(false).size());
-        tearDown();
+        try{
+            Assert.assertEquals(2, absenceTypeDAO.listAbsenceTypes(false).size());
+        }catch (Exception e){
+            Assert.fail();
+        }finally {
+            tearDown();
+        }
     }
 
     @Test
     public void testFindingAllSizeShouldBeZero(){
         setUp();
-        absenceTypeDAO.deleteAbsenceType(added.getId());
-        Assert.assertEquals(0, absenceTypeDAO.listAbsenceTypes(false).size());
-        tearDown();
+        try{
+            absenceTypeDAO.deleteAbsenceType(added.getId());
+            Assert.assertEquals(1, absenceTypeDAO.listAbsenceTypes(false).size());
+        }catch (Exception e){
+            Assert.fail();
+        }finally {
+            tearDown();
+        }
     }
 
     @Test
-    public void testFindingAllWithDeletedSizeShouldBeOne(){
+    public void testFindingAllWithDeletedSizeShouldBeTwo(){
         setUp();
-        absenceTypeDAO.deleteAbsenceType(added.getId());
-        Assert.assertEquals(1, absenceTypeDAO.listAbsenceTypes(true).size());
-        tearDown();
+        try{
+            absenceTypeDAO.deleteAbsenceType(added.getId());
+            Assert.assertEquals(2, absenceTypeDAO.listAbsenceTypes(true).size());
+        }catch (Exception e){
+            Assert.fail();
+        }finally {
+            tearDown();
+        }
     }
 
 
     @Test
     public void testUpdatingAbsenceTypeNameShouldBeChanged(){
         setUp();
-        AbsenceTypeEntity absenceTypeEntity = new AbsenceTypeEntity();
-        absenceTypeEntity.setId(added.getId());
-        absenceTypeEntity.setAbsenceTypeName("UpdatedAbsenceTypeID");
-        absenceTypeDAO.updateAbsenceType(absenceTypeEntity);
-        Assert.assertEquals("UpdatedAbsenceTypeID", absenceTypeDAO.findById(added.getId()).get().getAbsenceTypeName());
-        tearDown();
+        try{
+            AbsenceTypeEntity absenceTypeEntity = new AbsenceTypeEntity();
+            absenceTypeEntity.setId(added.getId());
+            absenceTypeEntity.setAbsenceTypeName("UpdatedAbsenceTypeID");
+            absenceTypeDAO.updateAbsenceType(absenceTypeEntity);
+            Assert.assertEquals("UpdatedAbsenceTypeID", absenceTypeDAO.findById(added.getId()).get().getAbsenceTypeName());
+        }catch (Exception e){
+            Assert.fail();
+        }finally {
+            tearDown();
+        }
     }
 
     @Test
     public void testDeleteAbsenceTypeIsDeletedShouldBeOne(){
         setUp();
-        absenceTypeDAO.deleteAbsenceType(added.getId());
-        Assert.assertEquals(true, absenceTypeDAO.findById(added.getId()).get().isDeleted());
-        tearDown();
+        try{
+            absenceTypeDAO.deleteAbsenceType(added.getId());
+            Assert.assertEquals(true, absenceTypeDAO.findById(added.getId()).get().isDeleted());
+        }catch (Exception e){
+            Assert.fail();
+        }finally {
+            tearDown();
+        }
     }
 
     @Test
@@ -108,7 +160,7 @@ public class AbsenceTypeRepositoryTest {
             absenceType.setAbsenceTypeName("AbsenceTypeTest");
             absenceTypeDAO.addAbsenceType(absenceType);
             Assert.fail();
-        }catch(DuplicateException duplicateException){
+        }catch(Exception e){
             Assert.assertTrue(true);
         }finally {
             tearDown();
@@ -121,23 +173,10 @@ public class AbsenceTypeRepositoryTest {
         try{
             absenceTypeDAO.findAbsenceType(-1);
             Assert.fail();
-        }catch(NotFoundException notFound){
+        }catch(Exception e){
             Assert.assertTrue(true);
         }finally {
             tearDown();
         }
     }
-
-    @Test
-    public void notProvidingAbsenceTypeNameShouldThrowException(){
-        setUp();
-        try{
-            AbsenceTypeEntity absenceTypeEntity = new AbsenceTypeEntity();
-            absenceTypeDAO.addAbsenceType(absenceTypeEntity);
-            Assert.fail();
-        }catch (NotEnoughDataException notEnoughDataException){
-            Assert.assertTrue(true);
-        }
-    }
-
 }

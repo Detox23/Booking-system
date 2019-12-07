@@ -15,5 +15,7 @@ public interface AssignmentStatusTypeDAO extends JpaRepository<AssignmentStatusT
 
     List<AssignmentStatusTypeEntity> findAllByDeletedIsFalse(Sort sort);
 
+    int countAllByAssignmentStatusTypeNameIsAndIdIsNot(String name, int id);
+
     int countAllByAssignmentStatusTypeNameIs(String name);
 }

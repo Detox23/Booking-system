@@ -11,7 +11,7 @@ public interface IAssignmentInterpretationTypeService {
 
     AssignmentInterpretationTypeDto findAssignmentInterpretationType(int id);
 
-    List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes();
+    List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes(boolean showDeleted);
 
     boolean deleteAssignmentInterpretationType(int id);
 

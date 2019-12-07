@@ -24,9 +24,9 @@ public class AssignmentStatusTypeController extends Serializers.Base {
         this.assignmentService = assignmentService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(assignmentService.listAssignmentStatusTypes(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAll(boolean showDeleted) {
+        return new ResponseEntity<>(assignmentService.listAssignmentStatusTypes(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})

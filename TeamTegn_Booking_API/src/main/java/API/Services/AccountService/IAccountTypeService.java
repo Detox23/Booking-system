@@ -15,5 +15,5 @@ public interface IAccountTypeService {
 
     AccountTypeDto updateAccountType(AccountTypeForUpdateDto account);
 
-    List<AccountTypeDto> listAccountTypes();
+    List<AccountTypeDto> listAccountTypes(boolean showDeleted);
 }

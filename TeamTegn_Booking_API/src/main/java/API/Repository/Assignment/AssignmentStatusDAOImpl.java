@@ -40,12 +40,21 @@ public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom {
     }
 
     @Override
-    public List<AssignmentStatusDto> listAssignmentStatuses() {
-        try {
-            return modelMapper.map(assignmentStatusDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentStatusDto>>() {
-            }.getType());
-        } catch (Exception e) {
-            throw e;
+    public List<AssignmentStatusDto> listAssignmentStatuses(boolean showDeleted) {
+        if(showDeleted){
+            try {
+                return modelMapper.map(assignmentStatusDAO.findAll(), new TypeToken<List<AssignmentStatusDto>>() {
+                }.getType());
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            try {
+                return modelMapper.map(assignmentStatusDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentStatusDto>>() {
+                }.getType());
+            } catch (Exception e) {
+                throw e;
+            }
         }
     }
 
@@ -62,10 +71,7 @@ public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom {
     @Override
     public AssignmentStatusDto addAssignmentStatus(AssignmentStatusEntity assignmentStatusEntity) {
         try {
-            int count = assignmentStatusDAO.countAllByAssignmentStatusName(assignmentStatusEntity.getAssignmentStatusName());
-            if (count > 0) {
-                throw new DuplicateException(String.format("The status with name: %s already exists", assignmentStatusEntity.getAssignmentStatusName()));
-            }
+            checkIfExistsByStatusName(assignmentStatusEntity);
             AssignmentStatusEntity saved = assignmentStatusDAO.save(assignmentStatusEntity);
             return modelMapper.map(saved, AssignmentStatusDto.class);
         } catch (Exception e) {
@@ -78,6 +84,7 @@ public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom {
         try {
             AssignmentStatusEntity found = findIfExistsAndReturn(assignmentStatusEntity.getId());
             patcherHandler.fillNotNullFields(found, assignmentStatusEntity);
+            checkIfExistsByStatusName(found);
             AssignmentStatusEntity result = assignmentStatusDAO.save(found);
             return modelMapper.map(result, AssignmentStatusDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -105,6 +112,18 @@ public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom {
             throw new NotFoundException(String.format("Assignment status with id: %d was not found.", id));
         }
         return found.get();
+    }
+
+    private void checkIfExistsByStatusName(AssignmentStatusEntity assignmentStatus){
+        if(assignmentStatus.getId()==0){
+            if(assignmentStatusDAO.countAllByAssignmentStatusName(assignmentStatus.getAssignmentStatusName())> 0){
+                throw new DuplicateException(String.format("The status with name: %s already exists", assignmentStatus.getAssignmentStatusName()));
+            }
+        }else{
+            if(assignmentStatusDAO.countAllByAssignmentStatusNameAndIdIsNot(assignmentStatus.getAssignmentStatusName(), assignmentStatus.getId())> 0){
+                throw new DuplicateException(String.format("The status with name: %s already exists", assignmentStatus.getAssignmentStatusName()));
+            }
+        }
     }
 
 }

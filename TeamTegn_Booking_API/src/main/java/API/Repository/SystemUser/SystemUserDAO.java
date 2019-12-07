@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface SystemUserDAO extends JpaRepository<SystemUserEntity, Integer>, SystemUserDAOCustom {
     List<SystemUserEntity> findAllByDeletedIsFalse();
 
+
+
     int countAllByFirstNameIsAndLastNameIsAndUserNameIs(String firstName, String lastName, String userName);
 
     int countAllByUserNameIs(String userName);
@@ -21,4 +23,7 @@ public interface SystemUserDAO extends JpaRepository<SystemUserEntity, Integer>,
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     Optional<SystemUserEntity> findDistinctByUserNameIs(String userName);
 
+    //For test purposes
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    Optional<SystemUserEntity> deleteAllByIdIsGreaterThan(int id);
 }

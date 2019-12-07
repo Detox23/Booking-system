@@ -42,9 +42,23 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
     }
 
     @Override
-    public List<AssignmentStatusTypeDto> listAssignmentStatusTypes() {
-        return modelMapper.map(assignmentStatusTypeDAO.findAllByDeletedIsFalse(Sort.by(Sort.Direction.ASC, "DisplayOrder")), new TypeToken<List<AssignmentStatusDto>>() {
-        }.getType());
+    public List<AssignmentStatusTypeDto> listAssignmentStatusTypes(boolean showDeleted) {
+        if(showDeleted){
+            try{
+                return modelMapper.map(assignmentStatusTypeDAO.findAll(Sort.by(Sort.Direction.ASC, "DisplayOrder")), new TypeToken<List<AssignmentStatusTypeDto>>() {
+                }.getType());
+            }catch (Exception e){
+                throw e;
+            }
+        }else{
+            try{
+                return modelMapper.map(assignmentStatusTypeDAO.findAllByDeletedIsFalse(Sort.by(Sort.Direction.ASC, "DisplayOrder")), new TypeToken<List<AssignmentStatusTypeDto>>() {
+                }.getType());
+            }catch (Exception e){
+                throw e;
+            }
+        }
+
     }
 
     @Override
@@ -60,10 +74,7 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
     @Override
     public AssignmentStatusTypeDto addAssignmentStatusType(AssignmentStatusTypeEntity assignmentStatusTypeEntity) {
         try {
-            int count = assignmentStatusTypeDAO.countAllByAssignmentStatusTypeNameIs(assignmentStatusTypeEntity.getAssignmentStatusTypeName());
-            if (count > 0) {
-                throw new DuplicateException(String.format("The status with name: %s already exists", assignmentStatusTypeEntity.getAssignmentStatusTypeName()));
-            }
+            checkIfExistsByStatusName(assignmentStatusTypeEntity);
             AssignmentStatusTypeEntity saved = assignmentStatusTypeDAO.save(assignmentStatusTypeEntity);
             return modelMapper.map(saved, AssignmentStatusTypeDto.class);
         } catch (Exception e) {
@@ -76,6 +87,7 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
         try {
             AssignmentStatusTypeEntity found = findIfExistsAndReturn(assignmentStatusTypeEntity.getId());
             patcherHandler.fillNotNullFields(found, assignmentStatusTypeEntity);
+            checkIfExistsByStatusName(found);
             AssignmentStatusTypeEntity result = assignmentStatusTypeDAO.save(found);
             return modelMapper.map(result, AssignmentStatusTypeDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -103,5 +115,17 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
             throw new NotFoundException(String.format("Assignment status type with id: %d was not found.", id));
         }
         return found.get();
+    }
+
+    private void checkIfExistsByStatusName(AssignmentStatusTypeEntity assignmentStatusType){
+        if(assignmentStatusType.getId()==0){
+            if(assignmentStatusTypeDAO.countAllByAssignmentStatusTypeNameIs(assignmentStatusType.getAssignmentStatusTypeName())> 0){
+                throw new DuplicateException(String.format("The status type with name: %s already exists", assignmentStatusType.getAssignmentStatusTypeName()));
+            }
+        }else{
+            if(assignmentStatusTypeDAO.countAllByAssignmentStatusTypeNameIsAndIdIsNot(assignmentStatusType.getAssignmentStatusTypeName(), assignmentStatusType.getId())> 0){
+                throw new DuplicateException(String.format("The status type with name: %s already exists", assignmentStatusType.getAssignmentStatusTypeName()));
+            }
+        }
     }
 }

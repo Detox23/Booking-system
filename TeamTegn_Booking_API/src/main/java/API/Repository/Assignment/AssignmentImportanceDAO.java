@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface AssignmentImportanceDAO extends JpaRepository<AssignmentImportanceEntity, Integer>, AssignmentImportanceDAOCustom {
     List<AssignmentImportanceEntity> findAllByDeletedIsFalse();
 
+    int countAllByImportanceNameIsAndIdIsNot(String importanceName, int id);
+
     Optional<AssignmentImportanceEntity> findByIdAndDeletedIsFalse(int id);
 
     int countAllByImportanceNameIs(String importanceName);
