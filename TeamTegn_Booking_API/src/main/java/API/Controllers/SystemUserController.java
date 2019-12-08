@@ -1,7 +1,6 @@
 package API.Controllers;
 
-import API.Services.EmailService.EmailService;
-import API.Services.EmailService.IEmailService;
+//import API.Services.EmailService.EmailService;
 import API.Services.SystemUserService.ISystemUserService;
 import Shared.ForCreation.Mail;
 import Shared.ForCreation.SystemUserForCreationDto;
@@ -18,8 +17,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/systemUsers")
 public class SystemUserController {
     private ISystemUserService systemUserService;
-    @Autowired
-    private IEmailService emailService;
+
     @Autowired
     public void setSystemUserService(ISystemUserService systemUserService) {
         this.systemUserService = systemUserService;
@@ -43,7 +41,6 @@ public class SystemUserController {
 
     @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
     public ResponseEntity<?> listSystemUsers(@PathVariable boolean showDeleted) {
-
 
         return new ResponseEntity<>(systemUserService.listSystemUsers(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }

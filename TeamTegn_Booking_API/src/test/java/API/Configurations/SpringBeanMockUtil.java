@@ -7,10 +7,7 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class SpringBeanMockUtil {
-    /**
-     * If the given object is a proxy, set the return value as the object being proxied, otherwise return the given
-     * object.
-     */
+
     private static <T> T unwrapProxy(T bean) {
         try {
             if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {

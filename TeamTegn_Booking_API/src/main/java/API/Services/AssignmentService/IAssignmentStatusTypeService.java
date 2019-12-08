@@ -12,7 +12,7 @@ public interface IAssignmentStatusTypeService
 {
     AssignmentStatusTypeDto addAssignmentStatusType(AssignmentStatusTypeForCreationDto assignmentEntity);
     AssignmentStatusTypeDto findAssignmentStatusType(int id);
-    List<AssignmentStatusTypeDto> listAssignmentStatusTypes();
+    List<AssignmentStatusTypeDto> listAssignmentStatusTypes(boolean showDeleted);
     boolean deleteAssignmentStatusType(int id);
     AssignmentStatusTypeDto updateAssignmentStatusType(AssignmentStatusTypeForUpdateDto assignmentEntity);
 

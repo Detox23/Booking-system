@@ -43,8 +43,8 @@ public class AssignmentStatusTypeService implements IAssignmentStatusTypeService
     }
 
     @Override
-    public List<AssignmentStatusTypeDto> listAssignmentStatusTypes() {
-        return assignmentStatusTypeDAO.listAssignmentStatusTypes();
+    public List<AssignmentStatusTypeDto> listAssignmentStatusTypes(boolean showDeleted) {
+        return assignmentStatusTypeDAO.listAssignmentStatusTypes(showDeleted);
 
     }
 

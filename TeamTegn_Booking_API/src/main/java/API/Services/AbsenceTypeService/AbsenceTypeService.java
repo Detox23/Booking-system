@@ -47,8 +47,8 @@ public class AbsenceTypeService implements IAbsenceTypeService {
     }
 
     @Override
-    public List<AbsenceTypeDto> listAbsenceTypes() {
-        return absenceTypeDAO.listAbsenceTypes();
+    public List<AbsenceTypeDto> listAbsenceTypes(boolean showDeleted) {
+        return absenceTypeDAO.listAbsenceTypes(showDeleted);
     }
 
     @Override

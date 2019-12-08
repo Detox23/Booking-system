@@ -14,5 +14,7 @@ public interface AssignmentInterpretationTypeDAO extends JpaRepository<Assignmen
 
     Optional<AssignmentInterpretationTypeEntity> findByIdAndDeletedIsFalse(int id);
 
+    int countAllByInterpretationTypeNameAndIdIsNot(String interpretationType, int id);
+
     int countAllByInterpretationTypeNameIs(String interpretationType);
 }

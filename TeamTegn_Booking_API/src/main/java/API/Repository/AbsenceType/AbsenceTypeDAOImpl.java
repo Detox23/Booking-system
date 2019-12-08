@@ -43,30 +43,24 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
 
     @Override
     public AbsenceTypeDto addAbsenceType(AbsenceTypeEntity absenceTypeEntity) {
-        if (absenceTypeDAO.findByAbsenceTypeName(absenceTypeEntity.getAbsenceTypeName()).isPresent()) {
-            throw new DuplicateException("There is already absence type with exact name.");
-        }
-        if (absenceTypeEntity.getAbsenceTypeName() == null || absenceTypeEntity.getAbsenceTypeName().length() == 0) {
-            throw new NotEnoughDataException("You provided too little information to create the absence type.");
-        }
-        absenceTypeEntity.setDeleted(false);
-        AbsenceTypeEntity saved = absenceTypeDAO.save(absenceTypeEntity);
-        if (saved.getId() > 0) {
+        try {
+            checkIfExistsByAbsenceName(absenceTypeEntity);
+            absenceTypeEntity.setDeleted(false);
+            AbsenceTypeEntity saved = absenceTypeDAO.save(absenceTypeEntity);
             return modelMapper.map(saved, AbsenceTypeDto.class);
-        } else {
-            throw new UnknownAddingException("There was a problem with adding the absence type.");
+        } catch (Exception e) {
+            throw e;
         }
+
     }
 
     @Override
     public AbsenceTypeDto updateAbsenceType(AbsenceTypeEntity absenceTypeEntity) {
         try {
-            Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(absenceTypeEntity.getId());
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("Absence type was not found.");
-            }
-            patcherHandler.fillNotNullFields(found.get(), absenceTypeEntity);
-            AbsenceTypeEntity updated = absenceTypeDAO.save(found.get());
+            AbsenceTypeEntity found = findIfExistsAndReturn(absenceTypeEntity.getId());
+            patcherHandler.fillNotNullFields(found, absenceTypeEntity);
+            checkIfExistsByAbsenceName(found);
+            AbsenceTypeEntity updated = absenceTypeDAO.save(found);
             return modelMapper.map(updated, AbsenceTypeDto.class);
         } catch (IntrospectionException e) {
             throw new UpdatePatchException("There was an error while updating a absence type. [PATCHING]");
@@ -78,45 +72,59 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
     @Override
     public AbsenceTypeDto findAbsenceType(int id) {
         try {
-            Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("Absence type does not exist.");
-            }
-            return modelMapper.map(found.get(), AbsenceTypeDto.class);
-        } catch (NoSuchElementException noSuchElementException) {
-            throw new NotFoundException(noSuchElementException.getMessage());
+            AbsenceTypeEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, AbsenceTypeDto.class);
         } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
-    public List<AbsenceTypeDto> listAbsenceTypes() {
-        Type listType = new TypeToken<List<AbsenceTypeDto>>() {
-        }.getType();
-        return modelMapper.map(absenceTypeDAO.findAllByDeletedIsFalse(), listType);
+    public List<AbsenceTypeDto> listAbsenceTypes(boolean showDeleted) {
+        try {
+            if (showDeleted) {
+                Type listType = new TypeToken<List<AbsenceTypeDto>>() {
+                }.getType();
+                return modelMapper.map(absenceTypeDAO.findAll(), listType);
+            } else {
+                Type listType = new TypeToken<List<AbsenceTypeDto>>() {
+                }.getType();
+                return modelMapper.map(absenceTypeDAO.findAllByDeletedIsFalse(), listType);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
     public boolean deleteAbsenceType(int id) {
         try {
-            Optional<AbsenceTypeEntity> found = absenceTypeDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The assigment status type was not found.");
-            }
-            AbsenceTypeEntity toDelete = found.get();
-            toDelete.setDeleted(true);
-            AbsenceTypeEntity deletionResult = absenceTypeDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (NotFoundException notFoundException) {
-            throw notFoundException;
+            AbsenceTypeEntity found = findIfExistsAndReturn(id);
+            found.setDeleted(true);
+            AbsenceTypeEntity deletionResult = absenceTypeDAO.save(found);
+            return deletionResult.isDeleted();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            throw e;
+        }
+    }
+
+    private AbsenceTypeEntity findIfExistsAndReturn(int id) {
+        Optional<AbsenceTypeEntity> found = absenceTypeDAO.findByIdAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("Absence type with id: %d was not found.", id));
+        }
+        return found.get();
+    }
+
+    private void checkIfExistsByAbsenceName(AbsenceTypeEntity absenceType){
+        if(absenceType.getId() == 0){
+            if (absenceTypeDAO.countAllByAbsenceTypeNameIs(absenceType.getAbsenceTypeName()) > 0){
+                throw new DuplicateException(String.format("The account type with name: %s already exists", absenceType.getAbsenceTypeName()));
+            }
+        }else{
+            if (absenceTypeDAO.countAllByAbsenceTypeNameIsAndIdIsNot(absenceType.getAbsenceTypeName(), absenceType.getId()) > 0) {
+                throw new DuplicateException(String.format("The account type with name: %s already exists", absenceType.getAbsenceTypeName()));
+            }
         }
     }
 }

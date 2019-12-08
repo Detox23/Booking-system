@@ -163,8 +163,7 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
             AssignmentEntity deletionResult = assignmentDAO.save(found);
             return deletionResult.isDeleted();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            throw e;
         }
     }
 
@@ -200,7 +199,7 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     }
 
     private void addStateRegion(AssignmentEntity assignment){
-        if(assignment.getDestinationStateRegion() == null && assignment.getDestinationPostCode() != null){
+        if(assignment.getDestinationStateRegion() == null){
             Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(assignment.getDestinationPostCode());
             if(wiPostcode.isPresent()){
                 if(wiPostcode.get().getArhus()){

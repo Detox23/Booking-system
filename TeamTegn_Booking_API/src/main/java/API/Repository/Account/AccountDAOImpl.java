@@ -89,9 +89,7 @@ public class AccountDAOImpl implements AccountDAOCustom {
     @Override
     public AccountDto addAccount(AccountEntity account, List<String> eans, List<Integer> accountServiceUser) {
         try {
-            if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0) {
-                throw new DuplicateException("Account with exact name and CVR number already exists.");
-            }
+            checkIfExistsByNameAndCVR(account);
             AccountEntity saved = accountDAO.save(account);
             addEanNumbers(eans, saved.getId());
             addAccountsServiceUsers(accountServiceUser, saved.getId());
@@ -104,8 +102,10 @@ public class AccountDAOImpl implements AccountDAOCustom {
     @Override
     public AccountDto updateAccount(AccountEntity account, List<String> eans,  List<Integer> accountServiceUser) {
         try {
+
             AccountEntity found = findIfExistsAndReturn(account.getId());
             patcherHandler.fillNotNullFields(found, account);
+            checkIfExistsByNameAndCVR(account);
             addEanNumbers(eans, account.getId());
             addAccountsServiceUsers(accountServiceUser, account.getId());
             AccountEntity result = accountDAO.save(found);
@@ -125,9 +125,9 @@ public class AccountDAOImpl implements AccountDAOCustom {
             AccountEntity deletionResult = accountDAO.save(toDelete);
             return deletionResult.isDeleted();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unknown error");
+            throw e;
         }
+
     }
 
     private AccountEntity findIfExistsAndReturn(int id) {
@@ -138,6 +138,17 @@ public class AccountDAOImpl implements AccountDAOCustom {
         return found.get();
     }
 
+    private void checkIfExistsByNameAndCVR(AccountEntity account){
+        if(account.getId() == 0){
+            if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0){
+                throw new DuplicateException("Account with exact name and CVR number already exists.");
+            }
+        }else{
+            if (accountDAO.countAllByAccountNameAndCvrNumberAndIdIsNot(account.getAccountName(), account.getCvrNumber(),account.getId()) > 0) {
+                throw new DuplicateException("Account with exact name and CVR number already exists.");
+            }
+        }
+    }
 
     private void addEanNumbers(List<String> eans, int id){
         try{

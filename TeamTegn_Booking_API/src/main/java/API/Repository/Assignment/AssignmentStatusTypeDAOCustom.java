@@ -6,7 +6,7 @@ import Shared.ToReturn.AssignmentStatusTypeDto;
 import java.util.List;
 
 public interface AssignmentStatusTypeDAOCustom {
-    List<AssignmentStatusTypeDto> listAssignmentStatusTypes();
+    List<AssignmentStatusTypeDto> listAssignmentStatusTypes(boolean showDeleted);
 
     AssignmentStatusTypeDto findAssignmentStatusType(int id);
 

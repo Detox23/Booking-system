@@ -9,6 +9,6 @@ public interface AccountTypeCustom {
     AccountTypeDto addAccountType(AccountTypeEntity accountType);
     AccountTypeDto updateAccountType(AccountTypeEntity accountType);
     boolean deleteAccountType(int id);
-    List<AccountTypeDto> listAccountTypes();
+    List<AccountTypeDto> listAccountTypes(boolean showDeleted);
     AccountTypeDto findAccountType(int id);
 }

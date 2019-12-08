@@ -37,6 +37,15 @@ public class ServiceUserDto {
     private Integer serviceUserStatusId;
     private List<AccountDto> accounts;
     private List<ServiceUserPreferencesDto> preferences;
+    private List<ServiceUserCommentDto> comments;
+
+    public List<ServiceUserCommentDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<ServiceUserCommentDto> comments) {
+        this.comments = comments;
+    }
 
     public List<ServiceUserPreferencesDto> getPreferences() {
         return preferences;

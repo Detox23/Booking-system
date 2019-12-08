@@ -42,8 +42,8 @@ public class AssignmentImportanceService implements IAssignmentImportanceService
     }
 
     @Override
-    public List<AssignmentImportanceDto> listAssignmentImportance() {
-        return assignmentImportanceDAO.listAssignmentImportance();
+    public List<AssignmentImportanceDto> listAssignmentImportance(boolean showDeleted) {
+        return assignmentImportanceDAO.listAssignmentImportance(showDeleted);
     }
 
     @Override

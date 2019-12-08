@@ -31,7 +31,7 @@ public class ServiceUserStatusEntity {
     }
 
     @Basic
-    @Column(name = "IsDeleted", nullable = false)
+    @Column(name = "IsDeleted", nullable = false, columnDefinition = "bit default 0")
     public boolean isDeleted() {
         return isDeleted;
     }

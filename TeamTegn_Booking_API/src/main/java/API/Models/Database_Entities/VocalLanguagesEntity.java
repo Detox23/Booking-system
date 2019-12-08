@@ -1,9 +1,14 @@
 package API.Models.Database_Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "VocalLanguages", schema = "dbo")
 public class VocalLanguagesEntity {
     private int id;
@@ -33,6 +38,7 @@ public class VocalLanguagesEntity {
     }
 
     @Basic
+    @CreatedBy
     @Column(name = "CreatedBy", nullable = true)
     public Integer getCreatedBy() {
         return createdBy;
@@ -43,6 +49,7 @@ public class VocalLanguagesEntity {
     }
 
     @Basic
+    @CreationTimestamp
     @Column(name = "CreatedDate", nullable = true)
     public Timestamp getCreatedDate() {
         return createdDate;

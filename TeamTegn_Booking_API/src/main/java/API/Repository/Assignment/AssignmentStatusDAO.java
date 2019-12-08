@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface AssignmentStatusDAO extends JpaRepository<AssignmentStatusEntity, Integer>, AssignmentStatusDAOCustom {
     int countAllByAssignmentStatusName(String name);
 
+    int countAllByAssignmentStatusNameAndIdIsNot(String name, int id);
+
     List<AssignmentStatusEntity> findAllByDeletedIsFalse();
 
     Optional<AssignmentStatusEntity> findByIdAndDeletedIsFalse(int id);

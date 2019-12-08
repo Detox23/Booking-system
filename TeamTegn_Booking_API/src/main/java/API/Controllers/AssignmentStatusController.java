@@ -23,9 +23,9 @@ public class AssignmentStatusController {
         this.assignmentService = assignmentService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> listAssignmentStatuses() {
-        return new ResponseEntity<>(assignmentService.listAssignmentStatuses(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/all/{showDeleted}",method = RequestMethod.GET)
+    public ResponseEntity<?> listAssignmentStatuses(boolean showDeleted) {
+        return new ResponseEntity<>(assignmentService.listAssignmentStatuses(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

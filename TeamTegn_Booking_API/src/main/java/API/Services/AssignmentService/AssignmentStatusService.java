@@ -41,8 +41,8 @@ public class AssignmentStatusService implements IAssignmentStatusService {
     }
 
     @Override
-    public List<AssignmentStatusDto> listAssignmentStatuses() {
-        return assignmentStatusDAO.listAssignmentStatuses();
+    public List<AssignmentStatusDto> listAssignmentStatuses(boolean showDeleted) {
+        return assignmentStatusDAO.listAssignmentStatuses(showDeleted);
     }
 
     @Override

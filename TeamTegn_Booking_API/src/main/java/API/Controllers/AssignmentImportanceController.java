@@ -23,9 +23,9 @@ public class AssignmentImportanceController {
         this.assignmentImportanceService = assignmentImportanceService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> listAssignmentImportance() {
-        return new ResponseEntity<>(assignmentImportanceService.listAssignmentImportance(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value= "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAssignmentImportance(boolean showDeleted) {
+        return new ResponseEntity<>(assignmentImportanceService.listAssignmentImportance(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

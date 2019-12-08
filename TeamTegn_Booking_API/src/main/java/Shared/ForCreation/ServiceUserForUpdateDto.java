@@ -25,8 +25,8 @@ public class ServiceUserForUpdateDto {
     private String skype;
     @NotNull
     private String street;
-    private String postcode;
     @NotNull
+    private String postcode;
     private String city;
     private String stateRegion;
     private String country;

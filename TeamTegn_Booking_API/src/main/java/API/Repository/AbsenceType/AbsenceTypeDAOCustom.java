@@ -12,7 +12,7 @@ public interface AbsenceTypeDAOCustom {
 
     AbsenceTypeDto findAbsenceType(int id);
 
-    List<AbsenceTypeDto> listAbsenceTypes();
+    List<AbsenceTypeDto> listAbsenceTypes(boolean showDeleted);
 
     boolean deleteAbsenceType(int id);
 }

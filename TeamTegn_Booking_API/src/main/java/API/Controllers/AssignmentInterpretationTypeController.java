@@ -24,9 +24,9 @@ public class AssignmentInterpretationTypeController {
         this.assignmentInterpretationTypeService = assignmentInterpretationTypeService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> listAssignmentInterpretationTypes() {
-        return new ResponseEntity<>(assignmentInterpretationTypeService.listAssignmentInterpretationTypes(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAssignmentInterpretationTypes(boolean showDeleted) {
+        return new ResponseEntity<>(assignmentInterpretationTypeService.listAssignmentInterpretationTypes(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

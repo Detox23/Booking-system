@@ -43,8 +43,8 @@ public class AssignmentInterpretationTypeService implements IAssignmentInterpret
     }
 
     @Override
-    public List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes() {
-        return assignmentInterpretationTypeDAO.listAssignmentInterpretationTypes();
+    public List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes(boolean showDeleted) {
+        return assignmentInterpretationTypeDAO.listAssignmentInterpretationTypes(showDeleted);
     }
 
     @Override
