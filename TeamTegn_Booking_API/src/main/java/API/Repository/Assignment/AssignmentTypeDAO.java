@@ -12,5 +12,7 @@ public interface AssignmentTypeDAO extends JpaRepository<AssignmentTypeEntity, I
 
     int countAllByAssignmentTypeNameIs(String name);
 
+    int countAllByAssignmentTypeNameIsAndIdIsNot(String name, int id);
+
     Optional<AssignmentTypeEntity> findByIdAndDeletedIsFalse(int id);
 }

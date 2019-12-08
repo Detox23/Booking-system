@@ -42,10 +42,7 @@ public class AssignmentTitleDAOImpl implements AssignmentTitleDAOCustom {
     @Override
     public AssignmentTitleDto addAssignmentTitle(AssignmentTitleEntity assignmentTitle) {
         try {
-            int count = assignmentTitleDAO.countAllByTitleIs(assignmentTitle.getTitle());
-            if (count > 0) {
-                throw new DuplicateException(String.format("The title with name: %s already exists", assignmentTitle.getTitle()));
-            }
+            checkIfAssignmentTitleExists(assignmentTitle);
             AssignmentTitleEntity saved = assignmentTitleDAO.save(assignmentTitle);
             return modelMapper.map(saved, AssignmentTitleDto.class);
         } catch (Exception e) {
@@ -58,6 +55,7 @@ public class AssignmentTitleDAOImpl implements AssignmentTitleDAOCustom {
         try {
             AssignmentTitleEntity found = findIfExistsAndReturn(assignmentTitle.getId());
             patcherHandler.fillNotNullFields(found, assignmentTitle);
+            checkIfAssignmentTitleExists(found);
             AssignmentTitleEntity result = assignmentTitleDAO.save(found);
             return modelMapper.map(result, AssignmentTitleDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -78,12 +76,21 @@ public class AssignmentTitleDAOImpl implements AssignmentTitleDAOCustom {
     }
 
     @Override
-    public List<AssignmentTitleDto> listAssignmentTitles() {
-        try {
-            return modelMapper.map(assignmentTitleDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentTitleDto>>() {
-            }.getType());
-        } catch (Exception e) {
-            throw e;
+    public List<AssignmentTitleDto> listAssignmentTitles(boolean showDeleted) {
+        if(showDeleted){
+            try{
+                return modelMapper.map(assignmentTitleDAO.findAll(), new TypeToken<List<AssignmentTitleDto>>() {
+                }.getType());
+            }catch (Exception e){
+                throw e;
+            }
+        }else{
+            try{
+                return modelMapper.map(assignmentTitleDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentTitleDto>>() {
+                }.getType());
+            }catch (Exception e){
+                throw e;
+            }
         }
     }
 
@@ -105,5 +112,18 @@ public class AssignmentTitleDAOImpl implements AssignmentTitleDAOCustom {
             throw new NotFoundException(String.format("Assignment title with id: %d was not found.", id));
         }
         return found.get();
+    }
+
+
+    private void checkIfAssignmentTitleExists(AssignmentTitleEntity assignmentTitle){
+        if(assignmentTitle.getId()==0){
+            if(assignmentTitleDAO.countAllByTitleIs(assignmentTitle.getTitle())> 0){
+                throw new DuplicateException(String.format("The title: %s already exists", assignmentTitle.getTitle()));
+            }
+        }else{
+            if(assignmentTitleDAO.countAllByTitleIsAndIdIsNot(assignmentTitle.getTitle(), assignmentTitle.getId())> 0){
+                throw new DuplicateException(String.format("The title: %s already exists", assignmentTitle.getTitle()));
+            }
+        }
     }
 }

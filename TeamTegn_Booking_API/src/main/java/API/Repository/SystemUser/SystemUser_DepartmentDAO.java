@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface SystemUser_DepartmentDAO extends JpaRepository<SystemUserDepartmentEntity, Integer> {
     List<SystemUserDepartmentEntity> findBySystemUserIdIs(int systemUserID);
+
     int deleteAllBySystemUserIdIs(int systemUserID);
 }

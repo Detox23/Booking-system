@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface DepartmentDAOCustom {
-    List<DepartmentDto> listAllDepartments();
+    List<DepartmentDto> listAllDepartments(boolean showDeleted);
 
     DepartmentDto findOneDepartment(String name);
 

@@ -53,7 +53,7 @@ public class AssignmentTitleService implements IAssignmentTitleService {
     }
 
     @Override
-    public List<AssignmentTitleDto> listAssignmentTitles() {
-        return assignmentTitleDAO.listAssignmentTitles();
+    public List<AssignmentTitleDto> listAssignmentTitles(boolean showDeleted) {
+        return assignmentTitleDAO.listAssignmentTitles(showDeleted);
     }
 }

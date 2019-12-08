@@ -40,7 +40,7 @@ public class AccountCommentRepositoryTest {
 
     private void setUp() {
         DepartmentEntity departmentEntity = new DepartmentEntity();
-        departmentEntity.setCity("TestCity");
+        departmentEntity.setPostcode("9200");
         departmentEntityOne = departmentDAO.save(departmentEntity);
 
         AccountTypeEntity accountTypeEntity = new AccountTypeEntity();

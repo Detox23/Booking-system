@@ -14,4 +14,6 @@ public interface AssignmentTitleDAO extends JpaRepository<AssignmentTitleEntity,
     Optional<AssignmentTitleEntity> findByIdAndDeletedIsFalse(int id);
 
     int countAllByTitleIs(String title);
+
+    int countAllByTitleIsAndIdIsNot(String title, int id);
 }

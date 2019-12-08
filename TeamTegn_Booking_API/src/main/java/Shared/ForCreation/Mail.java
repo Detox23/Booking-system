@@ -1,7 +1,5 @@
 package Shared.ForCreation;
 
-import java.util.List;
-
 public class Mail {
 
         private String from;

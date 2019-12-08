@@ -3,10 +3,9 @@ package API.Repository.ServiceProvider;
 import API.Configurations.Encryption.EncryptionHandler;
 import API.Configurations.Patcher.PatcherHandler;
 import API.Exceptions.*;
-import API.Models.Database_Entities.ServiceProviderEntity;
-import API.Models.Database_Entities.ServiceProviderServiceProviderCompetencyEntity;
-import API.Models.Database_Entities.ServiceProviderServiceProviderTypeEntity;
-import API.Repository.Department.DepartmentDAO;
+import API.Models.Database_Entities.*;
+import API.Repository.CityPostcodes.CityPostcodesDAO;
+import API.Repository.CityPostcodes.WI_PostcodeDAO;
 import Shared.ToReturn.ServiceProviderDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -32,11 +31,23 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
 
     private EncryptionHandler encryptionHandler;
 
-    private DepartmentDAO departmentDAO;
-
     private ServiceProvider_ServiceProviderCompetencyDAO serviceProviderServiceProviderCompetencyDAO;
 
     private ServiceProvider_ServiceProviderTypeDAO serviceProviderServiceProviderTypeDAO;
+
+    private WI_PostcodeDAO wiPostcodeDAO;
+
+    private CityPostcodesDAO cityPostcodesDAO;
+
+    @Autowired
+    public void setWiPostcodeDAO(WI_PostcodeDAO wiPostcodeDAO) {
+        this.wiPostcodeDAO = wiPostcodeDAO;
+    }
+
+    @Autowired
+    public void setCityPostcodesDAO(CityPostcodesDAO cityPostcodesDAO) {
+        this.cityPostcodesDAO = cityPostcodesDAO;
+    }
 
     @Autowired
     public void setServiceProviderServiceProviderTypeDAO(ServiceProvider_ServiceProviderTypeDAO serviceProviderServiceProviderTypeDAO) {
@@ -46,12 +57,6 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     @Autowired
     public void setServiceProviderServiceProviderCompetencyDAO(ServiceProvider_ServiceProviderCompetencyDAO serviceProviderServiceProviderCompetencyDAO) {
         this.serviceProviderServiceProviderCompetencyDAO = serviceProviderServiceProviderCompetencyDAO;
-    }
-
-
-    @Autowired
-    public void setDepartmentDAO(DepartmentDAO departmentDAO) {
-        this.departmentDAO = departmentDAO;
     }
 
     @Autowired
@@ -76,20 +81,22 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
 
     @Override
     public List<ServiceProviderDto> listAllServiceProvider(boolean showDeleted) {
-        if(showDeleted){
-            try{
-                Type listType = new TypeToken<List<ServiceProviderDto>>() {}.getType();
+        if (showDeleted) {
+            try {
+                Type listType = new TypeToken<List<ServiceProviderDto>>() {
+                }.getType();
                 return modelMapper.map(serviceProviderDAO.findAll(), listType);
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 throw e;
             }
-        }else{
-            try{
-                Type listType = new TypeToken<List<ServiceProviderDto>>() {}.getType();
+        } else {
+            try {
+                Type listType = new TypeToken<List<ServiceProviderDto>>() {
+                }.getType();
                 return modelMapper.map(serviceProviderDAO.findAllByDeletedIsFalse(), listType);
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 throw e;
             }
         }
@@ -110,6 +117,8 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     public ServiceProviderDto addServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types) {
         try {
             checkDuplicate(serviceProvider);
+            checkAndFillPostcodeAndCity(serviceProvider);
+            addStateRegion(serviceProvider);
             encryptCpr(serviceProvider);
             ServiceProviderEntity saved = serviceProviderDAO.save(serviceProvider);
             addCompetenciesOfServiceProvider(competencies, saved.getId());
@@ -125,10 +134,12 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
     @Override
     public ServiceProviderDto updateServiceProvider(ServiceProviderEntity serviceProvider, List<Integer> competencies, List<Integer> types) {
         try {
-            checkDuplicate(serviceProvider);
             encryptCpr(serviceProvider);
+            checkAndFillPostcodeAndCity(serviceProvider);
+            addStateRegion(serviceProvider);
             ServiceProviderEntity found = findIfExistsAndReturn(serviceProvider.getId());
             patcherHandler.fillNotNullFields(found, serviceProvider);
+            checkDuplicate(found);
             addCompetenciesOfServiceProvider(competencies, found.getId());
             addTypesOfServiceProvider(types, found.getId());
             ServiceProviderEntity updated = serviceProviderDAO.save(found);
@@ -195,24 +206,27 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
         serviceProvider.setCpr(hashed);
     }
 
-    private boolean checkDuplicate(ServiceProviderEntity serviceProvider) {
-        List<ServiceProviderEntity> checkDuplicate = serviceProviderDAO.findAllByFirstNameAndMiddleNameAndLastName(
-                serviceProvider.getFirstName(),
-                serviceProvider.getMiddleName(),
-                serviceProvider.getLastName()
-        );
-        if (checkDuplicate.size() > 0) {
-            throw new DuplicateException(String.format(
-                    "The service provider with name: %s, middle name: $s and last name: %s already exists.",
-                    serviceProvider.getFirstName(),
-                    serviceProvider.getMiddleName(),
-                    serviceProvider.getLastName()
-            ));
+    private void checkDuplicate(ServiceProviderEntity serviceProvider) {
+        if (serviceProvider.getId() == 0) {
+            if (serviceProviderDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(serviceProvider.getFirstName(), serviceProvider.getMiddleName(), serviceProvider.getLastName()) > 0) {
+                throw new DuplicateException(String.format(
+                        "The service provider with name: %s, middle name: $s and last name: %s already exists.",
+                        serviceProvider.getFirstName(),
+                        serviceProvider.getMiddleName(),
+                        serviceProvider.getLastName()
+                ));
+            }
+        } else {
+            if (serviceProviderDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIsAndIdIsNot(serviceProvider.getFirstName(), serviceProvider.getMiddleName(), serviceProvider.getLastName(), serviceProvider.getId()) > 0) {
+                throw new DuplicateException(String.format(
+                        "The service provider with name: %s, middle name: $s and last name: %s already exists.",
+                        serviceProvider.getFirstName(),
+                        serviceProvider.getMiddleName(),
+                        serviceProvider.getLastName()
+                ));
+            }
         }
-        return true;
     }
-
-
 
     private ServiceProviderEntity findIfExistsAndReturn(int id) {
         Optional<ServiceProviderEntity> found = serviceProviderDAO.findByIdIsAndDeletedIsFalse(id);
@@ -220,5 +234,29 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
             throw new NotFoundException(String.format("Service provider with id: %d was not found.", id));
         }
         return found.get();
+    }
+
+    private void checkAndFillPostcodeAndCity(ServiceProviderEntity serviceProviderEntity) {
+        if (serviceProviderEntity.getCity() == null && serviceProviderEntity.getPostcode() != null) {
+            Optional<CityPostcodesEntity> found = cityPostcodesDAO.findFirstByPostcodeIs(serviceProviderEntity.getPostcode());
+            if (found.isPresent()) {
+                serviceProviderEntity.setCity(found.get().getCity());
+            }
+        }
+    }
+
+    private void addStateRegion(ServiceProviderEntity serviceProviderEntity) {
+        if (serviceProviderEntity.getStateRegion() == null && serviceProviderEntity.getPostcode() != null) {
+            Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(serviceProviderEntity.getPostcode());
+            if (wiPostcode.isPresent()) {
+                if (wiPostcode.get().getArhus()) {
+                    serviceProviderEntity.setStateRegion("Aarhus");
+                } else if (wiPostcode.get().getCopenhagen()) {
+                    serviceProviderEntity.setStateRegion("Copenhagen");
+                } else if (wiPostcode.get().getFredericia()) {
+                    serviceProviderEntity.setStateRegion("Fredericia");
+                }
+            }
+        }
     }
 }

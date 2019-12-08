@@ -8,10 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ServiceProvider_ServiceProviderTypeDAO extends JpaRepository<ServiceProviderServiceProviderTypeEntity, Integer>{
+public interface ServiceProvider_ServiceProviderTypeDAO extends JpaRepository<ServiceProviderServiceProviderTypeEntity, Integer> {
     List<ServiceProviderServiceProviderTypeEntity> findAllByServiceProviderId(int serviceProviderID);
 
     void deleteAllByServiceProviderId(int serviceProviderID);
-
-
 }

@@ -58,7 +58,7 @@ public class AccountRepositoryTest {
 
 
         DepartmentEntity departmentEntity = new DepartmentEntity();
-        departmentEntity.setCity("TestCity");
+        departmentEntity.setPostcode("9200");
         departmentEntityOne = departmentDAO.save(departmentEntity);
 
         ServiceUserStatusEntity serviceUserStatusEntity = new ServiceUserStatusEntity();

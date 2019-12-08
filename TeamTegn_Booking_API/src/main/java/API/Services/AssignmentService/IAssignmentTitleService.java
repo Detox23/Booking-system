@@ -15,5 +15,5 @@ public interface IAssignmentTitleService {
 
     AssignmentTitleDto findAssignmentTitle(int id);
 
-    List<AssignmentTitleDto> listAssignmentTitles();
+    List<AssignmentTitleDto> listAssignmentTitles(boolean showDeleted);
 }

@@ -18,7 +18,7 @@ public class AssignmentEntity {
     private Integer assignmentTypeId;
     private Integer importanceId;
     private Integer interpretationTypeId;
-    private String assignmentTitle;
+    private Integer assignmentTitle;
     private String assignmentDescription;
     private String destinationStreet;
     private String destinationCity;
@@ -85,7 +85,7 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @Column(name = "InterpretationTypeID", nullable = true)
+    @Column(name = "InterpretationTypeID")
     public Integer getInterpretationTypeId() {
         return interpretationTypeId;
     }
@@ -95,12 +95,12 @@ public class AssignmentEntity {
     }
 
     @Basic
-    @Column(name = "AssignmentTitle", nullable = true, length = 250)
-    public String getAssignmentTitle() {
+    @Column(name = "AssignmentTitle")
+    public Integer getAssignmentTitle() {
         return assignmentTitle;
     }
 
-    public void setAssignmentTitle(String assignmentTitle) {
+    public void setAssignmentTitle(Integer assignmentTitle) {
         this.assignmentTitle = assignmentTitle;
     }
 

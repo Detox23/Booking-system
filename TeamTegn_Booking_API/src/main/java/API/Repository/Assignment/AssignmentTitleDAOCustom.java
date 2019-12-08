@@ -12,7 +12,7 @@ public interface AssignmentTitleDAOCustom {
 
     AssignmentTitleDto findAssignmentTitle(int id);
 
-    List<AssignmentTitleDto> listAssignmentTitles();
+    List<AssignmentTitleDto> listAssignmentTitles(boolean showDeleted);
 
     boolean deleteAssignmentTitle(int id);
 }

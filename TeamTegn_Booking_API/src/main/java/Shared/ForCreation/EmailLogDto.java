@@ -1,10 +1,5 @@
 package Shared.ForCreation;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-
-import java.sql.Timestamp;
-
 public class EmailLogDto {
     private String objectType;
     private Integer objectId;

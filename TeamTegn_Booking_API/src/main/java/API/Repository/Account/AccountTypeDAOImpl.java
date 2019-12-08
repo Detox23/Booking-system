@@ -4,7 +4,6 @@ import API.Configurations.Patcher.PatcherHandler;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
-import API.Models.Database_Entities.AccountEntity;
 import API.Models.Database_Entities.AccountTypeEntity;
 import Shared.ToReturn.AccountTypeDto;
 import org.modelmapper.ModelMapper;

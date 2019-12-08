@@ -9,7 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface ServiceProviderDAO extends JpaRepository<ServiceProviderEntity, Integer>, ServiceProviderDAOCustom {
-    List<ServiceProviderEntity> findAllByFirstNameAndMiddleNameAndLastName(String firstName, String middleName, String lastName);
+    int countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(String firstName, String middleName, String lastName);
+
+    int countAllByFirstNameIsAndMiddleNameIsAndLastNameIsAndIdIsNot(String firstName, String middleName, String lastName, int id);
 
     ServiceProviderEntity findMiddleNameAndFirstNameAndLastNameAndServiceProviderInitialsById(int id);
 

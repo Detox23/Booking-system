@@ -42,8 +42,8 @@ public class AssignmentTypeService implements IAssignmentTypeService {
     }
 
     @Override
-    public List<AssignmentTypeDto> listAssignmentType() {
-        return assignmentTypeDAO.listAssignmentType();
+    public List<AssignmentTypeDto> listAssignmentTypes(boolean showDeleted) {
+        return assignmentTypeDAO.listAssignmentTypes(showDeleted);
     }
 
     @Override

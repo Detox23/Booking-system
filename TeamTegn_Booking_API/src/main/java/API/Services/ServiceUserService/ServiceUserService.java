@@ -7,7 +7,6 @@ import API.Models.Database_Entities.ServiceUserEntity;
 import API.Repository.Account.AccountDAO;
 import API.Repository.ServiceUser.ServiceUserAccountsDAO;
 import API.Repository.ServiceUser.ServiceUserDAO;
-import API.Repository.ServiceUser.ServiceUserPreferencesDAO;
 import Shared.ForCreation.ServiceUserForCreationDto;
 import Shared.ForCreation.ServiceUserForUpdateDto;
 import Shared.ToReturn.*;
