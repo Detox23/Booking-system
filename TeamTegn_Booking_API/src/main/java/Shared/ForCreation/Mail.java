@@ -1,20 +1,43 @@
 package Shared.ForCreation;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.List;
 
 public class Mail {
 
-        private String from;
         private String[] to;
+        private int senderId;
+        private String senderType;
         private String subject;
         private String content;
+    @Value("${mail.username}")
+    private String from;
 
         public Mail() {
         }
 
-        public Mail(String from, String[] to, String subject, String content) {
-            this.from = from;
+    public int getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getSenderType() {
+        return senderType;
+    }
+
+    public void setSenderType(String senderType) {
+        this.senderType = senderType;
+    }
+
+
+    public Mail( String[] to, String subject, String content, int senderId, String senderType) {
             this.to = to;
+            this.senderId = senderId;
+            this.senderType = senderType;
             this.subject = subject;
             this.content = content;
         }
@@ -23,9 +46,7 @@ public class Mail {
             return from;
         }
 
-        public void setFrom(String from) {
-            this.from = from;
-        }
+
 
         public String[] getTo() {
             return to;
