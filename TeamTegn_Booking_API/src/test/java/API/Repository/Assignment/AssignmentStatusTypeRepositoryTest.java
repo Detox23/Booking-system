@@ -150,7 +150,7 @@ public class AssignmentStatusTypeRepositoryTest {
             int size = assignmentStatusTypeDAO.listAssignmentStatusTypes(false).size();
             Assert.assertEquals(2,size);
         }catch (Exception e){
-            throw e;
+            Assert.fail();
         }finally {
             tearDown();
         }

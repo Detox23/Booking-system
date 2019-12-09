@@ -1,7 +1,10 @@
 package API.Repository.AbsenceType;
 
 import API.Configurations.Patcher.PatcherHandler;
-import API.Exceptions.*;
+import API.Exceptions.DuplicateException;
+import API.Exceptions.NotFoundException;
+import API.Exceptions.UnknownException;
+import API.Exceptions.UpdatePatchException;
 import API.Models.Database_Entities.AbsenceTypeEntity;
 import Shared.ToReturn.AbsenceTypeDto;
 import org.modelmapper.ModelMapper;
@@ -12,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.beans.IntrospectionException;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component

@@ -2,7 +2,6 @@ package API.Repository.Assignment;
 
 import API.MainApplicationClass;
 import API.Models.Database_Entities.*;
-import API.Repository.CityPostcodes.WI_PostcodeDAO;
 import API.Repository.Department.DepartmentDAO;
 import API.Repository.ServiceProvider.ServiceProviderDAO;
 import API.Repository.ServiceProvider.ServiceProviderPreferredNotificationDAO;
@@ -127,7 +126,7 @@ public class AssignmentCommentRepositoryTest {
         serviceUserStatusOne = serviceUserStatusDAO.save(serviceUserStatusEntity);
 
         DepartmentEntity departmentEntity = new DepartmentEntity();
-        departmentEntity.setCity("TestCity");
+        departmentEntity.setPostcode("9200");
         departmentOne = departmentDAO.save(departmentEntity);
 
         ServiceUserEntity serviceUserEntity = new ServiceUserEntity();
@@ -149,7 +148,7 @@ public class AssignmentCommentRepositoryTest {
         AssignmentEntity assignmentEntity = new AssignmentEntity();
         assignmentEntity.setAssignmentTypeId(assignmentTypeOne.getId());
         assignmentEntity.setImportanceId(assignmentImportanceOne.getId());
-        assignmentEntity.setAssignmentTitle(assignmentTitleOne.getTitle());
+        assignmentEntity.setAssignmentTitle(assignmentTitleOne.getId());
         assignmentEntity.setInterpretationTypeId(assignmentInterpretationTypeOne.getId());
         assignmentEntity.setServiceUserId(serviceUserOne.getId());
         assignmentEntity.setVocalLanguageId(vocalLanguagesOne.getId());
@@ -275,7 +274,6 @@ public class AssignmentCommentRepositoryTest {
     public void deleteAssignmentCommentListSizeShouldBeOne(){
         setUp();
         try {
-
             assignmentCommentDAO.deleteAssignmentComment(assignmentCommentOne.getId());
             Assert.assertEquals(1, assignmentCommentDAO.findAllByAssignmentId(assignmentOne.getId()).size());
         } catch (Exception e) {

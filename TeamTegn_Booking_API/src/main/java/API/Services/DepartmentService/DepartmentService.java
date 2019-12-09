@@ -30,8 +30,8 @@ public class DepartmentService implements IDepartmentService {
 
 
     @Override
-    public List<DepartmentDto> seeAllDepartments() {
-        return departmentDAO.listAllDepartments();
+    public List<DepartmentDto> seeAllDepartments(boolean showDeleted) {
+        return departmentDAO.listAllDepartments(showDeleted);
     }
 
     @Override

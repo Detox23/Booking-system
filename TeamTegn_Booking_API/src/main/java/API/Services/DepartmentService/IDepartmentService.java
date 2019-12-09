@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface IDepartmentService {
-    List<DepartmentDto> seeAllDepartments();
+    List<DepartmentDto> seeAllDepartments(boolean showDeleted);
 
     DepartmentDto findDepartment(String name);
 

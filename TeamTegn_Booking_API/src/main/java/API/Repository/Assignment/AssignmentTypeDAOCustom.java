@@ -6,13 +6,13 @@ import Shared.ToReturn.AssignmentTypeDto;
 import java.util.List;
 
 public interface AssignmentTypeDAOCustom {
-    AssignmentTypeDto addAssignmentType(AssignmentTypeEntity a);
+    AssignmentTypeDto addAssignmentType(AssignmentTypeEntity assignmentType);
 
-    boolean deleteAssignmentType(int Id);
+    boolean deleteAssignmentType(int id);
 
-    List<AssignmentTypeDto> listAssignmentType();
+    List<AssignmentTypeDto> listAssignmentTypes(boolean showDeleted);
 
     AssignmentTypeDto findAssignmentType(int id);
 
-    AssignmentTypeDto updateAssignmentType(AssignmentTypeEntity a);
+    AssignmentTypeDto updateAssignmentType(AssignmentTypeEntity assignmentType);
 }

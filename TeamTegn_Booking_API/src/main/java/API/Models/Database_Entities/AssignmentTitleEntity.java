@@ -9,7 +9,7 @@ public class AssignmentTitleEntity {
     private String title;
     private Boolean isDeleted;
 
-    @Basic
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public int getId() {
@@ -20,7 +20,7 @@ public class AssignmentTitleEntity {
         this.id = id;
     }
 
-    @Id
+    @Basic
     @Column(name = "Title", nullable = false, length = 250)
     public String getTitle() {
         return title;

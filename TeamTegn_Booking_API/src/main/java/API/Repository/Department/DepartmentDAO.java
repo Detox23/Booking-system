@@ -12,4 +12,10 @@ import java.util.Optional;
 public interface DepartmentDAO extends DepartmentDAOCustom, JpaRepository<DepartmentEntity, Integer> {
     Optional<DepartmentEntity> findByDepartmentName(String name);
     List<DepartmentEntity> findAllByDeletedIsFalse();
+    Optional<DepartmentEntity> findByIdIsAndDeletedIsFalse(int id);
+    int countAllByDepartmentNameIs(String departmentName);
+    int countAllByDepartmentNameIsAndIdIsNot(String departmentName, int id);
+
+
 }
+

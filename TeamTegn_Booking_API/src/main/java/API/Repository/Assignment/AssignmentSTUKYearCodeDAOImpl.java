@@ -43,7 +43,7 @@ public class AssignmentSTUKYearCodeDAOImpl implements AssignmentSTUKYearCodeDAOC
     @Override
     public AssignmentStukYearCodeDto addAssigmentStukYearCode(AssignmentStukYearCodeEntity stukYearCode) {
         try {
-            checkForDuplicates(stukYearCode.getStukYearCodeName());
+            checkIfExistsByStukYearCodeName(stukYearCode);
             AssignmentStukYearCodeEntity saved = assignmentSTUKYearCodeDAO.save(stukYearCode);
             return modelMapper.map(saved, AssignmentStukYearCodeDto.class);
         } catch (Exception e) {
@@ -54,9 +54,9 @@ public class AssignmentSTUKYearCodeDAOImpl implements AssignmentSTUKYearCodeDAOC
     @Override
     public AssignmentStukYearCodeDto updateAssignmentStukYearCode(AssignmentStukYearCodeEntity stukYearCode) {
         try {
-            checkForDuplicates(stukYearCode.getStukYearCodeName());
             AssignmentStukYearCodeEntity found = findIfExistsAndReturn(stukYearCode.getId());
             patcherHandler.fillNotNullFields(found, stukYearCode);
+            checkIfExistsByStukYearCodeName(found);
             AssignmentStukYearCodeEntity updated = assignmentSTUKYearCodeDAO.save(found);
             return modelMapper.map(updated, AssignmentStukYearCodeDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -68,35 +68,62 @@ public class AssignmentSTUKYearCodeDAOImpl implements AssignmentSTUKYearCodeDAOC
 
     @Override
     public boolean deleteAssignmentStukYearCode(int id) {
-        AssignmentStukYearCodeEntity found = findIfExistsAndReturn(id);
-        found.setDeleted(true);
-        AssignmentStukYearCodeEntity deletedResult = assignmentSTUKYearCodeDAO.save(found);
-        return deletedResult.isDeleted();
+        try {
+            AssignmentStukYearCodeEntity found = findIfExistsAndReturn(id);
+            found.setDeleted(true);
+            AssignmentStukYearCodeEntity deletedResult = assignmentSTUKYearCodeDAO.save(found);
+            return deletedResult.isDeleted();
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     @Override
-    public List<AssignmentStukYearCodeDto> listAssignmentStukYearCodes() {
-        List<AssignmentStukYearCodeEntity> foundCodes = assignmentSTUKYearCodeDAO.findAllByDeletedIsFalse();
-        return modelMapper.map(foundCodes, new TypeToken<List<AssignmentStukYearCodeDto>>() {
-        }.getType());
+    public List<AssignmentStukYearCodeDto> listAssignmentStukYearCodes(boolean showDeleted) {
+        if(showDeleted){
+            try{
+                List<AssignmentStukYearCodeEntity> foundCodes = assignmentSTUKYearCodeDAO.findAll();
+                return modelMapper.map(foundCodes, new TypeToken<List<AssignmentStukYearCodeDto>>() {
+                }.getType());
+            }catch (Exception e){
+                throw e;
+            }
+        }else{
+            try{
+                List<AssignmentStukYearCodeEntity> foundCodes = assignmentSTUKYearCodeDAO.findAllByDeletedIsFalse();
+                return modelMapper.map(foundCodes, new TypeToken<List<AssignmentStukYearCodeDto>>() {
+                }.getType());
+            }catch (Exception e){
+                throw e;
+            }
+        }
     }
 
     @Override
     public AssignmentStukYearCodeDto findAssignmentStukYearCode(int id) {
-        AssignmentStukYearCodeEntity found = findIfExistsAndReturn(id);
-        return modelMapper.map(found, AssignmentStukYearCodeDto.class);
+        try{
+            AssignmentStukYearCodeEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, AssignmentStukYearCodeDto.class);
+        }catch (Exception e){
+            throw e;
+        }
     }
 
-    private void checkForDuplicates(String name) {
-        Optional<AssignmentStukYearCodeEntity> found = assignmentSTUKYearCodeDAO.findByStukYearCodeNameIsAndDeletedIsFalse(name);
-        if (found.isPresent()) {
-            throw new DuplicateException(String.format("There is already STUK year code with the name: %s", name));
+    private void checkIfExistsByStukYearCodeName(AssignmentStukYearCodeEntity assignmentStukYearCode){
+        if(assignmentStukYearCode.getId()==0){
+            if(assignmentSTUKYearCodeDAO.countAllByStukYearCodeNameIs(assignmentStukYearCode.getStukYearCodeName())> 0){
+                throw new DuplicateException(String.format("The stuk year code with name: %s already exists", assignmentStukYearCode.getStukYearCodeName()));
+            }
+        }else{
+            if(assignmentSTUKYearCodeDAO.countAllByStukYearCodeNameIsAndIdIsNot(assignmentStukYearCode.getStukYearCodeName(), assignmentStukYearCode.getId())> 0){
+                throw new DuplicateException(String.format("The stuk year code with name: %s already exists", assignmentStukYearCode.getStukYearCodeName()));
+            }
         }
     }
 
     private AssignmentStukYearCodeEntity findIfExistsAndReturn(int id) {
-        Optional<AssignmentStukYearCodeEntity> found = assignmentSTUKYearCodeDAO.findById(id);
-        if (!found.isPresent() || found.get().isDeleted()) {
+        Optional<AssignmentStukYearCodeEntity> found = assignmentSTUKYearCodeDAO.findByIdIsAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
             throw new NotFoundException(String.format("There was no result found for STUK year code with id %d", id));
         }
         return found.get();

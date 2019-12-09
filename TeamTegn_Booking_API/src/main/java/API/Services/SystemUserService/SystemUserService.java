@@ -1,6 +1,5 @@
 package API.Services.SystemUserService;
 
-import API.Configurations.Encryption.EncryptionHandler;
 import API.Models.Database_Entities.SystemUserEntity;
 import API.Repository.Department.DepartmentDAO;
 import API.Repository.SystemUser.RoleDAO;
@@ -18,7 +17,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

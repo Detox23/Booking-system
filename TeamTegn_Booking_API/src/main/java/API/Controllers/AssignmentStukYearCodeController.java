@@ -28,9 +28,9 @@ public class AssignmentStukYearCodeController {
         return new ResponseEntity<>(assignmentStukYearCodeService.addAssigmentStukYearCode(stukYearCode), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAssignmentStukYearCodes() {
-        return new ResponseEntity<>(assignmentStukYearCodeService.listAssignmentStukYearCodes(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAssignmentStukYearCodes(boolean showDeleted) {
+        return new ResponseEntity<>(assignmentStukYearCodeService.listAssignmentStukYearCodes(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
 

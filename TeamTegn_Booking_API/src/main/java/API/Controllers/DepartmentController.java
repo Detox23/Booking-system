@@ -24,9 +24,9 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> seeAllDepartments() {
-        return new ResponseEntity<>(departmentService.seeAllDepartments(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> seeAllDepartments(boolean showDeleted) {
+        return new ResponseEntity<>(departmentService.seeAllDepartments(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{name}", method = RequestMethod.GET)

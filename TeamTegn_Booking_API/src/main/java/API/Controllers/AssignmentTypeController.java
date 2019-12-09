@@ -24,30 +24,30 @@ public class AssignmentTypeController {
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> getForAssignment(@PathVariable int id) {
+    public ResponseEntity<?> findAssignmentType(@PathVariable int id) {
         return new ResponseEntity<>(assignmentTypeService.findAssignmentType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/", method = {RequestMethod.GET})
-    public ResponseEntity<?> get() {
-        return new ResponseEntity<>(assignmentTypeService.listAssignmentType(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/all/{showDeleted}", method = {RequestMethod.GET})
+    public ResponseEntity<?> listAssignmentTypes(boolean showDeleted) {
+        return new ResponseEntity<>(assignmentTypeService.listAssignmentTypes(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.POST})
     @PreAuthorize("hasRole('ROLE_Administrator')")
-    public ResponseEntity<?> add(@RequestBody @Valid AssignmentTypeForCreationDto assignmentType) {
+    public ResponseEntity<?> addAssignmentType(@RequestBody @Valid AssignmentTypeForCreationDto assignmentType) {
         return new ResponseEntity<>(assignmentTypeService.addAssignmentType(assignmentType), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
     @PreAuthorize("hasRole('ROLE_Administrator')")
-    public ResponseEntity<?> delete(@PathVariable int id) {
+    public ResponseEntity<?> deleteAssignmentType(@PathVariable int id) {
         return new ResponseEntity<>(assignmentTypeService.deleteAssignmentType(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.PATCH})
     @PreAuthorize("hasRole('ROLE_Administrator')")
-    public ResponseEntity<?> update(@RequestBody @Valid AssignmentTypeForUpdateDto assignmentType) {
+    public ResponseEntity<?> updateAssignmentType(@RequestBody @Valid AssignmentTypeForUpdateDto assignmentType) {
         return new ResponseEntity<>(assignmentTypeService.updateAssignmentType(assignmentType), new HttpHeaders(), HttpStatus.OK);
     }
 }

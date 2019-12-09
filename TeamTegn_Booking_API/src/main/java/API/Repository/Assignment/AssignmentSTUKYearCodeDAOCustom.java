@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface AssignmentSTUKYearCodeDAOCustom {
     AssignmentStukYearCodeDto addAssigmentStukYearCode(AssignmentStukYearCodeEntity stukYearCode);
+
     AssignmentStukYearCodeDto updateAssignmentStukYearCode(AssignmentStukYearCodeEntity stukYearCode);
+
     boolean deleteAssignmentStukYearCode(int id);
-    List<AssignmentStukYearCodeDto> listAssignmentStukYearCodes();
+
+    List<AssignmentStukYearCodeDto> listAssignmentStukYearCodes(boolean showDeleted);
+
     AssignmentStukYearCodeDto findAssignmentStukYearCode(int id);
 }

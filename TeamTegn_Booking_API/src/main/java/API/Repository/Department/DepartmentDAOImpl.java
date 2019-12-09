@@ -5,8 +5,11 @@ import API.Configurations.Patcher.PatcherHandler;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
+import API.Models.Database_Entities.CityPostcodesEntity;
 import API.Models.Database_Entities.DepartmentEntity;
-import API.Repository.ServiceProvider.ServiceProviderDAO;
+import API.Models.Database_Entities.WiPostcodeEntity;
+import API.Repository.CityPostcodes.CityPostcodesDAO;
+import API.Repository.CityPostcodes.WI_PostcodeDAO;
 import Shared.ToReturn.DepartmentDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -21,18 +24,35 @@ import java.util.Optional;
 @Component
 public class DepartmentDAOImpl implements DepartmentDAOCustom {
 
-    @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
     private DepartmentDAO departmentDAO;
-
-    @Autowired
-    private ServiceProviderDAO serviceProviderDAO;
 
     private PatcherHandler patcherHandler;
 
-    private final String DEFAULT_DEPARTMENT_NAME = "Unassigned";
+    private WI_PostcodeDAO wiPostcodeDAO;
+
+    private CityPostcodesDAO cityPostcodesDAO;
+
+    @Autowired
+    public void setCityPostcodesDAO(CityPostcodesDAO cityPostcodesDAO) {
+        this.cityPostcodesDAO = cityPostcodesDAO;
+    }
+
+    @Autowired
+    public void setWiPostcodeDAO(WI_PostcodeDAO wiPostcodeDAO) {
+        this.wiPostcodeDAO = wiPostcodeDAO;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setDepartmentDAO(DepartmentDAO departmentDAO) {
+        this.departmentDAO = departmentDAO;
+    }
 
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
@@ -40,13 +60,23 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
     }
 
     @Override
-    public List<DepartmentDto> listAllDepartments() {
-        try {
-            Type listType = new TypeToken<List<DepartmentDto>>() {
-            }.getType();
-            return modelMapper.map(departmentDAO.findAllByDeletedIsFalse(), listType);
-        } catch (Exception e) {
-            throw e;
+    public List<DepartmentDto> listAllDepartments(boolean showDeleted) {
+        if(showDeleted){
+            try {
+                Type listType = new TypeToken<List<DepartmentDto>>() {
+                }.getType();
+                return modelMapper.map(departmentDAO.findAll(), listType);
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            try {
+                Type listType = new TypeToken<List<DepartmentDto>>() {
+                }.getType();
+                return modelMapper.map(departmentDAO.findAllByDeletedIsFalse(), listType);
+            } catch (Exception e) {
+                throw e;
+            }
         }
     }
 
@@ -66,10 +96,9 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
     @Override
     public DepartmentDto addOneDepartment(DepartmentEntity departmentEntity) {
         try {
-            Optional<DepartmentEntity> departmentCheck = departmentDAO.findByDepartmentName(departmentEntity.getDepartmentName());
-            if (departmentCheck.isPresent()) {
-                throw new DuplicateException("Department with the name already exists.");
-            }
+            checkIfDepartmentExists(departmentEntity);
+            checkAndFillPostcodeAndCity(departmentEntity);
+            addStateRegion(departmentEntity);
             departmentEntity.setDeleted(false);
             DepartmentEntity added = departmentDAO.save(departmentEntity);
             return modelMapper.map(added, DepartmentDto.class);
@@ -83,12 +112,12 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
     @Override
     public DepartmentDto updateOneDepartment(DepartmentEntity departmentEntity) {
         try {
-            Optional<DepartmentEntity> found = departmentDAO.findById(departmentEntity.getId());
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The department you want to update was deleted or does not exist.");
-            }
-            patcherHandler.fillNotNullFields(found.get(), departmentEntity);
-            DepartmentEntity updated = departmentDAO.save(found.get());
+            checkAndFillPostcodeAndCity(departmentEntity);
+            addStateRegion(departmentEntity);
+            DepartmentEntity found = findIfExistsAndReturn(departmentEntity.getId());
+            patcherHandler.fillNotNullFields(found, departmentEntity);
+            checkIfDepartmentExists(found);
+            DepartmentEntity updated = departmentDAO.save(found);
             return modelMapper.map(updated, DepartmentDto.class);
         } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating a competency [PATCHING].");
@@ -100,18 +129,10 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
     @Override
     public boolean deleteOneDepartment(int id) {
         try {
-            Optional<DepartmentEntity> found = departmentDAO.findById(id);
-            if (!found.isPresent() || found.get().isDeleted()) {
-                throw new NotFoundException("The department user was not found.");
-            }
-            DepartmentEntity toDelete = found.get();
+            DepartmentEntity toDelete = findIfExistsAndReturn(id);
             toDelete.setDeleted(true);
             DepartmentEntity deletionResult = departmentDAO.save(toDelete);
-            if (deletionResult.isDeleted()) {
-                return true;
-            } else {
-                return false;
-            }
+            return deletionResult.isDeleted();
         } catch (NotFoundException notFoundException) {
             throw notFoundException;
         } catch (Exception e) {
@@ -122,12 +143,57 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
 
     @Override
     public DepartmentDto findDepartmentByID(int id) {
-        Optional<DepartmentEntity> found = departmentDAO.findById(id);
-        if (found.isPresent() || !found.get().isDeleted()) {
-            return modelMapper.map(found.get(), DepartmentDto.class);
-        } else {
-            throw new NotFoundException("Department was not found");
+        try{
+            DepartmentEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, DepartmentDto.class);
+        }catch (Exception e){
+            throw e;
         }
     }
 
+
+    private void addStateRegion(DepartmentEntity department){
+        if(department.getStateRegion() == null){
+            Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(department.getPostcode());
+            if(wiPostcode.isPresent()){
+                if(wiPostcode.get().getArhus()){
+                    department.setStateRegion("Aarhus");
+                }else if(wiPostcode.get().getCopenhagen()){
+                    department.setStateRegion("Copenhagen");
+                }else if(wiPostcode.get().getFredericia()){
+                    department.setStateRegion("Fredericia");
+                }
+            }
+        }
+    }
+
+    private void checkIfDepartmentExists(DepartmentEntity departmentEntity){
+        if(departmentEntity.getId() == 0){
+            if(departmentDAO.countAllByDepartmentNameIs(departmentEntity.getDepartmentName())> 0){
+                throw new DuplicateException(String.format("The department name: %s already exists", departmentEntity.getDepartmentName()));
+            }
+        }else{
+            if(departmentDAO.countAllByDepartmentNameIsAndIdIsNot(departmentEntity.getDepartmentName(), departmentEntity.getId())> 0){
+                throw new DuplicateException(String.format("The department name: %s already exists", departmentEntity.getDepartmentName()));
+            }
+        }
+    }
+
+    private void checkAndFillPostcodeAndCity(DepartmentEntity departmentEntity) {
+        if (departmentEntity.getCity() == null) {
+            Optional<CityPostcodesEntity> found = cityPostcodesDAO.findFirstByPostcodeIs(departmentEntity.getPostcode());
+            if (found.isPresent()) {
+                departmentEntity.setCity(found.get().getCity());
+            }
+        }
+    }
+
+
+    private DepartmentEntity findIfExistsAndReturn(int id) {
+        Optional<DepartmentEntity> found = departmentDAO.findByIdIsAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            throw new NotFoundException(String.format("There was no result found for department with id %d", id));
+        }
+        return found.get();
+    }
 }

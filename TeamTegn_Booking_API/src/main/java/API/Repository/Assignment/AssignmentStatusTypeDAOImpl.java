@@ -5,7 +5,6 @@ import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UpdatePatchException;
 import API.Models.Database_Entities.AssignmentStatusTypeEntity;
-import Shared.ToReturn.AssignmentStatusDto;
 import Shared.ToReturn.AssignmentStatusTypeDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -58,7 +57,6 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
                 throw e;
             }
         }
-
     }
 
     @Override

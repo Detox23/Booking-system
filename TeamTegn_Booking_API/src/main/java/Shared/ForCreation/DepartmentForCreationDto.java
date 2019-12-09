@@ -9,7 +9,6 @@ public class DepartmentForCreationDto {
     private String street;
     @NotNull
     private String postcode;
-    @NotNull
     private String city;
     private String stateRegion;
     private String country;

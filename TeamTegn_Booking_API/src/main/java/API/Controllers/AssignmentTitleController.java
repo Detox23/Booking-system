@@ -23,9 +23,9 @@ public class AssignmentTitleController {
         this.assignmentTitleService = assignmentTitleService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> listAssignmentTitles() {
-        return new ResponseEntity<>(assignmentTitleService.listAssignmentTitles(), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAssignmentTitles(boolean showDeleted) {
+        return new ResponseEntity<>(assignmentTitleService.listAssignmentTitles(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

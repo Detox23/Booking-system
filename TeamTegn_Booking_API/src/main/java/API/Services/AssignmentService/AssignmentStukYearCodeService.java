@@ -48,8 +48,8 @@ public class AssignmentStukYearCodeService implements IAssignmentStukYearCodeSer
     }
 
     @Override
-    public List<AssignmentStukYearCodeDto> listAssignmentStukYearCodes() {
-        return assignmentSTUKYearCodeDAO.listAssignmentStukYearCodes();
+    public List<AssignmentStukYearCodeDto> listAssignmentStukYearCodes(boolean showDeleted) {
+        return assignmentSTUKYearCodeDAO.listAssignmentStukYearCodes(showDeleted);
     }
 
     @Override

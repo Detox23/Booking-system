@@ -12,7 +12,7 @@ public interface IAssignmentTypeService {
 
     AssignmentTypeDto findAssignmentType(int id);
 
-    List<AssignmentTypeDto> listAssignmentType();
+    List<AssignmentTypeDto> listAssignmentTypes(boolean showDeleted);
 
     boolean deleteAssignmentType(int id);
 

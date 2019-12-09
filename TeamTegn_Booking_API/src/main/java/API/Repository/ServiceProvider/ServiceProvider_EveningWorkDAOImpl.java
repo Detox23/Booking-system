@@ -1,6 +1,7 @@
 package API.Repository.ServiceProvider;
 
 import API.Configurations.Patcher.PatcherHandler;
+import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Exceptions.UpdatePatchException;
 import API.Models.Database_Entities.ServiceProviderEveningWorkEntity;
@@ -84,23 +85,36 @@ public class ServiceProvider_EveningWorkDAOImpl implements ServiceProvider_Eveni
 
     @Override
     public List<ServiceProviderEveningWorkDto> listServiceProviderEveningWork(int serviceProviderID) {
-        List<ServiceProviderEveningWorkEntity> foundList = serviceProviderEveningWorkDAO.findAllByServiceProviderIdIs(serviceProviderID);
-        List<ServiceProviderEveningWorkDto> mappedList = new ArrayList<>();
-        for (ServiceProviderEveningWorkEntity item : foundList) {
-            ServiceProviderEveningWorkDto addToList = modelMapper.map(item, ServiceProviderEveningWorkDto.class);
-            addToList.setEveningWorkPrioritisation(eveningWorkPrioritisationDAO.getByIdIs(item.getEveningWorkPrioritisationId()).getPrioritisation());
-            mappedList.add(addToList);
+        try{
+            List<ServiceProviderEveningWorkEntity> foundList = serviceProviderEveningWorkDAO.findAllByServiceProviderIdIs(serviceProviderID);
+            List<ServiceProviderEveningWorkDto> mappedList = new ArrayList<>();
+            for (ServiceProviderEveningWorkEntity item : foundList) {
+                ServiceProviderEveningWorkDto addToList = modelMapper.map(item, ServiceProviderEveningWorkDto.class);
+                addToList.setEveningWorkPrioritisation(eveningWorkPrioritisationDAO.getByIdIs(item.getEveningWorkPrioritisationId()).getPrioritisation());
+                mappedList.add(addToList);
+            }
+            return mappedList;
+        }catch (Exception e){
+            throw e;
         }
-        return mappedList;
+
     }
 
 
     @Override
     public ServiceProviderEveningWorkDto getServiceProviderEveningWorkForSpecificDay(String day, int serviceProviderID) {
-        ServiceProviderEveningWorkEntity found = serviceProviderEveningWorkDAO.findByWeekDayIsAndServiceProviderIdIs(day, serviceProviderID);
-        ServiceProviderEveningWorkDto toReturn = modelMapper.map(found, ServiceProviderEveningWorkDto.class);
-        toReturn.setEveningWorkPrioritisation(eveningWorkPrioritisationDAO.getByIdIs(found.getEveningWorkPrioritisationId()).getPrioritisation());
-        return toReturn;
+        try{
+            ServiceProviderEveningWorkEntity found = serviceProviderEveningWorkDAO.findByWeekDayIsAndServiceProviderIdIs(day, serviceProviderID);
+            if(found == null){
+                throw new NotFoundException("The evening work was not found.");
+            }
+            ServiceProviderEveningWorkDto toReturn = modelMapper.map(found, ServiceProviderEveningWorkDto.class);
+            toReturn.setEveningWorkPrioritisation(eveningWorkPrioritisationDAO.getByIdIs(found.getEveningWorkPrioritisationId()).getPrioritisation());
+            return toReturn;
+        }catch (Exception e){
+            throw e;
+        }
+
     }
 
 

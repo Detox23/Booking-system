@@ -138,6 +138,7 @@ public class AssignmentRepositoryTests {
 
         DepartmentEntity departmentEntity = new DepartmentEntity();
         departmentEntity.setCity("TestCity");
+        departmentEntity.setPostcode("2313");
         departmentOne = departmentDAO.save(departmentEntity);
 
         ServiceUserEntity serviceUserEntity = new ServiceUserEntity();
@@ -159,7 +160,7 @@ public class AssignmentRepositoryTests {
         AssignmentEntity assignmentEntity = new AssignmentEntity();
         assignmentEntity.setAssignmentTypeId(assignmentTypeOne.getId());
         assignmentEntity.setImportanceId(assignmentImportanceOne.getId());
-        assignmentEntity.setAssignmentTitle(assignmentTitleOne.getTitle());
+        assignmentEntity.setAssignmentTitle(assignmentTitleOne.getId());
         assignmentEntity.setInterpretationTypeId(assignmentInterpretationTypeOne.getId());
         assignmentEntity.setServiceUserId(serviceUserOne.getId());
         assignmentEntity.setVocalLanguageId(vocalLanguagesOne.getId());
@@ -276,6 +277,8 @@ public class AssignmentRepositoryTests {
         serviceUserStatusDAO.flush();
         serviceProviderDAO.deleteAllInBatch();
         serviceProviderDAO.flush();
+        assignmentSTUKYearCodeDAO.deleteAllInBatch();
+        assignmentSTUKYearCodeDAO.flush();
         departmentDAO.deleteAllInBatch();
         departmentDAO.flush();
         assignmentStatusTypeDAO.deleteAllInBatch();
@@ -300,12 +303,6 @@ public class AssignmentRepositoryTests {
 
 
     @Test
-    public void testSettingUp() {
-        setUp();
-        tearDown();
-    }
-
-    @Test
     public void testFindingAssignmentByNotExistingIDShouldThrowException() {
         setUp();
         try {
@@ -325,7 +322,7 @@ public class AssignmentRepositoryTests {
             AssignmentEntity assignmentToAdd = new AssignmentEntity();
             assignmentToAdd.setAssignmentTypeId(assignmentTypeOne.getId());
             assignmentToAdd.setImportanceId(assignmentImportanceOne.getId());
-            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getTitle());
+            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getId());
             assignmentToAdd.setInterpretationTypeId(assignmentInterpretationTypeOne.getId());
             assignmentToAdd.setServiceUserId(serviceUserOne.getId());
             assignmentToAdd.setVocalLanguageId(vocalLanguagesOne.getId());
@@ -349,7 +346,7 @@ public class AssignmentRepositoryTests {
             AssignmentEntity assignmentToAdd = new AssignmentEntity();
             assignmentToAdd.setAssignmentTypeId(assignmentTypeOne.getId());
             assignmentToAdd.setImportanceId(assignmentImportanceOne.getId());
-            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getTitle());
+            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getId());
             assignmentToAdd.setInterpretationTypeId(assignmentInterpretationTypeOne.getId());
             assignmentToAdd.setServiceUserId(serviceUserOne.getId());
             assignmentToAdd.setVocalLanguageId(vocalLanguagesOne.getId());
@@ -373,7 +370,7 @@ public class AssignmentRepositoryTests {
             AssignmentEntity assignmentToAdd = new AssignmentEntity();
             assignmentToAdd.setAssignmentTypeId(assignmentTypeOne.getId());
             assignmentToAdd.setImportanceId(assignmentImportanceOne.getId());
-            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getTitle());
+            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getId());
             assignmentToAdd.setInterpretationTypeId(assignmentInterpretationTypeOne.getId());
             assignmentToAdd.setServiceUserId(serviceUserOne.getId());
             assignmentToAdd.setVocalLanguageId(vocalLanguagesOne.getId());
@@ -400,7 +397,7 @@ public class AssignmentRepositoryTests {
             AssignmentEntity assignmentToAdd = new AssignmentEntity();
             assignmentToAdd.setAssignmentTypeId(assignmentTypeOne.getId());
             assignmentToAdd.setImportanceId(assignmentImportanceOne.getId());
-            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getTitle());
+            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getId());
             assignmentToAdd.setInterpretationTypeId(assignmentInterpretationTypeOne.getId());
             assignmentToAdd.setServiceUserId(serviceUserOne.getId());
             assignmentToAdd.setVocalLanguageId(vocalLanguagesOne.getId());
@@ -427,7 +424,7 @@ public class AssignmentRepositoryTests {
             AssignmentEntity assignmentToAdd = new AssignmentEntity();
             assignmentToAdd.setAssignmentTypeId(assignmentTypeOne.getId());
             assignmentToAdd.setImportanceId(assignmentImportanceOne.getId());
-            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getTitle());
+            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getId());
             assignmentToAdd.setInterpretationTypeId(assignmentInterpretationTypeOne.getId());
             assignmentToAdd.setServiceUserId(serviceUserOne.getId());
             assignmentToAdd.setVocalLanguageId(vocalLanguagesOne.getId());
@@ -454,7 +451,7 @@ public class AssignmentRepositoryTests {
             AssignmentEntity assignmentToAdd = new AssignmentEntity();
             assignmentToAdd.setAssignmentTypeId(assignmentTypeOne.getId());
             assignmentToAdd.setImportanceId(assignmentImportanceOne.getId());
-            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getTitle());
+            assignmentToAdd.setAssignmentTitle(assignmentTitleOne.getId());
             assignmentToAdd.setInterpretationTypeId(assignmentInterpretationTypeOne.getId());
             assignmentToAdd.setServiceUserId(serviceUserOne.getId());
             assignmentToAdd.setVocalLanguageId(vocalLanguagesOne.getId());
