@@ -50,9 +50,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
     @Override
     public ServiceProviderTypeDto addServiceProviderType(ServiceProviderTypeEntity serviceProviderTypeEntity) {
         try {
-            if (serviceProviderTypeDAO.countAllByProviderTypeIs(serviceProviderTypeEntity.getProviderType()) > 0) {
-                throw new DuplicateException(String.format("There is already a provider type with %s name.", serviceProviderTypeEntity.getProviderType()));
-            }
+            checkIfProviderType(serviceProviderTypeEntity);
             ServiceProviderTypeEntity saved = serviceProviderTypeDAO.save(serviceProviderTypeEntity);
             return modelMapper.map(saved, ServiceProviderTypeDto.class);
         }catch (Exception e) {
@@ -65,6 +63,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
         try {
             ServiceProviderTypeEntity found = findIfExistsAndReturn(serviceProviderTypeEntity.getId());
             patcherHandler.fillNotNullFields(found, serviceProviderTypeEntity);
+            checkIfProviderType(found);
             ServiceProviderTypeEntity updated = serviceProviderTypeDAO.save(found);
             return modelMapper.map(updated, ServiceProviderTypeDto.class);
         } catch (IntrospectionException e) {
@@ -113,6 +112,18 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
             return deletionResult.isDeleted();
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    private void checkIfProviderType(ServiceProviderTypeEntity serviceProviderType) {
+        if (serviceProviderType.getId() == 0) {
+            if (serviceProviderTypeDAO.countAllByProviderTypeIs(serviceProviderType.getProviderType()) > 0) {
+                throw new DuplicateException(String.format("The provider type: %s already exists", serviceProviderType.getProviderType()));
+            }
+        } else {
+            if (serviceProviderTypeDAO.countAllByProviderTypeIsAndIdIsNot(serviceProviderType.getProviderType(), serviceProviderType.getId()) > 0) {
+                throw new DuplicateException(String.format("The provider type: %s already exists", serviceProviderType.getProviderType()));
+            }
         }
     }
 

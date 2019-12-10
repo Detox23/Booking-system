@@ -1,11 +1,9 @@
 package API.Repository.ServiceProvider;
 
-import API.Configurations.Patcher.PatcherHandler;
 import API.Exceptions.DuplicateException;
 import API.Exceptions.NotFoundException;
 import API.Exceptions.UnknownAddingException;
 import API.Models.Database_Entities.ServiceProviderAbsenceEntity;
-import API.Repository.AbsenceType.AbsenceTypeDAO;
 import Shared.ToReturn.ServiceProviderAbsenceDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -29,24 +27,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     private ModelMapper modelMapper;
 
     private ServiceProviderAbsenceDAO serviceProviderAbsenceDAO;
-
-    private AbsenceTypeDAO absenceTypeDAO;
-
-    private ServiceProviderDAO serviceProviderDAO;
-
-    private PatcherHandler patcherHandler;
-
-
-    @Autowired
-    public void setServiceProviderDAO(ServiceProviderDAO serviceProviderDAO) {
-        this.serviceProviderDAO = serviceProviderDAO;
-    }
-
-    @Autowired
-    public void setAbsenceTypeDAO(AbsenceTypeDAO absenceTypeDAO) {
-        this.absenceTypeDAO = absenceTypeDAO;
-    }
-
+    
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
@@ -56,12 +37,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     public void setServiceProviderAbsenceDAO(ServiceProviderAbsenceDAO serviceProviderAbsenceDAO) {
         this.serviceProviderAbsenceDAO = serviceProviderAbsenceDAO;
     }
-
-    @Autowired
-    public void setPatcherHandler(PatcherHandler patcherHandler) {
-        this.patcherHandler = patcherHandler;
-    }
-
+    
     @Override
     public ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity) {
         try {
@@ -185,5 +161,4 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
         LocalTime timeFrom = LocalTime.parse(time.toString());
         return LocalDateTime.of(dateFrom, timeFrom);
     }
-
 }

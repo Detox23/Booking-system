@@ -46,9 +46,7 @@ public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCus
     @Override
     public ServiceProviderSourceDto addServiceProviderSource(ServiceProviderSourceEntity serviceProviderSourceEntity) {
         try {
-            if (serviceProviderSourceDAO.countAllByProviderSourceIs(serviceProviderSourceEntity.getProviderSource()) > 0) {
-                throw new DuplicateException(String.format("There is already a provider source with %s name.", serviceProviderSourceEntity.getProviderSource()));
-            }
+            checkIfProviderSourceExists(serviceProviderSourceEntity);
             ServiceProviderSourceEntity saved = serviceProviderSourceDAO.save(serviceProviderSourceEntity);
             return modelMapper.map(saved, ServiceProviderSourceDto.class);
         }catch (Exception e) {
@@ -61,6 +59,7 @@ public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCus
         try {
             ServiceProviderSourceEntity found = findIfExistsAndReturn(serviceProviderSourceEntity.getId());
             patcherHandler.fillNotNullFields(found, serviceProviderSourceEntity);
+            checkIfProviderSourceExists(found);
             ServiceProviderSourceEntity updated = serviceProviderSourceDAO.save(found);
             return modelMapper.map(updated, ServiceProviderSourceDto.class);
         } catch (IntrospectionException e) {
@@ -108,6 +107,19 @@ public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCus
             return deletionResult.isDeleted();
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+
+    private void checkIfProviderSourceExists(ServiceProviderSourceEntity serviceProviderSource) {
+        if (serviceProviderSource.getId() == 0) {
+            if (serviceProviderSourceDAO.countAllByProviderSourceIs(serviceProviderSource.getProviderSource()) > 0) {
+                throw new DuplicateException(String.format("The provider source: %s already exists", serviceProviderSource.getProviderSource()));
+            }
+        } else {
+            if (serviceProviderSourceDAO.countAllByProviderSourceIsAndIdIsNot(serviceProviderSource.getProviderSource(), serviceProviderSource.getId()) > 0) {
+                throw new DuplicateException(String.format("The provider source: %s already exists", serviceProviderSource.getProviderSource()));
+            }
         }
     }
 

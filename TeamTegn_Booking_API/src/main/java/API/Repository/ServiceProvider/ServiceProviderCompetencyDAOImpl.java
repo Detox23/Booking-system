@@ -54,7 +54,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
             try {
                 Type listType = new TypeToken<List<ServiceProviderCompetencyDto>>() {
                 }.getType();
-                return modelMapper.map(serviceProviderCompetencyDAO.findAllByDeletedIsFalse(), listType);
+                return modelMapper.map(serviceProviderCompetencyDAO.findAll(), listType);
             } catch (Exception e) {
                 throw e;
             }
@@ -62,7 +62,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
             try {
                 Type listType = new TypeToken<List<ServiceProviderCompetencyDto>>() {
                 }.getType();
-                return modelMapper.map(serviceProviderCompetencyDAO.findAll(), listType);
+                return modelMapper.map(serviceProviderCompetencyDAO.findAllByDeletedIsFalse(), listType);
             } catch (Exception e) {
                 throw e;
             }
@@ -84,9 +84,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
     @Override
     public ServiceProviderCompetencyDto addServiceProviderCompetency(ServiceProviderCompetencyEntity serviceProviderCompetency) {
         try {
-            if (serviceProviderCompetencyDAO.countAllByCompetencyIs(serviceProviderCompetency.getCompetency()) > 0) {
-                throw new DuplicateException(String.format("Competency with name: %s already exists.", serviceProviderCompetency.getCompetency()));
-            }
+            checkIfExistsByProviderCompetency(serviceProviderCompetency);
             ServiceProviderCompetencyEntity saved = serviceProviderCompetencyDAO.save(serviceProviderCompetency);
             return modelMapper.map(saved, ServiceProviderCompetencyDto.class);
         } catch (Exception e) {
@@ -99,6 +97,7 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
         try {
             ServiceProviderCompetencyEntity found = findIfExistsAndReturn(serviceProviderCompetency.getId());
             patcherHandler.fillNotNullFields(found, serviceProviderCompetency);
+            checkIfExistsByProviderCompetency(found);
             ServiceProviderCompetencyEntity updated = serviceProviderCompetencyDAO.save(found);
             return modelMapper.map(updated, ServiceProviderCompetencyDto.class);
         } catch (IntrospectionException introspectionException) {
@@ -120,6 +119,19 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
         }
     }
 
+
+    private void checkIfExistsByProviderCompetency(ServiceProviderCompetencyEntity serviceProviderCompetency) {
+        if (serviceProviderCompetency.getId() == 0) {
+            if (serviceProviderCompetencyDAO.countAllByCompetencyIs(serviceProviderCompetency.getCompetency()) > 0) {
+                throw new DuplicateException(String.format("The service provider competency with name: %s already exists", serviceProviderCompetency.getCompetency()));
+            }
+        } else {
+            if (serviceProviderCompetencyDAO.countAllByCompetencyIsAndIdIsNot(serviceProviderCompetency.getCompetency(), serviceProviderCompetency.getId()) > 0) {
+                throw new DuplicateException(String.format("The service provider competency with name: %s already exists", serviceProviderCompetency.getCompetency()));
+            }
+        }
+    }
+
     private ServiceProviderCompetencyEntity findIfExistsAndReturn(int id) {
         Optional<ServiceProviderCompetencyEntity> found = serviceProviderCompetencyDAO.findByIdIsAndDeletedIsFalse(id);
         if (!found.isPresent()) {
@@ -127,6 +139,4 @@ public class ServiceProviderCompetencyDAOImpl implements ServiceProviderCompeten
         }
         return found.get();
     }
-
-
 }

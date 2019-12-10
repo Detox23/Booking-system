@@ -26,9 +26,6 @@ import java.util.Optional;
 @Component
 public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
 
-    private final int update = 1;
-    private final int insert = 0;
-
     private ServiceUserAccountsDAO serviceUserAccountsDAO;
 
     private ServiceUserDAO serviceUserDAO;
@@ -82,7 +79,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
     @Override
     public ServiceUserDto addServiceUser(ServiceUserEntity serviceUser, List<Integer> accounts) {
         try {
-            checkIfExistsByName(serviceUser, insert);
+            checkIfExistsByName(serviceUser);
             checkAndFillPostcodeAndCity(serviceUser);
             addStateRegion(serviceUser);
             encryptCpr(serviceUser);
@@ -134,7 +131,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
             addStateRegion(serviceUser);
             ServiceUserEntity found = findIfExistsAndReturn(serviceUser.getId());
             patcherHandler.fillNotNullFields(found, serviceUser);
-            checkIfExistsByName(found, update);
+            checkIfExistsByName(found);
             addServiceUsersAccounts(accounts, serviceUser.getId());
             ServiceUserEntity result = serviceUserDAO.save(found);
             return modelMapper.map(result, ServiceUserDto.class);
@@ -173,20 +170,28 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         }
     }
 
-    private void checkIfExistsByName(ServiceUserEntity serviceUser, int allowedFound) {
-        int count = serviceUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(serviceUser.getFirstName(), serviceUser.getMiddleName(), serviceUser.getLastName());
-        if (count > allowedFound) {
-            if (serviceUser.getFirstName() == null) {
-                serviceUser.setFirstName("");
-            } else if (serviceUser.getMiddleName() == null) {
-                serviceUser.setMiddleName("");
-            } else if (serviceUser.getLastName() == null) {
-                serviceUser.setLastName("");
+    private void checkIfExistsByName(ServiceUserEntity serviceUser) {
+        if (serviceUser.getId() == 0) {
+            if (serviceUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(serviceUser.getFirstName(), serviceUser.getMiddleName(), serviceUser.getLastName()) > 0) {
+                throw new DuplicateException(String.format(
+                        "The service user with name: %s, middle name: $s and last name: %s already exists.",
+                        serviceUser.getFirstName(),
+                        serviceUser.getMiddleName(),
+                        serviceUser.getLastName()
+                ));
             }
-            throw new DuplicateException(String.format("The is already service user with name: %s %s %s.", serviceUser.getFirstName(),
-                    serviceUser.getMiddleName(), serviceUser.getLastName()));
+        } else {
+            if (serviceUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIsAndIdIsNot(serviceUser.getFirstName(), serviceUser.getMiddleName(), serviceUser.getLastName(), serviceUser.getId()) > 0) {
+                throw new DuplicateException(String.format(
+                        "The service provider with name: %s, middle name: $s and last name: %s already exists.",
+                        serviceUser.getFirstName(),
+                        serviceUser.getMiddleName(),
+                        serviceUser.getLastName()
+                ));
+            }
         }
     }
+
 
     private void checkAndFillPostcodeAndCity(ServiceUserEntity serviceUser) {
 
