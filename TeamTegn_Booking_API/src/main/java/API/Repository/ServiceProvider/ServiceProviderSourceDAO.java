@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface ServiceProviderSourceDAO extends JpaRepository<ServiceProviderSourceEntity, Integer>, ServiceProviderSourceDAOCustom {
     int countAllByProviderSourceIs(String providerSource);
 
+    int countAllByProviderSourceIsAndIdIsNot(String providerSource, int id);
+
     Optional<ServiceProviderSourceEntity> findByIdAndDeletedIsFalse(int id);
 
     List<ServiceProviderSourceEntity> findAllByDeletedIsFalse();

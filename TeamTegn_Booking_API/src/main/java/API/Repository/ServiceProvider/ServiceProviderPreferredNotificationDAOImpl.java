@@ -43,9 +43,7 @@ public class ServiceProviderPreferredNotificationDAOImpl implements ServiceProvi
     @Override
     public ServiceProviderPreferredNotificationDto addServiceProviderNotification(ServiceProviderPreferredNotificationEntity serviceProviderNotification) {
         try{
-            if(serviceProviderPreferredNotificationDAO.countAllByNotificationTypeIs(serviceProviderNotification.getNotificationType()) > 0){
-                throw new DuplicateException(String.format("There is already notification with notification type: %s.", serviceProviderNotification.getNotificationType()));
-            }
+            checkIfNotificationExist(serviceProviderNotification);
             ServiceProviderPreferredNotificationEntity saved = serviceProviderPreferredNotificationDAO.save(serviceProviderNotification);
             return modelMapper.map(saved, ServiceProviderPreferredNotificationDto.class);
         }catch (Exception e){
@@ -59,9 +57,10 @@ public class ServiceProviderPreferredNotificationDAOImpl implements ServiceProvi
         try {
             ServiceProviderPreferredNotificationEntity found = findIfExistsAndReturn(serviceProviderNotification.getId());
             patcherHandler.fillNotNullFields(found, serviceProviderNotification);
+            checkIfNotificationExist(found);
             ServiceProviderPreferredNotificationEntity updated = serviceProviderPreferredNotificationDAO.save(found);
             return modelMapper.map(updated, ServiceProviderPreferredNotificationDto.class);
-        }catch(IntrospectionException introspectionExcpetion){
+        }catch(IntrospectionException introspectionException){
             throw new UpdatePatchException("There was an error while updating the notification. [PATCHING]");
         }catch (Exception e){
             throw e;
@@ -106,6 +105,18 @@ public class ServiceProviderPreferredNotificationDAOImpl implements ServiceProvi
             return modelMapper.map(found, ServiceProviderPreferredNotificationDto.class);
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    private void checkIfNotificationExist(ServiceProviderPreferredNotificationEntity serviceProviderPreferredNotification) {
+        if (serviceProviderPreferredNotification.getId() == 0) {
+            if (serviceProviderPreferredNotificationDAO.countAllByNotificationTypeIs(serviceProviderPreferredNotification.getNotificationType()) > 0) {
+                throw new DuplicateException(String.format("The notification type: %s already exists", serviceProviderPreferredNotification.getNotificationType()));
+            }
+        } else {
+            if (serviceProviderPreferredNotificationDAO.countAllByNotificationTypeIsAndIdIsNot(serviceProviderPreferredNotification.getNotificationType(), serviceProviderPreferredNotification.getId()) > 0) {
+                throw new DuplicateException(String.format("The notification type: %s already exists", serviceProviderPreferredNotification.getNotificationType()));
+            }
         }
     }
 

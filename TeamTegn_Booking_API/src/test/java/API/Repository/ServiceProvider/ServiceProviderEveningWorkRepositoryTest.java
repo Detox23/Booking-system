@@ -2,8 +2,6 @@ package API.Repository.ServiceProvider;
 
 import API.MainApplicationClass;
 import API.Models.Database_Entities.*;
-import API.Repository.CityPostcodes.CityPostcodesDAO;
-import API.Repository.CityPostcodes.WI_PostcodeDAO;
 import API.Repository.Department.DepartmentDAO;
 import API.Repository.EveningWorkPrioritisation.EveningWorkPrioritisationDAO;
 import Shared.ToReturn.ServiceProviderEveningWorkDto;
@@ -193,6 +191,26 @@ public class ServiceProviderEveningWorkRepositoryTest {
             toUpdate.setWeekDay("Monday");
             serviceProviderEveningWorkDAO.addOrUpdateServiceProviderEveningWork(toUpdate);
             Assert.assertEquals("Monday", serviceProviderEveningWorkDAO.findById(toUpdate.getId()).get().getWeekDay());
+        } catch (Exception e) {
+            Assert.fail();
+        } finally {
+            tearDown();
+        }
+    }
+
+    @Test
+    public void testUpdatingProviderEveningWorkPrioritizationForLowerCaseName() {
+        setUp();
+        try {
+            ServiceProviderEveningWorkEntity serviceProviderEveningWorkEntity = new ServiceProviderEveningWorkEntity();
+            serviceProviderEveningWorkEntity.setServiceProviderId(serviceProviderOne.getId());
+            serviceProviderEveningWorkEntity.setWeekDay("Saturday");
+            serviceProviderEveningWorkEntity.setEveningWorkPrioritisationId(eveningWorkPrioritisationOne.getId());
+            ServiceProviderEveningWorkDto added = serviceProviderEveningWorkDAO.addOrUpdateServiceProviderEveningWork(serviceProviderEveningWorkEntity);
+            ServiceProviderEveningWorkEntity toUpdate = serviceProviderEveningWorkDAO.findById(added.getId()).get();
+            toUpdate.setWeekDay("saturday");
+            serviceProviderEveningWorkDAO.addOrUpdateServiceProviderEveningWork(toUpdate);
+            Assert.assertEquals("saturday", serviceProviderEveningWorkDAO.findById(toUpdate.getId()).get().getWeekDay());
         } catch (Exception e) {
             Assert.fail();
         } finally {

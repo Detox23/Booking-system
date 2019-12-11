@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ServiceUserPreferencesDAO  extends JpaRepository<ServiceUserPreferencesEntity, Integer>, ServiceUserPreferencesDAOCustom {
+public interface ServiceUserPreferencesDAO extends JpaRepository<ServiceUserPreferencesEntity, Integer>, ServiceUserPreferencesDAOCustom {
 
     List<ServiceUserPreferencesEntity> findAllByServiceUserIdOrderByRatingAsc(int id);
-    Optional<ServiceUserPreferencesEntity> findByServiceUserIdAndServiceProviderId(int sUserId,int sProviderId);
-    int countAllByServiceUserIdIsAndServiceProviderId(int serviceUserId, int serviceProviderId);
+
+    Optional<ServiceUserPreferencesEntity> findByServiceUserIdAndServiceProviderId(int sUserId, int sProviderId);
+
+    int countAllByServiceUserIdIsAndServiceProviderIdIs(int serviceUserId, int serviceProviderId);
 
 
 }

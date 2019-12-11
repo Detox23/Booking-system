@@ -41,7 +41,7 @@ public class ServiceUserPreferencesDAOImpl implements ServiceUserPreferencesDAOC
     @Override
     public ServiceUserPreferencesDto addServiceUserPreference(int serviceUserId, ServiceUserPreferencesEntity serviceUserPreferences) {
         try {
-            if (serviceUserPreferencesDAO.countAllByServiceUserIdIsAndServiceProviderId(serviceUserId, serviceUserPreferences.getServiceProviderId()) > 0) {
+            if (serviceUserPreferencesDAO.countAllByServiceUserIdIsAndServiceProviderIdIs(serviceUserId, serviceUserPreferences.getServiceProviderId()) > 0) {
                 throw new DuplicateException("There is already preference between the service provider and service user.");
             }
             serviceUserPreferences.setServiceUserId(serviceUserId);

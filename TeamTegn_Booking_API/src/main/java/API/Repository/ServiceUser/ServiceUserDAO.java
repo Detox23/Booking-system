@@ -18,4 +18,6 @@ public interface ServiceUserDAO extends JpaRepository<ServiceUserEntity, Integer
     Optional<ServiceUserEntity> findByIdIsAndDeletedIsFalse(int id);
 
     int countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(String firstName, String middleName, String lastName);
+
+    int countAllByFirstNameIsAndMiddleNameIsAndLastNameIsAndIdIsNot(String firstName, String middleName, String lastName, int id);
 }
