@@ -12,11 +12,13 @@ import java.util.Optional;
 public interface SystemUserDAO extends JpaRepository<SystemUserEntity, Integer>, SystemUserDAOCustom {
     List<SystemUserEntity> findAllByDeletedIsFalse();
 
+    int countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(String firstName, String middleName, String lastName);
 
-
-    int countAllByFirstNameIsAndLastNameIsAndUserNameIs(String firstName, String lastName, String userName);
+    int countAllByFirstNameIsAndMiddleNameIsAndLastNameIsAndIdIsNot(String firstName, String middleName, String lastName, int id);
 
     int countAllByUserNameIs(String userName);
+
+    int countAllByUserNameIsAndIdIsNot(String useRName, int id);
 
     Optional<SystemUserEntity> findByIdAndDeletedIsFalse(int id);
 

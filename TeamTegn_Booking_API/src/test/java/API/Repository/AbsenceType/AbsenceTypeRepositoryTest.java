@@ -1,6 +1,5 @@
 package API.Repository.AbsenceType;
 
-import API.Exceptions.NotEnoughDataException;
 import API.MainApplicationClass;
 import API.Models.Database_Entities.AbsenceTypeEntity;
 import Shared.ToReturn.AbsenceTypeDto;

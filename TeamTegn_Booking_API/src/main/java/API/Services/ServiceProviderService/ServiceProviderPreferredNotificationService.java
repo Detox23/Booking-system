@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ServiceProviderPreferredNotificationService implements IServiceProviderPreferredNotificationService{
+public class ServiceProviderPreferredNotificationService implements IServiceProviderPreferredNotificationService {
 
     private ModelMapper modelMapper;
 

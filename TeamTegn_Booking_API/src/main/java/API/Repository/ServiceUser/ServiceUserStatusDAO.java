@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ServiceUserStatusDAO extends JpaRepository<ServiceUserStatusEntity, Integer>, ServiceUserStatusDAOCustom {
     int countAllByStatusIs(String status);
+    int countAllByStatusIsAndIdIsNot(String status, int id);
 
     Optional<ServiceUserStatusEntity> findByIdAndDeletedIsFalse(int id);
 

@@ -32,7 +32,7 @@ public class ServiceProviderCompetencyService implements IServiceProviderCompete
     }
 
     @Override
-    public List<ServiceProviderCompetencyDto> listServiceProviderCompetencies(boolean showDeleted ) {
+    public List<ServiceProviderCompetencyDto> listServiceProviderCompetencies(boolean showDeleted) {
         return serviceProviderCompetencyDAO.listServiceProviderCompetencies(showDeleted);
     }
 

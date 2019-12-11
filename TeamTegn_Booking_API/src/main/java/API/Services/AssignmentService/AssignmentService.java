@@ -11,6 +11,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,14 +48,17 @@ public class AssignmentService implements IAssignmentService {
     public void setAssignmentDAO(AssignmentDAO assignmentDAO) {
         this.assignmentDAO = assignmentDAO;
     }
+
     @Autowired
     public void setAssignment_stukYearCodeDAO(Assignment_STUKYearCodeDAO assignment_stukYearCodeDAO) {
         this.assignment_stukYearCodeDAO = assignment_stukYearCodeDAO;
     }
+
     @Autowired
     public void setAssignmentStatusTypeDAO(AssignmentStatusTypeDAO assignmentStatusTypeDAO) {
         this.assignmentStatusTypeDAO = assignmentStatusTypeDAO;
     }
+
     @Autowired
     public void setAssignmentSTUKYearCodeDAO(AssignmentSTUKYearCodeDAO assignmentSTUKYearCodeDAO) {
         this.assignmentSTUKYearCodeDAO = assignmentSTUKYearCodeDAO;
@@ -88,16 +92,17 @@ public class AssignmentService implements IAssignmentService {
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
         Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
         try {
-            AssignmentDto addedAssignment = assignmentDAO.addAssignment(modelMapper.map(assignment, AssignmentEntity.class),
-                    assignment.getServiceProviders(),
-                    assignment.getAssignmentStatusTypeIds(),
-                    assignment.getStukYearCodes());
+            AssignmentEntity assignmentToAdd = modelMapper.map(assignment, AssignmentEntity.class);
+            List<Integer> serviceProviders = assignment.getServiceProviders();
+            List<Integer> assignmentStatusType = assignment.getAssignmentStatusTypeIds();
+            List<Integer> stukYearCodes = assignment.getStukYearCodes();
+            AssignmentDto addedAssignment = assignmentDAO.addAssignment(assignmentToAdd, serviceProviders, assignmentStatusType, stukYearCodes);
             fillServiceProviderListToReturn(addedAssignment, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(addedAssignment, helperAssignmentStatusTypeMap);
             fillStukYearCodesToReturn(addedAssignment, helperStukYearCode);
             getVocalLanguage(addedAssignment);
             return addedAssignment;
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -107,14 +112,14 @@ public class AssignmentService implements IAssignmentService {
         Map<Integer, ServiceProviderDto> helperServiceProviderMap = new HashMap<>();
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
         Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
-        try{
+        try {
             AssignmentDto found = assignmentDAO.findAssignment(id);
             fillServiceProviderListToReturn(found, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(found, helperAssignmentStatusTypeMap);
             fillStukYearCodesToReturn(found, helperStukYearCode);
             getVocalLanguage(found);
             return found;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -124,9 +129,9 @@ public class AssignmentService implements IAssignmentService {
         Map<Integer, ServiceProviderDto> helperServiceProviderMap = new HashMap<>();
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
         Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
-        try{
+        try {
             Page<AssignmentDto> foundList = assignmentDAO.listAssignmentsPage(pageable);
-            for(AssignmentDto assignment: foundList){
+            for (AssignmentDto assignment : foundList) {
                 fillServiceProviderListToReturn(assignment, helperServiceProviderMap);
                 fillAssignmentStatusTypeListToReturn(assignment, helperAssignmentStatusTypeMap);
                 fillStukYearCodesToReturn(assignment, helperStukYearCode);
@@ -134,7 +139,7 @@ public class AssignmentService implements IAssignmentService {
             }
             return foundList;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -143,7 +148,6 @@ public class AssignmentService implements IAssignmentService {
     public List<AssignmentViewDto> listAssignmentsDate(Date date) {
         return assignmentDAO.listAllAssignments(date);
     }
-
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
@@ -157,7 +161,7 @@ public class AssignmentService implements IAssignmentService {
         Map<Integer, ServiceProviderDto> helperServiceProviderMap = new HashMap<>();
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
         Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
-        try{
+        try {
             AssignmentDto updated = assignmentDAO.updateAssignment(modelMapper.map(assignment, AssignmentEntity.class),
                     assignment.getServiceProviders(),
                     assignment.getAssignmentStatusTypeIds(),
@@ -167,22 +171,26 @@ public class AssignmentService implements IAssignmentService {
             fillStukYearCodesToReturn(updated, helperStukYearCode);
             getVocalLanguage(updated);
             return updated;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
-    private void getVocalLanguage(AssignmentDto assignment){
-        Optional<VocalLanguagesEntity> found = vocalLanguagesDAO.findById(assignment.getVocalLanguageId());
-        if(found.isPresent()){
-            assignment.setVocalLanguage(found.get().getLanguageName());
+    private void getVocalLanguage(AssignmentDto assignment) {
+        if(assignment.getVocalLanguageId() != null){
+            Optional<VocalLanguagesEntity> found = vocalLanguagesDAO.findById(assignment.getVocalLanguageId());
+            if (found.isPresent()) {
+                assignment.setVocalLanguage(found.get().getLanguageName());
+            }
         }
+
     }
 
     private void fillServiceProviderListToReturn(AssignmentDto assignment, Map<Integer, ServiceProviderDto> map) {
         assignment.setServiceProviders(new ArrayList<>());
         List<AssignmentServiceProviderEntity> foundList = assignmentServiceProviderDAO.findAllByAssignmentIdIs(assignment.getId());
-        List<AssignmentServiceProviderDto> listOfServiceUsers = modelMapper.map(foundList, new TypeToken<List<AssignmentServiceProviderDto>>() {}.getType());
+        List<AssignmentServiceProviderDto> listOfServiceUsers = modelMapper.map(foundList, new TypeToken<List<AssignmentServiceProviderDto>>() {
+        }.getType());
         for (AssignmentServiceProviderDto serviceProvider : listOfServiceUsers) {
             if (map.get(serviceProvider.getServiceProviderId()) == null) {
                 ServiceProviderDto found = modelMapper.map(serviceProviderDAO.findById(serviceProvider.getServiceProviderId()).get(), ServiceProviderDto.class);
@@ -197,7 +205,8 @@ public class AssignmentService implements IAssignmentService {
     private void fillAssignmentStatusTypeListToReturn(AssignmentDto assignment, Map<Integer, AssignmentStatusTypeDto> map) {
         assignment.setAssignmentStatusTypeIds(new ArrayList<>());
         List<AssignmentAssignmentStatusTypeEntity> foundList = assignmentAssignmentStatusTypeDAO.findAllByAssignmentIdIs(assignment.getId());
-        List<AssignmentAssignmentStatusTypeDto> listOfStatusTypes = modelMapper.map(foundList,new TypeToken<List<AssignmentAssignmentStatusTypeDto>>() {}.getType());
+        List<AssignmentAssignmentStatusTypeDto> listOfStatusTypes = modelMapper.map(foundList, new TypeToken<List<AssignmentAssignmentStatusTypeDto>>() {
+        }.getType());
         for (AssignmentAssignmentStatusTypeDto statusType : listOfStatusTypes) {
             if (map.get(statusType.getAssignmentStatusTypeId()) == null) {
                 AssignmentStatusTypeDto found = assignmentStatusTypeDAO.findAssignmentStatusType(statusType.getAssignmentStatusTypeId());
@@ -209,16 +218,17 @@ public class AssignmentService implements IAssignmentService {
         }
     }
 
-    private void fillStukYearCodesToReturn(AssignmentDto assignment, Map<Integer, AssignmentStukYearCodeDto> map){
+    private void fillStukYearCodesToReturn(AssignmentDto assignment, Map<Integer, AssignmentStukYearCodeDto> map) {
         assignment.setStukYearCodes(new ArrayList<>());
         List<Assignment_StukYearCodeEntity> foundList = assignment_stukYearCodeDAO.findAllByAssignmentIdIs(assignment.getId());
-        List<Assignment_StukYearCodeDto> listOfStukYearCodes = modelMapper.map(foundList, new TypeToken<List<Assignment_StukYearCodeDto>>() {}.getType());
-        for (Assignment_StukYearCodeDto yearCode: listOfStukYearCodes){
-            if(map.get(yearCode.getStukYearCodeId()) == null){
+        List<Assignment_StukYearCodeDto> listOfStukYearCodes = modelMapper.map(foundList, new TypeToken<List<Assignment_StukYearCodeDto>>() {
+        }.getType());
+        for (Assignment_StukYearCodeDto yearCode : listOfStukYearCodes) {
+            if (map.get(yearCode.getStukYearCodeId()) == null) {
                 AssignmentStukYearCodeDto found = assignmentSTUKYearCodeDAO.findAssignmentStukYearCode(yearCode.getStukYearCodeId());
                 map.put(found.getId(), found);
                 assignment.getStukYearCodes().add(found);
-            }else{
+            } else {
                 assignment.getStukYearCodes().add(map.get(yearCode.getStukYearCodeId()));
             }
         }

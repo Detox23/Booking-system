@@ -60,7 +60,10 @@ public class AccountService implements IAccountService {
     public AccountDto addAccount(AccountForCreationDto account) {
         Map<Integer, ServiceUserDto> helperServiceUserMap = new HashMap<>();
         try {
-            AccountDto addedAccount = accountDAO.addAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getServiceUsersIds());
+            List<Integer> serviceUsersIds = account.getServiceUsersIds();
+            List<String> eans = account.getEan();
+            AccountEntity accountEntityToAdd = modelMapper.map(account, AccountEntity.class);
+            AccountDto addedAccount = accountDAO.addAccount(accountEntityToAdd, eans, serviceUsersIds);
             fillAccountWithListOfEans(addedAccount);
             fillAccountWithServiceUsers(addedAccount, helperServiceUserMap);
             return addedAccount;
@@ -109,7 +112,10 @@ public class AccountService implements IAccountService {
     public AccountDto updateAccount(AccountForUpdateDto account) {
         try {
             Map<Integer, ServiceUserDto> helperServiceUserMap = new HashMap<>();
-            AccountDto updated = accountDAO.updateAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getServiceUsers());
+            List<Integer> serviceUsersIds = account.getServiceUsers();
+            List<String> eans = account.getEan();
+            AccountEntity accountEntityToUpdate = modelMapper.map(account, AccountEntity.class);
+            AccountDto updated = accountDAO.updateAccount(accountEntityToUpdate, eans, serviceUsersIds);
             fillAccountWithListOfEans(updated);
             fillAccountWithServiceUsers(updated, helperServiceUserMap);
             return updated;

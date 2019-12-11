@@ -116,8 +116,14 @@ public class ServiceUserStatusDAOImpl implements ServiceUserStatusDAOCustom {
     }
 
     private void checkIfExistsByStatusName(ServiceUserStatusEntity serviceUserStatus){
-        if (serviceUserStatusDAO.countAllByStatusIs(serviceUserStatus.getStatus()) > 0) {
-            throw new DuplicateException(String.format("There is already service user's status with name %s.", serviceUserStatus.getStatus()));
+        if (serviceUserStatus.getId() == 0) {
+            if (serviceUserStatusDAO.countAllByStatusIs(serviceUserStatus.getStatus()) > 0) {
+                throw new DuplicateException(String.format("The status: %s already exists", serviceUserStatus.getStatus()));
+            }
+        } else {
+            if (serviceUserStatusDAO.countAllByStatusIsAndIdIsNot(serviceUserStatus.getStatus(), serviceUserStatus.getId()) > 0) {
+                throw new DuplicateException(String.format("The status: %s already exists", serviceUserStatus.getStatus()));
+            }
         }
     }
 }

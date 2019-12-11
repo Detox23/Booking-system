@@ -43,7 +43,7 @@ public class ServiceProviderAbsenceService implements IServiceProviderAbsenceSer
 
     @Override
     public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInPeriod(Date startDate, Date endDate, int serviceProviderID) {
-        return serviceProviderAbsenceDAO.findServiceProviderAbsencesForServiceProviderInPeriod(startDate,endDate,serviceProviderID);
+        return serviceProviderAbsenceDAO.findServiceProviderAbsencesForServiceProviderInPeriod(startDate, endDate, serviceProviderID);
     }
 
     @Override
@@ -68,9 +68,7 @@ public class ServiceProviderAbsenceService implements IServiceProviderAbsenceSer
     }
 
     @Override
-    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time startTime, Time endTime,int serviceProviderID) {
+    public List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time startTime, Time endTime, int serviceProviderID) {
         return serviceProviderAbsenceDAO.findServiceProviderAbsencesForServiceProviderInTime(startTime, endTime, serviceProviderID);
     }
-
-
 }

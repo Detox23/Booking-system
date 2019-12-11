@@ -49,6 +49,7 @@ public class ServiceUserRepositoryTest {
     @Autowired
     private CityPostcodesDAO cityPostcodesDAO;
 
+
     private AccountTypeEntity accountTypeOne;
     private AccountEntity accountOne;
     private AccountEntity accountTwo;

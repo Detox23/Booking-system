@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailLogService implements  IEmailLogService {
+public class EmailLogService implements IEmailLogService {
 
     private EmailLogDAO emailLogDAO;
     private ModelMapper mapper;
@@ -17,6 +17,7 @@ public class EmailLogService implements  IEmailLogService {
     public void setEmailLogDAO(EmailLogDAO emailLogDAO) {
         this.emailLogDAO = emailLogDAO;
     }
+
     @Autowired
     public void setMapper(ModelMapper mapper) {
         this.mapper = mapper;
