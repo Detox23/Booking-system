@@ -38,11 +38,7 @@ public class ServiceProviderCompetencyService implements IServiceProviderCompete
 
     @Override
     public ServiceProviderCompetencyDto findServiceProviderCompetency(int id) {
-        try {
-            return serviceProviderCompetencyDAO.findServiceProviderCompetency(id);
-        } catch (NoSuchElementException e) {
-            throw new NotFoundException("Competency was not found");
-        }
+        return serviceProviderCompetencyDAO.findServiceProviderCompetency(id);
     }
 
     @Override
