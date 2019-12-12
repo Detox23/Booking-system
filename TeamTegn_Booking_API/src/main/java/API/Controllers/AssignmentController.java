@@ -5,8 +5,7 @@
 
 package API.Controllers;
 
-import API.Configurations.PdfGeneratorHelper;
-import API.Configurations.PdfGeneratorHelper;
+import API.Helpers.PdfGeneratorHelper;
 import API.Services.AssignmentService.IAssignmentCommentService;
 import API.Services.AssignmentService.IAssignmentService;
 import Shared.ForCreation.AssignmentCommentForCreationDto;
