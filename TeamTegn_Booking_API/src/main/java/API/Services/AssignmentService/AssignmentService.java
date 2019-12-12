@@ -92,11 +92,8 @@ public class AssignmentService implements IAssignmentService {
         Map<Integer, AssignmentStatusTypeDto> helperAssignmentStatusTypeMap = new HashMap<>();
         Map<Integer, AssignmentStukYearCodeDto> helperStukYearCode = new HashMap<>();
         try {
-            AssignmentEntity assignmentToAdd = modelMapper.map(assignment, AssignmentEntity.class);
-            List<Integer> serviceProviders = assignment.getServiceProviders();
-            List<Integer> assignmentStatusType = assignment.getAssignmentStatusTypeIds();
-            List<Integer> stukYearCodes = assignment.getStukYearCodes();
-            AssignmentDto addedAssignment = assignmentDAO.addAssignment(assignmentToAdd, serviceProviders, assignmentStatusType, stukYearCodes);
+            AssignmentDto addedAssignment = assignmentDAO.addAssignment(modelMapper.map(assignment, AssignmentEntity.class),
+                    assignment.getServiceProviders(), assignment.getAssignmentStatusTypeIds(), assignment.getStukYearCodes());
             fillServiceProviderListToReturn(addedAssignment, helperServiceProviderMap);
             fillAssignmentStatusTypeListToReturn(addedAssignment, helperAssignmentStatusTypeMap);
             fillStukYearCodesToReturn(addedAssignment, helperStukYearCode);

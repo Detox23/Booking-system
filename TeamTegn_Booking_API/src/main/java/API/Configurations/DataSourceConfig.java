@@ -13,8 +13,8 @@ public class DataSourceConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         dataSource.setUsername("sa");
-        dataSource.setPassword("asdasd");
-        dataSource.setUrl("jdbc:sqlserver://localhost\\MSQLP:1433;database=TeamTegn_BookingSystem_Devleopment;sendTimeAsDateTime=false");
+        dataSource.setPassword("90809988Qwe");
+        dataSource.setUrl("jdbc:sqlserver://JAKUB\\MSSQLSERVER:1433;database=TeamTegn_BookingSystem_Devleopment;sendTimeAsDateTime=false");
         return dataSource;
     }
 }

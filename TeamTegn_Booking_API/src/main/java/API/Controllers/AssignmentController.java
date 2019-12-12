@@ -55,7 +55,7 @@ public class AssignmentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> addAssignment(@RequestBody AssignmentForCreationDto assignment) {
+    public ResponseEntity<?> addAssignment(@RequestBody @Valid AssignmentForCreationDto assignment) {
         return new ResponseEntity<>(assignmentService.addAssignment(assignment), new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -65,7 +65,7 @@ public class AssignmentController {
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.PATCH})
-    public ResponseEntity<?> updateAssignment(@RequestBody AssignmentForUpdateDto forUpdate) {
+    public ResponseEntity<?> updateAssignment(@RequestBody @Valid AssignmentForUpdateDto forUpdate) {
         return new ResponseEntity<>(assignmentService.updateAssignment(forUpdate), new HttpHeaders(), HttpStatus.OK);
     }
 
