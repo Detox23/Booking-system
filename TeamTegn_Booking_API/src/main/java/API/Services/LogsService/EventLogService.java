@@ -25,6 +25,7 @@ public class EventLogService implements IEventLogService {
     }
 
 
+
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void addLog(EventLogDto log) {
