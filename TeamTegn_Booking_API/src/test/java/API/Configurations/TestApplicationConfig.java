@@ -10,5 +10,9 @@ import org.springframework.data.domain.AuditorAware;
 @ComponentScan(excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, value = CommandLineRunner.class))
 @EnableAutoConfiguration
 public class TestApplicationConfig {
-
+    @Bean
+    @Primary
+    AuditorAware<Integer> auditorAware(){
+        return new UsernameAuditorAwareTest();
+    }
 }

@@ -20,11 +20,7 @@ import javax.sql.DataSource;
 public class TestDataSourceConfig {
 
 
-    @Bean
-    @Primary
-    AuditorAware<Integer> auditorAware(){
-        return new UsernameAuditorAwareTest();
-    }
+
 
     @Bean
     @Primary
