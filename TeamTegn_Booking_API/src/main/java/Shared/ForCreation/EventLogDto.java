@@ -1,7 +1,6 @@
 package Shared.ForCreation;
 
 
-
 public class EventLogDto {
     public EventLogDto(String exceptionMessage, String stackTrace) {
         this.exceptionMessage = exceptionMessage;

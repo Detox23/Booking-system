@@ -27,7 +27,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     private ModelMapper modelMapper;
 
     private ServiceProviderAbsenceDAO serviceProviderAbsenceDAO;
-    
+
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
@@ -37,7 +37,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
     public void setServiceProviderAbsenceDAO(ServiceProviderAbsenceDAO serviceProviderAbsenceDAO) {
         this.serviceProviderAbsenceDAO = serviceProviderAbsenceDAO;
     }
-    
+
     @Override
     public ServiceProviderAbsenceDto addServiceProviderAbsence(ServiceProviderAbsenceEntity serviceProviderAbsenceEntity) {
         try {
@@ -52,7 +52,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
             for (ServiceProviderAbsenceEntity w : list) {
                 LocalDateTime dateTimeFromDB = createDateTime(w.getFromDate(), w.getFromTime());
                 LocalDateTime dateTimeToDB = createDateTime(w.getToDate(), w.getToTime());
-                if(dateTimeFrom.isBefore(dateTimeToDB) && dateTimeFromDB.isBefore(dateTimeTo)){
+                if (dateTimeFrom.isBefore(dateTimeToDB) && dateTimeFromDB.isBefore(dateTimeTo)) {
                     filtered.add(w);
                 }
             }
@@ -156,7 +156,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
         return (((toDate.getTime() + toTime.getTime()) - (fromDate.getTime() + fromTime.getTime())) / 3600000);
     }
 
-    private LocalDateTime createDateTime(Date date, Time time){
+    private LocalDateTime createDateTime(Date date, Time time) {
         LocalDate dateFrom = LocalDate.parse(date.toString());
         LocalTime timeFrom = LocalTime.parse(time.toString());
         return LocalDateTime.of(dateFrom, timeFrom);

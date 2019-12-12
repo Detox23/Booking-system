@@ -168,10 +168,10 @@ public class ServiceUserService implements IServiceUserService {
         }
     }
 
-    private void fillServiceUserWithComments(ServiceUserDto serviceUser){
+    private void fillServiceUserWithComments(ServiceUserDto serviceUser) {
         serviceUser.setComments(new ArrayList<>());
         List<ServiceUserCommentDto> listOfComments = serviceUserCommentService.listServiceUserComments(serviceUser.getId());
-        for (ServiceUserCommentDto comment: listOfComments){
+        for (ServiceUserCommentDto comment : listOfComments) {
             serviceUser.getComments().add(comment);
         }
     }

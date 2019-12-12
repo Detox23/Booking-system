@@ -70,6 +70,7 @@ public class AssignmentEntity {
     public Integer getAssignmentTypeId() {
         return assignmentTypeId;
     }
+
     public void setAssignmentTypeId(Integer assignmentTypeId) {
         this.assignmentTypeId = assignmentTypeId;
     }

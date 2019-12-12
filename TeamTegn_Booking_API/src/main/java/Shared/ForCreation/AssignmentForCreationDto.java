@@ -106,7 +106,6 @@ public class AssignmentForCreationDto {
     }
 
 
-
     public String getAssignmentDescription() {
         return assignmentDescription;
     }

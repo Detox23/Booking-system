@@ -10,8 +10,11 @@ import java.util.Optional;
 @Repository
 public interface AssignmentSTUKYearCodeDAO extends JpaRepository<AssignmentStukYearCodeEntity, Integer>, AssignmentSTUKYearCodeDAOCustom {
     List<AssignmentStukYearCodeEntity> findAllByDeletedIsFalse();
+
     int countAllByStukYearCodeNameIsAndIdIsNot(String stukYearCodeName, int id);
+
     int countAllByStukYearCodeNameIs(String stukYearCodeName);
+
     Optional<AssignmentStukYearCodeEntity> findByIdIsAndDeletedIsFalse(int id);
 
 }

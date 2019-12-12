@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Table(name = "ServiceProvider_Comment", schema = "dbo")
 public class ServiceProviderCommentEntity {
     private int id;
-    private int userId;
+    private Integer userId;
     private Integer serviceProviderId;
     private Timestamp commentDate;
     private String commentText;
@@ -31,11 +31,11 @@ public class ServiceProviderCommentEntity {
     @Basic
     @CreatedBy
     @Column(name = "UserID")
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

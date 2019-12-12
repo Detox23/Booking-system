@@ -8,10 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AccountDAO extends JpaRepository<AccountEntity, Integer>,  AccountDAOCustom {
+public interface AccountDAO extends JpaRepository<AccountEntity, Integer>, AccountDAOCustom {
     int countAllByAccountNameAndCvrNumber(String accountName, String cvrNumber);
+
     int countAllByAccountNameAndCvrNumberAndIdIsNot(String accountName, String cvrNumber, int id);
+
     List<AccountEntity> findAllByDeletedIsFalse();
+
     Optional<AccountEntity> findByIdIsAndDeletedIsFalse(int id);
 
     AccountEntity findAccountEntityByAccountName(String accountName);

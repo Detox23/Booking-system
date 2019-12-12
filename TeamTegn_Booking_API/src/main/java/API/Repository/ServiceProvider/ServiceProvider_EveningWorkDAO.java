@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface ServiceProvider_EveningWorkDAO extends JpaRepository<ServiceProviderEveningWorkEntity, Integer>, ServiceProvider_EveningWorkDAOCustom {
     ServiceProviderEveningWorkEntity findByWeekDayIsAndServiceProviderIdIs(String weekDay, int serviceProviderID);
+
     List<ServiceProviderEveningWorkEntity> findAllByWeekDayIsAndServiceProviderIdIs(String weekDay, int serviceProviderID);
+
     List<ServiceProviderEveningWorkEntity> findAllByServiceProviderIdIs(int serviceProviderID);
 }

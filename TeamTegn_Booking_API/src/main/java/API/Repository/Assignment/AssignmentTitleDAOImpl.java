@@ -77,18 +77,18 @@ public class AssignmentTitleDAOImpl implements AssignmentTitleDAOCustom {
 
     @Override
     public List<AssignmentTitleDto> listAssignmentTitles(boolean showDeleted) {
-        if(showDeleted){
-            try{
+        if (showDeleted) {
+            try {
                 return modelMapper.map(assignmentTitleDAO.findAll(), new TypeToken<List<AssignmentTitleDto>>() {
                 }.getType());
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw e;
             }
-        }else{
-            try{
+        } else {
+            try {
                 return modelMapper.map(assignmentTitleDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentTitleDto>>() {
                 }.getType());
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw e;
             }
         }
@@ -115,13 +115,13 @@ public class AssignmentTitleDAOImpl implements AssignmentTitleDAOCustom {
     }
 
 
-    private void checkIfAssignmentTitleExists(AssignmentTitleEntity assignmentTitle){
-        if(assignmentTitle.getId()==0){
-            if(assignmentTitleDAO.countAllByTitleIs(assignmentTitle.getTitle())> 0){
+    private void checkIfAssignmentTitleExists(AssignmentTitleEntity assignmentTitle) {
+        if (assignmentTitle.getId() == 0) {
+            if (assignmentTitleDAO.countAllByTitleIs(assignmentTitle.getTitle()) > 0) {
                 throw new DuplicateException(String.format("The title: %s already exists", assignmentTitle.getTitle()));
             }
-        }else{
-            if(assignmentTitleDAO.countAllByTitleIsAndIdIsNot(assignmentTitle.getTitle(), assignmentTitle.getId())> 0){
+        } else {
+            if (assignmentTitleDAO.countAllByTitleIsAndIdIsNot(assignmentTitle.getTitle(), assignmentTitle.getId()) > 0) {
                 throw new DuplicateException(String.format("The title: %s already exists", assignmentTitle.getTitle()));
             }
         }

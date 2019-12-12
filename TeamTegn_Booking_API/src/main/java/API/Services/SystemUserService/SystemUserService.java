@@ -91,7 +91,7 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     @Override
     public List<SystemUserDto> listSystemUsers(boolean showDeleted) {
         List<SystemUserDto> foundUsers = systemUserDAO.listSystemUsers(showDeleted);
-        for(SystemUserDto user: foundUsers){
+        for (SystemUserDto user : foundUsers) {
             fillWithListOfDepartments(user);
             addRole(user);
         }
@@ -107,7 +107,7 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     }
 
     @Override
-    public SystemUserDto findSystemUserByUsername(String userName){
+    public SystemUserDto findSystemUserByUsername(String userName) {
         SystemUserDto found = systemUserDAO.findSystemUser(userName);
         fillWithListOfDepartments(found);
         addRole(found);
@@ -115,16 +115,17 @@ public class SystemUserService implements ISystemUserService, UserDetailsService
     }
 
 
-    private void fillWithListOfDepartments(SystemUserDto systemUser){
+    private void fillWithListOfDepartments(SystemUserDto systemUser) {
         systemUser.setDepartments(new ArrayList<>());
-        List<SystemUserDepartmentDto> list = modelMapper.map(systemUserDepartmentDAO.findBySystemUserIdIs(systemUser.getId()),new TypeToken<List<SystemUserDepartmentDto>>() {}.getType());
-        for(SystemUserDepartmentDto department: list){
+        List<SystemUserDepartmentDto> list = modelMapper.map(systemUserDepartmentDAO.findBySystemUserIdIs(systemUser.getId()), new TypeToken<List<SystemUserDepartmentDto>>() {
+        }.getType());
+        for (SystemUserDepartmentDto department : list) {
             DepartmentDto foundDepartment = departmentDAO.findDepartmentByID(department.getDepartmentId());
             systemUser.getDepartments().add(foundDepartment);
         }
     }
 
-    private void addRole(SystemUserDto systemUser){
+    private void addRole(SystemUserDto systemUser) {
         systemUser.setRole(roleDAO.getByIdIs(systemUser.getRoleId()).getRoleName());
 
     }

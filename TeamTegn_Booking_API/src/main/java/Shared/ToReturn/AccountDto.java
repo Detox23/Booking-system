@@ -52,9 +52,9 @@ public class AccountDto {
 
     private String contactTelephone;
 
-    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp createdDate;
-    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp lastModified;
 
     private int lastModifiedBy;
@@ -94,7 +94,7 @@ public class AccountDto {
     public void setLastModified(Timestamp lastModified) {
         this.lastModified = lastModified;
     }
-    
+
     public Integer getPrimaryContactId() {
         return primaryContactId;
     }

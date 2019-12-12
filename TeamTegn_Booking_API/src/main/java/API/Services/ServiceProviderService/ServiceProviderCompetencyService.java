@@ -1,6 +1,5 @@
 package API.Services.ServiceProviderService;
 
-import API.Exceptions.NotFoundException;
 import API.Models.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Repository.ServiceProvider.ServiceProviderCompetencyDAO;
 import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ServiceProviderCompetencyService implements IServiceProviderCompetencyService {

@@ -107,7 +107,7 @@ public class ServiceProviderService implements IServiceProviderService {
         Map<Integer, ServiceProviderTypeDto> helperTypeMap = new HashMap<>();
         Map<Integer, ServiceProviderCompetencyDto> helperCompetencyMap = new HashMap<>();
 
-        ServiceProviderDto added = serviceProviderDAO.addServiceProvider( modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetences(), serviceProvider.getTypes());
+        ServiceProviderDto added = serviceProviderDAO.addServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetences(), serviceProvider.getTypes());
 
         decryptCpr(added);
         fillCompetencyListToReturn(added, helperCompetencyMap);
@@ -123,7 +123,7 @@ public class ServiceProviderService implements IServiceProviderService {
     public ServiceProviderDto updateServiceProvider(ServiceProviderForUpdateDto serviceProvider) {
         Map<Integer, ServiceProviderTypeDto> helperTypeMap = new HashMap<>();
         Map<Integer, ServiceProviderCompetencyDto> helperCompetencyMap = new HashMap<>();
-        ServiceProviderDto updated = serviceProviderDAO.updateServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetences(),  serviceProvider.getTypes());
+        ServiceProviderDto updated = serviceProviderDAO.updateServiceProvider(modelMapper.map(serviceProvider, ServiceProviderEntity.class), serviceProvider.getCompetences(), serviceProvider.getTypes());
         decryptCpr(updated);
         fillCompetencyListToReturn(updated, helperCompetencyMap);
         fillTypeListToReturn(updated, helperTypeMap);

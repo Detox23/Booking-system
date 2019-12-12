@@ -53,7 +53,7 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
             checkIfProviderType(serviceProviderTypeEntity);
             ServiceProviderTypeEntity saved = serviceProviderTypeDAO.save(serviceProviderTypeEntity);
             return modelMapper.map(saved, ServiceProviderTypeDto.class);
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -75,26 +75,28 @@ public class ServiceProviderTypeDAOImpl implements ServiceProviderTypeDAOCustom 
 
     @Override
     public ServiceProviderTypeDto findServiceProviderType(int id) {
-        try{
+        try {
             ServiceProviderTypeEntity found = findIfExistsAndReturn(id);
             return modelMapper.map(found, ServiceProviderTypeDto.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
     public List<ServiceProviderTypeDto> listServiceProviderTypes(boolean showDeleted) {
-        if(showDeleted){
+        if (showDeleted) {
             try {
-                Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {}.getType();
+                Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {
+                }.getType();
                 return modelMapper.map(serviceProviderTypeDAO.findAll(), listType);
             } catch (Exception e) {
                 throw e;
             }
-        }else{
+        } else {
             try {
-                Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {}.getType();
+                Type listType = new TypeToken<List<ServiceProviderTypeDto>>() {
+                }.getType();
                 return modelMapper.map(serviceProviderTypeDAO.findAllByDeletedIsFalse(), listType);
             } catch (Exception e) {
                 throw e;

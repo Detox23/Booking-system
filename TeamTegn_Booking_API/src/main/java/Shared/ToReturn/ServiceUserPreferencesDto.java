@@ -1,7 +1,6 @@
 package Shared.ToReturn;
 
-public class ServiceUserPreferencesDto
-{
+public class ServiceUserPreferencesDto {
     private int id;
     private int serviceUserId;
     private int serviceProviderId;
@@ -39,7 +38,6 @@ public class ServiceUserPreferencesDto
     public void setServiceUserId(int serviceUserId) {
         this.serviceUserId = serviceUserId;
     }
-
 
 
     public int getRating() {

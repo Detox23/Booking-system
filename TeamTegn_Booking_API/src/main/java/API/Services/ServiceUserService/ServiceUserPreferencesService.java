@@ -29,6 +29,7 @@ public class ServiceUserPreferencesService implements IServiceUserPreferencesSer
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
+
     @Autowired
     public void setProviderService(ServiceProviderService serviceProviderService) {
         this.serviceProviderService = serviceProviderService;
@@ -60,10 +61,9 @@ public class ServiceUserPreferencesService implements IServiceUserPreferencesSer
     }
 
     @Override
-    public List<ServiceUserPreferencesDto> listServiceUserPreferences(int serviceUserId)
-    {
+    public List<ServiceUserPreferencesDto> listServiceUserPreferences(int serviceUserId) {
         List<ServiceUserPreferencesDto> foundList = userPreferencesDAO.listServiceUserPreferences(serviceUserId);
-        for(ServiceUserPreferencesDto preference: foundList){
+        for (ServiceUserPreferencesDto preference : foundList) {
             preference.setServiceProvider(serviceProviderService.findServiceProvider(preference.getServiceProviderId()));
         }
         return foundList;

@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface AssignmentCommentDAOCustom {
     List<AssignmentCommentDto> listAssignmentComments(int assignmentId);
+
     AssignmentCommentDto findAssignmentComment(int commentId);
+
     AssignmentCommentDto addAssignmentComment(AssignmentCommentEntity assignmentComment);
+
     AssignmentCommentDto updateAssignmentComment(AssignmentCommentEntity assignmentComment);
+
     boolean deleteAssignmentComment(int commentId);
 }

@@ -11,7 +11,6 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -174,7 +173,7 @@ public class AssignmentService implements IAssignmentService {
     }
 
     private void getVocalLanguage(AssignmentDto assignment) {
-        if(assignment.getVocalLanguageId() != null){
+        if (assignment.getVocalLanguageId() != null) {
             Optional<VocalLanguagesEntity> found = vocalLanguagesDAO.findById(assignment.getVocalLanguageId());
             if (found.isPresent()) {
                 assignment.setVocalLanguage(found.get().getLanguageName());

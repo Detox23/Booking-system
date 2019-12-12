@@ -61,7 +61,7 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
 
     @Override
     public List<DepartmentDto> listAllDepartments(boolean showDeleted) {
-        if(showDeleted){
+        if (showDeleted) {
             try {
                 Type listType = new TypeToken<List<DepartmentDto>>() {
                 }.getType();
@@ -69,7 +69,7 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
             } catch (Exception e) {
                 throw e;
             }
-        }else{
+        } else {
             try {
                 Type listType = new TypeToken<List<DepartmentDto>>() {
                 }.getType();
@@ -143,37 +143,37 @@ public class DepartmentDAOImpl implements DepartmentDAOCustom {
 
     @Override
     public DepartmentDto findDepartmentByID(int id) {
-        try{
+        try {
             DepartmentEntity found = findIfExistsAndReturn(id);
             return modelMapper.map(found, DepartmentDto.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
 
-    private void addStateRegion(DepartmentEntity department){
-        if(department.getStateRegion() == null){
+    private void addStateRegion(DepartmentEntity department) {
+        if (department.getStateRegion() == null) {
             Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(department.getPostcode());
-            if(wiPostcode.isPresent()){
-                if(wiPostcode.get().getArhus()){
+            if (wiPostcode.isPresent()) {
+                if (wiPostcode.get().getArhus()) {
                     department.setStateRegion("Aarhus");
-                }else if(wiPostcode.get().getCopenhagen()){
+                } else if (wiPostcode.get().getCopenhagen()) {
                     department.setStateRegion("Copenhagen");
-                }else if(wiPostcode.get().getFredericia()){
+                } else if (wiPostcode.get().getFredericia()) {
                     department.setStateRegion("Fredericia");
                 }
             }
         }
     }
 
-    private void checkIfDepartmentExists(DepartmentEntity departmentEntity){
-        if(departmentEntity.getId() == 0){
-            if(departmentDAO.countAllByDepartmentNameIs(departmentEntity.getDepartmentName())> 0){
+    private void checkIfDepartmentExists(DepartmentEntity departmentEntity) {
+        if (departmentEntity.getId() == 0) {
+            if (departmentDAO.countAllByDepartmentNameIs(departmentEntity.getDepartmentName()) > 0) {
                 throw new DuplicateException(String.format("The department name: %s already exists", departmentEntity.getDepartmentName()));
             }
-        }else{
-            if(departmentDAO.countAllByDepartmentNameIsAndIdIsNot(departmentEntity.getDepartmentName(), departmentEntity.getId())> 0){
+        } else {
+            if (departmentDAO.countAllByDepartmentNameIsAndIdIsNot(departmentEntity.getDepartmentName(), departmentEntity.getId()) > 0) {
                 throw new DuplicateException(String.format("The department name: %s already exists", departmentEntity.getDepartmentName()));
             }
         }

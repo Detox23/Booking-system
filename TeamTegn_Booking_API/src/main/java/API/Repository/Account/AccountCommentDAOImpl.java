@@ -62,7 +62,7 @@ public class AccountCommentDAOImpl implements AccountCommentDAOCustom {
     public boolean deleteAccountComment(int accountID, int id) {
         try {
             Optional<AccountCommentEntity> found = accountCommentDAO.findByAccountIdIsAndIdIs(accountID, id);
-            if(!found.isPresent()){
+            if (!found.isPresent()) {
                 throw new NotFoundException("There was no comment found.");
             }
             accountCommentDAO.deleteById(found.get().getId());

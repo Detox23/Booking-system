@@ -9,9 +9,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface IServiceUserService {
     ServiceUserDto addServiceUser(ServiceUserForCreationDto assignmentEntity);
+
     ServiceUserDto findServiceUser(int id);
+
     Page<ServiceUserDto> listServiceUsers(Pageable pageable);
+
     boolean deleteServiceUser(int id);
+
     ServiceUserDto updateServiceUser(ServiceUserForUpdateDto assignmentEntity);
 
 }

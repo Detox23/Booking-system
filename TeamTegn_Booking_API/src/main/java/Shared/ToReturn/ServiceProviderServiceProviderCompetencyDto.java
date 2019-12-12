@@ -5,11 +5,11 @@ public class ServiceProviderServiceProviderCompetencyDto {
     private int serviceProviderId;
     private int competencyId;
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 

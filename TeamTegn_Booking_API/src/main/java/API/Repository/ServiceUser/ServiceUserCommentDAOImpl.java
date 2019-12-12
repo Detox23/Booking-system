@@ -40,11 +40,12 @@ public class ServiceUserCommentDAOImpl implements ServiceUserCommentDAOCustom {
 
     @Override
     public List<ServiceUserCommentDto> listServiceUserComments(int serviceUserId) {
-        try{
-            Type listType = new TypeToken<List<ServiceUserCommentDto>>() {}.getType();
+        try {
+            Type listType = new TypeToken<List<ServiceUserCommentDto>>() {
+            }.getType();
             List<ServiceUserCommentEntity> listOfComments = serviceUserCommentDAO.findAllByServiceUserIdIs(serviceUserId);
             return modelMapper.map(listOfComments, listType);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }

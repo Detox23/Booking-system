@@ -45,7 +45,8 @@ public class ServiceProviderSourceService implements IServiceProviderSourceServi
     @Override
     public List<ServiceProviderSourceDto> listServiceProviderSources(boolean showDeleted) {
         return modelMapper.map(serviceProviderSourceDAO.listServiceProviderSources(showDeleted),
-                new TypeToken<List<ServiceProviderSourceDto>>() {}.getType());
+                new TypeToken<List<ServiceProviderSourceDto>>() {
+                }.getType());
     }
 
     @Override

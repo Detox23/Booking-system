@@ -100,7 +100,7 @@ public class AccountDAOImpl implements AccountDAOCustom {
     }
 
     @Override
-    public AccountDto updateAccount(AccountEntity account, List<String> eans,  List<Integer> accountServiceUser) {
+    public AccountDto updateAccount(AccountEntity account, List<String> eans, List<Integer> accountServiceUser) {
         try {
 
             AccountEntity found = findIfExistsAndReturn(account.getId());
@@ -138,52 +138,52 @@ public class AccountDAOImpl implements AccountDAOCustom {
         return found.get();
     }
 
-    private void checkIfExistsByNameAndCVR(AccountEntity account){
-        if(account.getId() == 0){
-            if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0){
+    private void checkIfExistsByNameAndCVR(AccountEntity account) {
+        if (account.getId() == 0) {
+            if (accountDAO.countAllByAccountNameAndCvrNumber(account.getAccountName(), account.getCvrNumber()) > 0) {
                 throw new DuplicateException("Account with exact name and CVR number already exists.");
             }
-        }else{
-            if (accountDAO.countAllByAccountNameAndCvrNumberAndIdIsNot(account.getAccountName(), account.getCvrNumber(),account.getId()) > 0) {
+        } else {
+            if (accountDAO.countAllByAccountNameAndCvrNumberAndIdIsNot(account.getAccountName(), account.getCvrNumber(), account.getId()) > 0) {
                 throw new DuplicateException("Account with exact name and CVR number already exists.");
             }
         }
     }
 
-    private void addEanNumbers(List<String> eans, int id){
-        try{
-            if(eans != null){
+    private void addEanNumbers(List<String> eans, int id) {
+        try {
+            if (eans != null) {
                 accountEanNumberCrudDAO.deleteAllByAccountIdIs(id);
-                for(String ean: eans){
+                for (String ean : eans) {
                     AccountEanEntity accountEanEntity = new AccountEanEntity();
                     accountEanEntity.setEanNumber(ean);
                     accountEanEntity.setAccountId(id);
                     AccountEanEntity saved = accountEanNumberCrudDAO.save(accountEanEntity);
-                    if(saved == null){
+                    if (saved == null) {
                         throw new UnknownAddingException(String.format("There was a problem with adding ean number."));
                     }
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
-    private void addAccountsServiceUsers(List<Integer> serviceUsers, int id){
-        try{
-            if(serviceUsers != null){
+    private void addAccountsServiceUsers(List<Integer> serviceUsers, int id) {
+        try {
+            if (serviceUsers != null) {
                 serviceUserAccountsDAO.deleteAllByAccountIdIs(id);
-                for(Integer serviceUser: serviceUsers){
+                for (Integer serviceUser : serviceUsers) {
                     ServiceUserAccountEntity serviceUserAccount = new ServiceUserAccountEntity();
                     serviceUserAccount.setAccountId(id);
                     serviceUserAccount.setServiceUserId(serviceUser);
                     ServiceUserAccountEntity saved = serviceUserAccountsDAO.save(serviceUserAccount);
-                    if(saved == null){
+                    if (saved == null) {
                         throw new UnknownAddingException(String.format("There was a problem with adding service user."));
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }

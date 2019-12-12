@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ServiceUserStatusService implements IServiceUserStatusService{
+public class ServiceUserStatusService implements IServiceUserStatusService {
 
     private ServiceUserStatusDAO serviceUserStatusDAO;
 

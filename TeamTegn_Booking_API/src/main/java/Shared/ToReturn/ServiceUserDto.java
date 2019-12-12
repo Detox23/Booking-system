@@ -27,10 +27,10 @@ public class ServiceUserDto {
     private String stateRegion;
     private String country;
     private Integer createdBy;
-    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp createdDate;
     private Integer lastModifiedBy;
-    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp lastModified;
     private String externalId;
     private Integer departmentId;

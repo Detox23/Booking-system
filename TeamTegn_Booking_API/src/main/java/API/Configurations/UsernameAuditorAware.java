@@ -14,8 +14,6 @@ public class UsernameAuditorAware implements AuditorAware<Integer> {
     @Autowired
     private SystemUserDAO systemUserDAO;
 
-
-
     @Override
     public Optional<Integer> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

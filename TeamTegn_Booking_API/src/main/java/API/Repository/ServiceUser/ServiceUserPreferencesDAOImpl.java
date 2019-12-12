@@ -67,10 +67,11 @@ public class ServiceUserPreferencesDAOImpl implements ServiceUserPreferencesDAOC
 
     @Override
     public List<ServiceUserPreferencesDto> listServiceUserPreferences(int id) {
-        try{
-            Type listType = new TypeToken<List<ServiceUserPreferencesDto>>() {}.getType();
+        try {
+            Type listType = new TypeToken<List<ServiceUserPreferencesDto>>() {
+            }.getType();
             return modelMapper.map(serviceUserPreferencesDAO.findAllByServiceUserIdOrderByRatingAsc(id), listType);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }

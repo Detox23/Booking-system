@@ -41,14 +41,14 @@ public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom {
 
     @Override
     public List<AssignmentStatusDto> listAssignmentStatuses(boolean showDeleted) {
-        if(showDeleted){
+        if (showDeleted) {
             try {
                 return modelMapper.map(assignmentStatusDAO.findAll(), new TypeToken<List<AssignmentStatusDto>>() {
                 }.getType());
             } catch (Exception e) {
                 throw e;
             }
-        }else{
+        } else {
             try {
                 return modelMapper.map(assignmentStatusDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentStatusDto>>() {
                 }.getType());
@@ -114,13 +114,13 @@ public class AssignmentStatusDAOImpl implements AssignmentStatusDAOCustom {
         return found.get();
     }
 
-    private void checkIfExistsByStatusName(AssignmentStatusEntity assignmentStatus){
-        if(assignmentStatus.getId()==0){
-            if(assignmentStatusDAO.countAllByAssignmentStatusName(assignmentStatus.getAssignmentStatusName())> 0){
+    private void checkIfExistsByStatusName(AssignmentStatusEntity assignmentStatus) {
+        if (assignmentStatus.getId() == 0) {
+            if (assignmentStatusDAO.countAllByAssignmentStatusName(assignmentStatus.getAssignmentStatusName()) > 0) {
                 throw new DuplicateException(String.format("The status with name: %s already exists", assignmentStatus.getAssignmentStatusName()));
             }
-        }else{
-            if(assignmentStatusDAO.countAllByAssignmentStatusNameAndIdIsNot(assignmentStatus.getAssignmentStatusName(), assignmentStatus.getId())> 0){
+        } else {
+            if (assignmentStatusDAO.countAllByAssignmentStatusNameAndIdIsNot(assignmentStatus.getAssignmentStatusName(), assignmentStatus.getId()) > 0) {
                 throw new DuplicateException(String.format("The status with name: %s already exists", assignmentStatus.getAssignmentStatusName()));
             }
         }

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class AssignmentStatusTypeService implements IAssignmentStatusTypeService{
+public class AssignmentStatusTypeService implements IAssignmentStatusTypeService {
 
 
     private ModelMapper modelMapper;
@@ -33,12 +33,12 @@ public class AssignmentStatusTypeService implements IAssignmentStatusTypeService
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public AssignmentStatusTypeDto addAssignmentStatusType(AssignmentStatusTypeForCreationDto assignment) {
-        return  assignmentStatusTypeDAO.addAssignmentStatusType(modelMapper.map(assignment, AssignmentStatusTypeEntity.class));
+        return assignmentStatusTypeDAO.addAssignmentStatusType(modelMapper.map(assignment, AssignmentStatusTypeEntity.class));
     }
 
     @Override
     public AssignmentStatusTypeDto findAssignmentStatusType(int id) {
-        return  modelMapper.map(assignmentStatusTypeDAO.findAssignmentStatusType(id), AssignmentStatusTypeDto.class);
+        return modelMapper.map(assignmentStatusTypeDAO.findAssignmentStatusType(id), AssignmentStatusTypeDto.class);
 
     }
 

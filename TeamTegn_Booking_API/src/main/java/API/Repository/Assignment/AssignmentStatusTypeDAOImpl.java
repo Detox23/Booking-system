@@ -42,18 +42,18 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
 
     @Override
     public List<AssignmentStatusTypeDto> listAssignmentStatusTypes(boolean showDeleted) {
-        if(showDeleted){
-            try{
+        if (showDeleted) {
+            try {
                 return modelMapper.map(assignmentStatusTypeDAO.findAll(Sort.by(Sort.Direction.ASC, "DisplayOrder")), new TypeToken<List<AssignmentStatusTypeDto>>() {
                 }.getType());
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw e;
             }
-        }else{
-            try{
+        } else {
+            try {
                 return modelMapper.map(assignmentStatusTypeDAO.findAllByDeletedIsFalse(Sort.by(Sort.Direction.ASC, "DisplayOrder")), new TypeToken<List<AssignmentStatusTypeDto>>() {
                 }.getType());
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw e;
             }
         }
@@ -115,13 +115,13 @@ public class AssignmentStatusTypeDAOImpl implements AssignmentStatusTypeDAOCusto
         return found.get();
     }
 
-    private void checkIfExistsByStatusName(AssignmentStatusTypeEntity assignmentStatusType){
-        if(assignmentStatusType.getId()==0){
-            if(assignmentStatusTypeDAO.countAllByAssignmentStatusTypeNameIs(assignmentStatusType.getAssignmentStatusTypeName())> 0){
+    private void checkIfExistsByStatusName(AssignmentStatusTypeEntity assignmentStatusType) {
+        if (assignmentStatusType.getId() == 0) {
+            if (assignmentStatusTypeDAO.countAllByAssignmentStatusTypeNameIs(assignmentStatusType.getAssignmentStatusTypeName()) > 0) {
                 throw new DuplicateException(String.format("The status type with name: %s already exists", assignmentStatusType.getAssignmentStatusTypeName()));
             }
-        }else{
-            if(assignmentStatusTypeDAO.countAllByAssignmentStatusTypeNameIsAndIdIsNot(assignmentStatusType.getAssignmentStatusTypeName(), assignmentStatusType.getId())> 0){
+        } else {
+            if (assignmentStatusTypeDAO.countAllByAssignmentStatusTypeNameIsAndIdIsNot(assignmentStatusType.getAssignmentStatusTypeName(), assignmentStatusType.getId()) > 0) {
                 throw new DuplicateException(String.format("The status type with name: %s already exists", assignmentStatusType.getAssignmentStatusTypeName()));
             }
         }

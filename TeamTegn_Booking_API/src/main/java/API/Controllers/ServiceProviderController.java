@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/serviceProviders")
@@ -43,12 +45,12 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> addServiceProvider(@RequestBody ServiceProviderForCreationDto serviceProvider) {
+    public ResponseEntity<?> addServiceProvider(@RequestBody @Valid ServiceProviderForCreationDto serviceProvider) {
         return new ResponseEntity<>(serviceProviderService.addServiceProvider(serviceProvider), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateServiceProvider(@RequestBody ServiceProviderForUpdateDto serviceProvider) {
+    public ResponseEntity<?> updateServiceProvider(@RequestBody @Valid ServiceProviderForUpdateDto serviceProvider) {
         return new ResponseEntity<>(serviceProviderService.updateServiceProvider(serviceProvider), new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -58,29 +60,29 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
-    public ResponseEntity<?> findServiceProviderComments(@PathVariable int id){
+    public ResponseEntity<?> findServiceProviderComments(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderCommentService.findServiceProviderComments(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.GET)
-    public ResponseEntity<?> findServiceProviderComment(@PathVariable int commentID){
+    public ResponseEntity<?> findServiceProviderComment(@PathVariable int commentID) {
         return new ResponseEntity<>(serviceProviderCommentService.findServiceProviderComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteServiceProviderComment(@PathVariable int commentID){
+    public ResponseEntity<?> deleteServiceProviderComment(@PathVariable int commentID) {
         return new ResponseEntity<>(serviceProviderCommentService.deleteServiceProviderComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
-    public ResponseEntity<?> addServiceProviderComment(@PathVariable int id, @RequestBody ServiceProviderCommentForCreationDto comment){
+    public ResponseEntity<?> addServiceProviderComment(@PathVariable int id, @RequestBody @Valid ServiceProviderCommentForCreationDto comment) {
         comment.setServiceProviderId(id);
         return new ResponseEntity<>(serviceProviderCommentService.addServiceProviderComment(comment), new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateServiceProviderComment(@PathVariable int id, @RequestBody ServiceProviderCommentForUpdateDto comment){
+    public ResponseEntity<?> updateServiceProviderComment(@PathVariable int id, @RequestBody @Valid ServiceProviderCommentForUpdateDto comment) {
         comment.setServiceProviderId(id);
         return new ResponseEntity<>(serviceProviderCommentService.updateServiceProviderComment(comment), new HttpHeaders(), HttpStatus.OK);
 

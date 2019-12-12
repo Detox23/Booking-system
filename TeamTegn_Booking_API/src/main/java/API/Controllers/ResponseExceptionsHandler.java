@@ -44,7 +44,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)
-    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException exception){
+    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
         return new ResponseEntity<>("You have no access for that operation.", HttpStatus.FORBIDDEN);
     }

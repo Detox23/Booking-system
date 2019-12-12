@@ -12,7 +12,7 @@ public class EncryptionHandler {
     public String encrypt(String value) {
         try {
             return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
-        }catch(NullPointerException nullPointerException){
+        } catch (NullPointerException nullPointerException) {
             throw new NotEnoughDataException("Providing CPR number is required to complete this operation.");
         }
     }

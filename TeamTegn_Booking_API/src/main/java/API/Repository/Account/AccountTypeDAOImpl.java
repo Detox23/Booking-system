@@ -79,14 +79,14 @@ public class AccountTypeDAOImpl implements AccountTypeCustom {
 
     @Override
     public List<AccountTypeDto> listAccountTypes(boolean showDeleted) {
-        if(showDeleted){
+        if (showDeleted) {
             try {
                 return modelMapper.map(accountTypeDAO.findAll(), new TypeToken<List<AccountTypeDto>>() {
                 }.getType());
             } catch (Exception e) {
                 throw e;
             }
-        }else{
+        } else {
             try {
                 return modelMapper.map(accountTypeDAO.findAllByDeletedIsFalse(), new TypeToken<List<AccountTypeDto>>() {
                 }.getType());
@@ -114,13 +114,13 @@ public class AccountTypeDAOImpl implements AccountTypeCustom {
         return found.get();
     }
 
-    private void checkIfExistsByNameAndCVR(AccountTypeEntity accountType){
-        if(accountType.getId() == 0){
-            if (accountTypeDAO.countAllByAccountTypeIs(accountType.getAccountType()) > 0){
+    private void checkIfExistsByNameAndCVR(AccountTypeEntity accountType) {
+        if (accountType.getId() == 0) {
+            if (accountTypeDAO.countAllByAccountTypeIs(accountType.getAccountType()) > 0) {
                 throw new DuplicateException(String.format("The account type with name: %s already exists", accountType.getAccountType()));
             }
-        }else{
-            if (accountTypeDAO.countAllByAccountTypeIsAndIdIsNot(accountType.getAccountType() ,accountType.getId()) > 0) {
+        } else {
+            if (accountTypeDAO.countAllByAccountTypeIsAndIdIsNot(accountType.getAccountType(), accountType.getId()) > 0) {
                 throw new DuplicateException(String.format("The account type with name: %s already exists", accountType.getAccountType()));
             }
         }

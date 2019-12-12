@@ -14,4 +14,5 @@ public interface AccountEanDAO extends JpaRepository<AccountEanEntity, Integer> 
 
     List<AccountEanEntity> findAllByAccountIdAndEanNumber(int id, String eanNumber);
 
-    AccountEanEntity findDistinctByAccountIdAndEanNumber(int id, String eanNumber);}
+    AccountEanEntity findDistinctByAccountIdAndEanNumber(int id, String eanNumber);
+}

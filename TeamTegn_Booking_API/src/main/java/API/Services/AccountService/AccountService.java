@@ -121,6 +121,13 @@ public class AccountService implements IAccountService {
     }
 
 
+    /**
+     * The method creates a new list of ean parameter. Then, it fills the created list with found String eans
+     * from a database.
+     *
+     * @param account An account that was added. Its Id parameter is used to find a list of AccountEanEntity objects
+     *                from a database.
+     */
     private void fillAccountWithListOfEans(AccountDto account) {
         account.setEan(new ArrayList<>());
         List<AccountEanEntity> foundList = accountEanDAO.findAllByAccountId(account.getId());

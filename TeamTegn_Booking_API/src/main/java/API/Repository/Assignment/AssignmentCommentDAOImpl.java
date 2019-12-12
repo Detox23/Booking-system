@@ -78,7 +78,7 @@ public class AssignmentCommentDAOImpl implements AssignmentCommentDAOCustom {
             patcherHandler.fillNotNullFields(found, assignmentComment);
             AssignmentCommentEntity updated = assignmentCommentDAO.save(found);
             return modelMapper.map(updated, AssignmentCommentDto.class);
-        } catch (IntrospectionException introspectionException){
+        } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was a problem with updating an account comment. [PATCHING]");
         } catch (Exception e) {
             throw e;
@@ -87,11 +87,11 @@ public class AssignmentCommentDAOImpl implements AssignmentCommentDAOCustom {
 
     @Override
     public boolean deleteAssignmentComment(int commentId) {
-        try{
+        try {
             AssignmentCommentEntity found = findIfExistsAndReturn(commentId);
             assignmentCommentDAO.delete(found);
             return assignmentCommentDAO.findById(commentId).isPresent();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
