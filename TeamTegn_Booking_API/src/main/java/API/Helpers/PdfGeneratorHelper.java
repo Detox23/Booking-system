@@ -1,4 +1,4 @@
-package API.Configurations;
+package API.Helpers;
 
 //
 // Source code recreated from a .class file by IntelliJ IDEA
