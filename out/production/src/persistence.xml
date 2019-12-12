@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="persistence">
+
+        <description>Hibernate Entity Manager</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>API.Database_Entities.AccountEntity</class>
+        <class>API.Database_Entities.AccountEanEntity</class>
+        <class>API.Database_Entities.AccountCommentEntity</class>
+        <class>API.Database_Entities.AccountTypeEntity</class>
+        <class>API.Database_Entities.DepartmentEntity</class>
+        <class>API.Database_Entities.AssignmentStatusEntity</class>
+        <class>API.Database_Entities.AssignmentStatusTypeEntity</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://DESKTOP-LNM21H7\SQLP:1433;database=TeamTegn_BookingSystem_Devleopment" />
+            <property name="javax.persistence.jdbc.user" value="sa" />
+            <property name="javax.persistence.jdbc.current_session_context_class" value="thread"/>
+            <property name="javax.persistence.jdbc.password" value="asdasd" />
+            <property name="javax.persistence.jdbc.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/>
+            <property name="hibernate.show_sql" value="true" />
+        </properties>
+    </persistence-unit> <persistence-unit name="persistenceTest">
+
+    <description>Hibernate Entity Manager</description>
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>API.Database_Entities.AccountEntity</class>
+    <class>API.Database_Entities.AccountEanEntity</class>
+    <class>API.Database_Entities.AccountCommentEntity</class>
+    <class>API.Database_Entities.AccountTypeEntity</class>
+    <class>API.Database_Entities.DepartmentEntity</class>
+    <class>API.Database_Entities.AssignmentStatusEntity</class>
+    <class>API.Database_Entities.AssignmentStatusTypeEntity</class>
+    <properties>
+        <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://DESKTOP-LNM21H7\SQLP:1433;database=Test" />
+        <property name="javax.persistence.jdbc.user" value="sa" />
+        <property name="javax.persistence.jdbc.current_session_context_class" value="thread"/>
+        <property name="javax.persistence.jdbc.password" value="asdasd" />
+        <property name="javax.persistence.jdbc.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/>
+        <property name="hibernate.show_sql" value="true" />
+    </properties>
+</persistence-unit>
+
+</persistence>
