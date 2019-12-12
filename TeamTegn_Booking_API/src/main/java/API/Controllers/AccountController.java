@@ -33,7 +33,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?>  getAll(){
+    public ResponseEntity<?> getAll() {
 
         return new ResponseEntity<>(accountService.listAccounts(), new HttpHeaders(), HttpStatus.OK);
     }
@@ -59,29 +59,29 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAccountComments(@PathVariable int id){
+    public ResponseEntity<?> listAccountComments(@PathVariable int id) {
         return new ResponseEntity<>(accountCommentService.listAccountComments(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.GET)
-    public ResponseEntity<?> findAccountComment(@PathVariable int id, @PathVariable int commentID){
+    public ResponseEntity<?> findAccountComment(@PathVariable int id, @PathVariable int commentID) {
         return new ResponseEntity<>(accountCommentService.findAccountComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/{commentID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteAccountComment(@PathVariable int id, @PathVariable int commentID){
+    public ResponseEntity<?> deleteAccountComment(@PathVariable int id, @PathVariable int commentID) {
         return new ResponseEntity<>(accountCommentService.deleteAccountComment(id, commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
-    public ResponseEntity<?> addAccountComment(@PathVariable int id, @RequestBody @Valid AccountCommentForCreationDto comment){
+    public ResponseEntity<?> addAccountComment(@PathVariable int id, @RequestBody @Valid AccountCommentForCreationDto comment) {
         comment.setAccountId(id);
         return new ResponseEntity<>(accountCommentService.addAccountComment(comment), new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateAccountComment(@PathVariable int id, @RequestBody @Valid AccountCommentForUpdateDto comment){
+    public ResponseEntity<?> updateAccountComment(@PathVariable int id, @RequestBody @Valid AccountCommentForUpdateDto comment) {
         comment.setAccountId(id);
         return new ResponseEntity<>(accountCommentService.updateAccountComment(comment), new HttpHeaders(), HttpStatus.OK);
 

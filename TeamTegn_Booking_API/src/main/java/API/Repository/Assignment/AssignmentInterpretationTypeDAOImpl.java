@@ -28,10 +28,12 @@ public class AssignmentInterpretationTypeDAOImpl implements AssignmentInterpreta
     public void setAssignmentInterpretationTypeDAO(AssignmentInterpretationTypeDAO assignmentInterpretationTypeDAO) {
         this.assignmentInterpretationTypeDAO = assignmentInterpretationTypeDAO;
     }
+
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
         this.patcherHandler = patcherHandler;
     }
+
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
@@ -62,14 +64,14 @@ public class AssignmentInterpretationTypeDAOImpl implements AssignmentInterpreta
 
     @Override
     public List<AssignmentInterpretationTypeDto> listAssignmentInterpretationTypes(boolean showDeleted) {
-        if(showDeleted){
+        if (showDeleted) {
             try {
                 return modelMapper.map(assignmentInterpretationTypeDAO.findAll(), new TypeToken<List<AssignmentInterpretationTypeDto>>() {
                 }.getType());
             } catch (Exception e) {
                 throw e;
             }
-        }else{
+        } else {
             try {
                 return modelMapper.map(assignmentInterpretationTypeDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentInterpretationTypeDto>>() {
                 }.getType());
@@ -113,13 +115,13 @@ public class AssignmentInterpretationTypeDAOImpl implements AssignmentInterpreta
         return found.get();
     }
 
-    private void checkIfExistsByInterpretationType(AssignmentInterpretationTypeEntity interpretationType){
-        if(interpretationType.getId()==0){
-            if(assignmentInterpretationTypeDAO.countAllByInterpretationTypeNameIs(interpretationType.getInterpretationTypeName())> 0){
+    private void checkIfExistsByInterpretationType(AssignmentInterpretationTypeEntity interpretationType) {
+        if (interpretationType.getId() == 0) {
+            if (assignmentInterpretationTypeDAO.countAllByInterpretationTypeNameIs(interpretationType.getInterpretationTypeName()) > 0) {
                 throw new DuplicateException(String.format("The interpretation type with name: %s already exists", interpretationType.getInterpretationTypeName()));
             }
-        }else{
-            if(assignmentInterpretationTypeDAO.countAllByInterpretationTypeNameAndIdIsNot(interpretationType.getInterpretationTypeName(), interpretationType.getId())> 0){
+        } else {
+            if (assignmentInterpretationTypeDAO.countAllByInterpretationTypeNameAndIdIsNot(interpretationType.getInterpretationTypeName(), interpretationType.getId()) > 0) {
                 throw new DuplicateException(String.format("The interpretation type with name: %s already exists", interpretationType.getInterpretationTypeName()));
             }
         }

@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/accountTypes")
-public class AccountTypeController{
+public class AccountTypeController {
 
     private IAccountTypeService accountTypeService;
 

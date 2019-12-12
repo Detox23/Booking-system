@@ -10,8 +10,12 @@ import java.util.Optional;
 @Repository
 public interface AbsenceTypeDAO extends JpaRepository<AbsenceTypeEntity, Integer>, AbsenceTypeDAOCustom {
     List<AbsenceTypeEntity> findAllByDeletedIsFalse();
+
     int countAllByAbsenceTypeNameIs(String absenceTypeName);
+
     int countAllByAbsenceTypeNameIsAndIdIsNot(String absenceTypeName, int id);
+
     Optional<AbsenceTypeEntity> findByIdAndDeletedIsFalse(int id);
+
     Optional<AbsenceTypeEntity> findByAbsenceTypeName(String absenceTypeName);
 }

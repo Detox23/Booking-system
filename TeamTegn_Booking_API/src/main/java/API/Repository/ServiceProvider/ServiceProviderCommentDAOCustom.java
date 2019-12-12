@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface ServiceProviderCommentDAOCustom {
     ServiceProviderCommentDto addServiceProviderComment(ServiceProviderCommentEntity serviceProviderComment);
+
     ServiceProviderCommentDto updateServiceProviderComment(ServiceProviderCommentEntity serviceProviderComment);
+
     ServiceProviderCommentDto findServiceProviderComment(int commentID);
+
     List<ServiceProviderCommentDto> findServiceProviderComments(int serviceProviderID);
+
     boolean deleteServiceProviderComment(int commentID);
 }

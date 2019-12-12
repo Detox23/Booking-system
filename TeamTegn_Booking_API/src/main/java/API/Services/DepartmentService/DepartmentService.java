@@ -23,6 +23,7 @@ public class DepartmentService implements IDepartmentService {
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
+
     @Autowired
     public void setDepartmentDAO(DepartmentDAO departmentDAO) {
         this.departmentDAO = departmentDAO;

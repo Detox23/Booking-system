@@ -22,7 +22,7 @@ public class AssignmentDto {
     private int serviceUserId;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date assignmentDate;
-    @JsonFormat(timezone ="Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date assignmentEndDate;
     @JsonFormat(timezone = "Europe/Rome", shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time startTime;

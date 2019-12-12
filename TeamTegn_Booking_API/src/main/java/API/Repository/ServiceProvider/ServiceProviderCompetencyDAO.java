@@ -10,10 +10,12 @@ import java.util.Optional;
 @Repository
 public interface ServiceProviderCompetencyDAO extends JpaRepository<ServiceProviderCompetencyEntity, Integer>, ServiceProviderCompetencyDAOCustom {
     int countAllByCompetencyIs(String competency);
-    int countAllByCompetencyIsAndIdIsNot(String competency, int id);
-    Optional<ServiceProviderCompetencyEntity> findByIdIsAndDeletedIsFalse(int id);
-    List<ServiceProviderCompetencyEntity> findAllByDeletedIsFalse();
 
+    int countAllByCompetencyIsAndIdIsNot(String competency, int id);
+
+    Optional<ServiceProviderCompetencyEntity> findByIdIsAndDeletedIsFalse(int id);
+
+    List<ServiceProviderCompetencyEntity> findAllByDeletedIsFalse();
 
 
 }

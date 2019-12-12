@@ -34,6 +34,7 @@ public class EventLogEntity {
     public Integer getSystemUserId() {
         return systemUserId;
     }
+
     public void setSystemUserId(Integer systemUserId) {
         this.systemUserId = systemUserId;
     }

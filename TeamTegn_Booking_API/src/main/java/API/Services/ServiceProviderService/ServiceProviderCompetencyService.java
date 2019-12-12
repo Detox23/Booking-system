@@ -1,6 +1,5 @@
 package API.Services.ServiceProviderService;
 
-import API.Exceptions.NotFoundException;
 import API.Models.Database_Entities.ServiceProviderCompetencyEntity;
 import API.Repository.ServiceProvider.ServiceProviderCompetencyDAO;
 import Shared.ForCreation.ServiceProviderCompetencyForCreationDto;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ServiceProviderCompetencyService implements IServiceProviderCompetencyService {
@@ -32,17 +30,13 @@ public class ServiceProviderCompetencyService implements IServiceProviderCompete
     }
 
     @Override
-    public List<ServiceProviderCompetencyDto> listServiceProviderCompetencies(boolean showDeleted ) {
+    public List<ServiceProviderCompetencyDto> listServiceProviderCompetencies(boolean showDeleted) {
         return serviceProviderCompetencyDAO.listServiceProviderCompetencies(showDeleted);
     }
 
     @Override
     public ServiceProviderCompetencyDto findServiceProviderCompetency(int id) {
-        try {
-            return serviceProviderCompetencyDAO.findServiceProviderCompetency(id);
-        } catch (NoSuchElementException e) {
-            throw new NotFoundException("Competency was not found");
-        }
+        return serviceProviderCompetencyDAO.findServiceProviderCompetency(id);
     }
 
     @Override

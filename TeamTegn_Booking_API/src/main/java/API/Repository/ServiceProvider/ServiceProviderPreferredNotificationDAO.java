@@ -10,7 +10,10 @@ import java.util.Optional;
 @Repository
 public interface ServiceProviderPreferredNotificationDAO extends JpaRepository<ServiceProviderPreferredNotificationEntity, Integer>, ServiceProviderPreferredNotificationDAOCustom {
     Optional<ServiceProviderPreferredNotificationEntity> findByIdIsAndDeletedIsFalse(int id);
+
     List<ServiceProviderPreferredNotificationEntity> findAllByDeletedIsFalse();
+
     int countAllByNotificationTypeIs(String notificationType);
+
     int countAllByNotificationTypeIsAndIdIsNot(String notificationType, int id);
 }

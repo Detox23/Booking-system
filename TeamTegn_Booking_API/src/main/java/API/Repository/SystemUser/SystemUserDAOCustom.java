@@ -6,7 +6,7 @@ import Shared.ToReturn.SystemUserDto;
 import java.util.List;
 
 public interface SystemUserDAOCustom {
-    SystemUserDto addSystemUser(SystemUserEntity systemUser , List<Integer> departments);
+    SystemUserDto addSystemUser(SystemUserEntity systemUser, List<Integer> departments);
 
     SystemUserDto updateSystemUser(SystemUserEntity systemUser, List<Integer> departments);
 

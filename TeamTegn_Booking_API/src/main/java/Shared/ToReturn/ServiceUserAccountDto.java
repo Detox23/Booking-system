@@ -1,6 +1,6 @@
 package Shared.ToReturn;
-public class ServiceUserAccountDto
-{
+
+public class ServiceUserAccountDto {
     private int id;
     private int serviceUserId;
     private int accountId;

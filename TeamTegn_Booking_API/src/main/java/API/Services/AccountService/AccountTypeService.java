@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class AccountTypeService implements IAccountTypeService{
+public class AccountTypeService implements IAccountTypeService {
 
     private AccountTypeDAO accountTypeDAO;
 

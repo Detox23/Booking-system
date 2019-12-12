@@ -3,6 +3,7 @@ package API.Models.Database_Entities;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -29,10 +30,10 @@ public class AccountEntity {
     private String city;
     private String stateRegion;
     private String country;
-    private int createdBy;
+    private Integer createdBy;
     private Timestamp createdDate;
     private Timestamp lastModified;
-    private int lastModifiedBy;
+    private Integer lastModifiedBy;
     private boolean isDeleted;
     private String email;
     private String contactName;
@@ -213,11 +214,11 @@ public class AccountEntity {
     @Basic
     @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -244,12 +245,13 @@ public class AccountEntity {
     }
 
     @Basic
+    @LastModifiedBy
     @Column(name = "LastModifiedBy", nullable = true)
-    public int getLastModifiedBy() {
+    public Integer getLastModifiedBy() {
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(int lastModifiedBy) {
+    public void setLastModifiedBy(Integer lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 

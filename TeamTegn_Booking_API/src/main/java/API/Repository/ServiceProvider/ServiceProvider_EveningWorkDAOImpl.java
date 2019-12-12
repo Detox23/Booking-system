@@ -85,7 +85,7 @@ public class ServiceProvider_EveningWorkDAOImpl implements ServiceProvider_Eveni
 
     @Override
     public List<ServiceProviderEveningWorkDto> listServiceProviderEveningWork(int serviceProviderID) {
-        try{
+        try {
             List<ServiceProviderEveningWorkEntity> foundList = serviceProviderEveningWorkDAO.findAllByServiceProviderIdIs(serviceProviderID);
             List<ServiceProviderEveningWorkDto> mappedList = new ArrayList<>();
             for (ServiceProviderEveningWorkEntity item : foundList) {
@@ -94,7 +94,7 @@ public class ServiceProvider_EveningWorkDAOImpl implements ServiceProvider_Eveni
                 mappedList.add(addToList);
             }
             return mappedList;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
 
@@ -103,15 +103,15 @@ public class ServiceProvider_EveningWorkDAOImpl implements ServiceProvider_Eveni
 
     @Override
     public ServiceProviderEveningWorkDto getServiceProviderEveningWorkForSpecificDay(String day, int serviceProviderID) {
-        try{
+        try {
             ServiceProviderEveningWorkEntity found = serviceProviderEveningWorkDAO.findByWeekDayIsAndServiceProviderIdIs(day, serviceProviderID);
-            if(found == null){
+            if (found == null) {
                 throw new NotFoundException("The evening work was not found.");
             }
             ServiceProviderEveningWorkDto toReturn = modelMapper.map(found, ServiceProviderEveningWorkDto.class);
             toReturn.setEveningWorkPrioritisation(eveningWorkPrioritisationDAO.getByIdIs(found.getEveningWorkPrioritisationId()).getPrioritisation());
             return toReturn;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
 

@@ -198,15 +198,15 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
         }
     }
 
-    private void addStateRegion(AssignmentEntity assignment){
-        if(assignment.getDestinationStateRegion() == null){
+    private void addStateRegion(AssignmentEntity assignment) {
+        if (assignment.getDestinationStateRegion() == null) {
             Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(assignment.getDestinationPostCode());
-            if(wiPostcode.isPresent()){
-                if(wiPostcode.get().getArhus()){
+            if (wiPostcode.isPresent()) {
+                if (wiPostcode.get().getArhus()) {
                     assignment.setDestinationStateRegion("Aarhus");
-                }else if(wiPostcode.get().getCopenhagen()){
+                } else if (wiPostcode.get().getCopenhagen()) {
                     assignment.setDestinationStateRegion("Copenhagen");
-                }else if(wiPostcode.get().getFredericia()){
+                } else if (wiPostcode.get().getFredericia()) {
                     assignment.setDestinationStateRegion("Fredericia");
                 }
             }

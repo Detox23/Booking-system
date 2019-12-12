@@ -25,12 +25,12 @@ public class ServiceProviderEveningWorkController {
         return new ResponseEntity<>(serviceProviderEveningWorkService.addOrUpdateServiceProviderEveningWork(serviceProviderEveningWorkForCreationDto), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value= "/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> getServiceProviderEveningWork(@PathVariable int id) {
         return new ResponseEntity<>(serviceProviderEveningWorkService.listServiceProviderEveningWork(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value= "/{day}/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{day}/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> getServiceProviderEveningWork(@PathVariable String day, @PathVariable int id) {
         return new ResponseEntity<>(serviceProviderEveningWorkService.getServiceProviderEveningWorkForSpecificDay(day, id), new HttpHeaders(), HttpStatus.FOUND);
     }

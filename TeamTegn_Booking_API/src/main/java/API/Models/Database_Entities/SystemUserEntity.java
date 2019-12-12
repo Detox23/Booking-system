@@ -2,11 +2,13 @@ package API.Models.Database_Entities;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "SystemUser", schema = "dbo")
 public class SystemUserEntity {
     private int id;
@@ -25,7 +27,7 @@ public class SystemUserEntity {
     private String city;
     private String stateRegion;
     private String country;
-    private int createdBy;
+    private Integer createdBy;
     private Timestamp createdDate;
     private boolean isDeleted;
     private Integer roleId;
@@ -194,11 +196,11 @@ public class SystemUserEntity {
     @Basic
     @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 

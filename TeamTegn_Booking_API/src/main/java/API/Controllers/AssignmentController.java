@@ -39,8 +39,8 @@ public class AssignmentController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> listAssignments(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "10") int pageSize,
-                                    @RequestParam(defaultValue = "id") String sortBy,
-                                    @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection) {
+                                             @RequestParam(defaultValue = "id") String sortBy,
+                                             @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection) {
         return new ResponseEntity<>(assignmentService.listAssignmentsPage(PageRequest.of(pageNumber, pageSize, sortDirection, sortBy)), new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -50,12 +50,12 @@ public class AssignmentController {
     }
 
     @RequestMapping(value = "/date/{date}", method = {RequestMethod.GET})
-    public ResponseEntity<?> listAssignmentsDate(@PathVariable @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd") Date date) {
+    public ResponseEntity<?> listAssignmentsDate(@PathVariable @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") Date date) {
         return new ResponseEntity<>(assignmentService.listAssignmentsDate(date), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> addAssignment(@RequestBody AssignmentForCreationDto assignment) {
+    public ResponseEntity<?> addAssignment(@RequestBody @Valid AssignmentForCreationDto assignment) {
         return new ResponseEntity<>(assignmentService.addAssignment(assignment), new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -65,34 +65,34 @@ public class AssignmentController {
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.PATCH})
-    public ResponseEntity<?> updateAssignment(@RequestBody AssignmentForUpdateDto forUpdate) {
+    public ResponseEntity<?> updateAssignment(@RequestBody @Valid AssignmentForUpdateDto forUpdate) {
         return new ResponseEntity<>(assignmentService.updateAssignment(forUpdate), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
-    public ResponseEntity<?> listServiceUserComments(@PathVariable int id){
-        return new ResponseEntity<>(assignmentCommentService.listAssignmentComments(id), new HttpHeaders(),HttpStatus.OK);
+    public ResponseEntity<?> listServiceUserComments(@PathVariable int id) {
+        return new ResponseEntity<>(assignmentCommentService.listAssignmentComments(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.GET)
-    public ResponseEntity<?> findServiceUserComment(@PathVariable int commentID){
+    public ResponseEntity<?> findServiceUserComment(@PathVariable int commentID) {
         return new ResponseEntity<>(assignmentCommentService.findAssignmentComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteServiceUserComment(@PathVariable int commentID){
+    public ResponseEntity<?> deleteServiceUserComment(@PathVariable int commentID) {
         return new ResponseEntity<>(assignmentCommentService.deleteAssignmentComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
-    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody @Valid AssignmentCommentForCreationDto comment){
+    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody @Valid AssignmentCommentForCreationDto comment) {
         comment.setAssignmentId(id);
         return new ResponseEntity<>(assignmentCommentService.addAssignmentComment(comment), new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody @Valid AssignmentCommentForUpdateDto comment){
+    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody @Valid AssignmentCommentForUpdateDto comment) {
         comment.setAssignmentId(id);
         return new ResponseEntity<>(assignmentCommentService.updateAssignmentComment(comment), new HttpHeaders(), HttpStatus.OK);
     }

@@ -28,6 +28,7 @@ public class AssignmentImportanceDAOImpl implements AssignmentImportanceDAOCusto
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
+
     @Autowired
     public void setPatcherHandler(PatcherHandler patcherHandler) {
         this.patcherHandler = patcherHandler;
@@ -70,7 +71,7 @@ public class AssignmentImportanceDAOImpl implements AssignmentImportanceDAOCusto
             } catch (Exception e) {
                 throw e;
             }
-        }else{
+        } else {
             try {
                 return modelMapper.map(assignmentImportanceDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentImportanceDto>>() {
                 }.getType());
@@ -114,12 +115,12 @@ public class AssignmentImportanceDAOImpl implements AssignmentImportanceDAOCusto
         return found.get();
     }
 
-    private void checkIfExistsByImportanceName(AssignmentImportanceEntity assignmentImportance){
-        if(assignmentImportance.getId() == 0){
-            if (assignmentImportanceDAO.countAllByImportanceNameIs(assignmentImportance.getImportanceName()) > 0){
+    private void checkIfExistsByImportanceName(AssignmentImportanceEntity assignmentImportance) {
+        if (assignmentImportance.getId() == 0) {
+            if (assignmentImportanceDAO.countAllByImportanceNameIs(assignmentImportance.getImportanceName()) > 0) {
                 throw new DuplicateException(String.format("The account type with name: %s already exists", assignmentImportance.getImportanceName()));
             }
-        }else{
+        } else {
             if (assignmentImportanceDAO.countAllByImportanceNameIsAndIdIsNot(assignmentImportance.getImportanceName(), assignmentImportance.getId()) > 0) {
                 throw new DuplicateException(String.format("The account type with name: %s already exists", assignmentImportance.getImportanceName()));
             }

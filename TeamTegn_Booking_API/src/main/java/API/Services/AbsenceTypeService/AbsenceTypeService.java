@@ -57,5 +57,4 @@ public class AbsenceTypeService implements IAbsenceTypeService {
         return absenceTypeDAO.deleteAbsenceType(id);
     }
 
-
 }

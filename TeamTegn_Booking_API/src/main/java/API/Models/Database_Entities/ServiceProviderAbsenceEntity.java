@@ -22,7 +22,7 @@ public class ServiceProviderAbsenceEntity {
     private Date toDate;
     private Time toTime;
     private Float absenceDays;
-    private int createdBy;
+    private Integer createdBy;
     private Timestamp createdDate;
 
     @Id
@@ -119,11 +119,11 @@ public class ServiceProviderAbsenceEntity {
     @Basic
     @CreatedBy
     @Column(name = "CreatedBy", nullable = true)
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 

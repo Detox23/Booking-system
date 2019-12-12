@@ -23,7 +23,7 @@ public class AssignmentStatusController {
         this.assignmentService = assignmentService;
     }
 
-    @RequestMapping(value = "/all/{showDeleted}",method = RequestMethod.GET)
+    @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
     public ResponseEntity<?> listAssignmentStatuses(boolean showDeleted) {
         return new ResponseEntity<>(assignmentService.listAssignmentStatuses(showDeleted), new HttpHeaders(), HttpStatus.OK);
     }

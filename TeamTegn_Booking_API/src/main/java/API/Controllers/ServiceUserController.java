@@ -35,61 +35,61 @@ public class ServiceUserController {
         this.serviceUserService = serviceUserService;
     }
 
-    @RequestMapping(value="/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<?> list(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "10") int pageSize,
                                   @RequestParam(defaultValue = "id") String sortBy,
-                                  @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection)  {
+                                  @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection) {
         return new ResponseEntity<>(serviceUserService.listServiceUsers(PageRequest.of(pageNumber, pageSize, sortDirection, sortBy)), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable int id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete(@PathVariable int id) {
         return new ResponseEntity<>(serviceUserService.deleteServiceUser(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Retrieves one account
-    @RequestMapping(value= "/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> get(@PathVariable int id){
+    @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> get(@PathVariable int id) {
         return new ResponseEntity<>(serviceUserService.findServiceUser(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     //Creates an account
-    @RequestMapping(value="/", method=RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<?> add(@RequestBody @Valid ServiceUserForCreationDto serviceUser) {
         return new ResponseEntity<>(serviceUserService.addServiceUser(serviceUser), new HttpHeaders(), HttpStatus.OK);
     }
 
 
     //Updates an account
-    @RequestMapping(value="/", method= RequestMethod.PATCH)
+    @RequestMapping(value = "/", method = RequestMethod.PATCH)
     public ResponseEntity<?> updateAccount(@RequestBody @Valid ServiceUserForUpdateDto serviceUser) {
         return new ResponseEntity<>(serviceUserService.updateServiceUser(serviceUser), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
-    public ResponseEntity<?> listServiceUserComments(@PathVariable int id){
-        return new ResponseEntity<>(serviceUserCommentService.listServiceUserComments(id), new HttpHeaders(),HttpStatus.OK);
+    public ResponseEntity<?> listServiceUserComments(@PathVariable int id) {
+        return new ResponseEntity<>(serviceUserCommentService.listServiceUserComments(id), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.GET)
-    public ResponseEntity<?> findServiceUserComment(@PathVariable int commentID){
+    public ResponseEntity<?> findServiceUserComment(@PathVariable int commentID) {
         return new ResponseEntity<>(serviceUserCommentService.findServiceUserComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/comment/{commentID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteServiceUserComment(@PathVariable int commentID){
+    public ResponseEntity<?> deleteServiceUserComment(@PathVariable int commentID) {
         return new ResponseEntity<>(serviceUserCommentService.deleteServiceUserComment(commentID), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.POST)
-    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody @Valid ServiceUserCommentForCreationDto comment){
+    public ResponseEntity<?> addServiceUserComment(@PathVariable int id, @RequestBody @Valid ServiceUserCommentForCreationDto comment) {
         comment.setServiceUserId(id);
         return new ResponseEntity<>(serviceUserCommentService.addServiceUserComment(comment), new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody @Valid ServiceUserCommentForUpdateDto comment){
+    public ResponseEntity<?> updateServiceUserComment(@PathVariable int id, @RequestBody @Valid ServiceUserCommentForUpdateDto comment) {
         comment.setServiceUserId(id);
         return new ResponseEntity<>(serviceUserCommentService.updateServiceUserComment(comment), new HttpHeaders(), HttpStatus.OK);
     }

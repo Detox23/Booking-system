@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface IAbsenceTypeService {
     AbsenceTypeDto addAbsenceType(AbsenceTypeForCreationDto absenceTypeEntity);
+
     AbsenceTypeDto updateAbsenceType(AbsenceTypeForUpdateDto absenceTypeEntity);
+
     AbsenceTypeDto findAbsenceType(int id);
+
     List<AbsenceTypeDto> listAbsenceTypes(boolean showDeleted);
+
     boolean deleteAbsenceType(int id);
 }

@@ -9,8 +9,12 @@ import java.util.List;
 
 public interface IServiceProviderSourceService {
     ServiceProviderSourceDto addServiceProviderSource(ServiceProviderSourceForCreationDto serviceProviderSource);
+
     ServiceProviderSourceDto findServiceProviderSource(int id);
+
     List<ServiceProviderSourceDto> listServiceProviderSources(boolean showDeleted);
+
     boolean deleteServiceProviderSource(int id);
+
     ServiceProviderSourceDto updateServiceProviderSource(ServiceProviderSourceForUpdateDto serviceProviderSource);
 }

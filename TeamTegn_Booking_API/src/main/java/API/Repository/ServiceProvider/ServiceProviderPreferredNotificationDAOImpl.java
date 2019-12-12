@@ -42,11 +42,11 @@ public class ServiceProviderPreferredNotificationDAOImpl implements ServiceProvi
 
     @Override
     public ServiceProviderPreferredNotificationDto addServiceProviderNotification(ServiceProviderPreferredNotificationEntity serviceProviderNotification) {
-        try{
+        try {
             checkIfNotificationExist(serviceProviderNotification);
             ServiceProviderPreferredNotificationEntity saved = serviceProviderPreferredNotificationDAO.save(serviceProviderNotification);
             return modelMapper.map(saved, ServiceProviderPreferredNotificationDto.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
 
@@ -60,9 +60,9 @@ public class ServiceProviderPreferredNotificationDAOImpl implements ServiceProvi
             checkIfNotificationExist(found);
             ServiceProviderPreferredNotificationEntity updated = serviceProviderPreferredNotificationDAO.save(found);
             return modelMapper.map(updated, ServiceProviderPreferredNotificationDto.class);
-        }catch(IntrospectionException introspectionException){
+        } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was an error while updating the notification. [PATCHING]");
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -81,16 +81,18 @@ public class ServiceProviderPreferredNotificationDAOImpl implements ServiceProvi
 
     @Override
     public List<ServiceProviderPreferredNotificationDto> listServiceProviderNotifications(boolean showDeleted) {
-        if(showDeleted){
+        if (showDeleted) {
             try {
-                Type listType = new TypeToken<List<ServiceProviderPreferredNotificationDto>>() {}.getType();
+                Type listType = new TypeToken<List<ServiceProviderPreferredNotificationDto>>() {
+                }.getType();
                 return modelMapper.map(serviceProviderPreferredNotificationDAO.findAll(), listType);
             } catch (Exception e) {
                 throw e;
             }
-        }else{
+        } else {
             try {
-                Type listType = new TypeToken<List<ServiceProviderPreferredNotificationDto>>() {}.getType();
+                Type listType = new TypeToken<List<ServiceProviderPreferredNotificationDto>>() {
+                }.getType();
                 return modelMapper.map(serviceProviderPreferredNotificationDAO.findAllByDeletedIsFalse(), listType);
             } catch (Exception e) {
                 throw e;

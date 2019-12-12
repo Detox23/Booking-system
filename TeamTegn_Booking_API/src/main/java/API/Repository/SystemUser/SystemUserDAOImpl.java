@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-//CHECKED
 public class SystemUserDAOImpl implements SystemUserDAOCustom {
 
     private SystemUserDAO systemUserDAO;
@@ -84,8 +83,8 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     @Override
     public SystemUserDto addSystemUser(SystemUserEntity systemUser, List<Integer> departments) {
         try {
-            checkIfExistsByName(systemUser, insert);
-            checkIfExistsByLogin(systemUser, insert);
+            checkIfExistsByName(systemUser);
+            checkIfExistsByLogin(systemUser);
             checkAndFillPostcodeAndCity(systemUser);
             addStateRegion(systemUser);
             encryptPassword(systemUser);
@@ -105,10 +104,9 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     @Override
     public SystemUserDto updateSystemUser(SystemUserEntity systemUser, List<Integer> departments) {
         try {
-            checkIfExistsByName(systemUser, update);
-            checkIfExistsByLogin(systemUser, update);
+            checkIfExistsByName(systemUser);
+            checkIfExistsByLogin(systemUser);
             checkAndFillPostcodeAndCity(systemUser);
-            encryptPassword(systemUser);
             addStateRegion(systemUser);
             SystemUserEntity found = findIfExistsAndReturn(systemUser.getId());
             patcherHandler.fillNotNullFields(found, systemUser);
@@ -160,7 +158,7 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     }
 
     @Override
-    public SystemUserDto findSystemUser(String userName){
+    public SystemUserDto findSystemUser(String userName) {
         Optional<SystemUserEntity> found = systemUserDAO.findDistinctByUserNameIs(userName);
         if (!found.isPresent() || found.get().isDeleted()) {
             throw new NotFoundException("The system user was not found.");
@@ -177,16 +175,10 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
     }
 
     private void checkAndFillPostcodeAndCity(SystemUserEntity systemUser) {
-        if (systemUser.getCity() == null && systemUser.getPostcode() != null) {
+        if (systemUser.getCity() == null) {
             Optional<CityPostcodesEntity> found = cityPostcodesDAO.findFirstByPostcodeIs(systemUser.getPostcode());
             if (found.isPresent()) {
                 systemUser.setCity(found.get().getCity());
-            }
-        }
-        if (systemUser.getPostcode() == null && systemUser.getCity() != null) {
-            Optional<CityPostcodesEntity> found = cityPostcodesDAO.findFirstByCityIs(systemUser.getCity());
-            if (found.isPresent()) {
-                systemUser.setPostcode(found.get().getPostcode());
             }
         }
     }
@@ -197,15 +189,15 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
         systemUser.setPassword(hashed);
     }
 
-    private void addStateRegion(SystemUserEntity systemUser){
-        if(systemUser.getStateRegion() == null && systemUser.getPostcode() != null){
+    private void addStateRegion(SystemUserEntity systemUser) {
+        if (systemUser.getStateRegion() == null) {
             Optional<WiPostcodeEntity> wiPostcode = wiPostcodeDAO.findByPostcodeIs(systemUser.getPostcode());
-            if(wiPostcode.isPresent()){
-                if(wiPostcode.get().getArhus()){
+            if (wiPostcode.isPresent()) {
+                if (wiPostcode.get().getArhus()) {
                     systemUser.setStateRegion("Aarhus");
-                }else if(wiPostcode.get().getCopenhagen()){
+                } else if (wiPostcode.get().getCopenhagen()) {
                     systemUser.setStateRegion("Copenhagen");
-                }else if(wiPostcode.get().getFredericia()){
+                } else if (wiPostcode.get().getFredericia()) {
                     systemUser.setStateRegion("Fredericia");
                 }
             }
@@ -224,20 +216,37 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
         }
     }
 
-    private void checkIfExistsByName(SystemUserEntity systemUser, int allowedFounds){
-        if(systemUserDAO.countAllByFirstNameIsAndLastNameIsAndUserNameIs(systemUser.getFirstName(), systemUser.getLastName(), systemUser.getUserName())> allowedFounds){
-            throw new DuplicateException(String.format(
-                    "There is already a system user with name: %s %s, and username: %s",
-                    systemUser.getFirstName(),
-                    systemUser.getLastName(),
-                    systemUser.getUserName()
-            ));
+    private void checkIfExistsByName(SystemUserEntity systemUser) {
+        if (systemUser.getId() == 0) {
+            if (systemUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(systemUser.getFirstName(), systemUser.getMiddleName(), systemUser.getLastName()) > 0) {
+                throw new DuplicateException(String.format(
+                        "There is already a system user with name: %s %s %s.",
+                        systemUser.getFirstName(),
+                        systemUser.getMiddleName(),
+                        systemUser.getLastName()
+                ));
+            }
+        } else {
+            if (systemUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIsAndIdIsNot(systemUser.getFirstName(), systemUser.getMiddleName(), systemUser.getLastName(), systemUser.getId()) > 0) {
+                throw new DuplicateException(String.format(
+                        "There is already a system user with name: %s %s %s.",
+                        systemUser.getFirstName(),
+                        systemUser.getMiddleName(),
+                        systemUser.getLastName()
+                ));
+            }
         }
     }
 
-    private void checkIfExistsByLogin(SystemUserEntity systemUser, int allowedFounds){
-        if (systemUserDAO.countAllByUserNameIs(systemUser.getUserName())> allowedFounds){
-            throw new DuplicateException(String.format("There is already a system user with the username: %s", systemUser.getUserName()));
+    private void checkIfExistsByLogin(SystemUserEntity systemUser) {
+        if (systemUser.getId() == 0) {
+            if (systemUserDAO.countAllByUserNameIs(systemUser.getUserName()) > 0) {
+                throw new DuplicateException(String.format("There is already a system user with the username: %s", systemUser.getUserName()));
+            }
+        } else {
+            if (systemUserDAO.countAllByUserNameIsAndIdIsNot(systemUser.getUserName(), systemUser.getId()) > 0) {
+                throw new DuplicateException(String.format("There is already a system user with the username: %s", systemUser.getUserName()));
+            }
         }
     }
 }

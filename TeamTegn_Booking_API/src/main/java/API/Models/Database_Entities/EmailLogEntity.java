@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Table(name = "EmailLog", schema = "dbo")
 public class EmailLogEntity {
     private int logId;
-    private int systemUserId;
+    private Integer systemUserId;
     private String objectType;
     private Integer objectId;
     private String objectEmail;
@@ -32,11 +32,11 @@ public class EmailLogEntity {
     @Basic
     @CreatedBy
     @Column(name = "SystemUserID", nullable = false)
-    public int getSystemUserId() {
+    public Integer getSystemUserId() {
         return systemUserId;
     }
 
-    public void setSystemUserId(int systemUserId) {
+    public void setSystemUserId(Integer systemUserId) {
         this.systemUserId = systemUserId;
     }
 

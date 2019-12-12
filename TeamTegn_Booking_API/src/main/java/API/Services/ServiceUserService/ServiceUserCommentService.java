@@ -52,10 +52,6 @@ public class ServiceUserCommentService implements IServiceUserCommentService {
 
     @Override
     public List<ServiceUserCommentDto> listServiceUserComments(int id) {
-        try {
-            return serviceUserCommentDAO.listServiceUserComments(id);
-        } catch (Exception e) {
-            throw e;
-        }
+        return serviceUserCommentDAO.listServiceUserComments(id);
     }
 }

@@ -5,5 +5,5 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 public interface IEmailLogService {
-   void  log(EmailLogDto log);
+    void log(EmailLogDto log);
 }

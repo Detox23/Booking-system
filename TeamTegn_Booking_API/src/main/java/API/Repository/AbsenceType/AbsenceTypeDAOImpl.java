@@ -118,12 +118,12 @@ public class AbsenceTypeDAOImpl implements AbsenceTypeDAOCustom {
         return found.get();
     }
 
-    private void checkIfExistsByAbsenceName(AbsenceTypeEntity absenceType){
-        if(absenceType.getId() == 0){
-            if (absenceTypeDAO.countAllByAbsenceTypeNameIs(absenceType.getAbsenceTypeName()) > 0){
+    private void checkIfExistsByAbsenceName(AbsenceTypeEntity absenceType) {
+        if (absenceType.getId() == 0) {
+            if (absenceTypeDAO.countAllByAbsenceTypeNameIs(absenceType.getAbsenceTypeName()) > 0) {
                 throw new DuplicateException(String.format("The account type with name: %s already exists", absenceType.getAbsenceTypeName()));
             }
-        }else{
+        } else {
             if (absenceTypeDAO.countAllByAbsenceTypeNameIsAndIdIsNot(absenceType.getAbsenceTypeName(), absenceType.getId()) > 0) {
                 throw new DuplicateException(String.format("The account type with name: %s already exists", absenceType.getAbsenceTypeName()));
             }

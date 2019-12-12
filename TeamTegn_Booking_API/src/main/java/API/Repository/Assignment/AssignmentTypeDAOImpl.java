@@ -63,18 +63,18 @@ public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {
 
     @Override
     public List<AssignmentTypeDto> listAssignmentTypes(boolean showDeleted) {
-        if(showDeleted){
-            try{
+        if (showDeleted) {
+            try {
                 return modelMapper.map(assignmentTypeDAO.findAll(), new TypeToken<List<AssignmentTypeDto>>() {
                 }.getType());
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw e;
             }
-        }else{
-            try{
+        } else {
+            try {
                 return modelMapper.map(assignmentTypeDAO.findAllByDeletedIsFalse(), new TypeToken<List<AssignmentTypeDto>>() {
                 }.getType());
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw e;
             }
         }
@@ -82,10 +82,10 @@ public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {
 
     @Override
     public AssignmentTypeDto findAssignmentType(int id) {
-        try{
+        try {
             AssignmentTypeEntity found = findIfExistsAndReturn(id);
             return modelMapper.map(found, AssignmentTypeDto.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -105,13 +105,13 @@ public class AssignmentTypeDAOImpl implements AssignmentTypeDAOCustom {
         }
     }
 
-    private void checkIfAssignmentTypeExists(AssignmentTypeEntity assignmentType){
-        if(assignmentType.getId() == 0){
-            if(assignmentTypeDAO.countAllByAssignmentTypeNameIs(assignmentType.getAssignmentTypeName())> 0){
+    private void checkIfAssignmentTypeExists(AssignmentTypeEntity assignmentType) {
+        if (assignmentType.getId() == 0) {
+            if (assignmentTypeDAO.countAllByAssignmentTypeNameIs(assignmentType.getAssignmentTypeName()) > 0) {
                 throw new DuplicateException(String.format("The type: %s already exists", assignmentType.getAssignmentTypeName()));
             }
-        }else{
-            if(assignmentTypeDAO.countAllByAssignmentTypeNameIsAndIdIsNot(assignmentType.getAssignmentTypeName(), assignmentType.getId())> 0){
+        } else {
+            if (assignmentTypeDAO.countAllByAssignmentTypeNameIsAndIdIsNot(assignmentType.getAssignmentTypeName(), assignmentType.getId()) > 0) {
                 throw new DuplicateException(String.format("The type: %s already exists", assignmentType.getAssignmentTypeName()));
             }
         }

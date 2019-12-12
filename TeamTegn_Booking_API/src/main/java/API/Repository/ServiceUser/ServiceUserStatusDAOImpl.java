@@ -53,55 +53,57 @@ public class ServiceUserStatusDAOImpl implements ServiceUserStatusDAOCustom {
 
     @Override
     public ServiceUserStatusDto updateServiceUserStatus(ServiceUserStatusEntity serviceUserStatus) {
-        try{
+        try {
             ServiceUserStatusEntity found = findIfExistsAndReturn(serviceUserStatus.getId());
             patcherHandler.fillNotNullFields(found, serviceUserStatus);
             checkIfExistsByStatusName(found);
-            ServiceUserStatusEntity updated  = serviceUserStatusDAO.save(found);
+            ServiceUserStatusEntity updated = serviceUserStatusDAO.save(found);
             return modelMapper.map(updated, ServiceUserStatusDto.class);
-        }catch(IntrospectionException introspectionException){
+        } catch (IntrospectionException introspectionException) {
             throw new UpdatePatchException("There was a problem while updating service user status. [PATCHING]");
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
     public boolean deleteServiceUserStatus(int id) {
-        try{
+        try {
             ServiceUserStatusEntity found = findIfExistsAndReturn(id);
             found.setDeleted(true);
             ServiceUserStatusEntity deleted = serviceUserStatusDAO.save(found);
             return deleted.isDeleted();
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
     public ServiceUserStatusDto findServiceUserStatus(int id) {
-       try{
-           ServiceUserStatusEntity found = findIfExistsAndReturn(id);
-           return modelMapper.map(found, ServiceUserStatusDto.class);
-       }catch(Exception e){
-           throw e;
-       }
+        try {
+            ServiceUserStatusEntity found = findIfExistsAndReturn(id);
+            return modelMapper.map(found, ServiceUserStatusDto.class);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
     public List<ServiceUserStatusDto> listServiceUserStatuses(boolean showDeleted) {
-        if(showDeleted){
-            try{
-                Type listType = new TypeToken<List<ServiceUserStatusDto>>() {}.getType();
+        if (showDeleted) {
+            try {
+                Type listType = new TypeToken<List<ServiceUserStatusDto>>() {
+                }.getType();
                 return modelMapper.map(serviceUserStatusDAO.findAll(), listType);
-            }catch(Exception e){
+            } catch (Exception e) {
                 throw e;
             }
-        }else{
-            try{
-                Type listType = new TypeToken<List<ServiceUserStatusDto>>() {}.getType();
+        } else {
+            try {
+                Type listType = new TypeToken<List<ServiceUserStatusDto>>() {
+                }.getType();
                 return modelMapper.map(serviceUserStatusDAO.findAllByDeletedIsFalse(), listType);
-            }catch(Exception e){
+            } catch (Exception e) {
                 throw e;
             }
         }
@@ -115,9 +117,15 @@ public class ServiceUserStatusDAOImpl implements ServiceUserStatusDAOCustom {
         return found.get();
     }
 
-    private void checkIfExistsByStatusName(ServiceUserStatusEntity serviceUserStatus){
-        if (serviceUserStatusDAO.countAllByStatusIs(serviceUserStatus.getStatus()) > 0) {
-            throw new DuplicateException(String.format("There is already service user's status with name %s.", serviceUserStatus.getStatus()));
+    private void checkIfExistsByStatusName(ServiceUserStatusEntity serviceUserStatus) {
+        if (serviceUserStatus.getId() == 0) {
+            if (serviceUserStatusDAO.countAllByStatusIs(serviceUserStatus.getStatus()) > 0) {
+                throw new DuplicateException(String.format("The status: %s already exists", serviceUserStatus.getStatus()));
+            }
+        } else {
+            if (serviceUserStatusDAO.countAllByStatusIsAndIdIsNot(serviceUserStatus.getStatus(), serviceUserStatus.getId()) > 0) {
+                throw new DuplicateException(String.format("The status: %s already exists", serviceUserStatus.getStatus()));
+            }
         }
     }
 }

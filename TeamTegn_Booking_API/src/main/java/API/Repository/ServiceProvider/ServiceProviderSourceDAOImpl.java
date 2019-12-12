@@ -49,7 +49,7 @@ public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCus
             checkIfProviderSourceExists(serviceProviderSourceEntity);
             ServiceProviderSourceEntity saved = serviceProviderSourceDAO.save(serviceProviderSourceEntity);
             return modelMapper.map(saved, ServiceProviderSourceDto.class);
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -71,26 +71,28 @@ public class ServiceProviderSourceDAOImpl implements ServiceProviderSourceDAOCus
 
     @Override
     public ServiceProviderSourceDto findServiceProviderSource(int id) {
-        try{
+        try {
             ServiceProviderSourceEntity found = findIfExistsAndReturn(id);
             return modelMapper.map(found, ServiceProviderSourceDto.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
     public List<ServiceProviderSourceDto> listServiceProviderSources(boolean showDeleted) {
-        if(showDeleted){
+        if (showDeleted) {
             try {
-                Type listType = new TypeToken<List<ServiceProviderSourceDto>>() {}.getType();
+                Type listType = new TypeToken<List<ServiceProviderSourceDto>>() {
+                }.getType();
                 return modelMapper.map(serviceProviderSourceDAO.findAll(), listType);
             } catch (Exception e) {
                 throw e;
             }
-        }else{
+        } else {
             try {
-                Type listType = new TypeToken<List<ServiceProviderSourceDto>>() {}.getType();
+                Type listType = new TypeToken<List<ServiceProviderSourceDto>>() {
+                }.getType();
                 return modelMapper.map(serviceProviderSourceDAO.findAllByDeletedIsFalse(), listType);
             } catch (Exception e) {
                 throw e;

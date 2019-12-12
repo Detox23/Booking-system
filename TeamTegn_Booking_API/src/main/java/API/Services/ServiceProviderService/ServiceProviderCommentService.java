@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ServiceProviderCommentService implements  IServiceProviderCommentService{
+public class ServiceProviderCommentService implements IServiceProviderCommentService {
 
     private ModelMapper modelMapper;
 

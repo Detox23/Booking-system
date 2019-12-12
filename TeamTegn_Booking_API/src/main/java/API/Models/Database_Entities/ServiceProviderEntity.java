@@ -35,7 +35,7 @@ public class ServiceProviderEntity {
     private String city;
     private String stateRegion;
     private String country;
-    private int createdBy;
+    private Integer createdBy;
     private Timestamp createdDate;
     private Timestamp lastModified;
     private Integer lastModifiedBy;
@@ -263,11 +263,11 @@ public class ServiceProviderEntity {
     @Basic
     @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 

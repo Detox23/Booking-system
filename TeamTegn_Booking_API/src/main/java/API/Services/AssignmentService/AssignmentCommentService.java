@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class AssignmentCommentService implements IAssignmentCommentService{
+public class AssignmentCommentService implements IAssignmentCommentService {
 
     private AssignmentCommentDAO assignmentCommentDAO;
 

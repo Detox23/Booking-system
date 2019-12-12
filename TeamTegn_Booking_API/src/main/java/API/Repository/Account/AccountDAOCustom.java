@@ -8,11 +8,11 @@ import java.util.List;
 public interface AccountDAOCustom {
     List<AccountDto> listAccounts();
 
-    AccountDto addAccount(AccountEntity account, List<String> eans,  List<Integer> accountServiceUser);
+    AccountDto addAccount(AccountEntity account, List<String> eans, List<Integer> accountServiceUser);
 
     boolean deleteAccount(int Id);
 
     AccountDto findAccount(int id);
 
-    AccountDto updateAccount(AccountEntity account, List<String> eans,  List<Integer> accountServiceUser);
+    AccountDto updateAccount(AccountEntity account, List<String> eans, List<Integer> accountServiceUser);
 }

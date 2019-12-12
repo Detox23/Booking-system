@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface IAssignmentStukYearCodeService {
     AssignmentStukYearCodeDto addAssigmentStukYearCode(AssignmentStukYearCodeForCreationDto stukYearCode);
+
     AssignmentStukYearCodeDto updateAssignmentStukYearCode(AssignmentStukYearCodeForUpdateDto stukYearCode);
+
     boolean deleteAssignmentStukYearCode(int id);
+
     List<AssignmentStukYearCodeDto> listAssignmentStukYearCodes(boolean showDeleted);
+
     AssignmentStukYearCodeDto findAssignmentStukYearCode(int id);
 }

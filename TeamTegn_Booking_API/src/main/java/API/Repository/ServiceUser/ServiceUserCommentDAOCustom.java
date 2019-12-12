@@ -5,10 +5,14 @@ import Shared.ToReturn.ServiceUserCommentDto;
 
 import java.util.List;
 
-public interface ServiceUserCommentDAOCustom  {
+public interface ServiceUserCommentDAOCustom {
     List<ServiceUserCommentDto> listServiceUserComments(int serviceUserID);
+
     ServiceUserCommentDto findServiceUserComment(int commentID);
+
     ServiceUserCommentDto addServiceUserComment(ServiceUserCommentEntity serviceProvider);
+
     ServiceUserCommentDto updateServiceUserComment(ServiceUserCommentEntity serviceProviderComment);
+
     boolean deleteServiceUserComment(int commentID);
 }

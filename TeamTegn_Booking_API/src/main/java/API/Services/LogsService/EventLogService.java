@@ -19,16 +19,16 @@ public class EventLogService implements IEventLogService {
         this.mapper = mapper;
     }
 
-
     @Autowired
     public void setEventLogDAO(EventLogDAO eventLogDAO) {
         this.eventLogDAO = eventLogDAO;
     }
 
+
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void addLog(EventLogDto log) {
         EventLogEntity logEntity = mapper.map(log, EventLogEntity.class);
-         eventLogDAO.save(logEntity);
+        eventLogDAO.save(logEntity);
     }
 }

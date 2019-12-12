@@ -22,6 +22,6 @@ public interface IServiceProviderAbsenceService {
 
     List<ServiceProviderAbsenceDto> findServiceProviderAbsencesInTime(Time startTime, Time endTime);
 
-    List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time startTime, Time endTime,int serviceProviderID);
+    List<ServiceProviderAbsenceDto> findServiceProviderAbsencesForServiceProviderInTime(Time startTime, Time endTime, int serviceProviderID);
 
 }

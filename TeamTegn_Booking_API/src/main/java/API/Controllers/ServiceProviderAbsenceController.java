@@ -60,15 +60,15 @@ public class ServiceProviderAbsenceController {
 
     @RequestMapping(value = "/date/{startDate}/{endDate}", method = RequestMethod.GET)
     public ResponseEntity<?> findServiceProviderAbsencesInDate(
-            @PathVariable @JsonFormat(pattern="yyyy-MM-dd") Date startDate,
-            @PathVariable @JsonFormat(pattern="yyyy-MM-dd") Date endDate) {
+            @PathVariable @JsonFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @PathVariable @JsonFormat(pattern = "yyyy-MM-dd") Date endDate) {
         return new ResponseEntity<>(serviceProviderAbsence.findServiceProviderAbsencesInPeriod(startDate, endDate), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/date/{startDate}/{endDate}/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> findServiceProviderAbsenceInDate(
-            @PathVariable @JsonFormat(pattern="yyyy-MM-dd") Date startDate,
-            @PathVariable @JsonFormat(pattern="yyyy-MM-dd") Date endDate,
+            @PathVariable @JsonFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @PathVariable @JsonFormat(pattern = "yyyy-MM-dd") Date endDate,
             @PathVariable int id) {
         return new ResponseEntity<>(serviceProviderAbsence.findServiceProviderAbsencesForServiceProviderInPeriod(startDate, endDate, id), new HttpHeaders(), HttpStatus.CREATED);
     }

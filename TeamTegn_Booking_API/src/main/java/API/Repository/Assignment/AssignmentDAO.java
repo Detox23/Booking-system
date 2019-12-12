@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AssignmentDAO extends PagingAndSortingRepository<AssignmentEntity, Integer>, JpaRepository<AssignmentEntity, Integer>,AssignmentDAOCustom {
+public interface AssignmentDAO extends PagingAndSortingRepository<AssignmentEntity, Integer>, JpaRepository<AssignmentEntity, Integer>, AssignmentDAOCustom {
 
     Optional<AssignmentEntity> findByIdAndDeletedIsFalse(int id);
 

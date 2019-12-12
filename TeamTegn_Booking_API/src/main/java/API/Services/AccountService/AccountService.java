@@ -60,7 +60,8 @@ public class AccountService implements IAccountService {
     public AccountDto addAccount(AccountForCreationDto account) {
         Map<Integer, ServiceUserDto> helperServiceUserMap = new HashMap<>();
         try {
-            AccountDto addedAccount = accountDAO.addAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getServiceUsersIds());
+            AccountEntity accountEntityToAdd = modelMapper.map(account, AccountEntity.class);
+            AccountDto addedAccount = accountDAO.addAccount(accountEntityToAdd, account.getEan(), account.getServiceUsersIds());
             fillAccountWithListOfEans(addedAccount);
             fillAccountWithServiceUsers(addedAccount, helperServiceUserMap);
             return addedAccount;
@@ -109,7 +110,8 @@ public class AccountService implements IAccountService {
     public AccountDto updateAccount(AccountForUpdateDto account) {
         try {
             Map<Integer, ServiceUserDto> helperServiceUserMap = new HashMap<>();
-            AccountDto updated = accountDAO.updateAccount(modelMapper.map(account, AccountEntity.class), account.getEan(), account.getServiceUsers());
+            AccountEntity accountEntityToUpdate = modelMapper.map(account, AccountEntity.class);
+            AccountDto updated = accountDAO.updateAccount(accountEntityToUpdate, account.getEan(), account.getServiceUsers());
             fillAccountWithListOfEans(updated);
             fillAccountWithServiceUsers(updated, helperServiceUserMap);
             return updated;
@@ -119,6 +121,13 @@ public class AccountService implements IAccountService {
     }
 
 
+    /**
+     * The method creates a new list of ean parameter. Then, it fills the created list with found String eans
+     * from a database.
+     *
+     * @param account An account that was added. Its Id parameter is used to find a list of AccountEanEntity objects
+     *                from a database.
+     */
     private void fillAccountWithListOfEans(AccountDto account) {
         account.setEan(new ArrayList<>());
         List<AccountEanEntity> foundList = accountEanDAO.findAllByAccountId(account.getId());

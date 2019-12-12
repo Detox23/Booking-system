@@ -23,7 +23,7 @@ public class DepartmentEntity {
     private String faxCode;
     private String faxNumber;
     private String email;
-    private int createdBy;
+    private Integer createdBy;
     private Timestamp createdDate;
     private boolean isDeleted;
 
@@ -151,11 +151,11 @@ public class DepartmentEntity {
     @Basic
     @CreatedBy
     @Column(name = "CreatedBy", nullable = false)
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 
