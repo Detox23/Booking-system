@@ -1,3 +1,5 @@
 /resources/persistence.xml
+/resources/application.properties
+/resources/application.properties.xml
 /java/API/java.com.API.Configurations/DataSourceConfig.java
 target
