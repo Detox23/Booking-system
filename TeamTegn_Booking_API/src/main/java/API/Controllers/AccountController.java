@@ -38,7 +38,6 @@ public class AccountController {
 
     /**
      * GET request method that retrieves a list of all active accounts.
-     *
      * @return If successfully, it returns code 302 (FOUND response) together with a list of AccountDto objects that
      * are not deleted from a database. Otherwise appreciate error message.
      */
@@ -48,9 +47,7 @@ public class AccountController {
     }
 
     /**
-     *
      * GET request method that find an Account by its id.
-     *
      * @param id <Integer> Unique identifier of a record. It is used to find it in the database.
      * @return If successfully, it returned code 302 (FOUND response) together with a found AccountDto object. Otherwise,
      * returns appreciate error message.
@@ -62,7 +59,6 @@ public class AccountController {
 
     /**
      * POST request method that add an Account to a database.
-     *
      * @param account <AccountForCreationDto> Required account object that need to be passed in order to complete the operation.
      *               Required object's fields:
      *                ~ accountName <String> (A name of an account),
@@ -82,7 +78,6 @@ public class AccountController {
     /**
      * DELETE request method that deletes Account from a database. In fact the record is not deleted, only its field
      * isDeleted is set to True.
-     *
      * @param id <Integer> An unique identifier of a record from a database. It is a number thanks to which the field is found and
      *           deleted.
      * @return If successfully, it returns code 200 (OK response) and true value. Otherwise, false value or error message.
@@ -96,7 +91,6 @@ public class AccountController {
     /**
      * PATCH request method that updated found Account in a database. The account is found by an id value and changed,
      * none empty fields are updated.
-     *
      * @param account Required account object that need to be passed to complete the operation. Required object's fields:
      *                ~ id <Integer> (Unique identifier of a record in a database),
      *                ~ accountName <String> (A name of an account),
@@ -115,7 +109,6 @@ public class AccountController {
 
     /**
      * GET request method that finds all account's comments.
-     *
      * @param id <Integer> An unique identifier of an account from a database.
      * @return If successfully, it returns code 302 (FOUND response) together with a retrieved list of AccountCommentDto objects.
      */
@@ -125,9 +118,7 @@ public class AccountController {
     }
 
     /**
-     *
      * GET request method that finds a comment of an account.
-     *
      * @param id <Integer> An unique identifier of an account from a database.
      * @param commentID <Integer> An unique identifier of an comment from a database.
      * @return If successfully, it returns code 302 (FOUND response) together with a found AccountCommentDto object with
@@ -152,7 +143,6 @@ public class AccountController {
 
     /**
      * POST request method that adds comment to an account.
-     *
      * @param id <Integer> An unique identifier of an account.
      * @param comment <AccountCommentForCreationDto> A creation object that need to be passed in order to complete the operation.
      *                Required fields:
