@@ -3,6 +3,7 @@ package Shared.ForCreation;
 import javax.validation.constraints.NotNull;
 
 public class AccountCommentForUpdateDto {
+    @NotNull
     private int id;
     @NotNull
     private Integer accountId;

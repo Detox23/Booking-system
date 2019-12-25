@@ -1,6 +1,5 @@
 package API.Controllers;
 
-import API.Services.DepartmentService.IDepartmentService;
 import API.Services.EmailService.IEmailService;
 import Shared.ForCreation.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/emails")
-
 public class EmailController {
+
     private IEmailService emailService;
 
     @Autowired
     public void setEmailService(IEmailService emailService) {
         this.emailService = emailService;
     }
+
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_Planner')")
     public ResponseEntity<?> seeAllDepartments(@RequestBody Mail mail) {

@@ -50,6 +50,7 @@ public class AssignmentForCreationDto {
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
+    //dodać cancel reason
     @NotNull
     private Integer assignmentTypeId;
     @NotNull
