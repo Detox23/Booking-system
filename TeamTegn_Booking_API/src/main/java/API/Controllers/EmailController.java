@@ -26,7 +26,7 @@ public class EmailController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_Planner')")
-    public ResponseEntity<?> seeAllDepartments(@RequestBody Mail mail) {
+    public ResponseEntity<?> sendMail(@RequestBody Mail mail) {
         emailService.sendSimpleMessage(mail);
         return new ResponseEntity<>( new HttpHeaders(), HttpStatus.OK);
     }

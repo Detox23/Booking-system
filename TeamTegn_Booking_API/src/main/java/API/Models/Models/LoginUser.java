@@ -1,7 +1,11 @@
 package API.Models.Models;
 
+import javax.validation.constraints.NotNull;
+
 public class LoginUser {
+    @NotNull
     private String userName;
+    @NotNull
     private String password;
 
     public String getUserName() {

@@ -13,6 +13,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 //import API.Services.EmailService.EmailService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -30,8 +32,17 @@ public class AuthenticationController {
     private TokenProvider jwtTokenUtil;
 
 
+    /**
+     * POST request method that allows user to login. And get access to the API's features.
+     *
+     * @param loginUser <LoginUser> Object of login user that allows to log in. Required fields of the object:
+     *                  ~ userName <String>
+     *                  ~ password <String>
+     * @return If successfully, returns an token that authorize a user. Otherwise error with appreciate message.
+     * @throws AuthenticationException if the credentials are wrong the exception is throw.
+     */
     @RequestMapping(value = "/systemUsers/login", method = RequestMethod.POST)
-    public ResponseEntity register(@RequestBody LoginUser loginUser) throws AuthenticationException {
+    public ResponseEntity login(@RequestBody @Valid LoginUser loginUser) throws AuthenticationException {
         System.out.println(loginUser.getPassword());
         System.out.println(loginUser.getUserName());
         final Authentication authentication = authenticationManager.authenticate(

@@ -66,7 +66,7 @@ public class AssignmentImportanceController {
     }
 
     /**
-     * DELETE request method that removes an assignment from a database. In fact it just change one of the record's
+     * DELETE request method that removes an assignment importance from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
      * @param id <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
