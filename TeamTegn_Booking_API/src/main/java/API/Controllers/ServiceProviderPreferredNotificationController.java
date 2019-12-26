@@ -35,7 +35,7 @@ public class ServiceProviderPreferredNotificationController {
 
     /**
      * GET request method that finds a notification.
-     * @param id <Integer> Unique identifier of a title record from a database.
+     * @param id <Integer> Unique identifier of a notification record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found serviceProviderNotificationDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */

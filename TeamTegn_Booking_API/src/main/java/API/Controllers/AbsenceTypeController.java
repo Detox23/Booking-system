@@ -27,19 +27,21 @@ public class AbsenceTypeController {
 
     /**
      * GET request method that retrieves a list of absence types. Depending on the choice it can also displays deleted records.
-     * @param showDeleted <boolean> Defines whe or not display deleted values.
+     * @param showDeleted [Path variable] <boolean> Defines whether or not display deleted values.
+     *                    True -> displays all values
+     *                    False -> displays only not deleted value
      * @return If successfully it returns code 302 (FOUND response) with list of absence types. Otherwise appreciate error
      * response.
      */
     @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
-    public ResponseEntity<?> seeAllAbsenceTypes(boolean showDeleted) {
+    public ResponseEntity<?> listAbsenceTypes(@PathVariable boolean showDeleted) {
         return new ResponseEntity<>(absenceTypeService.listAbsenceTypes(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     /**
-     * GET request method that retrieves a absence type object by an id.
-     * @param id <Integer> Unique identifier of an absence in a database.
-     * @return If found it returns code 302 (FOUND response) with a found absence type. Otherwise appreciate error message.
+     * GET request method that retrieves an absence type object by an id.
+     * @param id [Path variable] <Integer> Unique identifier of an absence type in a database.
+     * @return If found, it returns code 302 (FOUND response) with a found absence type object. Otherwise appreciate error message.
      * response.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -50,9 +52,9 @@ public class AbsenceTypeController {
     /**
      * POST request method that adds an absence type with unique absenceTypeName to a database.
      * Only available for Administrator Role
-     * @param absenceType <AbsenceTypeForCreationDto> Required object that need to be passed to complete the operation.
+     * @param absenceType [Body variable] <AbsenceTypeForCreationDto> Required object that need to be passed to complete the operation.
      *                   Required fields:
-     *                    ~ absenceTypeName <String>
+     *                    ~ absenceTypeName <String> Unique name of an absence type.
      * @return If successfully it returns code 201 (CREATED response) and created AbsenceTypeDto object with filled fields.
      * Otherwise, appreciate error message.
      */
@@ -65,7 +67,7 @@ public class AbsenceTypeController {
     /**
      * DELETE request method that deletes an absence type from a database by its id. In fact it just sets its property isDeleted to true.
      * Only available for Administrator Role.
-     * @param id <Integer> Unique id of the object in a database that is used for deletion.
+     * @param id [Path variable] <Integer> Unique id of the object in a database that is used for deletion.
      * @return  If successfully, it returns code 200 (OK response) and true value. Otherwise false or appreciate error
      * message.
      */
@@ -78,9 +80,9 @@ public class AbsenceTypeController {
     /**
      * PATCH request method that updates absence type with a new values, leaving not changed values untouched. Only available
      * for Administrator Role.
-     * @param absenceType Required object that need to be passed to complete the operation. Required fields:
-     *                    ~ id <Integer>
-     *                    ~ absenceTypeName <String>
+     * @param absenceType [Body variable] Required object that need to be passed to complete the operation. Required fields:
+     *                    ~ id <Integer> (Unique identifier of an absence type record)
+     *                    ~ absenceTypeName <String> (Unique name of an absence type)
      * @return If successfully, it returns code 200 (OK response) and an object with updated fields. Otherwise
      * appreciate error message.
      */

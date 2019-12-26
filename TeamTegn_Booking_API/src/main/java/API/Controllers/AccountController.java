@@ -42,24 +42,24 @@ public class AccountController {
      * are not deleted from a database. Otherwise appreciate error message.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<?> listAccounts() {
         return new ResponseEntity<>(accountService.listAccounts(), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     /**
      * GET request method that find an Account by its id.
-     * @param id <Integer> Unique identifier of a record. It is used to find it in the database.
+     * @param id [Path variable] <Integer> Unique identifier of a record. It is used to find it in the database.
      * @return If successfully, it returned code 302 (FOUND response) together with a found AccountDto object. Otherwise,
      * returns appreciate error message.
      */
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> seeAccount(@PathVariable int id) {
+    public ResponseEntity<?> findAccount(@PathVariable int id) {
         return new ResponseEntity<>(accountService.findAccount(id), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     /**
      * POST request method that add an Account to a database.
-     * @param account <AccountForCreationDto> Required account object that need to be passed in order to complete the operation.
+     * @param account [Body variable] <AccountForCreationDto> Required account object that need to be passed in order to complete the operation.
      *               Required object's fields:
      *                ~ accountName <String> (A name of an account),
      *                ~ accountTypeId <Integer> (An Id of an account's type),
@@ -71,14 +71,14 @@ public class AccountController {
      * filled. Otherwise appreciate error message.
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> createAccount(@RequestBody @Valid AccountForCreationDto account) {
+    public ResponseEntity<?> addAccount(@RequestBody @Valid AccountForCreationDto account) {
         return new ResponseEntity<>(accountService.addAccount(account), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     /**
      * DELETE request method that deletes Account from a database. In fact the record is not deleted, only its field
      * isDeleted is set to True.
-     * @param id <Integer> An unique identifier of a record from a database. It is a number thanks to which the field is found and
+     * @param id [Path variable] <Integer> An unique identifier of a record from a database. It is a number thanks to which the field is found and
      *           deleted.
      * @return If successfully, it returns code 200 (OK response) and true value. Otherwise, false value or error message.
      */
@@ -91,7 +91,8 @@ public class AccountController {
     /**
      * PATCH request method that updated found Account in a database. The account is found by an id value and changed,
      * none empty fields are updated.
-     * @param account Required account object that need to be passed to complete the operation. Required object's fields:
+     * @param account [Body variable] <AccountForUpdateDto> Required account object that need to be passed to complete the operation.
+     *               Required object's fields:
      *                ~ id <Integer> (Unique identifier of a record in a database),
      *                ~ accountName <String> (A name of an account),
      *                ~ accountTypeId <Integer> (An Id of an account's type),
@@ -109,7 +110,7 @@ public class AccountController {
 
     /**
      * GET request method that finds all account's comments.
-     * @param id <Integer> An unique identifier of an account from a database.
+     * @param id [Path variable] <Integer> An unique identifier of an account from a database.
      * @return If successfully, it returns code 302 (FOUND response) together with a retrieved list of AccountCommentDto objects.
      */
     @RequestMapping(value = "/{id}/comment/", method = RequestMethod.GET)
@@ -119,8 +120,8 @@ public class AccountController {
 
     /**
      * GET request method that finds a comment of an account.
-     * @param id <Integer> An unique identifier of an account from a database.
-     * @param commentID <Integer> An unique identifier of an comment from a database.
+     * @param id [Path variable] <Integer> An unique identifier of an account from a database.
+     * @param commentID [Path variable] <Integer> An unique identifier of an comment from a database.
      * @return If successfully, it returns code 302 (FOUND response) together with a found AccountCommentDto object with
      * all fields filled.
      */
@@ -131,8 +132,8 @@ public class AccountController {
 
     /**
      * DELETE request method that removes a specific comment of an account from a database.
-     * @param id <Integer> An unique identifier of an account from a database.
-     * @param commentID <Integer> An unique identifier of an comment from a database.
+     * @param id [Path variable] <Integer> An unique identifier of an account from a database.
+     * @param commentID [Path variable] <Integer> An unique identifier of an comment from a database.
      * @return If successfully, it returns code 200 (OK response) and true value. Otherwise it returns false or error
      * message.
      */
@@ -143,8 +144,8 @@ public class AccountController {
 
     /**
      * POST request method that adds comment to an account.
-     * @param id <Integer> An unique identifier of an account.
-     * @param comment <AccountCommentForCreationDto> A creation object that need to be passed in order to complete the operation.
+     * @param id [Path variable] <Integer> An unique identifier of an account.
+     * @param comment [Body variable] <AccountCommentForCreationDto> A creation object that need to be passed in order to complete the operation.
      *                Required fields:
      *                ~ accountId <Integer> (An id of an account to which the comment will be added)
      *                ~ commentText <String> (A comment text that will be added)
@@ -159,8 +160,8 @@ public class AccountController {
 
     /**
      * PATCH request method that updated existing comment of an account with new information.
-     * @param id <Integer> An unique identifier of an account.
-     * @param comment <AccountCommentForUpdateDto> An update object that need to be passed in order to complete the operation.
+     * @param id [Path variable] <Integer> An unique identifier of an account.
+     * @param comment [Body variable] <AccountCommentForUpdateDto> An update object that need to be passed in order to complete the operation.
      *                Required fields:
      *                ~ id <Integer> (Unique identifier of a record in a database)
      *                ~ accountId <Integer> (An id of an account to which the comment will be added)
