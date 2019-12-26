@@ -21,7 +21,6 @@ public class SystemUserController {
         this.systemUserService = systemUserService;
     }
 
-
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> addSystemUser(@RequestBody @Valid SystemUserForCreationDto systemUser) {
         return new ResponseEntity<>(systemUserService.addSystemUser(systemUser), new HttpHeaders(), HttpStatus.CREATED);
@@ -39,7 +38,6 @@ public class SystemUserController {
 
     @RequestMapping(value = "/all/{showDeleted}", method = RequestMethod.GET)
     public ResponseEntity<?> listSystemUsers(@PathVariable boolean showDeleted) {
-
         return new ResponseEntity<>(systemUserService.listSystemUsers(showDeleted), new HttpHeaders(), HttpStatus.FOUND);
     }
 
