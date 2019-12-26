@@ -22,19 +22,6 @@ import java.util.List;
 @ControllerAdvice
 @EnableWebMvc
 public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
-//    @ExceptionHandler(value={IllegalArgumentException.class, IllegalStateException.class})
-//    protected ResponseEntity<Object> handleConflict(
-//            RuntimeException ex, WebRequest request){
-//        String bodyOfResponse = "This should be application specific";
-//        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
-//    }
-//
-//    @ExceptionHandler(value= {ObjectNotFoundException.class, NullPointerException.class})
-//    protected ResponseEntity<Object> handleObjectNotFoundException(
-//            RuntimeException ex, WebRequest request){
-//        String bodyOfResponse = "The record was not found.";
-//        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-//    }
 
     IEventLogService eventLogService;
 
@@ -43,42 +30,78 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
         this.eventLogService = eventLogService;
     }
 
+
+    /**
+     * Exception handler for AccessDeniedException
+     * @param exception <AccessDeniedException> Caught exception.
+     * @return Appreciate error message with forbidden response.
+     */
     @ExceptionHandler(value = AccessDeniedException.class)
     protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
         return new ResponseEntity<>("You have no access for that operation.", HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * Exception handler for UnknownException
+     * @param exception <UnknownException> Caught exception.
+     * @return Appreciate error message with conflict response.
+     */
     @ExceptionHandler(value = UnknownException.class)
     protected ResponseEntity<Object> handleUnknownException(UnknownException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
+    /**
+     * Exception handler for NotFoundException
+     * @param exception <NotFoundException> Caught exception.
+     * @return Appreciate error message with not found response.
+     */
     @ExceptionHandler(value = NotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementException(NotFoundException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(value= RuntimeException.class)
-//    protected  ResponseEntity<Object> handleRuntimeException(RuntimeException exception){
-//    eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
-//        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    /**
+     * Exception handler for RuntimeException
+     * @param exception <RuntimeException> Caught exception.
+     * @return Appreciate error message with internal server exception response.
+     */
+    @ExceptionHandler(value= RuntimeException.class)
+    protected  ResponseEntity<Object> handleRuntimeException(RuntimeException exception){
+    eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
+    /**
+     * Exception handler for NotEnoughDataException
+     * @param exception <NotEnoughDataException> Caught exception.
+     * @return Appreciate error message with conflict response.
+     */
     @ExceptionHandler(value = NotEnoughDataException.class)
     protected ResponseEntity<Object> handleNotEnoughDataForCreationException(NotEnoughDataException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
+    /**
+     * Exception handler for DuplicateException
+     * @param exception <DuplicateException> Caught exception.
+     * @return Appreciate error message with conflict response.
+     */
     @ExceptionHandler(value = DuplicateException.class)
     protected ResponseEntity<Object> handleDuplicateException(DuplicateException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
+    /**
+     * Exception handler for UpdatePatchException
+     * @param exception <UpdatePatchException> Caught exception.
+     * @return Appreciate error message with internal server error response.
+     */
     @ExceptionHandler(value = UpdatePatchException.class)
     protected ResponseEntity<Object> handleUpdatePatchException(UpdatePatchException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
@@ -91,6 +114,11 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
+    /**
+     * Exception handler for UnknownAddingException
+     * @param exception <UnknownAddingException> Caught exception.
+     * @return Appreciate error message with conflict response.
+     */
     @ExceptionHandler(value = UnknownAddingException.class)
     protected ResponseEntity<Object> handleUnknownAddingException(UnknownAddingException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));

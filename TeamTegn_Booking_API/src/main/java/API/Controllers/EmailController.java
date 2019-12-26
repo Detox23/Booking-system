@@ -24,6 +24,12 @@ public class EmailController {
     }
 
 
+    /**
+     * POST request method that allows to send emails.
+     * @param mail <Mail> Object that holds relevant information to send mail, such as message text, address email
+     *             of receiver.
+     * @return If successfully code 200 (OK response), otherwise error with appreciate message.
+     */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_Planner')")
     public ResponseEntity<?> sendMail(@RequestBody Mail mail) {
