@@ -23,7 +23,7 @@ public class ServiceProviderTypeController {
 
     /**
      * GET request method that retrieves all types. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
      * @return If successfully, it returns 302 code (FOUND response) with a list of all types.
      * Otherwise it returns error message with appreciate message.
      */
@@ -34,7 +34,7 @@ public class ServiceProviderTypeController {
 
     /**
      * GET request method that finds a type.
-     * @param id <Integer> Unique identifier of a title record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of a title record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found serviceProviderTypeDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -45,9 +45,9 @@ public class ServiceProviderTypeController {
 
     /**
      * POST request method that adds an service provider type to a database. Allowed only for administrator account.
-     * @param serviceProviderType <ServiceProviderTypeForCreationDto> An object that is needed to complete the operation.
-     *                         Object's required fields;
-     *                         ~ providerType <String> (Unique name of a type)
+     * @param serviceProviderType [Request body variable] <ServiceProviderTypeForCreationDto> An object that is needed to
+     *                           complete the operation. Object's required fields;
+     *                           ~ providerType <String> (Unique name of a type)
      * @return If successfully, it returns 201 code (CREATED response) with a created serviceProviderTypeDto
      * object filled with information that was added to a database. Otherwise it returns error with appreciate message.
      */
@@ -60,7 +60,7 @@ public class ServiceProviderTypeController {
     /**
      * DELETE request method that removes a service provider type from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -72,10 +72,10 @@ public class ServiceProviderTypeController {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param serviceProviderType <ServiceProviderTypeForUpdateDto> An object that need to be passed in order to process the operation.
-     *                         Required object's fields:
-     *                         ~ id <Integer> (Unique identifier of the record in the database)
-     *                         ~ providerType <String> (Unique name of a type)
+     * @param serviceProviderType [Request body variable] <ServiceProviderTypeForUpdateDto> An object that need to be
+     *                           passed in order to process the operation. Required object's fields:
+     *                           ~ id <Integer> (Unique identifier of the record in the database)
+     *                           ~ providerType <String> (Unique name of a type)
      * @return If successfully, it returns 200 code (OK response) and a serviceProviderTypeDto object with updated
      * information. Otherwise it returns error with appreciate message.
      */

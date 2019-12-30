@@ -26,8 +26,8 @@ public class EmailController {
 
     /**
      * POST request method that allows to send emails.
-     * @param mail <Mail> Object that holds relevant information to send mail, such as message text, address email
-     *             of receiver.
+     * @param mail [Request body variable] <Mail> Object that holds relevant information to send mail, such
+     *            as message text, address email of a receiver.
      * @return If successfully code 200 (OK response), otherwise error with appreciate message.
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)

@@ -24,7 +24,9 @@ public class ServiceProviderSourceController {
 
     /**
      * GET request method that retrieves all sources. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    true -> show all records
+     *                    false -> show only not deleted records.
      * @return If successfully, it returns 302 code (FOUND response) with a list of all sources.
      * Otherwise it returns error message with appreciate message.
      */
@@ -35,7 +37,7 @@ public class ServiceProviderSourceController {
 
     /**
      * GET request method that finds a source.
-     * @param id <Integer> Unique identifier of a title record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of a title record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found serviceProviderSourceDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -46,9 +48,9 @@ public class ServiceProviderSourceController {
 
     /**
      * POST request method that adds an service provider source to a database. Allowed only for administrator account.
-     * @param serviceProviderSource <ServiceProviderSourceForCreationDto> An object that is needed to complete the operation.
-     *                         Object's required fields;
-     *                         ~ providerSource <String> (Unique name of a source)
+     * @param serviceProviderSource [Request body variable] <ServiceProviderSourceForCreationDto> An object that is
+     *                             needed to complete the operation. Object's required fields;
+     *                             ~ providerSource <String> (Unique name of a source)
      * @return If successfully, it returns 201 code (CREATED response) with a created serviceProviderSourceDto
      * object filled with information that was added to a database. Otherwise it returns error with appreciate message.
      */
@@ -61,7 +63,7 @@ public class ServiceProviderSourceController {
     /**
      * DELETE request method that removes a service provider source from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -73,10 +75,10 @@ public class ServiceProviderSourceController {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param serviceProviderSource <ServiceProviderSourceForUpdateDto> An object that need to be passed in order to process the operation.
-     *                         Required object's fields:
-     *                         ~ id <Integer> (Unique identifier of the record in the database)
-     *                         ~ providerSource <String> (Unique name of a source)
+     * @param serviceProviderSource [Request body variable] <ServiceProviderSourceForUpdateDto> An object that need to be
+     *                             passed in order to process the operation. Required object's fields:
+     *                             ~ id <Integer> (Unique identifier of the record in the database)
+     *                             ~ providerSource <String> (Unique name of a source)
      * @return If successfully, it returns 200 code (OK response) and a serviceProviderSourceDto object with updated
      * information. Otherwise it returns error with appreciate message.
      */

@@ -25,7 +25,9 @@ public class AssignmentStatusController {
 
     /**
      * GET request method that retrieves all assignment statuses. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    true -> display all records,
+     *                    false -> display only not deleted records.
      * @return If successfully, it returns 302 code (FOUND response) with a list of all assignment statuses.
      * Otherwise it returns error message with appreciate message.
      */
@@ -36,7 +38,7 @@ public class AssignmentStatusController {
 
     /**
      * GET request method that finds an assignment status.
-     * @param id <Integer> Unique identifier of an status record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of an status record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found assignmentStatusDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -47,7 +49,7 @@ public class AssignmentStatusController {
 
     /**
      * POST request method that adds an assignment status to a database. Allowed only for administrator account.
-     * @param assignmentStatus <AssignmentStatusForCreationDto> An object that is needed to complete the operation.
+     * @param assignmentStatus [Request body variable] <AssignmentStatusForCreationDto> An object that is needed to complete the operation.
      *                         Object's required fields;
      *                         ~ assignmentStatusName <String> (Unique name of a status)
      * @return If successfully, it returns 201 code (CREATED response) with a created assignmentStatusDto
@@ -62,7 +64,7 @@ public class AssignmentStatusController {
     /**
      * DELETE request method that removes an assignment status from a database. In fact it just changes one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id <Integer> [Path variable] Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -74,8 +76,8 @@ public class AssignmentStatusController {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param assignmentStatus <AssignmentStatusForUpdateDto> An object that need to be passed in order to process the operation.
-     *                         Required object's fields:
+     * @param assignmentStatus [Request body variable] <AssignmentStatusForUpdateDto> An object that need to be passed
+     *                        in order to process the operation. Required object's fields:
      *                         ~ id <Integer> (Unique identifier of the record in the database)
      *                         ~ assignmentStatusName <String> (Unique name of a status)
      * @return If successfully, it returns 200 code (OK response) and an assignmentStatusDto object with updated

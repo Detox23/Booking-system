@@ -25,7 +25,7 @@ public class ServiceUserPreferencesController {
     /**
      * GET request method that lists service users preferences.
      *
-     * @param serviceUser <Integer> Unique identifier of a service user.
+     * @param serviceUser [Path variable] <Integer> Unique identifier of a service user.
      * @return If successfully, it returns code 302 (FOUND response) and a list of found preferences of specified service user.
      * Otherwise, error with suitable message.
      */
@@ -37,8 +37,8 @@ public class ServiceUserPreferencesController {
     /**
      * GET request method that finds preference between service provider and service user.
      *
-     * @param serviceUser     <Integer> Unique identifier of a service user.
-     * @param serviceProvider <Integer> Unique identifier of a service provider.
+     * @param serviceUser     [Path variable] <Integer> Unique identifier of a service user.
+     * @param serviceProvider [Path variable] <Integer> Unique identifier of a service provider.
      * @return If successfully, it returns code 302 (FOUND response) together with a found serviceProviderPreferencesDto object
      * defining relation between these two users. Otherwise, error with suitable message.
      */
@@ -50,8 +50,8 @@ public class ServiceUserPreferencesController {
     /**
      * POST request method that adds service user preference to a database.
      *
-     * @param serviceUser            <Integer> Unique identifier of a service user.
-     * @param serviceUserPreferences <ServiceUserPreferencesForCreationDto> Object that is needed to complete the operation.
+     * @param serviceUser            [Path variable] <Integer> Unique identifier of a service user.
+     * @param serviceUserPreferences [Request body variable] <ServiceUserPreferencesForCreationDto> Object that is needed to complete the operation.
      *                               Object's required fields:
      *                               ~ rating <Integer> (Grate between service user and service provider)
      *                               ~ serviceProviderId <Integer> (Unique identifier of a service provider)
@@ -66,7 +66,7 @@ public class ServiceUserPreferencesController {
     /**
      * DELETE request method removes service user preference from a database.
      *
-     * @param id <Integer> Unique identifier of a service user.
+     * @param id [Path variable] <Integer> Unique identifier of a service user.
      * @return If successfully, it returns code 200(OK response) and true value. Otherwise false value or error with
      * suitable message.
      */
@@ -78,8 +78,8 @@ public class ServiceUserPreferencesController {
     /**
      * PATCH request method updates existing service user preference in a database.
      *
-     * @param serviceUserPreferences <ServiceUserPreferencesForUpdateDto> Object that need to be passed to complete the operation.
-     *                               Object's required fields:
+     * @param serviceUserPreferences [Request body variable] <ServiceUserPreferencesForUpdateDto> Object that need to be
+     *                               passed to complete the operation. Object's required fields:
      *                               ~ id <Integer> (Unique identifier of a record from a database)
      *                               ~ rating <Integer> (Grate between service user and service provider)
      * @return If successfully, it return code 200 (OK response) together with serviceUserPreferencesDto object, filled

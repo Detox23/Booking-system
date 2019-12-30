@@ -30,7 +30,9 @@ public class AccountTypeController {
     /**
      * GET request method that is responsible for retrieving a list of account types. Depending on the choice, it can
      * also displays deleted records.
-     * @param showDeleted <boolean> Determines whether displays deleted records in the return list.
+     * @param showDeleted [Path variable] <boolean> Determines whether displays deleted records in the return list.
+     *                    True -> display all values
+     *                    False -> display only not deleted values
      * @return If successfully, it returns code 302 (FOUND response) together with a list of AccountTypeDto objects.
      * Otherwise it returns error response with an appreciate message.
      */
@@ -41,7 +43,7 @@ public class AccountTypeController {
 
     /**
      * GET request method that is responsible for finding specific account type record from a database.
-     * @param id <Integer> An unique identifier of a records from a database.
+     * @param id [Path variable] <Integer> An unique identifier of a records from a database.
      * @return If successfully, it returns code 302 (FOUND response) and a found AccountTypeDto object with filled
      * fields. Otherwise it returns error response with an appreciate message.
      */
@@ -53,7 +55,8 @@ public class AccountTypeController {
     /**
      * POST request method that is responsible for adding account type to a database. Available only for an
      * administrator account.
-     * @param accountType <AccountTypeForCreationDto> An object that is required for completing the operation. The objects' required field is:
+     * @param accountType [Body variable] <AccountTypeForCreationDto> An object that is required for completing the operation.
+     *                   The objects' required field is:
      *                    ~ <String> accountType (an unique name of an account type)
      * @return If successfully, the method returns code 201 (CREATED response) and an AccountTypeDto object with
      * information that has been added. Otherwise it returns error response with an appreciate message.
@@ -67,7 +70,8 @@ public class AccountTypeController {
     /**
      * PATCH request method that is responsible for updating an existing account type from a database. Available only
      * for an administrator account.
-     * @param accountType <AccountTypeForUpdateDto> An object that is required for completing the operation. The objects' required fields are:
+     * @param accountType [Body variable] <AccountTypeForUpdateDto> An object that is required for completing the operation.
+     *                   The objects' required fields are:
      *                    ~ <Integer> id (An unique identifier of an existing record in a database),
      *                    ~ <String> accountType (an unique name of an account type)
      * @return If successfully, the method returns code 200 (OK response) together with AccountTypeDto object with updated information.
@@ -81,7 +85,7 @@ public class AccountTypeController {
 
     /**
      * DELETE request method that is responsible for removing record in a database. Available only for administrator account.
-     * @param id <Integer> An unique identifier of an record in a database that is used to remove it.
+     * @param id [Path variable] <Integer> An unique identifier of an record in a database that is used to remove it.
      * @return If successfully, the method returns code 200 (OK response) together with true value. Otherwise it returns
      * false value or error response with an appreciate message.
      */

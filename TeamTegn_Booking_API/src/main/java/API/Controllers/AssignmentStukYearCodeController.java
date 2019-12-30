@@ -25,7 +25,9 @@ public class AssignmentStukYearCodeController {
 
     /**
      * GET request method that retrieves all assignment stuk year codes. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    true - show all records,
+     *                    false - show only not deleted values
      * @return If successfully, it returns 302 code (FOUND response) with a list of all assignment stuk year codes.
      * Otherwise it returns error message with appreciate message.
      */
@@ -36,7 +38,7 @@ public class AssignmentStukYearCodeController {
 
     /**
      * GET request method that finds an assignment stuk year code.
-     * @param id <Integer> Unique identifier of a stuk year code record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of a stuk year code record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found assignmentStukYearCodeDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -47,7 +49,7 @@ public class AssignmentStukYearCodeController {
 
     /**
      * POST request method that adds an assignment stuk year code to a database. Allowed only for administrator account.
-     * @param stukYearCode <AssignmentStukYearCodeForCreationDto> An object that is needed to complete the operation.
+     * @param stukYearCode [Request body variable] <AssignmentStukYearCodeForCreationDto> An object that is needed to complete the operation.
      *                         Object's required fields;
      *                         ~ stukYearCodeName <String> (Unique name of a stuk year code)
      * @return If successfully, it returns 201 code (CREATED response) with a created assignmentStukYearCodeDto
@@ -62,7 +64,7 @@ public class AssignmentStukYearCodeController {
     /**
      * DELETE request method that removes an assignment stuk year code from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -74,8 +76,8 @@ public class AssignmentStukYearCodeController {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param stukYearCode <AssignmentStukYearCodeForUpdateDto> An object that need to be passed in order to process the operation.
-     *                         Required object's fields:
+     * @param stukYearCode [Request body variable] <AssignmentStukYearCodeForUpdateDto> An object that need to be passed
+     *                    in order to process the operation. Required object's fields:
      *                         ~ id <Integer> (Unique identifier of the record in the database)
      *                         ~ stukYearCodeName <String> (Unique name of a stuk year code)
      * @return If successfully, it returns 200 code (OK response) and an assignmentStukYearCodeDto object with updated

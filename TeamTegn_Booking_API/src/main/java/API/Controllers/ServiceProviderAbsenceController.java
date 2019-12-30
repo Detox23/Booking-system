@@ -35,7 +35,7 @@ public class ServiceProviderAbsenceController {
 
     /**
      * GET request method that returns absences of a specific service provider.
-     * @param id <Integer> Unique identifier of a service provider from database.
+     * @param id [Path variable] <Integer> Unique identifier of a service provider from database.
      * @return If successfully, it returns code 302 (FOUND response) with list of found service provider absences.
      * Otherwise error with appreciate message.
      */
@@ -46,7 +46,7 @@ public class ServiceProviderAbsenceController {
 
     /**
      * POST request method that adds service provider absence to a database.
-     * @param absence <ServiceProviderAbsenceForCreationDto> Object that need to be passed to complete the operation
+     * @param absence [Request body variable] <ServiceProviderAbsenceForCreationDto> Object that need to be passed to complete the operation
      *                of addition. Required object's fields:
      *                ~ serviceProviderId <Integer> (Unique identifier of a service provider to which the absence will be added)
      *                ~ absenceTypeId <Integer> (Unique identifier of an absence type)
@@ -65,7 +65,7 @@ public class ServiceProviderAbsenceController {
 
     /**
      * DELETE request method that removes service provider's absence from a database.
-     * @param id <Integer> Unique identifier of an absence from a database.
+     * @param id [Path variable] <Integer> Unique identifier of an absence from a database.
      * @return If successfully, it returns code 200 (OK response) and true value, otherwise false value or error with
      * appreciate message.
      */
@@ -76,8 +76,8 @@ public class ServiceProviderAbsenceController {
 
     /**
      * GET request method that finds service providers absences in specific time.
-     * @param startTime <Time> Start time from which absences will be filtered.
-     * @param endTime <Time> End time to which absences will be filtered.
+     * @param startTime [Path variable] <Time> Start time from which absences will be filtered.
+     * @param endTime [Path variable] <Time> End time to which absences will be filtered.
      * @return If successfully it returns code 302 (FOUND response) together with a list of found absences.
      * Otherwise error with appreciate error.
      */
@@ -90,9 +90,9 @@ public class ServiceProviderAbsenceController {
 
     /**
      * GET request method that finds absences for a specific service provider in desired time.
-     * @param startTime <Time> Start time from which absences will be filtered.
-     * @param endTime <Time> End time to which absences will be filtered.
-     * @param id <Integer> Unique identifier of a service provider from a database.
+     * @param startTime [Path variable] <Time> Start time from which absences will be filtered.
+     * @param endTime [Path variable] <Time> End time to which absences will be filtered.
+     * @param id [Path variable] <Integer> Unique identifier of a service provider from a database.
      * @return If successfully, it returns code 302 (FOUND response) together with a list of found absences.
      * Otherwise error with appreciate error.
      */
@@ -106,8 +106,8 @@ public class ServiceProviderAbsenceController {
 
     /**
      * GET request method that finds service providers absences in specific date.
-     * @param startDate <Date> Start date from which absences will be filtered.
-     * @param endDate <Date> End date from which absences will be filtered.
+     * @param startDate [Path variable] <Date> Start date from which absences will be filtered.
+     * @param endDate [Path variable] <Date> End date from which absences will be filtered.
      * @return If successfully, it returns code 302 (FOUND response) together with a list of found absences.
      * Otherwise error with appreciate error.
      */
@@ -121,9 +121,9 @@ public class ServiceProviderAbsenceController {
 
     /**
      * GET request method that finds absences for a specific service provider in desired time.
-     * @param startDate <Date> Start date from which absences will be filtered.
-     * @param endDate <Date> End date from which absences will be filtered.
-     * @param id <Integer> Unique identifier of a service provider from a database.
+     * @param startDate [Path variable] <Date> Start date from which absences will be filtered.
+     * @param endDate [Path variable] <Date> End date from which absences will be filtered.
+     * @param id [Path variable] <Integer> Unique identifier of a service provider from a database.
      * @return If successfully, it returns code 302 (FOUND response) together with a list of found absences.
      * Otherwise error with appreciate error.
      */

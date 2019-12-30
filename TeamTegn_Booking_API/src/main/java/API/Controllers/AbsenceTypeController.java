@@ -29,7 +29,7 @@ public class AbsenceTypeController {
      * GET request method that retrieves a list of absence types. Depending on the choice it can also displays deleted records.
      * @param showDeleted [Path variable] <boolean> Defines whether or not display deleted values.
      *                    True -> displays all values
-     *                    False -> displays only not deleted value
+     *                    False -> displays only not deleted values
      * @return If successfully it returns code 302 (FOUND response) with list of absence types. Otherwise appreciate error
      * response.
      */

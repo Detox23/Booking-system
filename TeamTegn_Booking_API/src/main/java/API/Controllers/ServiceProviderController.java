@@ -36,7 +36,9 @@ public class ServiceProviderController {
     /**
      * GET request method that retrieves all service providers. There is possibility to display deleted records.
      *
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    true -> show all records,
+     *                    false -> show only not deleted values
      * @return If successfully, it returns 302 code (FOUND response) with a list of all service providers.
      * Otherwise it returns error message with appreciate message.
      */
@@ -48,7 +50,7 @@ public class ServiceProviderController {
     /**
      * GET request method that finds a service provider.
      *
-     * @param id <Integer> Unique identifier of a service provider record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of a service provider record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found serviceProviderDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -60,8 +62,8 @@ public class ServiceProviderController {
     /**
      * POST request method that adds an service provider to a database.
      *
-     * @param serviceProvider <ServiceProviderForCreationDto> An object that is needed to complete the operation.
-     *                        Object's required fields;
+     * @param serviceProvider [Request body variable] <ServiceProviderForCreationDto> An object that is needed to
+     *                       complete the operation. Object's required fields;
      *                        ~ firstName <String> (First name of a service provider)
      *                        ~ lastName <String> (Last name of a service provider)
      *                        ~ cpr <String> (Service provider cpr number)
@@ -81,7 +83,7 @@ public class ServiceProviderController {
      * DELETE request method that removes a service provider competency from a database. In fact it just change one of the record's
      * values.
      *
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -92,16 +94,16 @@ public class ServiceProviderController {
 
     /**
      * PATCH request method that updates existing record in the database.
-     * @param serviceProvider <ServiceProviderForUpdateDto> An object that need to be passed in order to process the operation.
-     *                         Required object's fields:
-     *                         ~ id <Integer> (Unique identifier of the record in the database)
-     *                        ~ firstName <String> (First name of a service provider)
-     *                        ~ lastName <String> (Last name of a service provider)
-     *                        ~ cpr <String> (Service provider cpr number)
-     *                        ~ source <Integer> (Id of the service provider's source)
-     *                        ~ departmentId <Integer> (Id of the department where the service provider belongs)
-     *                        ~ preferredNotificationId <Integer> (Id of the preferred notifications)
-     *                        ~ transportId <Integer> (Id of the service provider's kind of transport)
+     * @param serviceProvider [Request body variable] <ServiceProviderForUpdateDto> An object that need to be passed in
+     *                       order to process the operation. Required object's fields:
+     *                       ~ id <Integer> (Unique identifier of the record in the database)
+     *                       ~ firstName <String> (First name of a service provider)
+     *                       ~ lastName <String> (Last name of a service provider)
+     *                       ~ cpr <String> (Service provider cpr number)
+     *                       ~ source <Integer> (Id of the service provider's source)
+     *                       ~ departmentId <Integer> (Id of the department where the service provider belongs)
+     *                       ~ preferredNotificationId <Integer> (Id of the preferred notifications)
+     *                       ~ transportId <Integer> (Id of the service provider's kind of transport)
      * @return If successfully, it returns 200 code (OK response) and a serviceProviderDto object with updated
      * information. Otherwise it returns error with appreciate message.
      */
@@ -113,7 +115,7 @@ public class ServiceProviderController {
     /**
      * GET request method that finds all comments for a specified service provider.
      *
-     * @param id <Integer> Unique identifier of a service provider.
+     * @param id [Path variable] <Integer> Unique identifier of a service provider.
      * @return If successfully, it returns code 302 (FOUND response), together with a list of comments for the specified
      * service provider. Otherwise, error with appreciate message.
      */
@@ -124,7 +126,7 @@ public class ServiceProviderController {
 
     /**
      * GET request method that finds a service provider comment.
-     * @param commentID  <Integer> Unique identifier of a comment.
+     * @param commentID [Path variable] <Integer> Unique identifier of a comment.
      * @return If successfully, it returns code 302 (FOUND response) together with a found serviceProviderCommentDto
      * object with filled information. Otherwise, error with appreciate message.
      */
@@ -136,9 +138,9 @@ public class ServiceProviderController {
     /**
      * POST request method that adds comment for a service provider.
      *
-     * @param id <Integer> Unique identifier of a service provider.
-     * @param comment <ServiceProviderCommentForCreationDto> Comment object for creation that need to be passed to
-     *                complete the operation. Object's required fields:
+     * @param id [Path variable] <Integer> Unique identifier of a service provider.
+     * @param comment [Request body variable] <ServiceProviderCommentForCreationDto> Comment object for creation that
+     *                need to be passed to complete the operation. Object's required fields:
      *                ~ serviceProviderId <Integer> (Unique identifier of a service provider)
      *                ~ commentText <String> (Text of a comment that will be added)
      * @return If successfully, it returns code 201 (CREATED response) with filled serviceProviderCommentDto object of
@@ -154,7 +156,7 @@ public class ServiceProviderController {
     /**
      * DELETE request method that removes service provider comment from a database.
      *
-     * @param commentID <Integer> Unique identifier of a comment record from a database.
+     * @param commentID [Path variable] <Integer> Unique identifier of a comment record from a database.
      * @return If successfully, it return code 200 (OK response) with true value. Otherwise false value or error with
      * appreciate message.
      */
@@ -165,9 +167,9 @@ public class ServiceProviderController {
 
     /**
      * PATCH request method that updates existing records in a database.
-     * @param id <Integer> Unique identifier of a service provider in a database.
-     * @param comment <ServiceProviderCommentForUpdateDto> Comment object used to update existing values. Object's
-     *                required fields:
+     * @param id [Path variable] <Integer> Unique identifier of a service provider in a database.
+     * @param comment [Request body variable] <ServiceProviderCommentForUpdateDto> Comment object used to update
+     *                existing values. Object's required fields:
      *                ~ id <Integer> (Unique identifier of a comment object)
      *                ~ serviceProviderId <Integer> (Unique identifier of a service provider)
      *                ~ commentText <String> (Text of a comment that will be added)

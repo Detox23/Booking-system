@@ -26,7 +26,9 @@ public class AssignmentTypeController {
 
     /**
      * GET request method that retrieves all assignment types. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    true -> displays all records,
+     *                    false -> display only not deleted records.
      * @return If successfully, it returns 302 code (FOUND response) with a list of all assignment types.
      * Otherwise it returns error message with appreciate message.
      */
@@ -37,7 +39,7 @@ public class AssignmentTypeController {
 
     /**
      * GET request method that finds an assignment type.
-     * @param id <Integer> Unique identifier of a type record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of a type record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found assignmentTypeDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -48,8 +50,8 @@ public class AssignmentTypeController {
 
     /**
      * POST request method that adds an assignment type to a database. Allowed only for administrator account.
-     * @param assignmentType <AssignmentTypeForCreationDto> An object that is needed to complete the operation.
-     *                         Object's required fields;
+     * @param assignmentType [Request body variable] <AssignmentTypeForCreationDto> An object that is needed to complete
+     *                      the operation. Object's required fields;
      *                         ~ assignmentTypeName <String> (Unique name of a type)
      * @return If successfully, it returns 201 code (CREATED response) with a created assignmentTypeDto
      * object filled with information that was added to a database. Otherwise it returns error with appreciate message.
@@ -63,7 +65,7 @@ public class AssignmentTypeController {
     /**
      * DELETE request method that removes an assignment type from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -75,8 +77,8 @@ public class AssignmentTypeController {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param assignmentType <AssignmentTypeForUpdateDto> An object that need to be passed in order to process the operation.
-     *                         Required object's fields:
+     * @param assignmentType [Request body variable] <AssignmentTypeForUpdateDto> An object that need to be passed in
+     *                      order to process the operation. Required object's fields:
      *                         ~ id <Integer> (Unique identifier of the record in the database)
      *                         ~ assignmentTypeName <String> (Unique name of a type)
      * @return If successfully, it returns 200 code (OK response) and an assignmentTypeDto object with updated

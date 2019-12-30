@@ -27,7 +27,9 @@ public class AssignmentStatusTypeController extends Serializers.Base {
 
     /**
      * GET request method that retrieves all assignment status types. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    ~ true -> displays all records
+     *                    ~ false -> displays only not deleted records.
      * @return If successfully, it returns 302 code (FOUND response) with a list of all assignment status types.
      * Otherwise it returns error message with appreciate message.
      */
@@ -38,7 +40,7 @@ public class AssignmentStatusTypeController extends Serializers.Base {
 
     /**
      * GET request method that finds an assignment status type.
-     * @param id <Integer> Unique identifier of an status type record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of an status type record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found assignmentStatusTypeDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -50,14 +52,14 @@ public class AssignmentStatusTypeController extends Serializers.Base {
 
     /**
      * POST request method that adds an assignment status type to a database. Allowed only for administrator account.
-     * @param assignmentStatusType <AssignmentStatusTypeForCreationDto> An object that is needed to complete the operation.
-     *                         Object's required fields;
+     * @param assignmentStatusType [Request body variable] <AssignmentStatusTypeForCreationDto> An object that is
+     *                         needed to complete the operation. Object's required fields;
      *                         ~ assignmentStatusTypeName <String> (Unique name of a status type)
      *                         ~ displayOrder <Integer> (Determines place where the value is displayed)
      * @return If successfully, it returns 201 code (CREATED response) with a created assignmentStatusTypeDto
      * object filled with information that was added to a database. Otherwise it returns error with appreciate message.
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/" , method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> addAssignmentStatusType(@RequestBody @Valid AssignmentStatusTypeForCreationDto assignmentStatusType) {
         return new ResponseEntity<>(assignmentService.addAssignmentStatusType(assignmentStatusType), new HttpHeaders(), HttpStatus.CREATED);
@@ -66,7 +68,7 @@ public class AssignmentStatusTypeController extends Serializers.Base {
     /**
      * DELETE request method that removes an assignment status type from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -78,7 +80,8 @@ public class AssignmentStatusTypeController extends Serializers.Base {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param assignmentStatusType <AssignmentStatusTypeForUpdateDto> An object that need to be passed in order to process the operation.
+     * @param assignmentStatusType [Request body variable] <AssignmentStatusTypeForUpdateDto> An object that need to be
+     *                         passed in order to process the operation.
      *                         Required object's fields:
      *                         ~ id <Integer> (Unique identifier of the record in the database)
      *                         ~ assignmentStatusTypeName <String> (Unique name of a status type)

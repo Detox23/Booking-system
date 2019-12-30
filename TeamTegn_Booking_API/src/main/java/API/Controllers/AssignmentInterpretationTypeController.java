@@ -31,7 +31,9 @@ public class AssignmentInterpretationTypeController {
 
     /**
      * GET request method that retrieves all assignment interpretation types. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    true -> display all records,
+     *                    false -> display only not deleted records.
      * @return If successfully, it returns 302 code (FOUND response) with a list of all assignment interpretation types.
      * Otherwise it returns error message with appreciate message.
      */
@@ -55,13 +57,14 @@ public class AssignmentInterpretationTypeController {
 
     /**
      * POST request method that adds an assignment interpretation type to a database. Allowed only for administrator account.
-     * @param assignmentInterpretationType <AssignmentInterpretationTypeForCreationDto> An object that is needed to complete the operation.
+     * @param assignmentInterpretationType [Request body variable] <AssignmentInterpretationTypeForCreationDto> An object
+     *                         that is needed to complete the operation.
      *                         Object's required fields;
      *                         ~ interpretationTypeName <String> (Unique name of an interpretation type)
      * @return If successfully, it returns 201 code (CREATED response) with a created assignmentInterpretationTypeDto
      * object filled with information that was added to a database. Otherwise it returns error with appreciate message.
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> addAssignmentInterpretationType(@RequestBody @Valid AssignmentInterpretationTypeForCreationDto assignmentInterpretationType) {
         return new ResponseEntity<>(assignmentInterpretationTypeService.addAssignmentInterpretationType(assignmentInterpretationType), new HttpHeaders(), HttpStatus.CREATED);
@@ -70,7 +73,7 @@ public class AssignmentInterpretationTypeController {
     /**
      * DELETE request method that removes an assignment interpretation type from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -82,7 +85,8 @@ public class AssignmentInterpretationTypeController {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param assignmentInterpretationType <AssignmentInterpretationTypeForUpdateDto> An object that need to be passed in order to process the operation.
+     * @param assignmentInterpretationType [Request body variable] <AssignmentInterpretationTypeForUpdateDto> An object
+     *                         that need to be passed in order to process the operation.
      *                         Required object's fields:
      *                         ~ id <Integer> (Unique identifier of the record in the database)
      *                         ~ interpretationTypeName <String> (Unique name of an interpretation type)

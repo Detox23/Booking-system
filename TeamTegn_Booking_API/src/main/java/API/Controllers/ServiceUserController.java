@@ -38,10 +38,10 @@ public class ServiceUserController {
     /**
      * GET request method that retrieves a page of service users.
      *
-     * @param pageNumber    <String> (Number of page)
-     * @param pageSize      <String> (Size of a page)
-     * @param sortBy        <String> (Determines what is the factor the result is sorted by)
-     * @param sortDirection <String> (Ascending or descending sorting)
+     * @param pageNumber    [Request parameter] <String> (Number of page)
+     * @param pageSize      [Request parameter] <String> (Size of a page)
+     * @param sortBy        [Request parameter] <String> (Determines what is the factor the result is sorted by)
+     * @param sortDirection [Request parameter] <String> (Ascending or descending sorting)
      * @return If successfully, it returns code 302 (FOUND response) with a resulting page containing serviceUserDto objects.
      * Otherwise error with appreciate message.
      */
@@ -56,7 +56,7 @@ public class ServiceUserController {
     /**
      * GET request method that finds specific service user.
      *
-     * @param id <Integer> Unique identifier of a service user.
+     * @param id [Path variable] <Integer> Unique identifier of a service user.
      * @return If successfully, it returns code 302 (FOUND request) with a found serviceUserDto object filled with found
      * information. Otherwise error with appreciate message.
      */
@@ -68,15 +68,15 @@ public class ServiceUserController {
     /**
      * POST request method that adds service user to a database.
      *
-     * @param serviceUser <ServiceUserForCreationDto> Required object of service user, that is needed to complete the
-     *                   operation. Required fields:
-     *                   ~ firstName <String> (First name of a user)
-     *                   ~ lastName <String> (Last name of a user)
-     *                   ~ cpr <String> (User's cpr number)
-     *                   ~ street <String> (Street address of a user house)
-     *                   ~ postcode <String> (User's city postcode)
-     *                   ~ departmentId <Integer> (Id of the department, the user belongs to)
-     *                   ~ serviceUserStatusId <Integer> (Id of a user's status)
+     * @param serviceUser [Request body variable] <ServiceUserForCreationDto> Required object of service user, that is
+     *                    needed to complete the operation. Required fields:
+     *                    ~ firstName <String> (First name of a user)
+     *                    ~ lastName <String> (Last name of a user)
+     *                    ~ cpr <String> (User's cpr number)
+     *                    ~ street <String> (Street address of a user house)
+     *                    ~ postcode <String> (User's city postcode)
+     *                    ~ departmentId <Integer> (Id of the department, the user belongs to)
+     *                    ~ serviceUserStatusId <Integer> (Id of a user's status)
      * @return If successfully, returns code 201 (CREATED response) together with ServiceUserDto object with added information.
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -88,7 +88,7 @@ public class ServiceUserController {
     /**
      * DELETE request method that removes a record from a database. In fact the record's isDeleted value is changed.
      *
-     * @param id <Integer> Unique identifier of a service user.
+     * @param id [Path variable] <Integer> Unique identifier of a service user.
      * @return If successfully, it returns code 200 (OK response) and true value. Otherwise might return false or error
      * with a message.
      */
@@ -100,8 +100,9 @@ public class ServiceUserController {
 
     /**
      * PATCH request method that updates an existing record in a database.
-     * @param serviceUser <ServiceUserForUpdateDto> An object that need to be passed in order to complete the operation.
-     *                    Required fields of the object:
+     *
+     * @param serviceUser [Request body variable] <ServiceUserForUpdateDto> An object that need to be passed in order
+     *                    to complete the operation. Required fields of the object:
      *                    ~ id <Integer> (Unique identifier of the record)
      *                    ~ firstName <String> (First name of a user)
      *                    ~ lastName <String> (Last name of a user)
@@ -120,7 +121,8 @@ public class ServiceUserController {
 
     /**
      * GET request method that retrieves list of specified service user's comments.
-     * @param id <Integer> Unique identifier of a service user record from a database.
+     *
+     * @param id [Path variable] <Integer> Unique identifier of a service user record from a database.
      * @return If successfully, it returns code 302 (FOUND response) with a list of ServiceUserCommentDto objects.
      * Otherwise, error with appreciate message.
      */
@@ -131,7 +133,8 @@ public class ServiceUserController {
 
     /**
      * GET request method that finds a service user's comment.
-     * @param commentID <Integer> Unique identifier of a comment record from a database.
+     *
+     * @param commentID [Path variable] <Integer> Unique identifier of a comment record from a database.
      * @return If successfully, it returns code 302 (FOUND response) with found ServiceUserCommentDto object. Otherwise,
      * error with appreciate message.
      */
@@ -142,7 +145,8 @@ public class ServiceUserController {
 
     /**
      * DELETE request method removes comment from a database.
-     * @param commentID <Integer> Unique identifier of a comment record from a database.
+     *
+     * @param commentID [Path variable] <Integer> Unique identifier of a comment record from a database.
      * @return If successfully, it returns code 200 (OK response) with true value. Otherwise false value is returned or
      * error with appreciate message.
      */
@@ -153,9 +157,10 @@ public class ServiceUserController {
 
     /**
      * POST request method, that adds service provider's comment to a database.
-     * @param id <Integer> Unique identifier of a service user.
-     * @param comment <ServiceUserCommentForCreationDto> An object that is needed to complete the operation. Required
-     *                object's fields:
+     *
+     * @param id      [Path variable] <Integer> Unique identifier of a service user.
+     * @param comment [Request body variable] <ServiceUserCommentForCreationDto> An object that is needed to complete
+     *                the operation. Required object's fields:
      *                ~ commentText <String> (Content of a comment)
      * @return If successfully, return code 302 (CREATED response) with ServiceUserCommentDto object with fields filled with
      * added information. Otherwise, error with appreciate message.
@@ -169,9 +174,10 @@ public class ServiceUserController {
 
     /**
      * PATCH request method that updates existing record in a database.
-     * @param id <Integer> Unique identifier of a service user.
-     * @param comment <ServiceUserCommentForCreationDto> An object that is needed to complete the operation. Required
-     *                object's fields:
+     *
+     * @param id      [Path variable] <Integer> Unique identifier of a service user.
+     * @param comment [Request body variable] <ServiceUserCommentForCreationDto> An object that is needed to complete
+     *                the operation. Required object's fields:
      *                ~ id <Integer> (Unique identifier of a comment record from a database)
      *                ~ commentText <String> (Content of a comment)
      * @return If successfully, return code 200 (OK response) with ServiceUserCommentDto object with fields filled with

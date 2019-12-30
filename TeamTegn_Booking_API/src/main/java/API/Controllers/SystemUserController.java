@@ -23,7 +23,10 @@ public class SystemUserController {
 
     /**
      * GET request method that retrieves list of systemUsers.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     *
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    true -> show all records,
+     *                    false -> show only not deleted records.
      * @return If successfully, it returns 302 code (FOUND response) with a list of all system users.
      * Otherwise it returns error message with appreciate message.
      */
@@ -34,7 +37,8 @@ public class SystemUserController {
 
     /**
      * GET request method that finds a record in a database.
-     * @param id <Integer> Unique identifier of a record in a database.
+     *
+     * @param id [Path variable] <Integer> Unique identifier of a record in a database.
      * @return If successfully, it returns code 302 (FOUND response) with a serviceUserDto object with filled information.
      * Otherwise, error with appreciate message.
      */
@@ -45,8 +49,9 @@ public class SystemUserController {
 
     /**
      * POST request method that adds system user to a database.
-     * @param systemUser <SystemUserForCreationDto> An object that is required for completing the operation.
-     *                   Required object's fields:
+     *
+     * @param systemUser [Request body variable] <SystemUserForCreationDto> An object that is required for
+     *                   completing the operation. Required object's fields:
      *                   ~ firstName <String> (First name of a user)
      *                   ~ lastName <String> (last name of a user)
      *                   ~ telephoneNumber <String> (Telephone number of a user)
@@ -64,7 +69,8 @@ public class SystemUserController {
 
     /**
      * DELETE request method that removes record from a database. In fact it just changes one of the field to false.
-     * @param id <Integer> Unique identifier of a record in a database.
+     *
+     * @param id [Path variable] <Integer> Unique identifier of a record in a database.
      * @return If successfully, it returns code 200 (OK response) with true value. Otherwise false or error with
      * appreciate message.
      */
@@ -75,8 +81,9 @@ public class SystemUserController {
 
     /**
      * PATCH request method that updates existing record in the database.
-     * @param systemUser <SystemUserForUpdateDto> An object that is required for completing the operation.
-     *                   Required object's fields:
+     *
+     * @param systemUser [Request body variable] <SystemUserForUpdateDto> An object that is required for completing
+     *                   the operation. Required object's fields:
      *                   ~ id <Integer> (Unique identifier of a system user from database)
      *                   ~ firstName <String> (First name of a user)
      *                   ~ lastName <String> (last name of a user)

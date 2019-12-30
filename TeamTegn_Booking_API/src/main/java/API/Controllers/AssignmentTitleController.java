@@ -25,7 +25,9 @@ public class AssignmentTitleController {
 
     /**
      * GET request method that retrieves all assignment titles. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    true - displays all records,
+     *                    false - displays only not deleted records.
      * @return If successfully, it returns 302 code (FOUND response) with a list of all assignment titles.
      * Otherwise it returns error message with appreciate message.
      */
@@ -36,7 +38,7 @@ public class AssignmentTitleController {
 
     /**
      * GET request method that finds an assignment title.
-     * @param id <Integer> Unique identifier of a title record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of a title record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found assignmentTitleDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -48,13 +50,13 @@ public class AssignmentTitleController {
 
     /**
      * POST request method that adds an assignment title to a database. Allowed only for administrator account.
-     * @param assignmentTitle <AssignmentTitleForCreationDto> An object that is needed to complete the operation.
-     *                         Object's required fields;
+     * @param assignmentTitle [Request body variable] <AssignmentTitleForCreationDto> An object that is needed to
+     *                        complete the operation. Object's required fields;
      *                         ~ title <String> (Unique name of a title)
      * @return If successfully, it returns 201 code (CREATED response) with a created assignmentTitleDto
      * object filled with information that was added to a database. Otherwise it returns error with appreciate message.
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> addAssignmentTitle(@RequestBody @Valid AssignmentTitleForCreationDto assignmentTitle) {
         return new ResponseEntity<>(assignmentTitleService.addAssignmentTitle(assignmentTitle), new HttpHeaders(), HttpStatus.CREATED);
@@ -63,7 +65,7 @@ public class AssignmentTitleController {
     /**
      * DELETE request method that removes an assignment title from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -75,8 +77,8 @@ public class AssignmentTitleController {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param assignmentTitle <AssignmentTitleForUpdateDto> An object that need to be passed in order to process the operation.
-     *                         Required object's fields:
+     * @param assignmentTitle [Request body variable] <AssignmentTitleForUpdateDto> An object that need to be passed
+     *                       in order to process the operation. Required object's fields:
      *                         ~ id <Integer> (Unique identifier of the record in the database)
      *                         ~ title <String> (Unique name of a title)
      * @return If successfully, it returns 200 code (OK response) and an assignmentTitleDto object with updated

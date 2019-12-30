@@ -30,7 +30,9 @@ public class AssignmentImportanceController {
 
     /**
      * GET request method that retrieves all assignment importance. There is possibility to display deleted records.
-     * @param showDeleted <Boolean> Determines whether to display deleted records from database.
+     * @param showDeleted [Path variable] <Boolean> Determines whether to display deleted records from database.
+     *                    True -> show all records
+     *                    False -> show only not deleted records
      * @return If successfully, it returns 302 code (FOUND response) with a list of all assignment importance. Otherwise
      * it returns error message with appreciate message.
      */
@@ -41,7 +43,7 @@ public class AssignmentImportanceController {
 
     /**
      * GET request method that finds an assignment importance.
-     * @param id <Integer> Unique identifier of a importance record from a database.
+     * @param id [Path variable] <Integer> Unique identifier of a importance record from a database.
      * @return If successfully, it returns 302 code (FOUND response) with a found assignmentImportanceDto object and
      * fields filled. Otherwise it returns error with appreciate message.
      */
@@ -53,13 +55,13 @@ public class AssignmentImportanceController {
 
     /**
      * POST request method that adds an assignment importance to a database. Allowed only for administrator account.
-     * @param assignmentStatus <AssignmentImportanceForCreationDto> An object that is needed to complete the operation.
+     * @param assignmentStatus [Request body variable] <AssignmentImportanceForCreationDto> An object that is needed to complete the operation.
      *                         Object's required fields;
      *                         ~ importanceName <String> (Unique name of an importance)
      * @return If successfully, it returns 201 code (CREATED response) with a created assignmentImportanceDto filled with
      * information that was added to a database. Otherwise it returns error with appreciate message.
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_Administrator')")
     public ResponseEntity<?> addAssignmentImportance(@RequestBody @Valid AssignmentImportanceForCreationDto assignmentStatus) {
         return new ResponseEntity<>(assignmentImportanceService.addAssignmentImportance(assignmentStatus), new HttpHeaders(), HttpStatus.CREATED);
@@ -68,7 +70,7 @@ public class AssignmentImportanceController {
     /**
      * DELETE request method that removes an assignment importance from a database. In fact it just change one of the record's
      * values. Allowed only for administrator account.
-     * @param id <Integer> Unique identifier of the record in a database.
+     * @param id [Path variable] <Integer> Unique identifier of the record in a database.
      * @return If successfully, it returns 200 code (OK response) and true value. Otherwise it might return false or
      * error with appreciate message.
      */
@@ -80,7 +82,8 @@ public class AssignmentImportanceController {
 
     /**
      * PATCH request method that updates existing record in the database. Allowed only for administrator account.
-     * @param assignmentStatus <AssignmentImportanceForUpdateDto> An object that need to be passed in order to process the operation.
+     * @param assignmentStatus [Request body variable] <AssignmentImportanceForUpdateDto> An object that need to be
+     *                         passed in order to process the operation.
      *                         Required object's fields:
      *                         ~ id <Integer> (Unique identifier of the record in the database)
      *                         ~ importanceName <String> (Name of the importance from a database)

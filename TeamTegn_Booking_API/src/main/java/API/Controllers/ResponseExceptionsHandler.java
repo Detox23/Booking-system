@@ -108,6 +108,11 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Exception handler for UpdateErrorException
+     * @param exception <UpdateErrorException> Caught exception.
+     * @return Appreciate error message with conflict response.
+     */
     @ExceptionHandler(value = UpdateErrorException.class)
     protected ResponseEntity<Object> handleUpdateErrorException(UpdateErrorException exception) {
         eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
@@ -124,11 +129,18 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
         eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
-//    @ExceptionHandler(value = Exception.class)
-//    protected ResponseEntity<Object> handleException(Exception exception) {
-//        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
-//        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+
+
+    /**
+     * Exception handler for Exception error.
+     * @param exception  <Exception> Caught exception.
+     * @return Appreciate error message with conflict response.
+     */
+    @ExceptionHandler(value = Exception.class)
+    protected ResponseEntity<Object> handleException(Exception exception) {
+        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
