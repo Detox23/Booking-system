@@ -40,9 +40,6 @@ public class SystemUserDAOImpl implements SystemUserDAOCustom {
 
     private WI_PostcodeDAO wiPostcodeDAO;
 
-    private final int update = 1;
-    private final int insert = 0;
-
     @Autowired
     public void setWiPostcodeDAO(WI_PostcodeDAO wiPostcodeDAO) {
         this.wiPostcodeDAO = wiPostcodeDAO;

@@ -12,6 +12,8 @@ import API.Models.Database_Entities.ServiceUserEntity;
 import API.Models.Database_Entities.WiPostcodeEntity;
 import API.Repository.CityPostcodes.CityPostcodesDAO;
 import API.Repository.CityPostcodes.WI_PostcodeDAO;
+import Shared.ToReturn.ServiceUserAccountDto;
+import Shared.ToReturn.ServiceUserAccountListDto;
 import Shared.ToReturn.ServiceUserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +152,16 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         }
         return found.get();
     }
+
+    public ServiceUserAccountListDto listFillMethod(int id) {
+        Optional<ServiceUserEntity> found = serviceUserDAO.findByIdIsAndDeletedIsFalse(id);
+        if (!found.isPresent()) {
+            return null;
+        }
+        return modelMapper.map(found.get(), ServiceUserAccountListDto.class);
+    }
+
+
 
     private void addServiceUsersAccounts(List<Integer> accounts, int id) {
         try {

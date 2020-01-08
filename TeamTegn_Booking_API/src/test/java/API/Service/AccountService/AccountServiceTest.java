@@ -13,6 +13,7 @@ import API.Services.AccountService.AccountService;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AccountForUpdateDto;
 import Shared.ToReturn.AccountDto;
+import Shared.ToReturn.ServiceUserAccountListDto;
 import Shared.ToReturn.ServiceUserDto;
 import org.junit.Assert;
 import org.junit.Test;
@@ -74,8 +75,8 @@ public class AccountServiceTest {
         return toReturn;
     }
 
-    private ServiceUserDto getServiceUserReturn() {
-        return new ServiceUserDto();
+    private ServiceUserAccountListDto getServiceUserReturn() {
+        return new ServiceUserAccountListDto();
     }
 
     @Test
@@ -89,7 +90,7 @@ public class AccountServiceTest {
             Mockito.doReturn(getAccountReturn()).when(mockAccountDAO).addAccount(any(AccountEntity.class), anyList(), anyList());
             Mockito.doReturn(getAccountEanReturn()).when(mockAccountEans).findAllByAccountId(anyInt());
             Mockito.doReturn(getServiceUserAccountsReturn()).when(mockServiceUserAccounts).findAllByAccountIdIs(anyInt());
-            Mockito.doReturn(getServiceUserReturn()).when(mockServiceUserDAO).findServiceUser(anyInt());
+            Mockito.doReturn(getServiceUserReturn()).when(mockServiceUserDAO).listFillMethod(anyInt());
             AccountForCreationDto accountForCreationDto = new AccountForCreationDto();
             accountForCreationDto.setAccountName("AccountName");
             accountForCreationDto.setEan(new ArrayList<>());
@@ -128,7 +129,7 @@ public class AccountServiceTest {
             Mockito.doReturn(getAccountReturn()).when(mockAccountDAO).updateAccount(any(AccountEntity.class), anyList(), anyList());
             Mockito.doReturn(getAccountEanReturn()).when(mockAccountEans).findAllByAccountId(anyInt());
             Mockito.doReturn(getServiceUserAccountsReturn()).when(mockServiceUserAccounts).findAllByAccountIdIs(anyInt());
-            Mockito.doReturn(getServiceUserReturn()).when(mockServiceUserDAO).findServiceUser(anyInt());
+            Mockito.doReturn(getServiceUserReturn()).when(mockServiceUserDAO).listFillMethod(anyInt());
             AccountForUpdateDto accountForUpdateDto = new AccountForUpdateDto();
             accountForUpdateDto.setId(1);
             accountForUpdateDto.setAccountName("AccountName");
@@ -138,8 +139,9 @@ public class AccountServiceTest {
             accountForUpdateDto.setParentId(1);
             accountForUpdateDto.setPrimaryContactId(1);
             AccountDto result = accountService.updateAccount(accountForUpdateDto);
-            Assert.assertEquals(6, result.getServiceUsers().size());
+            Assert.assertEquals(6, result.getServiceUsersShort().size());
         } catch (Exception e) {
+            e.printStackTrace();
             Assert.fail();
         }
     }
@@ -155,7 +157,7 @@ public class AccountServiceTest {
             Mockito.doReturn(getAccountList()).when(mockAccountDAO).listAccounts();
             Mockito.doReturn(getAccountEanReturn()).when(mockAccountEans).findAllByAccountId(anyInt());
             Mockito.doReturn(getServiceUserAccountsReturn()).when(mockServiceUserAccounts).findAllByAccountIdIs(anyInt());
-            Mockito.doReturn(getServiceUserReturn()).when(mockServiceUserDAO).findServiceUser(anyInt());
+            Mockito.doReturn(getServiceUserReturn()).when(mockServiceUserDAO).listFillMethod(anyInt());
             Assert.assertEquals(7, accountService.listAccounts().size());
         } catch (Exception e) {
             Assert.fail();
@@ -173,5 +175,4 @@ public class AccountServiceTest {
             Assert.fail();
         }
     }
-
 }

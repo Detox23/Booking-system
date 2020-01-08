@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private UserAuthenticationEntryPoint unauthorizedHandler;
 
     @Override
     @Bean
@@ -42,21 +42,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtAuthenticationFilter authenticationTokenFilterBean() {
-        return new JwtAuthenticationFilter();
+    public UserAuthenticationFilter authenticationTokenFilterBean() {
+        return new UserAuthenticationFilter();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().permitAll();
-//        http.cors().and().csrf().disable().
-//                authorizeRequests()
-//                .antMatchers("/api/systemUsers/login", "/swagger-ui.html", "/api/systemUsers/register").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.cors().and().csrf().disable().
+                authorizeRequests()
+                .antMatchers("/api/systemUsers/login", "/api/systemUsers/register").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 

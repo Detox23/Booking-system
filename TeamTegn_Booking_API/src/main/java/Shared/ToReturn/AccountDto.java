@@ -40,6 +40,8 @@ public class AccountDto {
 
     private String stateRegion;
 
+    private List<ServiceUserAccountListDto> shortList;
+
     private String country;
 
     private int createdBy;
@@ -66,10 +68,15 @@ public class AccountDto {
         return serviceUsers;
     }
 
+    public List<ServiceUserAccountListDto> getServiceUsersShort(){
+        return shortList;
+    }
+
     public void setServiceUsers(List<ServiceUserDto> serviceUsers) {
         this.serviceUsers = serviceUsers;
     }
 
+    public void setServiceUsersShort(List<ServiceUserAccountListDto> shortList){this.shortList = shortList;}
 
     public int getLastModifiedBy() {
         return lastModifiedBy;

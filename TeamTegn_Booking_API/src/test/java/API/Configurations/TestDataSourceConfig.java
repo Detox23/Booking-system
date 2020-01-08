@@ -19,9 +19,6 @@ import javax.sql.DataSource;
 @EnableJpaAuditing
 public class TestDataSourceConfig {
 
-
-
-
     @Bean
     @Primary
     public DataSource dataSourceTest() {
@@ -29,7 +26,7 @@ public class TestDataSourceConfig {
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         dataSource.setUsername("sa");
         dataSource.setPassword("90809988Qwe");
-        dataSource.setUrl("jdbc:sqlserver://localhost\\SQLP:1433;database=Test;sendTimeAsDateTime=false");
+        dataSource.setUrl("jdbc:sqlserver://localhost\\MSSQLSERVER:1433;database=Test;sendTimeAsDateTime=false");
         return dataSource;
     }
 

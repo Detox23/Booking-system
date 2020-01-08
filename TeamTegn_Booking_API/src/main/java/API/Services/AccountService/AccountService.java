@@ -10,10 +10,7 @@ import API.Repository.ServiceUser.ServiceUserAccountsDAO;
 import API.Repository.ServiceUser.ServiceUserDAO;
 import Shared.ForCreation.AccountForCreationDto;
 import Shared.ForCreation.AccountForUpdateDto;
-import Shared.ToReturn.AccountDto;
-import Shared.ToReturn.AccountEanDto;
-import Shared.ToReturn.ServiceUserAccountDto;
-import Shared.ToReturn.ServiceUserDto;
+import Shared.ToReturn.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +55,7 @@ public class AccountService implements IAccountService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public AccountDto addAccount(AccountForCreationDto account) {
-        Map<Integer, ServiceUserDto> helperServiceUserMap = new HashMap<>();
+        Map<Integer, ServiceUserAccountListDto> helperServiceUserMap = new HashMap<>();
         try {
             AccountEntity accountEntityToAdd = modelMapper.map(account, AccountEntity.class);
             AccountDto addedAccount = accountDAO.addAccount(accountEntityToAdd, account.getEan(), account.getServiceUsersIds());
@@ -79,7 +76,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public AccountDto findAccount(int id) {
-        Map<Integer, ServiceUserDto> helperAccountMap = new HashMap<>();
+        Map<Integer, ServiceUserAccountListDto> helperAccountMap = new HashMap<>();
         try {
             AccountDto found = accountDAO.findAccount(id);
             fillAccountWithListOfEans(found);
@@ -92,7 +89,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public List<AccountDto> listAccounts() {
-        Map<Integer, ServiceUserDto> helperCompetencyMap = new HashMap<>();
+        Map<Integer, ServiceUserAccountListDto> helperCompetencyMap = new HashMap<>();
         try {
             List<AccountDto> found = accountDAO.listAccounts();
             for (AccountDto account : found) {
@@ -109,7 +106,7 @@ public class AccountService implements IAccountService {
     @Transactional(rollbackFor = Throwable.class)
     public AccountDto updateAccount(AccountForUpdateDto account) {
         try {
-            Map<Integer, ServiceUserDto> helperServiceUserMap = new HashMap<>();
+            Map<Integer, ServiceUserAccountListDto> helperServiceUserMap = new HashMap<>();
             AccountEntity accountEntityToUpdate = modelMapper.map(account, AccountEntity.class);
             AccountDto updated = accountDAO.updateAccount(accountEntityToUpdate, account.getEan(), account.getServiceUsers());
             fillAccountWithListOfEans(updated);
@@ -119,7 +116,6 @@ public class AccountService implements IAccountService {
             throw new NotFoundException("Account type is not found. Update cancelled.");
         }
     }
-
 
     /**
      * The method creates a new list of ean parameter. Then, it fills the created list with found String eans
@@ -138,18 +134,20 @@ public class AccountService implements IAccountService {
         }
     }
 
-    private void fillAccountWithServiceUsers(AccountDto account, Map<Integer, ServiceUserDto> helperServiceUserMap) {
-        account.setServiceUsers(new ArrayList<>());
+    private void fillAccountWithServiceUsers(AccountDto account, Map<Integer, ServiceUserAccountListDto> helperServiceUserMap) {
+        account.setServiceUsersShort(new ArrayList<>());
         List<ServiceUserAccountEntity> foundList = serviceUserAccountsDAO.findAllByAccountIdIs(account.getId());
         List<ServiceUserAccountDto> listOfServiceUserAccounts = modelMapper.map(foundList, new TypeToken<List<ServiceUserAccountDto>>() {
         }.getType());
         for (ServiceUserAccountDto serviceUser : listOfServiceUserAccounts) {
             if (helperServiceUserMap.get(serviceUser.getServiceUserId()) == null) {
-                ServiceUserDto found = serviceUserDAO.findServiceUser(serviceUser.getServiceUserId());
-                helperServiceUserMap.put(found.getId(), found);
-                account.getServiceUsers().add(found);
+                ServiceUserAccountListDto found = serviceUserDAO.listFillMethod(serviceUser.getServiceUserId());
+                if(found != null){
+                    helperServiceUserMap.put(found.getId(), found);
+                    account.getServiceUsersShort().add(found);
+                }
             } else {
-                account.getServiceUsers().add(helperServiceUserMap.get(serviceUser.getServiceUserId()));
+                account.getServiceUsersShort().add(helperServiceUserMap.get(serviceUser.getServiceUserId()));
             }
         }
     }

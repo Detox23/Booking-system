@@ -34,9 +34,7 @@ public class AssignmentForCreationDto {
     private Boolean assignedStatus;
     private String bookingNumber;
     private String serviceUserAccountEan;
-    //to delete
     private Integer recurrenceType;
-    //to delete
     private Integer recurrencyFrequency;
     private String otherContactEmail;
     private String dntmid;
@@ -44,13 +42,11 @@ public class AssignmentForCreationDto {
     private String moreInfo;
     private String ktstid;
     private String ktstParentId;
-    //to delete
     private String recurrenceKey;
     private String assignmentPlace;
     private String stukComment;
     private Boolean isResale;
     private Integer resaleParentId;
-    //dodać cancel reason
     @NotNull
     private Integer assignmentTypeId;
     @NotNull

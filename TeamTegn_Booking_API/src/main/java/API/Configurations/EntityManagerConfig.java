@@ -13,10 +13,11 @@ import javax.persistence.Persistence;
 @EnableJpaAuditing
 public class EntityManagerConfig {
 
-    @Bean
-    AuditorAware<Integer> auditorAware() {
-        return new UsernameAuditorAware();
-    }
+      //should be commented out while running tests.
+//    @Bean
+//    AuditorAware<Integer> auditorAware() {
+//        return new UsernameAuditorAware();
+//    }
 
     @Bean
     public EntityManager entityManagerFactory() {
