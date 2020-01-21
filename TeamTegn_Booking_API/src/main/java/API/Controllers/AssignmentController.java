@@ -117,7 +117,7 @@ public class AssignmentController {
      * filled fields that were passed while creation. Otherwise it returns error message with appreciate message.
      */
     @RequestMapping(value= "/", method = RequestMethod.POST)
-    public ResponseEntity<?> addAssignment(@RequestBody AssignmentForCreationDto assignment) {
+    public ResponseEntity<?> addAssignment(@RequestBody @Valid AssignmentForCreationDto assignment) {
         return new ResponseEntity<>(this.assignmentService.addAssignment(assignment), new HttpHeaders(), HttpStatus.CREATED);
     }
 
@@ -146,10 +146,10 @@ public class AssignmentController {
      *                 ~ assignmentEndDate <Date> (Date when the assignment finishes)
      *                 ~ startTime <Timestamp> (Start hour of the assignment)
      *                 ~ endTime <Timestamp> (Finish hour of the assignment)
-     *                 ~ assignedStatus <Boolean> (Status of the assignment)
+     *                 ~ assignmentStatus <Boolean> (Status of the assignment)
      *                 ~ assignmentTypeId <Integer> (Id of the related assignment type)
-     *                 ~ assignmentImportanceId <Integer> (Id of the related assignment importance)
-     *                 ~ assignmentInterpretationTypeId <Integer> (Id of the related assignment interpretation type)
+     *                 ~ importanceId <Integer> (Id of the related assignment importance)
+     *                 ~ interpretationTypeId <Integer> (Id of the related assignment interpretation type)
      *                 ~ assignmentTitle <String> (Id of the related assignment title)
      *                 ~ serviceUserId <Integer> (Id of the assignment's service user)
      *                 ~ accountId <Integer> (Id of the assignment's account id)
@@ -161,7 +161,8 @@ public class AssignmentController {
      * appreciate message.
      */
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateAssignment(@RequestBody AssignmentForUpdateDto forUpdate) {
+    public ResponseEntity<?> updateAssignment(@RequestBody @Valid
+                                                          AssignmentForUpdateDto forUpdate) {
         return new ResponseEntity<>(this.assignmentService.updateAssignment(forUpdate), new HttpHeaders(), HttpStatus.OK);
     }
 

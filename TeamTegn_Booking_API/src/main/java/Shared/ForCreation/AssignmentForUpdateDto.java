@@ -55,9 +55,9 @@ public class AssignmentForUpdateDto {
     @NotNull
     private Integer assignmentTypeId;
     @NotNull
-    private Integer assignmentImportanceId;
+    private Integer importanceId;
     @NotNull
-    private Integer assignmentInterpretationTypeId;
+    private Integer interpretationTypeId;
     @NotNull
     private String assignmentTitle;
     @NotNull
@@ -340,20 +340,20 @@ public class AssignmentForUpdateDto {
         this.assignmentTypeId = assignmentTypeId;
     }
 
-    public Integer getAssignmentImportanceId() {
-        return assignmentImportanceId;
+    public Integer getImportanceId() {
+        return importanceId;
     }
 
-    public void setAssignmentImportanceId(Integer assignmentImportanceId) {
-        this.assignmentImportanceId = assignmentImportanceId;
+    public void setImportanceId(Integer importanceId) {
+        this.importanceId = importanceId;
     }
 
-    public Integer getAssignmentInterpretationTypeId() {
-        return assignmentInterpretationTypeId;
+    public Integer getInterpretationTypeId() {
+        return interpretationTypeId;
     }
 
-    public void setAssignmentInterpretationTypeId(Integer assignmentInterpretationTypeId) {
-        this.assignmentInterpretationTypeId = assignmentInterpretationTypeId;
+    public void setInterpretationTypeId(Integer interpretationTypeId) {
+        this.interpretationTypeId = interpretationTypeId;
     }
 
     public String getAssignmentTitle() {

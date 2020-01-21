@@ -14,5 +14,5 @@ public interface AssignmentDAO extends PagingAndSortingRepository<AssignmentEnti
 
     Optional<AssignmentEntity> findByIdAndDeletedIsFalse(int id);
 
-    List<AssignmentEntity> findAllByAssignmentDateEquals(Date date);
+    List<AssignmentEntity> findAllByAssignmentDateEqualsAndDeletedIsFalse(Date date);
 }

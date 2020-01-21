@@ -87,6 +87,17 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
+     * Exception handler for ExpiredTokenException
+     * @param exception <ExpiredTokenException> Caught exception.
+     * @return Appreciate error message with conflict response.
+     */
+    @ExceptionHandler(value = ExpiredTokenException.class)
+    protected ResponseEntity<Object> handleExpiredTokenException(ExpiredTokenException exception) {
+        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
      * Exception handler for DuplicateException
      * @param exception <DuplicateException> Caught exception.
      * @return Appreciate error message with conflict response.

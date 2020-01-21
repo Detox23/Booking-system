@@ -86,7 +86,7 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     public List<AssignmentViewDto> listAllAssignments(Date date) {
         Type listType = new TypeToken<List<AssignmentViewDto>>() {
         }.getType();
-        List<AssignmentEntity> found = assignmentDAO.findAllByAssignmentDateEquals(date);
+        List<AssignmentEntity> found = assignmentDAO.findAllByAssignmentDateEqualsAndDeletedIsFalse(date);
         return modelMapper.map(found, listType);
 
     }
