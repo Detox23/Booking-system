@@ -63,7 +63,7 @@ public class AssignmentForUpdateDto {
     @NotNull
     private Integer serviceUserId;
     @NotNull
-    private Integer accountId;
+    private Integer serviceUserAccountId;
     @NotNull
     private Integer assignmentStatusId;
     @NotNull
@@ -372,12 +372,12 @@ public class AssignmentForUpdateDto {
         this.serviceUserId = serviceUserId;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public Integer getServiceUserAccountId() {
+        return serviceUserAccountId;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setServiceUserAccountId(Integer serviceUserAccountId) {
+        this.serviceUserAccountId = serviceUserAccountId;
     }
 
     public Integer getAssignmentStatusId() {

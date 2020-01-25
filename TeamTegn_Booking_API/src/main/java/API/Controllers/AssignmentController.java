@@ -60,7 +60,7 @@ public class AssignmentController {
      * in it. Otherwise, error with appreciate message.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAssignmentsPage(@RequestParam(defaultValue = "0") int pageNumber,
+        public ResponseEntity<?> listAssignmentsPage(@RequestParam(defaultValue = "0") int pageNumber,
                                                  @RequestParam(defaultValue = "10") int pageSize,
                                                  @RequestParam(defaultValue = "id") String sortBy,
                                                  @RequestParam(defaultValue = "ASC") Direction sortDirection)
