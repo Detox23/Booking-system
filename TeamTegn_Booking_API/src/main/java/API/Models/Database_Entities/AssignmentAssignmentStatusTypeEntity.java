@@ -65,9 +65,7 @@ public class AssignmentAssignmentStatusTypeEntity {
         if (id != that.id) return false;
         if (assignmentId != that.assignmentId) return false;
         if (assignmentStatusTypeId != that.assignmentStatusTypeId) return false;
-        if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
-
-        return true;
+        return dateCreated != null ? dateCreated.equals(that.dateCreated) : that.dateCreated == null;
     }
 
     @Override

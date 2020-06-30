@@ -100,7 +100,7 @@ public class ServiceUserService implements IServiceUserService {
     @Override
     public Page<ServiceUserDto> listServiceUsers(Pageable pageable) {
         try {
-            Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
+//            Map<Integer, AccountDto> helperAccountMap = new HashMap<>();
             Page<ServiceUserDto> found = serviceUserDAO.listServiceUsers(pageable);
             found.toList().forEach(serviceUser -> {
 //                fillServiceUserWithAccounts(serviceUser, helperAccountMap);

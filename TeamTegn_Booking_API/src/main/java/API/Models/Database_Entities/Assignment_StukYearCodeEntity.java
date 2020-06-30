@@ -65,9 +65,7 @@ public class Assignment_StukYearCodeEntity {
         if (id != that.id) return false;
         if (assignmentId != that.assignmentId) return false;
         if (stukYearCodeId != that.stukYearCodeId) return false;
-        if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
-
-        return true;
+        return dateCreated != null ? dateCreated.equals(that.dateCreated) : that.dateCreated == null;
     }
 
     @Override

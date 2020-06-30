@@ -339,10 +339,7 @@ public class AccountEntity {
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (contactName != null ? !contactName.equals(that.contactName) : that.contactName != null) return false;
         if (contactEmail != null ? !contactEmail.equals(that.contactEmail) : that.contactEmail != null) return false;
-        if (contactTelephone != null ? !contactTelephone.equals(that.contactTelephone) : that.contactTelephone != null)
-            return false;
-
-        return true;
+        return contactTelephone != null ? contactTelephone.equals(that.contactTelephone) : that.contactTelephone == null;
     }
 
     @Override

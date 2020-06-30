@@ -20,4 +20,6 @@ public interface DepartmentDAOCustom {
     DepartmentDto findDepartmentByID(int id);
 
 
+
+
 }

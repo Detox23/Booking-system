@@ -49,9 +49,7 @@ public class AssignmentTitleEntity {
 
         if (id != that.id) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
-
-        return true;
+        return isDeleted != null ? isDeleted.equals(that.isDeleted) : that.isDeleted == null;
     }
 
     @Override

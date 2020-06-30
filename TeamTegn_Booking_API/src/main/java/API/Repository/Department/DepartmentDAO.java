@@ -20,6 +20,5 @@ public interface DepartmentDAO extends DepartmentDAOCustom, JpaRepository<Depart
 
     int countAllByDepartmentNameIsAndIdIsNot(String departmentName, int id);
 
-
 }
 

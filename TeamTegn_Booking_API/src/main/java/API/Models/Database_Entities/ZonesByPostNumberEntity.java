@@ -62,9 +62,7 @@ public class ZonesByPostNumberEntity {
         if (id != that.id) return false;
         if (zone != null ? !zone.equals(that.zone) : that.zone != null) return false;
         if (postNumber != null ? !postNumber.equals(that.postNumber) : that.postNumber != null) return false;
-        if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
-
-        return true;
+        return dateCreated != null ? dateCreated.equals(that.dateCreated) : that.dateCreated == null;
     }
 
     @Override

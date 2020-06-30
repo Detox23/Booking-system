@@ -49,9 +49,7 @@ public class ServiceUserAccountEntity {
 
         if (id != that.id) return false;
         if (serviceUserId != that.serviceUserId) return false;
-        if (accountId != that.accountId) return false;
-
-        return true;
+        return accountId == that.accountId;
     }
 
     @Override

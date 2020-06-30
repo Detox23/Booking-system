@@ -168,7 +168,7 @@ public class AssignmentDAOImpl implements AssignmentDAOCustom {
     }
 
     private float calculateHoursFromDates(Timestamp toTime, Timestamp fromTime) {
-        return (toTime.getTime() - fromTime.getTime()) / 3600000;
+        return (float)(toTime.getTime() - fromTime.getTime()) / 3600000;
     }
 
     private AssignmentEntity findIfExistsAndReturn(int id) {

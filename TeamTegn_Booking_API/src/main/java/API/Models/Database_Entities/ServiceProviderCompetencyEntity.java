@@ -81,9 +81,7 @@ public class ServiceProviderCompetencyEntity {
         if (createdBy != that.createdBy) return false;
         if (isDeleted != that.isDeleted) return false;
         if (competency != null ? !competency.equals(that.competency) : that.competency != null) return false;
-        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-
-        return true;
+        return createdDate != null ? createdDate.equals(that.createdDate) : that.createdDate == null;
     }
 
     @Override

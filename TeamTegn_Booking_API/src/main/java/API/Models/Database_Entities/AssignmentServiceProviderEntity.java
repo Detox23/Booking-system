@@ -100,10 +100,7 @@ public class AssignmentServiceProviderEntity {
             return false;
         if (serviceProviderLastName != null ? !serviceProviderLastName.equals(that.serviceProviderLastName) : that.serviceProviderLastName != null)
             return false;
-        if (serviceProviderInitials != null ? !serviceProviderInitials.equals(that.serviceProviderInitials) : that.serviceProviderInitials != null)
-            return false;
-
-        return true;
+        return serviceProviderInitials != null ? serviceProviderInitials.equals(that.serviceProviderInitials) : that.serviceProviderInitials == null;
     }
 
     @Override

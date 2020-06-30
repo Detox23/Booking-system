@@ -49,10 +49,7 @@ public class ServiceProviderSourceEntity {
 
         if (id != that.id) return false;
         if (isDeleted != that.isDeleted) return false;
-        if (providerSource != null ? !providerSource.equals(that.providerSource) : that.providerSource != null)
-            return false;
-
-        return true;
+        return providerSource != null ? providerSource.equals(that.providerSource) : that.providerSource == null;
     }
 
     @Override

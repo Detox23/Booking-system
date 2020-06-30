@@ -49,9 +49,7 @@ public class ServiceProviderServiceProviderTypeEntity {
 
         if (id != that.id) return false;
         if (serviceProviderId != that.serviceProviderId) return false;
-        if (serviceProviderTypeId != that.serviceProviderTypeId) return false;
-
-        return true;
+        return serviceProviderTypeId == that.serviceProviderTypeId;
     }
 
     @Override

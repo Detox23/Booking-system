@@ -156,9 +156,7 @@ public class ServiceProviderAbsenceEntity {
         if (toDate != null ? !toDate.equals(that.toDate) : that.toDate != null) return false;
         if (toTime != null ? !toTime.equals(that.toTime) : that.toTime != null) return false;
         if (absenceDays != null ? !absenceDays.equals(that.absenceDays) : that.absenceDays != null) return false;
-        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-
-        return true;
+        return createdDate != null ? createdDate.equals(that.createdDate) : that.createdDate == null;
     }
 
     @Override

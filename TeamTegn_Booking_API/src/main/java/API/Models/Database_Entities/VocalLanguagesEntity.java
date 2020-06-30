@@ -69,9 +69,7 @@ public class VocalLanguagesEntity {
         if (id != that.id) return false;
         if (languageName != null ? !languageName.equals(that.languageName) : that.languageName != null) return false;
         if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
-        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-
-        return true;
+        return createdDate != null ? createdDate.equals(that.createdDate) : that.createdDate == null;
     }
 
     @Override

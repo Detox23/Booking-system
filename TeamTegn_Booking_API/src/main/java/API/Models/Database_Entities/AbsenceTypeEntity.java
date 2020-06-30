@@ -49,10 +49,7 @@ public class AbsenceTypeEntity {
 
         if (id != that.id) return false;
         if (isDeleted != that.isDeleted) return false;
-        if (absenceTypeName != null ? !absenceTypeName.equals(that.absenceTypeName) : that.absenceTypeName != null)
-            return false;
-
-        return true;
+        return absenceTypeName != null ? absenceTypeName.equals(that.absenceTypeName) : that.absenceTypeName == null;
     }
 
     @Override

@@ -49,9 +49,7 @@ public class ServiceProviderTypeEntity {
 
         if (id != that.id) return false;
         if (isDeleted != that.isDeleted) return false;
-        if (providerType != null ? !providerType.equals(that.providerType) : that.providerType != null) return false;
-
-        return true;
+        return providerType != null ? providerType.equals(that.providerType) : that.providerType == null;
     }
 
     @Override

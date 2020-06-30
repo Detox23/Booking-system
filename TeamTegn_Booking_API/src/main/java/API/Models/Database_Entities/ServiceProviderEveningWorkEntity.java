@@ -61,9 +61,7 @@ public class ServiceProviderEveningWorkEntity {
 
         if (id != that.id) return false;
         if (serviceProviderId != that.serviceProviderId) return false;
-        if (eveningWorkPrioritisationId != that.eveningWorkPrioritisationId) return false;
-
-        return true;
+        return eveningWorkPrioritisationId == that.eveningWorkPrioritisationId;
     }
 
     @Override

@@ -49,10 +49,7 @@ public class AssignmentInterpretationTypeEntity {
 
         if (id != that.id) return false;
         if (isDeleted != that.isDeleted) return false;
-        if (interpretationTypeName != null ? !interpretationTypeName.equals(that.interpretationTypeName) : that.interpretationTypeName != null)
-            return false;
-
-        return true;
+        return interpretationTypeName != null ? interpretationTypeName.equals(that.interpretationTypeName) : that.interpretationTypeName == null;
     }
 
     @Override

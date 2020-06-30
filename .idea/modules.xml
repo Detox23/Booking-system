@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TeamTegn_Booking_API/src/src.iml" filepath="$PROJECT_DIR$/TeamTegn_Booking_API/src/src.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TeamTegn_Booking_API/src/main/BookingRESTAPI.iml" filepath="$PROJECT_DIR$/TeamTegn_Booking_API/src/main/BookingRESTAPI.iml" />
     </modules>
   </component>
 </project>

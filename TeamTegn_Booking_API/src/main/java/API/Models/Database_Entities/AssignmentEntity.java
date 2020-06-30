@@ -504,10 +504,7 @@ public class AssignmentEntity {
         if (isResale != null ? !isResale.equals(that.isResale) : that.isResale != null) return false;
         if (resaleParentId != null ? !resaleParentId.equals(that.resaleParentId) : that.resaleParentId != null)
             return false;
-        if (vocalLanguageId != null ? !vocalLanguageId.equals(that.vocalLanguageId) : that.vocalLanguageId != null)
-            return false;
-
-        return true;
+        return vocalLanguageId != null ? vocalLanguageId.equals(that.vocalLanguageId) : that.vocalLanguageId == null;
     }
 
     @Override

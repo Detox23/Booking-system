@@ -49,9 +49,7 @@ public class ServiceUserStatusEntity {
 
         if (id != that.id) return false;
         if (isDeleted != that.isDeleted) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-
-        return true;
+        return status != null ? status.equals(that.status) : that.status == null;
     }
 
     @Override

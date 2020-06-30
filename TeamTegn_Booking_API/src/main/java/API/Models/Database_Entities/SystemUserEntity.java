@@ -263,9 +263,7 @@ public class SystemUserEntity {
         if (stateRegion != null ? !stateRegion.equals(that.stateRegion) : that.stateRegion != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-        if (roleId != null ? !roleId.equals(that.roleId) : that.roleId != null) return false;
-
-        return true;
+        return roleId != null ? roleId.equals(that.roleId) : that.roleId == null;
     }
 
     @Override

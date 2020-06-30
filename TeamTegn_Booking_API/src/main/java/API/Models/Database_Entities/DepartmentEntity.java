@@ -204,9 +204,7 @@ public class DepartmentEntity {
         if (faxCode != null ? !faxCode.equals(that.faxCode) : that.faxCode != null) return false;
         if (faxNumber != null ? !faxNumber.equals(that.faxNumber) : that.faxNumber != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-
-        return true;
+        return createdDate != null ? createdDate.equals(that.createdDate) : that.createdDate == null;
     }
 
     @Override

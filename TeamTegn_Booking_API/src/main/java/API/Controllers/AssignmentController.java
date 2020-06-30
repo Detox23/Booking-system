@@ -1,6 +1,6 @@
 package API.Controllers;
 
-import API.Helpers.PdfGeneratorHelper;
+//import API.Helpers.PdfGeneratorHelper;
 import API.Services.AssignmentService.IAssignmentCommentService;
 import API.Services.AssignmentService.IAssignmentService;
 import Shared.ForCreation.AssignmentCommentForCreationDto;
@@ -30,15 +30,15 @@ import java.sql.Date;
 public class AssignmentController {
     private IAssignmentService assignmentService;
     private IAssignmentCommentService assignmentCommentService;
-    private PdfGeneratorHelper pdfGeneratorHelper;
+//    private PdfGeneratorHelper pdfGeneratorHelper;
 
     public AssignmentController() {
     }
 
-    @Autowired
-    public void setPdfGeneratorHelper(PdfGeneratorHelper pdfGeneratorHelper) {
-        this.pdfGeneratorHelper = pdfGeneratorHelper;
-    }
+//    @Autowired
+//    public void setPdfGeneratorHelper(PdfGeneratorHelper pdfGeneratorHelper) {
+//        this.pdfGeneratorHelper = pdfGeneratorHelper;
+//    }
 
     @Autowired
     public void setAssignmentCommentService(IAssignmentCommentService assignmentCommentService) {
@@ -240,7 +240,7 @@ public class AssignmentController {
      */
     @RequestMapping(value = "/{id}/report/", method = {RequestMethod.POST})
     public ResponseEntity<?> generateReport(@PathVariable int id) throws IOException {
-        this.pdfGeneratorHelper.generatePDFFromHTML(id);
+//        this.pdfGeneratorHelper.generatePDFFromHTML(id);
         return new ResponseEntity(new HttpHeaders(), HttpStatus.OK);
     }
 }

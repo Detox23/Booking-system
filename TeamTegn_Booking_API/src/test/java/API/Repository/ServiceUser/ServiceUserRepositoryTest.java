@@ -205,7 +205,7 @@ public class ServiceUserRepositoryTest {
             serviceUserEntity.setPostcode("8000");
             serviceUserEntity.setStatusId(serviceUserStatusOne.getId());
             serviceUserEntity.setDepartmentId(departmentOne.getId());
-            serviceUserEntity.setDeleted(false);;
+            serviceUserEntity.setDeleted(false);
             ServiceUserDto added = serviceUserDAO.addServiceUser(serviceUserEntity, null);
             Assert.assertEquals("Aarhus", added.getStateRegion());
         } catch (Exception e) {
@@ -226,7 +226,7 @@ public class ServiceUserRepositoryTest {
             serviceUserEntity.setPostcode("6430");
             serviceUserEntity.setStatusId(serviceUserStatusOne.getId());
             serviceUserEntity.setDepartmentId(departmentOne.getId());
-            serviceUserEntity.setDeleted(false);;
+            serviceUserEntity.setDeleted(false);
             ServiceUserDto added = serviceUserDAO.addServiceUser(serviceUserEntity, null);
             Assert.assertEquals("Fredericia", added.getStateRegion());
         } catch (Exception e) {
@@ -247,7 +247,7 @@ public class ServiceUserRepositoryTest {
             serviceUserEntity.setPostcode("4773");
             serviceUserEntity.setStatusId(serviceUserStatusOne.getId());
             serviceUserEntity.setDepartmentId(departmentOne.getId());
-            serviceUserEntity.setDeleted(false);;
+            serviceUserEntity.setDeleted(false);
             ServiceUserDto added = serviceUserDAO.addServiceUser(serviceUserEntity, null);
             Assert.assertEquals("Copenhagen", added.getStateRegion());
         } catch (Exception e) {
@@ -267,7 +267,7 @@ public class ServiceUserRepositoryTest {
             serviceUserEntity.setCpr("1265789845");
             serviceUserEntity.setStatusId(serviceUserStatusOne.getId());
             serviceUserEntity.setDepartmentId(departmentOne.getId());
-            serviceUserEntity.setDeleted(false);;
+            serviceUserEntity.setDeleted(false);
             ServiceUserDto added = serviceUserDAO.addServiceUser(serviceUserEntity, null);
             Assert.fail();
         } catch (Exception e) {
@@ -339,7 +339,7 @@ public class ServiceUserRepositoryTest {
             serviceUserEntity.setPostcode("8000");
             serviceUserEntity.setStatusId(serviceUserStatusOne.getId());
             serviceUserEntity.setDepartmentId(departmentOne.getId());
-            serviceUserEntity.setDeleted(false);;
+            serviceUserEntity.setDeleted(false);
             ServiceUserDto added = serviceUserDAO.addServiceUser(serviceUserEntity, null);
             ServiceUserEntity toUpdate = serviceUserDAO.findById(added.getId()).get();
             toUpdate.setFirstName("TestFirstNameUpdated");
@@ -365,7 +365,7 @@ public class ServiceUserRepositoryTest {
             serviceUserEntity.setPostcode("8000");
             serviceUserEntity.setStatusId(serviceUserStatusOne.getId());
             serviceUserEntity.setDepartmentId(departmentOne.getId());
-            serviceUserEntity.setDeleted(false);;
+            serviceUserEntity.setDeleted(false);
             ServiceUserDto added = serviceUserDAO.addServiceUser(serviceUserEntity, null);
             ServiceUserEntity toUpdate = serviceUserDAO.findById(added.getId()).get();
             toUpdate.setFirstName("TestFirstName");
@@ -390,7 +390,7 @@ public class ServiceUserRepositoryTest {
             serviceUserEntity.setPostcode("2123");
             serviceUserEntity.setStatusId(serviceUserStatusOne.getId());
             serviceUserEntity.setDepartmentId(departmentOne.getId());
-            serviceUserEntity.setDeleted(false);;
+            serviceUserEntity.setDeleted(false);
             ServiceUserDto added = serviceUserDAO.addServiceUser(serviceUserEntity, null);
             Assert.assertEquals("TestCityFill", added.getCity());
         } catch (Exception e) {

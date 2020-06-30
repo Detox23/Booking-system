@@ -49,10 +49,7 @@ public class EveningWorkPrioritisationEntity {
 
         if (id != that.id) return false;
         if (isDeleted != that.isDeleted) return false;
-        if (prioritisation != null ? !prioritisation.equals(that.prioritisation) : that.prioritisation != null)
-            return false;
-
-        return true;
+        return prioritisation != null ? prioritisation.equals(that.prioritisation) : that.prioritisation == null;
     }
 
     @Override

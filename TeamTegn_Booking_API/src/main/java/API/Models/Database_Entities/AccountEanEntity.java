@@ -49,9 +49,7 @@ public class AccountEanEntity {
 
         if (id != that.id) return false;
         if (accountId != that.accountId) return false;
-        if (eanNumber != null ? !eanNumber.equals(that.eanNumber) : that.eanNumber != null) return false;
-
-        return true;
+        return eanNumber != null ? eanNumber.equals(that.eanNumber) : that.eanNumber == null;
     }
 
     @Override

@@ -49,10 +49,7 @@ public class AssignmentStukYearCodeEntity {
 
         if (id != that.id) return false;
         if (isDeleted != that.isDeleted) return false;
-        if (stukYearCodeName != null ? !stukYearCodeName.equals(that.stukYearCodeName) : that.stukYearCodeName != null)
-            return false;
-
-        return true;
+        return stukYearCodeName != null ? stukYearCodeName.equals(that.stukYearCodeName) : that.stukYearCodeName == null;
     }
 
     @Override

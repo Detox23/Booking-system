@@ -49,9 +49,7 @@ public class ServiceProviderServiceProviderCompetencyEntity {
 
         if (id != that.id) return false;
         if (serviceProviderId != that.serviceProviderId) return false;
-        if (competencyId != that.competencyId) return false;
-
-        return true;
+        return competencyId == that.competencyId;
     }
 
     @Override

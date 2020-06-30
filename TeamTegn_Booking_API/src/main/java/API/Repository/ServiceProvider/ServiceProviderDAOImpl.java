@@ -210,7 +210,7 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
         if (serviceProvider.getId() == 0) {
             if (serviceProviderDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(serviceProvider.getFirstName(), serviceProvider.getMiddleName(), serviceProvider.getLastName()) > 0) {
                 throw new DuplicateException(String.format(
-                        "The service provider with name: %s, middle name: $s and last name: %s already exists.",
+                        "The service provider with name: %s, middle name: %s and last name: %s already exists.",
                         serviceProvider.getFirstName(),
                         serviceProvider.getMiddleName(),
                         serviceProvider.getLastName()
@@ -219,7 +219,7 @@ public class ServiceProviderDAOImpl implements ServiceProviderDAOCustom {
         } else {
             if (serviceProviderDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIsAndIdIsNot(serviceProvider.getFirstName(), serviceProvider.getMiddleName(), serviceProvider.getLastName(), serviceProvider.getId()) > 0) {
                 throw new DuplicateException(String.format(
-                        "The service provider with name: %s, middle name: $s and last name: %s already exists.",
+                        "The service provider with name: %s, middle name: %s and last name: %s already exists.",
                         serviceProvider.getFirstName(),
                         serviceProvider.getMiddleName(),
                         serviceProvider.getLastName()

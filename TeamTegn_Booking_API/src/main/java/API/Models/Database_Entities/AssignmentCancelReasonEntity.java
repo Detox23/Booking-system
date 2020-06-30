@@ -37,10 +37,7 @@ public class AssignmentCancelReasonEntity {
         AssignmentCancelReasonEntity that = (AssignmentCancelReasonEntity) o;
 
         if (id != that.id) return false;
-        if (cancelReasonName != null ? !cancelReasonName.equals(that.cancelReasonName) : that.cancelReasonName != null)
-            return false;
-
-        return true;
+        return cancelReasonName != null ? cancelReasonName.equals(that.cancelReasonName) : that.cancelReasonName == null;
     }
 
     @Override

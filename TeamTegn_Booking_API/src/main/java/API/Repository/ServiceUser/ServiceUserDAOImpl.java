@@ -186,7 +186,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         if (serviceUser.getId() == 0) {
             if (serviceUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIs(serviceUser.getFirstName(), serviceUser.getMiddleName(), serviceUser.getLastName()) > 0) {
                 throw new DuplicateException(String.format(
-                        "The service user with name: %s, middle name: $s and last name: %s already exists.",
+                        "The service user with name: %s, middle name: %s and last name: %s already exists.",
                         serviceUser.getFirstName(),
                         serviceUser.getMiddleName(),
                         serviceUser.getLastName()
@@ -195,7 +195,7 @@ public class ServiceUserDAOImpl implements ServiceUserDAOCustom {
         } else {
             if (serviceUserDAO.countAllByFirstNameIsAndMiddleNameIsAndLastNameIsAndIdIsNot(serviceUser.getFirstName(), serviceUser.getMiddleName(), serviceUser.getLastName(), serviceUser.getId()) > 0) {
                 throw new DuplicateException(String.format(
-                        "The service provider with name: %s, middle name: $s and last name: %s already exists.",
+                        "The service provider with name: %s, middle name: %s and last name: %s already exists.",
                         serviceUser.getFirstName(),
                         serviceUser.getMiddleName(),
                         serviceUser.getLastName()

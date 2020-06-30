@@ -38,7 +38,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = AccessDeniedException.class)
     protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>("You have no access for that operation.", HttpStatus.FORBIDDEN);
     }
 
@@ -49,7 +49,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = UnknownException.class)
     protected ResponseEntity<Object> handleUnknownException(UnknownException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
@@ -60,7 +60,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = NotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementException(NotFoundException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -71,7 +71,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value= RuntimeException.class)
     protected  ResponseEntity<Object> handleRuntimeException(RuntimeException exception){
-    eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+    eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -82,7 +82,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = NotEnoughDataException.class)
     protected ResponseEntity<Object> handleNotEnoughDataForCreationException(NotEnoughDataException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
@@ -93,7 +93,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = ExpiredTokenException.class)
     protected ResponseEntity<Object> handleExpiredTokenException(ExpiredTokenException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -104,7 +104,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = DuplicateException.class)
     protected ResponseEntity<Object> handleDuplicateException(DuplicateException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
@@ -115,7 +115,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = UpdatePatchException.class)
     protected ResponseEntity<Object> handleUpdatePatchException(UpdatePatchException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -126,7 +126,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = UpdateErrorException.class)
     protected ResponseEntity<Object> handleUpdateErrorException(UpdateErrorException exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
@@ -149,7 +149,7 @@ public class ResponseExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     protected ResponseEntity<Object> handleException(Exception exception) {
-        eventLogService.addLog(new EventLogDto(exception.getMessage().toString(), exception.getStackTrace().toString()));
+        eventLogService.addLog(new EventLogDto(exception.getMessage(), exception.getStackTrace().toString()));
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

@@ -49,9 +49,7 @@ public class SystemUserDepartmentEntity {
 
         if (id != that.id) return false;
         if (systemUserId != that.systemUserId) return false;
-        if (departmentId != that.departmentId) return false;
-
-        return true;
+        return departmentId == that.departmentId;
     }
 
     @Override

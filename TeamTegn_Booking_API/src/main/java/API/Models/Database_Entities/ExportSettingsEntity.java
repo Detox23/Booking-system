@@ -74,9 +74,7 @@ public class ExportSettingsEntity {
         if (keyName != null ? !keyName.equals(that.keyName) : that.keyName != null) return false;
         if (valueName != null ? !valueName.equals(that.valueName) : that.valueName != null) return false;
         if (created != null ? !created.equals(that.created) : that.created != null) return false;
-        if (deleted != null ? !deleted.equals(that.deleted) : that.deleted != null) return false;
-
-        return true;
+        return deleted != null ? deleted.equals(that.deleted) : that.deleted == null;
     }
 
     @Override

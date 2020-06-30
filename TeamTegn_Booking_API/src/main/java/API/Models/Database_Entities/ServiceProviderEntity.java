@@ -439,9 +439,7 @@ public class ServiceProviderEntity {
         if (externalId != null ? !externalId.equals(that.externalId) : that.externalId != null) return false;
         if (preferredNotificationId != null ? !preferredNotificationId.equals(that.preferredNotificationId) : that.preferredNotificationId != null)
             return false;
-        if (transportId != null ? !transportId.equals(that.transportId) : that.transportId != null) return false;
-
-        return true;
+        return transportId != null ? transportId.equals(that.transportId) : that.transportId == null;
     }
 
     @Override

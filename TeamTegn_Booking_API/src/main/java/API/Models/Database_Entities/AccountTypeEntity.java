@@ -49,9 +49,7 @@ public class AccountTypeEntity {
 
         if (id != that.id) return false;
         if (accountType != null ? !accountType.equals(that.accountType) : that.accountType != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
-
-        return true;
+        return isDeleted != null ? isDeleted.equals(that.isDeleted) : that.isDeleted == null;
     }
 
     @Override

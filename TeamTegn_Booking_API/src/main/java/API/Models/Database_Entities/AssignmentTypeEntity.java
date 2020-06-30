@@ -49,10 +49,7 @@ public class AssignmentTypeEntity {
 
         if (id != that.id) return false;
         if (isDeleted != that.isDeleted) return false;
-        if (assignmentTypeName != null ? !assignmentTypeName.equals(that.assignmentTypeName) : that.assignmentTypeName != null)
-            return false;
-
-        return true;
+        return assignmentTypeName != null ? assignmentTypeName.equals(that.assignmentTypeName) : that.assignmentTypeName == null;
     }
 
     @Override

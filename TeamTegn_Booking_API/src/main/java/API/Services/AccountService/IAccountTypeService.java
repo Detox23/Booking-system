@@ -3,7 +3,6 @@ package API.Services.AccountService;
 import Shared.ForCreation.AccountTypeForCreationDto;
 import Shared.ForCreation.AccountTypeForUpdateDto;
 import Shared.ToReturn.AccountTypeDto;
-
 import java.util.List;
 
 public interface IAccountTypeService {

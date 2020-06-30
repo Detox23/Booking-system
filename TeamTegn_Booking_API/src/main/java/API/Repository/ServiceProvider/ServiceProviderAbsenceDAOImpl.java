@@ -153,7 +153,7 @@ public class ServiceProviderAbsenceDAOImpl implements ServiceProviderAbsenceDAOC
 
 
     private float calculateHoursFromDates(Date fromDate, Time fromTime, Date toDate, Time toTime) {
-        return (((toDate.getTime() + toTime.getTime()) - (fromDate.getTime() + fromTime.getTime())) / 3600000);
+        return (float) (((toDate.getTime() + toTime.getTime()) - (fromDate.getTime() + fromTime.getTime())) / 3600000);
     }
 
     private LocalDateTime createDateTime(Date date, Time time) {

@@ -27,6 +27,6 @@ public class EmailLogService implements IEmailLogService {
     @Override
     public void log(EmailLogDto log) {
         EmailLogEntity logEntity = mapper.map(log, EmailLogEntity.class);
-        EmailLogEntity a =  emailLogDAO.save(logEntity);
+        emailLogDAO.save(logEntity);
     }
 }

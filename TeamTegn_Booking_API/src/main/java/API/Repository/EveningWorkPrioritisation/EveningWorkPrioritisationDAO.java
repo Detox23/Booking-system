@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EveningWorkPrioritisationDAO extends JpaRepository<EveningWorkPrioritisationEntity, Integer> {
     EveningWorkPrioritisationEntity getByIdIs(int id);
+
 }
